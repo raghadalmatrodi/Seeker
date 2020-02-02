@@ -5,6 +5,7 @@ import android.app.Activity;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.CheckBox;
@@ -13,7 +14,14 @@ import android.widget.TextView;
 
 import androidx.appcompat.app.AlertDialog;
 
-import dmax.dialog.SpotsDialog;
+import com.example.seeker.Model.UserResponse;
+
+import okhttp3.MediaType;
+import okhttp3.RequestBody;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+
 
 public class SignupActivity extends Activity {
 
@@ -23,7 +31,7 @@ public class SignupActivity extends Activity {
     private Button signUp;
     private AlertDialog dialog;
     private CheckBox checkTerms ;
-
+private static final String LOG=SignupActivity.class.getSimpleName();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,9 +50,11 @@ public class SignupActivity extends Activity {
 
                 if (validate()) {
 
-                    String userEmail = email.getText().toString().trim();
-                    String userPass = password.getText().toString().trim();
+                    String mail = email.getText().toString().trim();
+                    String pass = password.getText().toString().trim();
 
+
+                    executeSignUpApiRequest();
                     //Progress Dialog
 
                     //here we will check if this email was used before
@@ -72,6 +82,62 @@ public class SignupActivity extends Activity {
 
         });
     }//End of onCreate()
+
+    private void executeSignUpApiRequest() {
+
+       // showProgressDialog(false);
+
+        //POST the data
+        ApiClients.getAPIs().getSignUpRequest(createPartFromString(userName.getText().toString().trim()),
+                createPartFromString(mail),
+                createPartFromString(pass)
+                ).enqueue(new Callback<UserResponse>() {
+            @Override
+            public void onResponse(Call<UserResponse> call, Response<UserResponse> response) {
+               // hideProgressDialog();
+
+                Log.i(LOG, "onResponse : Success");
+
+                if (response.body() != null) {
+
+                    Log.i(LOG, "onResponse : " + response.body().toString());
+                    if (response.body().getStatus() == 1) {
+                        Dialog("ok");
+                    }//End of if
+                    else {
+                      //  showDialog(response.body().getMsg());
+                    }//End of else
+                }//End of big if
+
+
+            }//End of onResponse()
+
+            @Override
+            public void onFailure(Call<UserResponse> call, Throwable t) {
+                Log.i(LOG, "onFailure");
+                Dialog("Error");
+//                hideProgressDialog();
+//                showDialog(getString(R.string.errorMessage));
+
+            }//End of onFailure()
+        });//End of Callback
+
+    }//End of executeSignUpApiRequest()
+
+
+
+    private RequestBody createPartFromString(String field) {
+        if (field != null) {
+            return RequestBody.create(MediaType.parse("text/plain"), field);
+        }//End of if
+        else {
+            return RequestBody.create(MediaType.parse("text/plain"), "");
+
+        }//End of else
+    }//End of createPartFromString()
+
+
+
 
     private void init() {
 
