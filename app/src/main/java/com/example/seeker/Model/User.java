@@ -6,7 +6,7 @@ public class User {
     private long id;
     private String username;
     private String password;
-   // private Set<RoleDto> roles;
+    private Set<Role> roles;
     private String email;
     private String phone_number;
     private String national_id;
