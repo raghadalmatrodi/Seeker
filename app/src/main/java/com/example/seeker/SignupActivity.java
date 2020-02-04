@@ -14,12 +14,26 @@ import android.widget.TextView;
 
 import androidx.appcompat.app.AlertDialog;
 
+import com.example.seeker.Model.ApiResponse;
+import com.example.seeker.Model.Exception.ApiError;
+import com.example.seeker.Model.Exception.ApiException;
+import com.example.seeker.Model.Role;
+import com.example.seeker.Model.User;
 import com.example.seeker.Model.UserResponse;
+
+import java.io.IOException;
+import java.lang.annotation.Annotation;
+import java.util.Arrays;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
 
 import okhttp3.MediaType;
 import okhttp3.RequestBody;
+import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.Callback;
+import retrofit2.Converter;
 import retrofit2.Response;
 
 
@@ -76,8 +90,8 @@ private static final String LOG=SignupActivity.class.getSimpleName();
         haveAccount.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View view) {
-                Intent i = new Intent(SignupActivity.this, LoginActivity.class);
-                startActivity(i);
+              //  Intent i = new Intent(SignupActivity.this, LoginActivity.class);
+              //  startActivity(i);
             }
 
         });
@@ -86,36 +100,60 @@ private static final String LOG=SignupActivity.class.getSimpleName();
     private void executeSignUpApiRequest() {
 
        // showProgressDialog(false);
+      User userToSignup = new User();
+      userToSignup.setEmail(mail);
+      userToSignup.setPassword(pass);
+      userToSignup.setUsername(name);
+
+      Role role = new Role(1,null);
+      Set<Role> setOfRole = new HashSet<>();
+      setOfRole.add(role);
+      userToSignup.setRoles(setOfRole);
+
+
+
 
         //POST the data
-        ApiClients.getAPIs().getSignUpRequest(createPartFromString(userName.getText().toString().trim()),
-                createPartFromString(mail),
-                createPartFromString(pass)
-                ).enqueue(new Callback<UserResponse>() {
+        ApiClients.getAPIs().getSignUpRequest(userToSignup).enqueue(new Callback<ApiResponse>() {
             @Override
-            public void onResponse(Call<UserResponse> call, Response<UserResponse> response) {
+            public void onResponse(Call<ApiResponse> call, Response<ApiResponse> response) {
                // hideProgressDialog();
 
                 Log.i(LOG, "onResponse : Success");
 
-                if (response.body() != null) {
+                if (response.isSuccessful()) {
+
 
                     Log.i(LOG, "onResponse : " + response.body().toString());
-                    if (response.body().getStatus() == 1) {
-                        Dialog("ok");
-                    }//End of if
-                    else {
-                      //  showDialog(response.body().getMsg());
-                    }//End of else
-                }//End of big if
 
+                    //Todo: intent
+                    Dialog("ok");
+
+                } else{
+                    Converter<ResponseBody,ApiException> converter = ApiClients.getInstant().responseBodyConverter(ApiException.class,new Annotation[0]);
+                    ApiException exception = null;
+                    try {
+                        exception = converter.convert(response.errorBody());
+
+                       List<ApiError> errors= exception.getErrors();
+
+
+                       if(!errors.isEmpty())
+                        Dialog(errors.get(0).getMessage());
+                       // Dialog(exception.getMessage());
+
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                }
 
             }//End of onResponse()
 
             @Override
-            public void onFailure(Call<UserResponse> call, Throwable t) {
-                Log.i(LOG, "onFailure");
+            public void onFailure(Call<ApiResponse> call, Throwable t) {
+                Log.i(LOG, t.getLocalizedMessage());
                 Dialog("Error");
+
 //                hideProgressDialog();
 //                showDialog(getString(R.string.errorMessage));
 
@@ -237,11 +275,8 @@ private static final String LOG=SignupActivity.class.getSimpleName();
         //Setting Negative "ok" Button
         alertDialog.setPositiveButton("OK", new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int which) {
-//                firebaseAuth.signOut();
-                finish();
-                Intent intent;
-                intent = new Intent(SignupActivity.this, LoginActivity.class);
-                startActivity(intent);
+                dialog.dismiss();
+               finish();
 
             }//end onClick
         });//end setPositiveButton

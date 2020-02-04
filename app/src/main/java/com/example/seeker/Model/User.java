@@ -2,11 +2,11 @@ package com.example.seeker.Model;
 
 import java.util.Set;
 
-public class User {
+public class User extends ApiResponse {
     private long id;
     private String username;
     private String password;
-    private Set<Role> roles;
+   private Set<Role> roles;
     private String email;
     private String phone_number;
     private String national_id;
@@ -14,6 +14,14 @@ public class User {
 
     public long getId() {
         return id;
+    }
+
+    public Set<Role> getRoles() {
+        return roles;
+    }
+
+    public void setRoles(Set<Role> roles) {
+        this.roles = roles;
     }
 
     public void setId(long id) {

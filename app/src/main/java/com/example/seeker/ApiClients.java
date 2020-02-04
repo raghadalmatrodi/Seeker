@@ -11,9 +11,13 @@ import retrofit2.converter.gson.GsonConverterFactory;
 
 public class ApiClients {
 
-    public static final String BASE_URL = "http://localhost:8080/api/";
+    public static final String BASE_URL = "http://10.0.2.2:8080/api/";
 
     private static ApiMethods apiMethods = null;
+    final static OkHttpClient   okHttpClient = new OkHttpClient.Builder().readTimeout(1, TimeUnit.MINUTES)
+            .writeTimeout(1, TimeUnit.MINUTES).connectTimeout(1, TimeUnit.MINUTES).build();
+    private static Gson gson = new GsonBuilder().setLenient().create();
+    private static Retrofit retrofit = ApiClients.getInstant();
 
 
     private ApiClients() {
@@ -23,12 +27,7 @@ public class ApiClients {
     public static ApiMethods getAPIs() {
 
         if (apiMethods == null) {
-
-            final OkHttpClient okHttpClient = new OkHttpClient.Builder().readTimeout(1, TimeUnit.MINUTES).writeTimeout(1, TimeUnit.MINUTES).connectTimeout(1, TimeUnit.MINUTES).build();
-
-            Gson gson = new GsonBuilder().setLenient().create();
-
-            Retrofit retrofit = new Retrofit.Builder().baseUrl(BASE_URL).addConverterFactory(GsonConverterFactory.create(gson)).client(okHttpClient).build();
+            getInstant();
 
             apiMethods = retrofit.create(ApiMethods.class);
 
@@ -37,5 +36,14 @@ public class ApiClients {
         return apiMethods;
 
     }//End of getAPIs
+
+    public static Retrofit getInstant(){
+        if(retrofit==null){
+
+            retrofit=  new Retrofit.Builder().baseUrl(BASE_URL).addConverterFactory(GsonConverterFactory.create(gson))
+                    .client(okHttpClient).build();
+        }
+        return retrofit;
+    }
 
 }//End of class ApiClients

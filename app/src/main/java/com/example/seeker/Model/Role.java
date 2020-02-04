@@ -1,10 +1,15 @@
 package com.example.seeker.Model;
 
+
 public class Role {
 
-        private long id;
-        private String role;
+    private long id;
+    private String role;
 
+    public Role(long id, String role) {
+        this.id = id;
+        this.role = role;
+    }
 
     public long getId() {
         return id;
@@ -21,5 +26,12 @@ public class Role {
     public void setRole(String role) {
         this.role = role;
     }
-}//end class
 
+    @Override
+    public String toString() {
+        return "Role{" +
+                "id=" + id +
+                ", role='" + role + '\'' +
+                '}';
+    }
+}
