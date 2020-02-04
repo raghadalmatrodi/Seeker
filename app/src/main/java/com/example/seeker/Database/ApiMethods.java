@@ -1,18 +1,11 @@
-package com.example.seeker;
+package com.example.seeker.Database;
 
-import com.example.seeker.Model.ApiResponse;
 import com.example.seeker.Model.Login;
+import com.example.seeker.Model.Responses.ApiResponse;
 import com.example.seeker.Model.User;
-import com.example.seeker.Model.UserResponse;
 
-import okhttp3.MultipartBody;
-import okhttp3.RequestBody;
 import retrofit2.Call;
 import retrofit2.http.Body;
-import retrofit2.http.Field;
-import retrofit2.http.FormUrlEncoded;
-import retrofit2.http.GET;
-import retrofit2.http.Multipart;
 import retrofit2.http.POST;
 
 

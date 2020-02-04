@@ -1,7 +1,6 @@
-package com.example.seeker;
+package com.example.seeker.Activities;
 
 import android.app.Activity;
-import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
@@ -11,11 +10,11 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
-import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 
+import com.example.seeker.Database.ApiClients;
 import com.example.seeker.Model.Login;
-import com.example.seeker.Model.UserResponse;
+import com.example.seeker.R;
 
 import retrofit2.Call;
 import retrofit2.Callback;

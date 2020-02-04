@@ -1,4 +1,6 @@
-package com.example.seeker.Model;
+package com.example.seeker.Model.Responses;
+
+import com.example.seeker.Model.User;
 
 public class UserResponse {
 

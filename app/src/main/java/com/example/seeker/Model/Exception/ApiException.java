@@ -1,10 +1,8 @@
 package com.example.seeker.Model.Exception;
 
-import com.example.seeker.Model.ApiResponse;
-
 import java.util.List;
 
-public class ApiException extends ApiResponse {
+public class ApiException {
     private int status;
     private String message;
     private List<ApiError> errors;

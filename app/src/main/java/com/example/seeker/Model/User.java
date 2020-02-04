@@ -2,7 +2,7 @@ package com.example.seeker.Model;
 
 import java.util.Set;
 
-public class User extends ApiResponse {
+public class User {
     private long id;
     private String username;
     private String password;

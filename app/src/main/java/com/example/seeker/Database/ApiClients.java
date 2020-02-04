@@ -1,4 +1,4 @@
-package com.example.seeker;
+package com.example.seeker.Database;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;

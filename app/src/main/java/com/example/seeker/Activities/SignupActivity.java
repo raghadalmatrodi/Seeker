@@ -1,9 +1,8 @@
-package com.example.seeker;
+package com.example.seeker.Activities;
 
 
 import android.app.Activity;
 import android.content.DialogInterface;
-import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -14,16 +13,16 @@ import android.widget.TextView;
 
 import androidx.appcompat.app.AlertDialog;
 
-import com.example.seeker.Model.ApiResponse;
+import com.example.seeker.Database.ApiClients;
 import com.example.seeker.Model.Exception.ApiError;
 import com.example.seeker.Model.Exception.ApiException;
+import com.example.seeker.Model.Responses.ApiResponse;
 import com.example.seeker.Model.Role;
 import com.example.seeker.Model.User;
-import com.example.seeker.Model.UserResponse;
+import com.example.seeker.R;
 
 import java.io.IOException;
 import java.lang.annotation.Annotation;
-import java.util.Arrays;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -45,7 +44,7 @@ public class SignupActivity extends Activity {
     private Button signUp;
     private AlertDialog dialog;
     private CheckBox checkTerms ;
-private static final String LOG=SignupActivity.class.getSimpleName();
+private static final String LOG= SignupActivity.class.getSimpleName();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
