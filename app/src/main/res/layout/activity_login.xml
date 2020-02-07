@@ -7,7 +7,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:background="@drawable/login_bg"
     android:orientation="vertical"
-    tools:context=".LoginActivity"
+    tools:context=".Activities.LoginActivity"
     xmlns:android="http://schemas.android.com/apk/res/android">
 
 

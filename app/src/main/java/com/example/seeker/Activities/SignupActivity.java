@@ -3,6 +3,7 @@ package com.example.seeker.Activities;
 
 import android.app.Activity;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -63,10 +64,6 @@ private static final String LOG= SignupActivity.class.getSimpleName();
 
                 if (validate()) {
 
-                    String mail = email.getText().toString().trim();
-                    String pass = password.getText().toString().trim();
-
-
                     executeSignUpApiRequest();
                     //Progress Dialog
 
@@ -89,8 +86,8 @@ private static final String LOG= SignupActivity.class.getSimpleName();
         haveAccount.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View view) {
-              //  Intent i = new Intent(SignupActivity.this, LoginActivity.class);
-              //  startActivity(i);
+
+                startActivity( new Intent(SignupActivity.this, LoginActivity.class));
             }
 
         });
@@ -136,9 +133,9 @@ private static final String LOG= SignupActivity.class.getSimpleName();
 
                        List<ApiError> errors= exception.getErrors();
 
-
+                        if(errors != null)
                        if(!errors.isEmpty())
-                        Dialog(errors.get(0).getMessage());
+                           wrongInfoDialog(errors.get(0).getMessage());
                        // Dialog(exception.getMessage());
 
                     } catch (IOException e) {
@@ -190,10 +187,10 @@ private static final String LOG= SignupActivity.class.getSimpleName();
     private boolean validate() {
 
 
-        name = userName.getText().toString();
+        name = userName.getText().toString().toLowerCase();
         pass = password.getText().toString();
         confirmpass = confirmPassword.getText().toString();
-        mail = email.getText().toString();
+        mail = email.getText().toString().toLowerCase();
         String regex = "^[\\w-_\\.+]*[\\w-_\\.]\\@([\\w]+\\.)+[\\w]+[\\w]$";
 
         if (name.isEmpty() || pass.isEmpty() || confirmpass.isEmpty() || mail.isEmpty()) {

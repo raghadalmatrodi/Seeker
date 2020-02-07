@@ -33,7 +33,7 @@ public class SplashActivity extends Activity {
             public void run() {
 //                if (user != null) {
 //                    finish();
-//                    Intent i = new Intent(SplashActivity.this, MainActivity.class);
+//                    Intent i = new Intent(SplashActivity.this, .class);
 //                    startActivity(i);
 //                } else {
                     Intent i = new Intent(SplashActivity.this, LoginActivity.class);

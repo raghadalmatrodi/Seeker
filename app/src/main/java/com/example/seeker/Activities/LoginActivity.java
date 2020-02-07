@@ -41,10 +41,15 @@ public class LoginActivity extends Activity {
             @Override
             public void onClick(View view) {
 
-                userEmail = email.getText().toString();
-                userPassword = password.getText().toString();
-//                validate(userEmail, userPassword);
-                LoginApiRequest();
+                userEmail = email.getText().toString().toLowerCase();
+                userPassword = password.getText().toString().toLowerCase();
+
+                if(validate(userEmail, userPassword))
+                {
+                    LoginApiRequest();
+
+                }
+
             }//End onClick()
         });
 
@@ -64,52 +69,21 @@ public class LoginActivity extends Activity {
 
     }//End onCreate()
 
-    //POST the data
-//        ApiClients.getAPIs().getSignUpRequest(userToSignup).enqueue(new Callback<UserResponse>() {
-//        @Override
-//        public void onResponse(Call<UserResponse> call, Response<UserResponse> response) {
-//            // hideProgressDialog();
-//
-//            Log.i(LOG, "onResponse : Success");
-//
-//            if (response.body() != null) {
-//
-//                Log.i(LOG, "onResponse : " + response.body().toString());
-//                if (response.body().getStatus() == 1) {
-//                    Dialog("ok");
-//                }//End of if
-//                else {
-//                    //  showDialog(response.body().getMsg());
-//                }//End of else
-//            }//End of big if
-//
-//
-//        }//End of onResponse()
-//
-//        @Override
-//        public void onFailure(Call<UserResponse> call, Throwable t) {
-//            Log.i(LOG, t.getLocalizedMessage());
-//            Dialog("Error");
-//
-////                hideProgressDialog();
-////                showDialog(getString(R.string.errorMessage));
-//
-//        }//End of onFailure()
-//    });//End of Callback
-//
-//}//End of executeSignUpApiRequest()
+
 
     private void LoginApiRequest() {
         ApiClients.getAPIs().getLoginRequest(new Login(userEmail,userPassword)).enqueue(new Callback<String>() {
             @Override
             public void onResponse(Call<String> call, Response<String> response) {
 
-                Log.i(LOG, "onResponse : " + response.body().toString());
+                Log.i(LOG, "onResponse : Success");
                 if (response.isSuccessful()) {
+                    Log.i(LOG, "onResponse : " + response.body().toString());
                     Dialog("ok");
+
                 }//End of if
                 else {
-                 Dialog(response.message());
+                 wrongInfoDialog(response.message());
                 }//End of else
             }//End of big if
 //
@@ -117,11 +91,11 @@ public class LoginActivity extends Activity {
 
             @Override
             public void onFailure(Call<String> call, Throwable t) {
-             Dialog(t.getLocalizedMessage());
+             wrongInfoDialog(t.getLocalizedMessage());
             }
         });
 
-    }
+    }//End of LoginApiRequest()
 
     private void init() {
 
@@ -133,20 +107,17 @@ public class LoginActivity extends Activity {
 
     }//End init()
 
-    private void validate(String userMail, String userPass) {
+    private boolean validate(String userMail, String userPass) {
 
         if ((!userMail.isEmpty()) && (!userPass.isEmpty())) {
+                return true;
 
-            //Progress Dialog()
-            //first we will check if the email in the database
-            wrongInfoDialog("Invalid email or password, please check and try again");
 
-            //if successful we will check if the email was verified
-            checkEmailVerification();
 
         }else {
             wrongInfoDialog("Missing fields, try Again please..");
         }
+        return false;
     }//end validate()
 
     private void checkEmailVerification() {
@@ -157,7 +128,7 @@ public class LoginActivity extends Activity {
         if (isVerified) {
             finish();
 
-//            Intent i = new Intent(LoginActivity.this, MainActivity.class);
+//            Intent i = new Intent(LoginActivity.this, .class);
 //            MySharedPrefrance.putString(this, "password", password.getText().toString());
 //            startActivity(i);
 
@@ -203,10 +174,10 @@ public class LoginActivity extends Activity {
         alertDialog.setPositiveButton("OK", new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int which) {
 //                firebaseAuth.signOut();
-                finish();
+
                 Intent intent;
-             //   intent = new Intent(SignupActivity.this, LoginActivity.class);
-                //startActivity(intent);
+                intent = new Intent(LoginActivity.this, FreelancerMainActivity.class);
+                startActivity(intent);
 
             }//end onClick
         });//end setPositiveButton
@@ -214,4 +185,4 @@ public class LoginActivity extends Activity {
         alertDialog.show();
 
     }//End of Dialog()
-}
+}//End of LoginActivity
