@@ -1,5 +1,6 @@
 package com.example.seeker.PostProject;
 
+import android.content.Context;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -12,7 +13,7 @@ import com.example.seeker.R;
 
 public class PaymentTypeFragment extends Fragment {
     private View view;
-
+    private PaymentListener paymentListener;
     private RelativeLayout fixedPriceBtn;
     private RelativeLayout hourlyBtn;
 
@@ -27,7 +28,7 @@ public class PaymentTypeFragment extends Fragment {
             @Override
             public void onClick(View view) {
 
-                //we will do something
+                paymentListener.onPaymentTypeItemSelected("FixedPrice");
 
             }
         });
@@ -36,7 +37,7 @@ public class PaymentTypeFragment extends Fragment {
             @Override
             public void onClick(View view) {
 
-                //we will do something
+                paymentListener.onPaymentTypeItemSelected("Hourly");
             }
         });
 
@@ -44,10 +45,34 @@ public class PaymentTypeFragment extends Fragment {
         return view;
     }//End of onCreateView()
 
+    @Override
+    public void onResume() {
+        super.onResume();
+
+
+    }
+
     private void init() {
 
         fixedPriceBtn = view.findViewById(R.id.fixed_price);
         hourlyBtn = view.findViewById(R.id.hourly);
     }//End of init()
+
+
+    public void setListener (PaymentListener paymentListener)
+    {
+        this.paymentListener = paymentListener;
+    }
+
+    public interface PaymentListener{
+
+        void onPaymentTypeItemSelected(String paymentType);
+    }//End of interface
+
+        @Override
+    public void onAttach(Context context) {
+        super.onAttach(context);
+        paymentListener = (PaymentListener) getActivity();
+    }
 
 }

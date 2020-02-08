@@ -14,80 +14,77 @@ import com.example.seeker.R;
 
 import java.util.List;
 
-public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.MyViewHolder>{
+public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.MyViewHolder> {
 
-    private Context mContext;
     private List<Category> categoryList;
+    private CategoryAdapterListener listener;
 
-    private OnItemClickListener mListener;
-
+    public void setListener(CategoryAdapterListener listener) {
+        this.listener = listener;
+    }
 
     public class MyViewHolder extends RecyclerView.ViewHolder {
-        public RecyclerView recyclerView;
+
+
         public ImageView arrow;
         public TextView title;
         public TextView description;
 
-
-
-
-
-        public MyViewHolder(View view, final OnItemClickListener listener) {
+        public MyViewHolder(View view) {
             super(view);
-            title = view.findViewById(R.id.row_title);
 
+            title = view.findViewById(R.id.row_title);
             description = view.findViewById(R.id.row_description);
             arrow = view.findViewById(R.id.row_arrow);
-            recyclerView = view.findViewById(R.id.recycler_view);
-            title.setOnClickListener(new View.OnClickListener() {
+
+
+            view.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    if (listener != null) {
-                        int position = getAdapterPosition();
-                        if (position != RecyclerView.NO_POSITION) {
-                            listener.onItemClick(position);
-                        } // end if
-                    } // end outer if
+
+
+                    listener.onCategoryItemClick(categoryList.get(getAdapterPosition()).getTitle());
+
                 }
             });
 
-        } //end MyViewHolder
+        }//End of MyViewHolder()
 
+
+    }//Enf of class MyViewHolder
+
+    public interface CategoryAdapterListener {
+        void onCategoryItemClick(String categoryName);
     }
 
-    public CategoryAdapter(Context mContext, List<Category> categoryList) {
-        this.mContext = mContext;
+    public CategoryAdapter(List<Category> categoryList) {
+
         this.categoryList = categoryList;
-    } // end DepartmentAdapter
+    }//End of CategoryAdapter()
 
     @Override
-    public MyViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+    public CategoryAdapter.MyViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View itemView = LayoutInflater.from(parent.getContext())
                 .inflate(R.layout.row_category, parent, false);
 
-        return new MyViewHolder(itemView, mListener);
-    } // end onCreateViewHolder
+        MyViewHolder evh = new MyViewHolder(itemView);
+        return evh;
+    }//End of onCreateViewHolder
 
     @Override
-    public void onBindViewHolder(final MyViewHolder holder, int position) {
+    public void onBindViewHolder(final CategoryAdapter.MyViewHolder holder, int position) {
         Category category = categoryList.get(position);
         holder.title.setText(category.getTitle());
         holder.description.setText(category.getDescription());
 
 
+    }//End of onBindViewHolder
 
-    } //  end onBindViewHolder
-
-    public interface OnItemClickListener {
-        void onItemClick(int position);
-    } // end OnItemClickListener
-
-    public void setOnItemClickListener(OnItemClickListener listener) {
-        mListener = listener;
-    } // end OnItemClickListener
 
     @Override
     public int getItemCount() {
         return categoryList.size();
-    } // end getItemCount
+    }
 }
+
+

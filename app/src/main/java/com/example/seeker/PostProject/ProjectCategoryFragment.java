@@ -1,5 +1,6 @@
 package com.example.seeker.PostProject;
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -8,7 +9,9 @@ import android.view.ViewGroup;
 
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.DefaultItemAnimator;
+import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.GridLayoutManager;
+import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.seeker.Model.Category;
@@ -17,40 +20,61 @@ import com.example.seeker.R;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ProjectCategoryFragment extends Fragment {
+public class ProjectCategoryFragment extends Fragment implements CategoryAdapter.CategoryAdapterListener {
 
     private View view;
     private RecyclerView recyclerView;
     private CategoryAdapter adapter;
-    private List<Category> categoryList;
+    private List<Category> categoryList = new ArrayList<>();
+    private CategoryListener categoryListener;
+
+
+
 
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         view = inflater.inflate(R.layout.fragment_project_category, container, false);
 
+
+        categoryList.add(new Category("Test","Test to Test"));
+        categoryList.add(new Category("Reema", "My Test"));
+        categoryList.add(new Category("HHHHH", "Test Me Me"));
+
         recyclerView = (RecyclerView) view.findViewById(R.id.recycler_view);
-
+        recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
+        adapter = new CategoryAdapter(categoryList);
         categoryList = new ArrayList<>();
-        adapter = new CategoryAdapter(getContext(), categoryList);
-
-
-        adapter.setOnItemClickListener(new CategoryAdapter.OnItemClickListener() {
-            @Override
-            public void onItemClick(int position) {
-
-                // we will do something
-
-
-            }
-        }); //end  setOnItemClickListener
-
-        RecyclerView.LayoutManager mLayoutManager = new GridLayoutManager(getActivity(), 1);
-        recyclerView.setLayoutManager(mLayoutManager);
         recyclerView.setItemAnimator(new DefaultItemAnimator());
         recyclerView.setAdapter(adapter);
+        adapter.setListener(this);
 
-
-
+        recyclerView.setNestedScrollingEnabled(true);
+        DividerItemDecoration dividerItemDecoration = new DividerItemDecoration(recyclerView.getContext(), DividerItemDecoration.VERTICAL);
+        recyclerView.addItemDecoration(dividerItemDecoration);
 
         return view;
     }//End of onCreateView()
+
+    public interface CategoryListener{
+
+       void onCategoryTypeItemSelected(String categoryName);
+    }//End of interface
+
+    @Override
+    public void onCategoryItemClick(String categoryName) {
+
+        categoryListener.onCategoryTypeItemSelected(categoryName);
+
+    }
+
+    public void setListener (CategoryListener categoryListener)
+    {
+        this.categoryListener = categoryListener;
+    }
+
+    @Override
+    public void onAttach(Context context) {
+        super.onAttach(context);
+        categoryListener = (CategoryListener) getActivity();
+    }
+
 }

@@ -14,6 +14,7 @@ import androidx.appcompat.app.AlertDialog;
 
 import com.example.seeker.Database.ApiClients;
 import com.example.seeker.Model.Login;
+import com.example.seeker.PostProject.PostProjectActivity;
 import com.example.seeker.R;
 
 import retrofit2.Call;
@@ -83,7 +84,7 @@ public class LoginActivity extends Activity {
 
                 }//End of if
                 else {
-                 wrongInfoDialog(response.message());
+                 wrongInfoDialog("wrong email/password try again!");
                 }//End of else
             }//End of big if
 //
@@ -176,7 +177,7 @@ public class LoginActivity extends Activity {
 //                firebaseAuth.signOut();
 
                 Intent intent;
-                intent = new Intent(LoginActivity.this, FreelancerMainActivity.class);
+                intent = new Intent(LoginActivity.this, PostProjectActivity.class);
                 startActivity(intent);
 
             }//end onClick
