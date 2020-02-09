@@ -126,7 +126,7 @@ private static final String LOG= SignupActivity.class.getSimpleName();
                     Dialog("ok");
 
                 } else{
-                    Converter<ResponseBody,ApiException> converter = ApiClients.getInstant().responseBodyConverter(ApiException.class,new Annotation[0]);
+                    Converter<ResponseBody, ApiException> converter = ApiClients.getInstant().responseBodyConverter(ApiException.class, new Annotation[0]);
                     ApiException exception = null;
                     try {
                         exception = converter.convert(response.errorBody());
@@ -219,7 +219,7 @@ private static final String LOG= SignupActivity.class.getSimpleName();
                         {
                             return true;
                         }else{
-                            wrongInfoDialog("you have to accept terms and condition before signing up ");
+                            wrongInfoDialog("You have to read our terms and condition carefully and accept them before signing up ");
                         }
                     }
 

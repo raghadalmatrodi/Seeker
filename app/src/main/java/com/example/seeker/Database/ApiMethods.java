@@ -1,6 +1,7 @@
 package com.example.seeker.Database;
 
 import com.example.seeker.Model.Login;
+import com.example.seeker.Model.Project;
 import com.example.seeker.Model.Responses.ApiResponse;
 import com.example.seeker.Model.User;
 
@@ -16,7 +17,7 @@ public interface ApiMethods {
 
         String SIGNUP = "account/register";
         String LOGIN ="account/login";
-
+        String POST_PROJECT = "project/post";
 
     }//End of Methods interface
 
@@ -30,7 +31,8 @@ public interface ApiMethods {
     @POST(Methods.LOGIN)
     Call<String> getLoginRequest(@Body Login login);
 
-
+    @POST(Methods.POST_PROJECT)
+    Call<ApiResponse> getPostProjectRequest(@Body Project project);
 
 
 

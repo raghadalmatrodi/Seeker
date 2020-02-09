@@ -1,6 +1,5 @@
 package com.example.seeker.Model;
 
-import android.app.Activity;
 
 import java.time.LocalDateTime;
 
@@ -83,14 +82,14 @@ public class Project  {
 
     @Override
     public String toString() {
-        return "Project{" +
-                "title='" + title + '\'' +
-                ", description='" + description + '\'' +
-                ", budget=" + budget +
-                ", type='" + type + '\'' +
-                ", payment_type='" + payment_type + '\'' +
-                ", expiry_date=" + expiry_date +
-                ", deadline=" + deadline +
-                '}';
+        return
+                "\n" + "Title: " + title + "\n" + "\n" +
+                        "Description: " + description + "\n" + "\n" +
+                        "Budget: " + budget + "\n" + "\n" +
+                        "Type: " + type + "\n" + "\n" +
+                        "Payment type: " + payment_type + "\n" + "\n" +
+                        "Expiry date: " + expiry_date + "\n" + "\n" +
+                        "Deadline: " + deadline;
     }
+
 }//End of project
