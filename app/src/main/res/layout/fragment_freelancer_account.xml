@@ -14,19 +14,16 @@
         android:text="You are in account tab" />
 
     <Button
-        android:id="@+id/switch_to_f_btn"
+        android:id="@+id/switch_to_e_btn"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="20dp"
+        android:layout_gravity="center"
+        android:padding="30dp"
         android:background="@drawable/rounded_edges"
-        android:text="Switch to Freelancer"
+        android:text="Switch to Employer"
         android:textAllCaps="false"
         android:textColor="#fff"
-        android:textSize="20sp"
-        android:layout_gravity="center"
-        android:padding="30dp">
-
-    </Button>
+        android:textSize="20sp" />
 
 
 </LinearLayout>

@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+
+    <item
+        android:id="@+id/navigation_msg"
+        android:icon="@drawable/messaging_tab"
+        android:title="@string/Emp_title_msg" />
+
+    <item
+        android:id="@+id/navigation_projects"
+        android:icon="@drawable/projects_tab"
+        android:title="@string/Emp_title_project" />
+
+
+    <item
+        android:id="@+id/navigation_search"
+        android:icon="@drawable/search_tab"
+        android:title="@string/Emp_title_search" />
+    <item
+        android:id="@+id/navigation_account"
+        android:icon="@drawable/account_tab"
+        android:title="@string/Emp_title_account" />
+
+</menu>
