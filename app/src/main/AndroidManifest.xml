@@ -21,7 +21,6 @@
         </activity>
         <activity android:name=".Activities.SignupActivity"></activity>
         <activity android:name=".Activities.LoginActivity"></activity>
-        <activity android:name=".PostProject.PostProjectActivity"></activity>
         <activity android:name=".EmployerMainPages.EmployerMainActivity"></activity>
         <activity android:name=".FreelancerMainPages.FreelancerMainActivity"></activity>
 

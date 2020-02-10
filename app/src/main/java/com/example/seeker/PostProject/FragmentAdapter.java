@@ -12,7 +12,7 @@ public class FragmentAdapter extends FragmentStatePagerAdapter {
 
     private final List<Fragment> mFragmentList = new ArrayList<>();
 
-    FragmentAdapter(FragmentManager fm) {
+    public FragmentAdapter(FragmentManager fm) {
         super(fm);
     }
     @Override

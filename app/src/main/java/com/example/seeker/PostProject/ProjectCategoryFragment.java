@@ -87,11 +87,11 @@ public class ProjectCategoryFragment extends Fragment implements CategoryAdapter
         this.backCategoryListener = backCategoryListener;
     }
 
-    @Override
-    public void onAttach(Context context) {
-        super.onAttach(context);
-        categoryListener = (CategoryListener) getActivity();
-    }
+//    @Override
+//    public void onAttach(Context context) {
+//        super.onAttach(context);
+//        categoryListener = (CategoryListener) getActivity();
+//    }
 
     public interface BackCategoryListener{
 

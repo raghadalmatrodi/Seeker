@@ -76,12 +76,12 @@ public class ProjectTypeFragment extends Fragment {
 
     }//End of interface
 
-    @Override
-    public void onAttach(Context context) {
-        super.onAttach(context);
-        projectTypeListener = (ProjectTypeListener) getActivity();
-    }
-
+//    @Override
+//    public void onAttach(Context context) {
+//        super.onAttach(context);
+//        projectTypeListener = (ProjectTypeListener) getActivity();
+//    }
+//
 
 
 }

@@ -87,10 +87,10 @@ public class PaymentTypeFragment extends Fragment {
         void onBackPaymentClick();
     }
 
-        @Override
-    public void onAttach(Context context) {
-        super.onAttach(context);
-        paymentListener = (PaymentListener) getActivity();
-    }
+//        @Override
+//    public void onAttach(Context context) {
+//        super.onAttach(context);
+//        paymentListener = (PaymentListener) getActivity();
+//    }
 
 }

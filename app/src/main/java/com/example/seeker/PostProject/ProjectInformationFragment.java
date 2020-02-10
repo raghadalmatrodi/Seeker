@@ -229,11 +229,11 @@ public class ProjectInformationFragment extends Fragment {
         void onBackInfoClick();
     }
 
-        @Override
-    public void onAttach(Context context) {
-        super.onAttach(context);
-        projectInformationListener = (ProjectInformationListener) getActivity();
-    }
+//        @Override
+//    public void onAttach(Context context) {
+//        super.onAttach(context);
+//        projectInformationListener = (ProjectInformationListener) getActivity();
+//    }
 
 
 
