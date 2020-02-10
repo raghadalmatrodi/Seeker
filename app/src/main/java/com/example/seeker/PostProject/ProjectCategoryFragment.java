@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.DefaultItemAnimator;
@@ -27,6 +28,9 @@ public class ProjectCategoryFragment extends Fragment implements CategoryAdapter
     private CategoryAdapter adapter;
     private List<Category> categoryList = new ArrayList<>();
     private CategoryListener categoryListener;
+    private BackCategoryListener backCategoryListener;
+    private ImageView backBtn;
+
 
 
 
@@ -34,7 +38,7 @@ public class ProjectCategoryFragment extends Fragment implements CategoryAdapter
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         view = inflater.inflate(R.layout.fragment_project_category, container, false);
 
-
+        backBtn = view.findViewById(R.id.project_category_back);
         categoryList.add(new Category("Test","Test to Test"));
         categoryList.add(new Category("Reema", "My Test"));
         categoryList.add(new Category("HHHHH", "Test Me Me"));
@@ -51,6 +55,17 @@ public class ProjectCategoryFragment extends Fragment implements CategoryAdapter
         DividerItemDecoration dividerItemDecoration = new DividerItemDecoration(recyclerView.getContext(), DividerItemDecoration.VERTICAL);
         recyclerView.addItemDecoration(dividerItemDecoration);
 
+        backBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                backCategoryListener.onBacCategorySelected();
+            }
+        });
+
+
+
+
         return view;
     }//End of onCreateView()
 
@@ -66,9 +81,10 @@ public class ProjectCategoryFragment extends Fragment implements CategoryAdapter
 
     }
 
-    public void setListener (CategoryListener categoryListener)
+    public void setListener (CategoryListener categoryListener, BackCategoryListener backCategoryListener)
     {
         this.categoryListener = categoryListener;
+        this.backCategoryListener = backCategoryListener;
     }
 
     @Override
@@ -76,5 +92,11 @@ public class ProjectCategoryFragment extends Fragment implements CategoryAdapter
         super.onAttach(context);
         categoryListener = (CategoryListener) getActivity();
     }
+
+    public interface BackCategoryListener{
+
+        void onBacCategorySelected();
+    }
+
 
 }

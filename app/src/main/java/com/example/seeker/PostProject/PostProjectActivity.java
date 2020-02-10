@@ -18,6 +18,7 @@ import com.google.android.material.tabs.TabLayout;
 
 import java.io.IOException;
 import java.lang.annotation.Annotation;
+import java.time.LocalDateTime;
 import java.util.List;
 
 import okhttp3.ResponseBody;
@@ -27,10 +28,12 @@ import retrofit2.Converter;
 import retrofit2.Response;
 
 
-public class PostProjectActivity extends AppCompatActivity implements ProjectTypeFragment.ProjectTypeListener,ProjectCategoryFragment.CategoryListener, PaymentTypeFragment.PaymentListener,ProjectInformationFragment.ProjectInformationListener{
+public class PostProjectActivity extends AppCompatActivity implements ProjectTypeFragment.ProjectTypeListener
+        ,ProjectCategoryFragment.CategoryListener, PaymentTypeFragment.PaymentListener,
+        ProjectInformationFragment.ProjectInformationListener, ProjectCategoryFragment.BackCategoryListener,
+        PaymentTypeFragment.BackPaymentListener, ProjectInformationFragment.BackInformationListener{
 
     private FragmentAdapter adapter;
-    private TabLayout tabLayout;
     private ViewPager viewPager;
     private ProjectTypeFragment projectTypeFragment;
     private ProjectCategoryFragment projectCategoryFragment;
@@ -40,7 +43,8 @@ public class PostProjectActivity extends AppCompatActivity implements ProjectTyp
 
 
 
-    private String projectType,projectCategory, paymentType, title,description, budget, deadline;
+    private String projectType,projectCategory, paymentType, title,description, budget;
+    private LocalDateTime deadlineLocalDateTime;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -54,9 +58,9 @@ public class PostProjectActivity extends AppCompatActivity implements ProjectTyp
 
 
         projectTypeFragment.setListener(this);
-        projectCategoryFragment.setListener(this);
-        paymentTypeFragment.setListener(this);
-        projectInformationFragment.setListener(this);
+        projectCategoryFragment.setListener(this,this);
+        paymentTypeFragment.setListener(this,this);
+        projectInformationFragment.setListener(this,this);
 
 
         adapter = new FragmentAdapter(getSupportFragmentManager());
@@ -91,12 +95,12 @@ public class PostProjectActivity extends AppCompatActivity implements ProjectTyp
     }
 
     @Override
-    public void onPostProjectItemSelected(String title, String description, String budget, String deadline) {
+    public void onPostProjectItemSelected(String title, String description, String budget, LocalDateTime deadlineLocalDateTime) {
 
         this.title = title;
         this.description = description;
         this.budget = budget;
-        this.deadline = deadline;
+        this.deadlineLocalDateTime = deadlineLocalDateTime;
 
 
         postProjectValidation();
@@ -106,7 +110,7 @@ public class PostProjectActivity extends AppCompatActivity implements ProjectTyp
 
     private void postProjectValidation() {
 
-        if(projectType.isEmpty() || projectCategory.isEmpty() || paymentType.isEmpty() || title.isEmpty() || budget.isEmpty() || deadline.isEmpty()){
+        if(projectType.isEmpty() || projectCategory.isEmpty() || paymentType.isEmpty() || title.isEmpty() || budget.isEmpty()){
 
             wrongInfoDialog("Missing Information");
         }
@@ -114,7 +118,7 @@ public class PostProjectActivity extends AppCompatActivity implements ProjectTyp
 
             double budgetValue = Double.parseDouble(budget);
 
-            Project project = new Project(title, description, budgetValue,projectType,paymentType,null,null);
+            Project project = new Project(title, description, budgetValue,projectType,paymentType,null ,null);
 
             Dialog(project.toString(), project);
 
@@ -178,6 +182,7 @@ public class PostProjectActivity extends AppCompatActivity implements ProjectTyp
                     Converter<ResponseBody, ApiException> converter = ApiClients.getInstant().responseBodyConverter(ApiException.class, new Annotation[0]);
                     ApiException exception = null;
                     try {
+
                         exception = converter.convert(response.errorBody());
 
                         List<ApiError> errors = exception.getErrors();
@@ -185,7 +190,7 @@ public class PostProjectActivity extends AppCompatActivity implements ProjectTyp
                         if (errors != null)
                             if (!errors.isEmpty())
                                 wrongInfoDialog(errors.get(0).getMessage());
-                        // Dialog(exception.getMessage());
+                        wrongInfoDialog(exception.getMessage());
 
                     } catch (IOException e) {
                         e.printStackTrace();
@@ -252,5 +257,26 @@ public class PostProjectActivity extends AppCompatActivity implements ProjectTyp
     }//End of Dialog()
 
 
+    @Override
+    public void onBackPaymentClick() {
+
+        viewPager.setCurrentItem(1);
+
+    }
+
+    @Override
+    public void onBacCategorySelected() {
+
+        viewPager.setCurrentItem(0);
+
+    }
+
+    @Override
+    public void onBackInfoClick() {
+
+        viewPager.setCurrentItem(2);
+
+
+    }
 }
 
