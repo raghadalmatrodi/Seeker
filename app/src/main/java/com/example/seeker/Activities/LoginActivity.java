@@ -13,8 +13,8 @@ import android.widget.TextView;
 import androidx.appcompat.app.AlertDialog;
 
 import com.example.seeker.Database.ApiClients;
+import com.example.seeker.EmployerMainPages.EmployerMainActivity;
 import com.example.seeker.Model.Login;
-import com.example.seeker.PostProject.PostProjectActivity;
 import com.example.seeker.R;
 
 import retrofit2.Call;
@@ -177,7 +177,7 @@ public class LoginActivity extends Activity {
 //                firebaseAuth.signOut();
 
                 Intent intent;
-                intent = new Intent(LoginActivity.this, PostProjectActivity.class);
+                intent = new Intent(LoginActivity.this, EmployerMainActivity.class);
                 startActivity(intent);
 
             }//end onClick

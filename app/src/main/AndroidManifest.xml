@@ -29,6 +29,9 @@
 
 
         </activity>
+        <activity android:name=".EmployerMainPages.EmployerMainActivity">
+
+        </activity>
 
 
     </application>

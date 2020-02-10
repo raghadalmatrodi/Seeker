@@ -3,4 +3,7 @@
     <color name="colorPrimary">#008577</color>
     <color name="colorPrimaryDark">#00574B</color>
     <color name="colorAccent">#149A8D</color>
+
+
+    <color name="bgBottomNavigation">#fe485a</color>
 </resources>
