@@ -14,7 +14,7 @@ public class Emp_MyProjects_In_Progress_Fragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_emp_messages, container, false);
+        return inflater.inflate(R.layout.fragment_in_progress_projects, container, false);
     }
 
 }
