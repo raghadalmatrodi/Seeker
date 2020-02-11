@@ -4,6 +4,7 @@ import android.app.DatePickerDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -92,15 +93,22 @@ public class ProjectInformationFragment extends Fragment {
 
 
                 if(validate()){
-
+//
                     setTime();
 
                     deadlineDate = deadlineDate+timeString;
                     convertStringToLocalDateTime();
 
+//                    String str = "2016-03-04 11:30";
+//                    DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
+//                    deadlineLocalDateTime = LocalDateTime.parse(str, formatter);
+//                    Log.i("PROJECT", deadlineLocalDateTime.toString());
+                    Log.i("PROJECT", deadlineLocalDateTime.toString());
+
+                    projectInformationListener.onPostProjectItemSelected(title,description,budget,deadlineLocalDateTime.toString());
+                    Log.i("PROJECT", deadlineLocalDateTime.toString());
 
 
-                    projectInformationListener.onPostProjectItemSelected(title,description,budget,deadlineLocalDateTime);
                 }
 
 
@@ -221,7 +229,7 @@ public class ProjectInformationFragment extends Fragment {
 
     public interface ProjectInformationListener{
 
-         void onPostProjectItemSelected(String title, String description, String budget, LocalDateTime deadlineLocalDateTime);
+         void onPostProjectItemSelected(String title, String description, String budget, String deadlineLocalDateTime);
 
     }//End of interface
 

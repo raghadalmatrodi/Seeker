@@ -53,7 +53,7 @@ public class Emp_PostFragment extends Fragment implements ProjectTypeFragment.Pr
 
 
     private String projectType,projectCategory, paymentType, title,description, budget;
-    private LocalDateTime deadlineLocalDateTime;
+    private String deadlineLocalDateTime;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -108,7 +108,7 @@ public class Emp_PostFragment extends Fragment implements ProjectTypeFragment.Pr
     }
 
     @Override
-    public void onPostProjectItemSelected(String title, String description, String budget, LocalDateTime deadlineLocalDateTime) {
+    public void onPostProjectItemSelected(String title, String description, String budget, String deadlineLocalDateTime) {
 
         this.title = title;
         this.description = description;
@@ -131,7 +131,7 @@ public class Emp_PostFragment extends Fragment implements ProjectTypeFragment.Pr
 
             double budgetValue = Double.parseDouble(budget);
 
-            Project project = new Project(title, description, budgetValue,projectType,paymentType,null ,null);
+            Project project = new Project(title, description, budgetValue,projectType,paymentType,null ,deadlineLocalDateTime);
 
             Dialog(project.toString(), project);
 

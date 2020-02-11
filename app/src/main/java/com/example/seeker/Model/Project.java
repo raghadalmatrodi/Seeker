@@ -11,9 +11,9 @@ public class Project  {
     private String type;
     private String payment_type;
     private LocalDateTime expiry_date;
-    private LocalDateTime deadline;
+    private String deadline;
 
-    public Project(String title, String description, double budget, String type, String payment_type, LocalDateTime expiry_date, LocalDateTime deadline) {
+    public Project(String title, String description, double budget, String type, String payment_type, LocalDateTime expiry_date, String deadline) {
         this.title = title;
         this.description = description;
         this.budget = budget;
@@ -72,11 +72,11 @@ public class Project  {
         this.expiry_date = expiry_date;
     }
 
-    public LocalDateTime getDeadline() {
+    public String getDeadline() {
         return deadline;
     }
 
-    public void setDeadline(LocalDateTime deadline) {
+    public void setDeadline(String deadline) {
         this.deadline = deadline;
     }
 
