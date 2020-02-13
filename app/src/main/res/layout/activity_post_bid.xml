@@ -14,11 +14,37 @@
         android:orientation="vertical"
         android:background="#E8E8E8"
         >
-       <ImageButton
-           android:layout_width="wrap_content"
-           android:src="@drawable/close_x"
-           android:background="@drawable/rounded_edges"
-           android:layout_height="wrap_content"/>
+
+        <ImageButton
+            android:id="@+id/close_post_bid_btn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/close_x_rounded_edges_bg"
+            android:src="@drawable/close_x"
+            android:layout_marginStart="20dp"
+            android:layout_marginTop="40dp"
+            />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="60dp"
+            android:layout_marginTop="10dp"
+            android:text="@string/place_a_bid_on"
+            android:textStyle="bold"
+            android:textColor="#000"
+            android:textSize="25sp"
+            />
+
+        <TextView
+            android:id="@+id/project_title_to_post_bid_in"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="60dp"
+            android:text="....."
+            android:textColor="#000"
+            android:textSize="25sp"
+            />
     </LinearLayout>
 
 
@@ -29,6 +55,119 @@
         android:orientation="vertical"
         >
 
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="60dp"
+            android:layout_marginTop="30dp"
+            android:text="@string/price"
+            android:textColor="#000"
+            android:textSize="15sp"
+            />
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="60dp"
+
+            >
+
+<!--            //todo: check that price is valid (positive numbers only)-->
+        <EditText
+            android:id="@+id/post_bid_price"
+            android:layout_width="200dp"
+            android:inputType="numberDecimal"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:background="@drawable/stroke_box"
+            android:padding="8dp" />
+
+<!--            todo: try to make text centered vertically in textview -->
+            <TextView
+                android:layout_width="50dp"
+                android:layout_height="40dp"
+                android:layout_marginStart="-5dp"
+                android:layout_marginTop="-3dp"
+                android:text="SAR"
+                android:textAlignment="center"
+                android:background="@drawable/filled_stroke_box"
+                />
+
+        </LinearLayout>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="60dp"
+            android:layout_marginTop="20dp"
+            android:text="@string/delivery_date"
+            android:textColor="#000"
+            android:textSize="15sp"
+            />
+
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="60dp"
+
+            >
+
+            <!--            //todo: check the input type works or not??!-->
+            <EditText
+                android:id="@+id/post_bid_delivery_date"
+                android:layout_width="200dp"
+                android:inputType="date"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:background="@drawable/stroke_box"
+                android:padding="8dp" />
+
+            <!--            todo: try to make text centered vertically in textview -->
+            <TextView
+                android:layout_width="50dp"
+                android:layout_height="40dp"
+                android:layout_marginStart="-5dp"
+                android:layout_marginTop="-3dp"
+                android:text="Days"
+                android:textAlignment="center"
+                android:background="@drawable/filled_stroke_box"
+                />
+
+        </LinearLayout>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="60dp"
+            android:layout_marginTop="20dp"
+            android:text="@string/describe_your_bid"
+            android:textColor="#000"
+            android:textSize="15sp"
+            />
+
+        <EditText
+            android:id="@+id/bid_description"
+            android:layout_width="300dp"
+            android:layout_height="150dp"
+            android:layout_gravity="center"
+            android:layout_marginTop="10dp"
+            android:background="@drawable/stroke_box"
+            android:padding="8dp"
+            android:scrollbars="vertical"
+            />
+
+        <Button
+            android:id="@+id/post_a_bid_btn"
+            android:layout_width="300dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:background="@drawable/rounded_edges"
+            android:text="@string/post_a_bid"
+            android:textAllCaps="false"
+            android:layout_gravity="center"
+            android:textColor="#fff"
+            android:textSize="20sp"></Button>
 
     </LinearLayout>
 

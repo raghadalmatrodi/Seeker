@@ -9,4 +9,9 @@
 
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="place_a_bid_on">Place a bid on</string>
+    <string name="price">Price: </string>
+    <string name="delivery_date">Delivery Date:</string>
+    <string name="describe_your_bid">Describe your Bid:</string>
+    <string name="post_a_bid">POST A BID</string>
 </resources>
