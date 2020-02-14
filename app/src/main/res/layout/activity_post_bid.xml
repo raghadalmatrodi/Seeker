@@ -64,6 +64,8 @@
             android:textColor="#000"
             android:textSize="15sp"
             />
+
+<!--        todo: fix layout!!! when running places changes a bit-->
         <LinearLayout
             android:orientation="horizontal"
             android:layout_width="wrap_content"
@@ -116,7 +118,7 @@
             <!--            //todo: check the input type works or not??!-->
             <EditText
                 android:id="@+id/post_bid_delivery_date"
-                android:layout_width="200dp"
+                android:layout_width="248dp"
                 android:inputType="date"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
@@ -124,15 +126,7 @@
                 android:padding="8dp" />
 
             <!--            todo: try to make text centered vertically in textview -->
-            <TextView
-                android:layout_width="50dp"
-                android:layout_height="40dp"
-                android:layout_marginStart="-5dp"
-                android:layout_marginTop="-3dp"
-                android:text="Days"
-                android:textAlignment="center"
-                android:background="@drawable/filled_stroke_box"
-                />
+
 
         </LinearLayout>
 

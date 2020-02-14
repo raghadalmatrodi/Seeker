@@ -2,13 +2,23 @@ package com.example.seeker.PostBid;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.app.DatePickerDialog;
 import android.os.Bundle;
+import android.view.View;
 import android.widget.Button;
+import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.seeker.R;
+
+import java.text.SimpleDateFormat;
+import java.time.LocalDateTime;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.Locale;
 
 public class PostBidActivity extends AppCompatActivity {
 
@@ -16,12 +26,65 @@ public class PostBidActivity extends AppCompatActivity {
     private EditText price, delivery_date, bid_decsription;
     private Button post_bid;
     private ImageButton close_bid;
+    private String priceStr, dateStr, bidDescriptionStr;
+//    private LocalDateTime date;
+    final Calendar currentDate = Calendar.getInstance();
+    private Calendar date;
+
+//    final Calendar myCalendar = Calendar.getInstance();
+
+
+
+
+    //TODO: YOU HAVE TO PASS THE PROJECT TITLE!!
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_post_bid);
 
         init();
+
+        //When x is pressed:
+        close_bid.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                // do sth.
+
+            }
+        });
+
+        //When delivery date is selected
+        delivery_date.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                //todo: make sure to let the user select valid dates (not in the past!)
+//                new DatePickerDialog(PostBidActivity.this, date, myCalendar
+//                        .get(Calendar.YEAR), myCalendar.get(Calendar.MONTH),
+//                        myCalendar.get(Calendar.DAY_OF_MONTH)).show();
+
+                showDateTimePicker();
+
+            }
+        });
+
+
+        //When post bid is pressed
+        post_bid.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                if(validateInput()){
+//                    Bid bid = new Bid();
+                }
+
+            }
+        });
+
+
+
 
     }//end onCreate()
 
@@ -35,7 +98,76 @@ public class PostBidActivity extends AppCompatActivity {
 
     }//end init()
 
-    private void validateInput(){
+    //call it when pressing post btn
+    private boolean validateInput(){
+
+        priceStr = price.getText().toString();
+        dateStr = delivery_date.getText().toString();
+        bidDescriptionStr = bid_decsription.getText().toString();
+
+        if(priceStr.isEmpty() || dateStr.isEmpty() || bidDescriptionStr.isEmpty()) {
+            //todo: show dialog.
+            Toast.makeText(this,"Some fields are empty", Toast.LENGTH_SHORT);
+            return false;
+
+        } else
+            return true;
 
     }//end validateInput()
-}
+
+    /**
+     * src:
+     * https://stackoverflow.com/questions/14933330/datepicker-how-to-popup-datepicker-when-click-on-edittext
+     *
+     * */
+
+//    DatePickerDialog.OnDateSetListener date = new DatePickerDialog.OnDateSetListener() {
+//
+//
+//        @Override
+//        public void onDateSet(DatePicker view, int year, int monthOfYear,
+//                              int dayOfMonth) {
+//            myCalendar.set(Calendar.YEAR, year);
+//            myCalendar.set(Calendar.MONTH, monthOfYear);
+//            myCalendar.set(Calendar.DAY_OF_MONTH, dayOfMonth);
+//            updateLabel();
+//        }
+//
+//    };
+//
+//
+    //To be fixed!
+    //problem with selecting date, it only add today's date
+    //empty fields not working
+
+    private void updateLabel() {
+        String myFormat = "MM/dd/yy"; //In which you need put here
+        SimpleDateFormat sdf = new SimpleDateFormat(myFormat, Locale.US);
+
+        delivery_date.setText(sdf.format(date.getTime()));
+    }//End updateLabel()
+//
+
+
+
+
+
+    public void showDateTimePicker(){
+        date = Calendar.getInstance();
+
+        DatePickerDialog.OnDateSetListener dateSetListener = new DatePickerDialog.OnDateSetListener() {
+            @Override
+            public void onDateSet(DatePicker datePicker, int year, int monthOfYear, int dayOfMonth) {
+                date.set(year, monthOfYear, dayOfMonth);
+
+                //use this date as per your requirement
+            }
+        };
+        DatePickerDialog datePickerDialog = new  DatePickerDialog(PostBidActivity.this, dateSetListener, currentDate.get(Calendar.YEAR), currentDate.get(Calendar.MONTH),   currentDate.get(Calendar.DAY_OF_MONTH));
+        datePickerDialog.getDatePicker().setMinDate(System.currentTimeMillis() - 1000);
+        datePickerDialog.show();
+
+        updateLabel();
+    }
+
+}//End class.
