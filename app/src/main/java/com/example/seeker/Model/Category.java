@@ -27,7 +27,7 @@ public class Category {
 
     @Override
     public String toString() {
-        return "Category{" +
+        return "CategorySearch{" +
                 "title='" + title + '\'' +
                 ", description='" + description + '\'' +
                 '}';

@@ -60,7 +60,7 @@ public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.MyView
     public CategoryAdapter(List<Category> categoryList) {
 
         this.categoryList = categoryList;
-    }//End of CategoryAdapter()
+    }//End of CategorySearchAdapter()
 
     @Override
     public CategoryAdapter.MyViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
