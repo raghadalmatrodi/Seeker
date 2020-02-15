@@ -17,7 +17,6 @@
         app:popupTheme="@style/ThemeOverlay.AppCompat.Light" />
 
 
-    <!--    <include layout="@layout/content_search" />-->
 
     <androidx.recyclerview.widget.RecyclerView
         android:layout_marginTop="60dp"

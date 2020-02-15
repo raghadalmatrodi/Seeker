@@ -1,5 +1,6 @@
 package com.example.seeker.Database;
 
+import com.example.seeker.Model.Bid;
 import com.example.seeker.Model.Login;
 import com.example.seeker.Model.Project;
 import com.example.seeker.Model.Responses.ApiResponse;
@@ -25,6 +26,7 @@ public interface ApiMethods {
         String LOGIN ="account/login";
         String POST_PROJECT = "project/post";
         String POST_PROJECT_WITH_ATTACHMENTS = "project/with-attachments";
+        String POST_BID = "bid/post";
 
     }//End of Methods interface
 
@@ -44,6 +46,10 @@ public interface ApiMethods {
     @Multipart
     @POST(Methods.POST_PROJECT_WITH_ATTACHMENTS)
     Call<ApiResponse> getPostProjectWithAttachmentsRequest(@Part("project") RequestBody project , @Part List<MultipartBody.Part> attachments);
+
+    //todo: step 1 - post bid
+    @POST(Methods.POST_BID)
+    Call<ApiResponse> getPostBidRequest(@Body Bid bid);
 
 
 

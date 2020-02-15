@@ -4,6 +4,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.app.DatePickerDialog;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.DatePicker;
@@ -12,24 +13,34 @@ import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.seeker.Database.ApiClients;
+import com.example.seeker.Model.Bid;
+import com.example.seeker.Model.Responses.ApiResponse;
 import com.example.seeker.R;
 
 import java.text.SimpleDateFormat;
 import java.time.LocalDateTime;
 import java.util.Calendar;
-import java.util.Date;
 import java.util.Locale;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class PostBidActivity extends AppCompatActivity {
 
     private TextView project_title;
-    private EditText price, delivery_date, bid_decsription;
+    private EditText price, delivery_date, bid_decsription, bid_title;
     private Button post_bid;
     private ImageButton close_bid;
-    private String priceStr, dateStr, bidDescriptionStr;
-//    private LocalDateTime date;
+    private String priceStr, dateStr, bidDescriptionStr, bidTitleStr;
+    private double priceDouble;
+    private LocalDateTime localdt;
     final Calendar currentDate = Calendar.getInstance();
     private Calendar date;
+
+    private static final String LOG = PostBidActivity.class.getSimpleName();
+
 
 //    final Calendar myCalendar = Calendar.getInstance();
 
@@ -51,6 +62,10 @@ public class PostBidActivity extends AppCompatActivity {
             public void onClick(View v) {
 
                 // do sth.
+                /**
+                 * CHECK!!!
+                 * */
+                finish();
 
             }
         });
@@ -76,8 +91,14 @@ public class PostBidActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
 
-                if(validateInput()){
-//                    Bid bid = new Bid();
+                if(validInput()){
+                    Bid bid = new Bid(bidTitleStr,bidDescriptionStr,priceDouble,null ,"pending");
+
+//                    String checkStr = bidTitleStr+" -- "+bidDescriptionStr+ " -- "+ priceStr + " -- "+" -- " + dateStr;
+//                    Toast.makeText(getApplicationContext(),checkStr,Toast.LENGTH_LONG).show();
+
+                    executePostBidRequest(bid);
+
                 }
 
             }
@@ -95,25 +116,31 @@ public class PostBidActivity extends AppCompatActivity {
         bid_decsription = findViewById(R.id.bid_description);
         post_bid = findViewById(R.id.post_a_bid_btn);
         close_bid = findViewById(R.id.close_post_bid_btn);
+        bid_title = findViewById(R.id.post_bid_title);
 
     }//end init()
 
     //call it when pressing post btn
-    private boolean validateInput(){
+    private boolean validInput(){
 
         priceStr = price.getText().toString();
         dateStr = delivery_date.getText().toString();
         bidDescriptionStr = bid_decsription.getText().toString();
+        bidTitleStr = bid_title.getText().toString();
 
-        if(priceStr.isEmpty() || dateStr.isEmpty() || bidDescriptionStr.isEmpty()) {
+        priceDouble = Double.parseDouble(priceStr);
+
+
+
+        if(bidTitleStr.isEmpty() || priceStr.isEmpty() || dateStr.isEmpty() || bidDescriptionStr.isEmpty()) {
             //todo: show dialog.
-            Toast.makeText(this,"Some fields are empty", Toast.LENGTH_SHORT);
+            Toast.makeText(this,"Some fields are empty", Toast.LENGTH_SHORT).show();
             return false;
 
         } else
             return true;
 
-    }//end validateInput()
+    }//end validInput()
 
     /**
      * src:
@@ -138,7 +165,6 @@ public class PostBidActivity extends AppCompatActivity {
 //
     //To be fixed!
     //problem with selecting date, it only add today's date
-    //empty fields not working
 
     private void updateLabel() {
         String myFormat = "MM/dd/yy"; //In which you need put here
@@ -169,5 +195,82 @@ public class PostBidActivity extends AppCompatActivity {
 
         updateLabel();
     }
+
+    private void executePostBidRequest(Bid bid){
+
+        ApiClients.getAPIs().getPostBidRequest(bid).enqueue(new Callback<ApiResponse>() {
+            @Override
+            public void onResponse(Call<ApiResponse> call, Response<ApiResponse> response) {
+
+
+                if(response.isSuccessful()){
+                    Log.i(LOG, "onResponse : " + response.body().toString());
+
+
+                    Toast.makeText(PostBidActivity.this,"Your bid has been posted successfully!!",Toast.LENGTH_SHORT).show();
+                }else {
+
+                    Toast.makeText(PostBidActivity.this,"sorry error",Toast.LENGTH_SHORT).show();
+
+                }
+
+
+            }//end onResponse()
+
+            @Override
+            public void onFailure(Call<ApiResponse> call, Throwable t) {
+                Log.i(LOG, "onFailure : " );
+
+            }//end onFailure()
+        });
+
+    }//End executePostBidRequest()
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 }//End class.
