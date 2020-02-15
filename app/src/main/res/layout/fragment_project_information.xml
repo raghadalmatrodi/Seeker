@@ -75,11 +75,24 @@
 
         </com.google.android.material.textfield.TextInputLayout>
 
+        <TextView
+            android:layout_width="331dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+
+            android:id="@+id/display_attach1"
+            ></TextView>
+
         <LinearLayout
             android:layout_width="331dp"
-            android:layout_height="70dp"
+            android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:orientation="horizontal">
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/attach_file">
 
             <ImageView
 
@@ -98,6 +111,8 @@
                 android:text="Attach File"
                 android:textColor="@color/colorPrimary"
                 android:textSize="17sp" />
+
+            </LinearLayout>
 
             <TextView
                 android:layout_width="wrap_content"
@@ -142,6 +157,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
 
+                android:contextClickable="false"
+                android:editable="false"
                 android:hint="Approximated deadline ">
 
 
