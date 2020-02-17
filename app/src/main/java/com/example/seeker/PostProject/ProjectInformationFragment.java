@@ -28,6 +28,7 @@ import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.text.SimpleDateFormat;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
@@ -54,7 +55,7 @@ public class ProjectInformationFragment extends Fragment {
     private EditText titleText;
     private EditText descriptionText;
     private EditText budgeText;
-    private EditText deadlineDateText;
+    private TextView deadlineDateText;
 
 
     private ImageView addSkillBtn;
@@ -71,8 +72,9 @@ public class ProjectInformationFragment extends Fragment {
 
 
     private LocalDateTime deadlineLocalDateTime;
-    private String dateString;
+    private LocalDateTime expiryLocalDateTime;
     private String timeString;
+    private String expiryDate;
 
 
 
@@ -142,20 +144,23 @@ public class ProjectInformationFragment extends Fragment {
                 deadlineDate = deadlineDateText.getText().toString();
 
 
+
                 if(validate()){
-//
+
+                    expiryDate = setExpiryDate();
+
                     setTime();
 
                     deadlineDate = deadlineDate+timeString;
-                    convertStringToLocalDateTime();
+                    expiryDate = expiryDate+timeString;
 
-//                    String str = "2016-03-04 11:30";
-//                    DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
-//                    deadlineLocalDateTime = LocalDateTime.parse(str, formatter);
-//                    Log.i("PROJECT", deadlineLocalDateTime.toString());
+                   deadlineLocalDateTime=  convertStringToLocalDateTime(deadlineDate);
+                   expiryLocalDateTime = convertStringToLocalDateTime(expiryDate);
+
+
                     Log.i("PROJECT", deadlineLocalDateTime.toString());
 
-                    projectInformationListener.onPostProjectItemSelected(title,description,budget,deadlineLocalDateTime.toString());
+                    projectInformationListener.onPostProjectItemSelected(title,description,budget,deadlineLocalDateTime.toString(),expiryLocalDateTime.toString());
                     Log.i("PROJECT", deadlineLocalDateTime.toString());
 
 
@@ -174,6 +179,18 @@ public class ProjectInformationFragment extends Fragment {
 
         return view;
     }//End of onCreateView()
+
+    private String setExpiryDate() {
+
+        LocalDate today = LocalDate.parse(expiryDate);
+
+        // increment days by 7
+
+        System.out.println("Current Date: " + today);
+        today = today.plusDays(10);
+        String formattedDate = today.format(DateTimeFormatter.ofPattern("dd-MM-yyyy"));
+       return formattedDate;
+    }
 
     private void createProjectWithAttachments(List<File> file)  {
         Project project = new Project("hello","hello",333,null , null , null,
@@ -216,9 +233,9 @@ public class ProjectInformationFragment extends Fragment {
         });
     }
 
-    private void convertStringToLocalDateTime() {
+    private LocalDateTime convertStringToLocalDateTime(String dateString) {
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm:ss");
-        deadlineLocalDateTime = LocalDateTime.parse(deadlineDate, formatter);
+         return LocalDateTime.parse(dateString, formatter);
     }
 
     private void setTime() {
@@ -226,7 +243,7 @@ public class ProjectInformationFragment extends Fragment {
         Date date = new Date();
         SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy HH:mm:ss");
 
-        dateString = formatter.format(date);
+        String dateString = formatter.format(date);
         timeString=  dateString.substring(10);
     }
 
@@ -249,9 +266,12 @@ public class ProjectInformationFragment extends Fragment {
 
                                 deadlineDateText.setText("0"+ dayOfMonth + "-" +"0"+ month + "-" + year);
 
+                                expiryDate = year+ "-" + "0" + month + "-" + "0" + dayOfMonth;
+
                             }else
                             {
                                 deadlineDateText.setText(dayOfMonth + "-" +"0"+ month + "-" + year);
+                                expiryDate = year+ "-" + "0" + month + "-" + dayOfMonth;
                             }
 
 
@@ -260,9 +280,11 @@ public class ProjectInformationFragment extends Fragment {
                             if(dayOfMonth <= 9){
 
                                 deadlineDateText.setText("0"+dayOfMonth + "-" + month + "-" + year);
+                                expiryDate = year + "-" + month + "-" +"0" + dayOfMonth ;
                             }else
                             {
                                 deadlineDateText.setText(dayOfMonth + "-" + month + "-" + year);
+                                expiryDate = year + "-" + month + "-" + dayOfMonth;
 
                             }
 
@@ -273,6 +295,8 @@ public class ProjectInformationFragment extends Fragment {
 
                     }
                 }, year, month, day);
+
+        picker.getDatePicker().setMinDate(System.currentTimeMillis()-1000);
         picker.show();
 
 
@@ -320,7 +344,7 @@ public class ProjectInformationFragment extends Fragment {
 
     public interface ProjectInformationListener{
 
-         void onPostProjectItemSelected(String title, String description, String budget, String deadlineLocalDateTime);
+         void onPostProjectItemSelected(String title, String description, String budget, String deadlineLocalDateTime, String expiryLocalDateTime);
 
     }//End of interface
 

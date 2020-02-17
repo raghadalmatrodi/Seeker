@@ -27,7 +27,9 @@ import java.io.IOException;
 import java.lang.annotation.Annotation;
 import java.text.SimpleDateFormat;
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 
@@ -49,6 +51,7 @@ public class PostBidActivity extends AppCompatActivity {
     private ImageButton close_bid;
 
     private String priceStr, dateStr, bidDescriptionStr, bidTitleStr;
+    private String timeString;
     private double priceDouble;
 
     private LocalDateTime localDateTimet;
@@ -105,7 +108,13 @@ public class PostBidActivity extends AppCompatActivity {
 
                 if(validInput()){
 
-                    Bid bid = new Bid(bidTitleStr,bidDescriptionStr,priceDouble,null ,"pending");
+                    setTime();
+                    dateStr = dateStr+timeString;
+                    localDateTimet = convertStringToLocalDateTime(dateStr);
+
+
+
+                    Bid bid = new Bid(bidTitleStr,bidDescriptionStr,priceDouble,localDateTimet.toString() ,"pending");
 
 //                    String checkStr = bidTitleStr+" -- "+bidDescriptionStr+ " -- "+ priceStr + " -- "+" -- " + dateStr;
 //                    Toast.makeText(getApplicationContext(),checkStr,Toast.LENGTH_LONG).show();
@@ -271,6 +280,20 @@ public class PostBidActivity extends AppCompatActivity {
 
 
     }//End calendarDialog()
+
+    private LocalDateTime convertStringToLocalDateTime(String dateString) {
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm:ss");
+        return LocalDateTime.parse(dateString, formatter);
+    }
+
+    private void setTime() {
+
+        Date date = new Date();
+        SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy HH:mm:ss");
+
+        String dateString = formatter.format(date);
+        timeString=  dateString.substring(10);
+    }
 
     private void Dialog(String msg) {
 

@@ -10,10 +10,10 @@ public class Project  {
     private double budget;
     private String type;
     private String payment_type;
-    private LocalDateTime expiry_date;
+    private String expiry_date;
     private String deadline;
 
-    public Project(String title, String description, double budget, String type, String payment_type, LocalDateTime expiry_date, String deadline) {
+    public Project(String title, String description, double budget, String type, String payment_type, String  expiry_date, String deadline) {
         this.title = title;
         this.description = description;
         this.budget = budget;
@@ -64,11 +64,11 @@ public class Project  {
         this.payment_type = payment_type;
     }
 
-    public LocalDateTime getExpiry_date() {
+    public String getExpiry_date() {
         return expiry_date;
     }
 
-    public void setExpiry_date(LocalDateTime expiry_date) {
+    public void setExpiry_date(String expiry_date) {
         this.expiry_date = expiry_date;
     }
 
