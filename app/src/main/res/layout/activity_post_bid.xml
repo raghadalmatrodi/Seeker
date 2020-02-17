@@ -6,6 +6,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
+    android:scrollbars="vertical"
     tools:context=".PostBid.PostBidActivity">
 
     <LinearLayout
@@ -116,7 +117,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="60dp"
-            android:layout_marginTop="20dp"
+            android:layout_marginTop="10dp"
             android:text="@string/delivery_date"
             android:textColor="#000"
             android:textSize="15sp"
@@ -137,7 +138,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="60dp"
-            android:layout_marginTop="20dp"
+            android:layout_marginTop="10dp"
             android:text="@string/describe_your_bid"
             android:textColor="#000"
             android:textSize="15sp"
@@ -151,6 +152,7 @@
             android:layout_marginTop="10dp"
             android:background="@drawable/stroke_box"
             android:padding="8dp"
+            android:gravity="top|left"
             android:scrollbars="vertical"
             />
 
@@ -158,9 +160,10 @@
             android:id="@+id/post_a_bid_btn"
             android:layout_width="300dp"
             android:layout_height="wrap_content"
-            android:layout_marginTop="20dp"
+            android:layout_marginTop="15dp"
             android:background="@drawable/rounded_edges"
             android:text="@string/post_a_bid"
+
             android:textAllCaps="false"
             android:layout_gravity="center"
             android:textColor="#fff"

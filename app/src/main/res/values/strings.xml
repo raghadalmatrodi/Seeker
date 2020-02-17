@@ -15,4 +15,7 @@
     <string name="describe_your_bid">Describe your Bid:</string>
     <string name="post_a_bid">POST A BID</string>
     <string name="bid_title">Bid Title:</string>
+    <string name="some_fields_are_empty">Some fields are empty..</string>
+    <string name="your_bid_has_been_posted_successfully">Your bid has been posted successfully!</string>
+    <string name="something_went_wrong">Something went wrong..</string>
 </resources>

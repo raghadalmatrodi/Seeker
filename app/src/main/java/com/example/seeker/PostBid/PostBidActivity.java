@@ -1,11 +1,14 @@
 package com.example.seeker.PostBid;
 
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.app.DatePickerDialog;
+import android.content.DialogInterface;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
@@ -15,34 +18,44 @@ import android.widget.Toast;
 
 import com.example.seeker.Database.ApiClients;
 import com.example.seeker.Model.Bid;
+import com.example.seeker.Model.Exception.ApiError;
+import com.example.seeker.Model.Exception.ApiException;
 import com.example.seeker.Model.Responses.ApiResponse;
 import com.example.seeker.R;
 
+import java.io.IOException;
+import java.lang.annotation.Annotation;
 import java.text.SimpleDateFormat;
 import java.time.LocalDateTime;
 import java.util.Calendar;
+import java.util.List;
 import java.util.Locale;
 
+import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.Callback;
+import retrofit2.Converter;
 import retrofit2.Response;
 
 public class PostBidActivity extends AppCompatActivity {
 
-    private TextView project_title;
-    private EditText price, delivery_date, bid_decsription, bid_title;
-    private Button post_bid;
-    private ImageButton close_bid;
-    private String priceStr, dateStr, bidDescriptionStr, bidTitleStr;
-    private double priceDouble;
-    private LocalDateTime localdt;
-    final Calendar currentDate = Calendar.getInstance();
-    private Calendar date;
-
     private static final String LOG = PostBidActivity.class.getSimpleName();
 
 
-//    final Calendar myCalendar = Calendar.getInstance();
+    private TextView project_title;
+    private EditText price, delivery_date, bid_decsription, bid_title;
+
+    private Button post_bid;
+    private ImageButton close_bid;
+
+    private String priceStr, dateStr, bidDescriptionStr, bidTitleStr;
+    private double priceDouble;
+
+    private LocalDateTime localDateTimet;
+    private DatePickerDialog picker;
+
+
+
 
 
 
@@ -53,6 +66,7 @@ public class PostBidActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_post_bid);
+        getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN);
 
         init();
 
@@ -70,20 +84,18 @@ public class PostBidActivity extends AppCompatActivity {
             }
         });
 
+
+
         //When delivery date is selected
         delivery_date.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 
-                //todo: make sure to let the user select valid dates (not in the past!)
-//                new DatePickerDialog(PostBidActivity.this, date, myCalendar
-//                        .get(Calendar.YEAR), myCalendar.get(Calendar.MONTH),
-//                        myCalendar.get(Calendar.DAY_OF_MONTH)).show();
-
-                showDateTimePicker();
+                calendarDialog();
 
             }
         });
+
 
 
         //When post bid is pressed
@@ -92,6 +104,7 @@ public class PostBidActivity extends AppCompatActivity {
             public void onClick(View v) {
 
                 if(validInput()){
+
                     Bid bid = new Bid(bidTitleStr,bidDescriptionStr,priceDouble,null ,"pending");
 
 //                    String checkStr = bidTitleStr+" -- "+bidDescriptionStr+ " -- "+ priceStr + " -- "+" -- " + dateStr;
@@ -110,6 +123,7 @@ public class PostBidActivity extends AppCompatActivity {
     }//end onCreate()
 
     private void init() {
+
         project_title = findViewById(R.id.project_title_to_post_bid_in);
         price = findViewById(R.id.post_bid_price);
         delivery_date = findViewById(R.id.post_bid_delivery_date);
@@ -128,74 +142,27 @@ public class PostBidActivity extends AppCompatActivity {
         bidDescriptionStr = bid_decsription.getText().toString();
         bidTitleStr = bid_title.getText().toString();
 
-        priceDouble = Double.parseDouble(priceStr);
 
 
 
         if(bidTitleStr.isEmpty() || priceStr.isEmpty() || dateStr.isEmpty() || bidDescriptionStr.isEmpty()) {
-            //todo: show dialog.
-            Toast.makeText(this,"Some fields are empty", Toast.LENGTH_SHORT).show();
+//            Toast.makeText(this,"Some fields are empty", Toast.LENGTH_SHORT).show();
+            wrongInfoDialog(getString(R.string.some_fields_are_empty));
             return false;
 
-        } else
+        } else {
+
+            priceDouble = Double.parseDouble(priceStr);
             return true;
+        }
+
 
     }//end validInput()
 
-    /**
-     * src:
-     * https://stackoverflow.com/questions/14933330/datepicker-how-to-popup-datepicker-when-click-on-edittext
-     *
-     * */
-
-//    DatePickerDialog.OnDateSetListener date = new DatePickerDialog.OnDateSetListener() {
-//
-//
-//        @Override
-//        public void onDateSet(DatePicker view, int year, int monthOfYear,
-//                              int dayOfMonth) {
-//            myCalendar.set(Calendar.YEAR, year);
-//            myCalendar.set(Calendar.MONTH, monthOfYear);
-//            myCalendar.set(Calendar.DAY_OF_MONTH, dayOfMonth);
-//            updateLabel();
-//        }
-//
-//    };
-//
-//
-    //To be fixed!
-    //problem with selecting date, it only add today's date
-
-    private void updateLabel() {
-        String myFormat = "MM/dd/yy"; //In which you need put here
-        SimpleDateFormat sdf = new SimpleDateFormat(myFormat, Locale.US);
-
-        delivery_date.setText(sdf.format(date.getTime()));
-    }//End updateLabel()
-//
 
 
 
-
-
-    public void showDateTimePicker(){
-        date = Calendar.getInstance();
-
-        DatePickerDialog.OnDateSetListener dateSetListener = new DatePickerDialog.OnDateSetListener() {
-            @Override
-            public void onDateSet(DatePicker datePicker, int year, int monthOfYear, int dayOfMonth) {
-                date.set(year, monthOfYear, dayOfMonth);
-
-                //use this date as per your requirement
-            }
-        };
-        DatePickerDialog datePickerDialog = new  DatePickerDialog(PostBidActivity.this, dateSetListener, currentDate.get(Calendar.YEAR), currentDate.get(Calendar.MONTH),   currentDate.get(Calendar.DAY_OF_MONTH));
-        datePickerDialog.getDatePicker().setMinDate(System.currentTimeMillis() - 1000);
-        datePickerDialog.show();
-
-        updateLabel();
-    }
-
+    //todo: finish the method.
     private void executePostBidRequest(Bid bid){
 
         ApiClients.getAPIs().getPostBidRequest(bid).enqueue(new Callback<ApiResponse>() {
@@ -204,71 +171,171 @@ public class PostBidActivity extends AppCompatActivity {
 
 
                 if(response.isSuccessful()){
-                    Log.i(LOG, "onResponse : " + response.body().toString());
 
+                    Log.i(LOG, "onResponse: " + response.body().toString());
 
-                    Toast.makeText(PostBidActivity.this,"Your bid has been posted successfully!!",Toast.LENGTH_SHORT).show();
+//                    Toast.makeText(PostBidActivity.this,"Your bid has been posted successfully!!",Toast.LENGTH_SHORT).show();
+
+                    Dialog(getString(R.string.your_bid_has_been_posted_successfully));
                 }else {
 
-                    Toast.makeText(PostBidActivity.this,"sorry error",Toast.LENGTH_SHORT).show();
+//                    wrongInfoDialogWithTitle(getString(R.string.something_went_wrong),response.message());
+//                    Toast.makeText(PostBidActivity.this,response.toString(),Toast.LENGTH_SHORT).show();
+                    Converter<ResponseBody, ApiException> converter = ApiClients.getInstant().responseBodyConverter(ApiException.class, new Annotation[0]);
+                    ApiException exception = null;
+                    try {
+
+                        exception = converter.convert(response.errorBody());
+
+                        List<ApiError> errors = exception.getErrors();
+
+                        if (errors != null)
+                            if (!errors.isEmpty())
+                                wrongInfoDialog(errors.get(0).getMessage());
+                        wrongInfoDialog(exception.getMessage());
+
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
 
                 }
 
 
             }//end onResponse()
 
+            /**
+             * DO STH!!!
+             */
+
             @Override
             public void onFailure(Call<ApiResponse> call, Throwable t) {
-                Log.i(LOG, "onFailure : " );
+                Log.i(LOG, t.getLocalizedMessage() );
+                wrongInfoDialog("Error!");
+//                Toast.makeText(PostBidActivity.this, t.getLocalizedMessage(),Toast.LENGTH_SHORT).show();
 
             }//end onFailure()
         });
 
+
+
     }//End executePostBidRequest()
 
 
+    private void calendarDialog() {
+
+        final Calendar cldr = Calendar.getInstance();
+        int day = cldr.get(Calendar.DAY_OF_MONTH);
+        int month = cldr.get(Calendar.MONTH);
+        int year = cldr.get(Calendar.YEAR);
+        // date picker dialog
+        picker = new DatePickerDialog(this,
+                new DatePickerDialog.OnDateSetListener() {
+                    @Override
+                    public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
+
+                        int month = monthOfYear + 1;
+                        if(month <= 9)
+                        {
+                            if(dayOfMonth <= 9){
+
+                                delivery_date.setText("0"+ dayOfMonth + "-" +"0"+ month + "-" + year);
+
+                            }else
+                            {
+                                delivery_date.setText(dayOfMonth + "-" +"0"+ month + "-" + year);
+                            }
+
+
+                        }else{
+
+                            if(dayOfMonth <= 9){
+
+                                delivery_date.setText("0"+dayOfMonth + "-" + month + "-" + year);
+                            }else
+                            {
+                                delivery_date.setText(dayOfMonth + "-" + month + "-" + year);
+
+                            }
+
+                        }
 
 
 
 
+                    }
+                }, year, month, day);
+        picker.getDatePicker().setMinDate(System.currentTimeMillis() - 1000);
+        picker.show();
 
 
 
 
+    }//End calendarDialog()
+
+    private void Dialog(String msg) {
+
+        AlertDialog.Builder alertDialog = new AlertDialog.Builder(this);
+
+        // Setting Dialog Message
+        alertDialog.setMessage(msg);
+
+        //Setting Negative "ok" Button
+        alertDialog.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.dismiss();
+                finish();
+
+            }//end onClick
+        });//end setPositiveButton
+
+        alertDialog.show();
+
+    }//End of Dialog()
+
+    private void wrongInfoDialog(String msg) {
+        final AlertDialog.Builder alertDialog = new AlertDialog.Builder(this);
+
+//        alertDialog.setTitle(title);
+
+        // Setting Dialog Message
+        alertDialog.setMessage(msg);
+
+        // Setting Icon to Dialog
+//        alertDialog.setIcon(R.drawable.exclamation);
+
+        //Setting Negative "ok" Button
+        alertDialog.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.dismiss();
+            }//end onClick
+        });//end setPositiveButton
+
+        alertDialog.show();
+
+    }//End wrongInfoDialog()
 
 
+    private void wrongInfoDialogWithTitle(String title, String msg) {
+        final AlertDialog.Builder alertDialog = new AlertDialog.Builder(this);
 
+        alertDialog.setTitle(title);
 
+        // Setting Dialog Message
+        alertDialog.setMessage(msg);
 
+        // Setting Icon to Dialog
+//        alertDialog.setIcon(R.drawable.exclamation);
 
+        //Setting Negative "ok" Button
+        alertDialog.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.dismiss();
+            }//end onClick
+        });//end setPositiveButton
 
+        alertDialog.show();
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+    }//End wrongInfoDialog()
 
 
 
