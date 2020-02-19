@@ -1,37 +1,42 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:id="@+id/main_content"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@android:color/white"
-    android:fitsSystemWindows="true">
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
 
-    <androidx.appcompat.widget.Toolbar
-        android:id="@+id/toolbar"
+    <androidx.coordinatorlayout.widget.CoordinatorLayout
+        android:id="@+id/main_content"
         android:layout_width="match_parent"
-        android:layout_height="?attr/actionBarSize"
-        app:title="Search By Category"
-        app:layout_collapseMode="pin"
-        android:background="@color/colorPrimary"
-        app:popupTheme="@style/ThemeOverlay.AppCompat.Light" />
+        android:layout_height="match_parent">
 
+        <com.google.android.material.appbar.AppBarLayout
+            android:id="@+id/appbar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar">
 
-    <androidx.appcompat.widget.SearchView
-        android:id="@+id/SearchView"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="60dp"
-        android:padding="10dp" />
+            <com.google.android.material.tabs.TabLayout
+                android:id="@+id/result_tabs_search"
+                android:background="#149A8D"
+                app:tabTextColor="#9AFFFFFF"
+                app:tabSelectedTextColor="#fff"
+                app:tabIndicatorColor="#fff"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:tabMode="fixed"
+                app:tabMaxWidth="0dp"
+                app:tabGravity="fill"
+                />
+            <!--            tabMode used to be scrollable, changed to fixed. to let tabs equally fill parent layout width.-->
+        </com.google.android.material.appbar.AppBarLayout>
 
+        <androidx.viewpager.widget.ViewPager
+            android:id="@+id/viewpager_search"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            app:layout_behavior="@string/appbar_scrolling_view_behavior" />
 
-    <androidx.recyclerview.widget.RecyclerView
-        android:layout_marginTop="120dp"
-        android:id="@+id/recycler_view_search"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:clipToPadding="false"
-        android:scrollbars="vertical" />
+    </androidx.coordinatorlayout.widget.CoordinatorLayout>
 
-</androidx.coordinatorlayout.widget.CoordinatorLayout>
+</RelativeLayout>
