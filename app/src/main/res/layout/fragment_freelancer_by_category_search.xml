@@ -18,7 +18,8 @@
         android:id="@+id/SearchView_freelancer_bycategory_search"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-       />
+        android:layout_marginTop="-10dp"
+        />
 
 
     <androidx.recyclerview.widget.RecyclerView

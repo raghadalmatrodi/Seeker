@@ -18,6 +18,7 @@
 
             <com.google.android.material.tabs.TabLayout
                 android:id="@+id/result_tabs_search_freelancer"
+                android:layout_marginTop="20dp"
                 android:background="#149A8D"
                 app:tabTextColor="#9AFFFFFF"
                 app:tabSelectedTextColor="#fff"

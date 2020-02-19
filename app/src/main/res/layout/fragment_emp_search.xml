@@ -21,6 +21,7 @@
                 android:background="#149A8D"
                 app:tabTextColor="#9AFFFFFF"
                 app:tabSelectedTextColor="#fff"
+                android:layout_marginTop="20dp"
                 app:tabIndicatorColor="#fff"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
