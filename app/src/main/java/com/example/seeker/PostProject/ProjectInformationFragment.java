@@ -194,7 +194,7 @@ public class ProjectInformationFragment extends Fragment {
 
     private void createProjectWithAttachments(List<File> file)  {
         Project project = new Project("hello","hello",333,null , null , null,
-                null );
+                null ,"0");
         List<MultipartBody.Part> attachments = new ArrayList<>();
 
             file.stream().forEach(file1 -> {

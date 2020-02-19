@@ -1,7 +1,5 @@
 package com.example.seeker.PostProject;
 
-import android.content.Context;
-import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -11,7 +9,6 @@ import android.widget.ImageView;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.DefaultItemAnimator;
 import androidx.recyclerview.widget.DividerItemDecoration;
-import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -71,13 +68,13 @@ public class ProjectCategoryFragment extends Fragment implements CategoryAdapter
 
     public interface CategoryListener{
 
-       void onCategoryTypeItemSelected(String categoryName);
+       void onCategoryTypeItemSelected(Category category);
     }//End of interface
 
     @Override
-    public void onCategoryItemClick(String categoryName) {
+    public void onCategoryItemClick(Category category) {
 
-        categoryListener.onCategoryTypeItemSelected(categoryName);
+        categoryListener.onCategoryTypeItemSelected(category);
 
     }
 
