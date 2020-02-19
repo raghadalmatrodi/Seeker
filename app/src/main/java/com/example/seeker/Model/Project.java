@@ -13,7 +13,15 @@ public class Project  {
     private String expiry_date;
     private String deadline;
 
-    public Project(String title, String description, double budget, String type, String payment_type, String  expiry_date, String deadline) {
+    private String status;
+    // 0 -> pending
+    //1 -> inProgress
+    //2 -> completed
+
+
+    private Category category;
+
+    public Project(String title, String description, double budget, String type, String payment_type, String  expiry_date, String deadline,  String status) {
         this.title = title;
         this.description = description;
         this.budget = budget;
@@ -21,6 +29,8 @@ public class Project  {
         this.payment_type = payment_type;
         this.expiry_date = expiry_date;
         this.deadline = deadline;
+//        this.category = category;
+        this.status = status;
     }
 
 
@@ -79,17 +89,33 @@ public class Project  {
     public void setDeadline(String deadline) {
         this.deadline = deadline;
     }
+//    public Category getCategory() {
+//        return category;
+//    }
+//
+//    public void setCategory(Category category) {
+//        this.category = category;
+//    }
+
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
+    }
 
     @Override
     public String toString() {
-        return
-                "\n" + "Title: " + title + "\n" + "\n" +
-                        "Description: " + description + "\n" + "\n" +
-                        "Budget: " + budget + "\n" + "\n" +
-                        "Type: " + type + "\n" + "\n" +
-                        "Payment type: " + payment_type + "\n" + "\n" +
-                        "Expiry date: " + expiry_date + "\n" + "\n" +
-                        "Deadline: " + deadline;
+        return "Project{" +
+                "title='" + title + '\'' +
+                ", description='" + description + '\'' +
+                ", budget=" + budget +
+                ", type='" + type + '\'' +
+                ", payment_type='" + payment_type + '\'' +
+                ", expiry_date='" + expiry_date + '\'' +
+                ", deadline='" + deadline + '\'' +
+                ", status='" + status + '\'' +
+                '}';
     }
-
 }//End of project

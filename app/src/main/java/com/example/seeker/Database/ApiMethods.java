@@ -4,6 +4,7 @@ import com.example.seeker.Model.Bid;
 import com.example.seeker.Model.Login;
 import com.example.seeker.Model.Project;
 import com.example.seeker.Model.Responses.ApiResponse;
+import com.example.seeker.Model.Responses.ProjectResponse;
 import com.example.seeker.Model.User;
 
 import java.util.List;
@@ -12,6 +13,8 @@ import okhttp3.MultipartBody;
 import okhttp3.RequestBody;
 import retrofit2.Call;
 import retrofit2.http.Body;
+import retrofit2.http.Field;
+import retrofit2.http.GET;
 import retrofit2.http.Multipart;
 import retrofit2.http.POST;
 import retrofit2.http.Part;
@@ -27,6 +30,7 @@ public interface ApiMethods {
         String POST_PROJECT = "project/post";
         String POST_PROJECT_WITH_ATTACHMENTS = "project/with-attachments";
         String POST_BID = "bid/post";
+        String GET_PROJECT = "project/status";
 
     }//End of Methods interface
 
@@ -50,6 +54,13 @@ public interface ApiMethods {
     //todo: step 1 - post bid
     @POST(Methods.POST_BID)
     Call<ApiResponse> getPostBidRequest(@Body Bid bid);
+
+    @Multipart
+    @POST(Methods.GET_PROJECT)
+    Call<ApiResponse> getProjectByStatus(@Part("status") String status);
+
+
+
 
 
 
