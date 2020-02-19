@@ -11,6 +11,7 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 
 import com.example.seeker.EmployerMainPages.MyProjectsTab_Emp.Emp_MyProjectsFragment;
+import com.example.seeker.EmployerMainPages.SearchTab.Emp_SearchFragment;
 import com.example.seeker.R;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 

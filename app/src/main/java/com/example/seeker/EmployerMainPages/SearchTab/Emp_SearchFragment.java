@@ -1,4 +1,4 @@
-package com.example.seeker.EmployerMainPages;
+package com.example.seeker.EmployerMainPages.SearchTab;
 
 import android.content.res.Resources;
 import android.graphics.Rect;
@@ -44,7 +44,6 @@ public class Emp_SearchFragment extends Fragment {
         categorySearchSearchList = new ArrayList<>();
         adapter = new CategorySearchAdapter(getActivity(), categorySearchSearchList);
 
-//       RecyclerView.LayoutManager mLayoutManager = new GridLayoutManager(getActivity(), 2);
         recyclerView.setLayoutManager(new GridLayoutManager(getActivity(), 2));
         recyclerView.addItemDecoration(new GridSpacingItemDecoration(2, dpToPx(10), true));
         recyclerView.setItemAnimator(new DefaultItemAnimator());
@@ -63,33 +62,27 @@ public class Emp_SearchFragment extends Fragment {
      */
     private void prepareCategories() {
         int[] covers = new int[]{
-                R.drawable.clock,
-                R.drawable.clock,
-                R.drawable.clock,
-                R.drawable.clock,
-                R.drawable.clock,
-                R.drawable.clock,
-                R.drawable.clock,
-                R.drawable.clock};
+                R.drawable.wesite_and_it,
+                R.drawable.mobile,
+                R.drawable.writing,
+                R.drawable.art_and_design,
+                R.drawable.data_entry,
+                R.drawable.music_and_audio};
 
-        CategorySearch a = new CategorySearch("True Romance", covers[0]);
+        CategorySearch a = new CategorySearch("Website & IT", covers[0]);
         categorySearchSearchList.add(a);
 
-        a = new CategorySearch("Xscpae", covers[1]);
+        a = new CategorySearch("Mobile", covers[1]);
         categorySearchSearchList.add(a);
 
-        a = new CategorySearch("Xscpae", covers[2]);
+        a = new CategorySearch("Writing", covers[2]);
         categorySearchSearchList.add(a);
-        a = new CategorySearch("Xscpae", covers[3]);
+        a = new CategorySearch("Art & Design", covers[3]);
         categorySearchSearchList.add(a);
 
-        a = new CategorySearch("Xscpae", covers[4]);
+        a = new CategorySearch("Data Entry", covers[4]);
         categorySearchSearchList.add(a);
-        a = new CategorySearch("Xscpae", covers[5]);
-        categorySearchSearchList.add(a);
-        a = new CategorySearch("Xscpae", covers[6]);
-        categorySearchSearchList.add(a);
-        a = new CategorySearch("Xscpae", covers[7]);
+        a = new CategorySearch("Music & Audio", covers[5]);
         categorySearchSearchList.add(a);
 
 
