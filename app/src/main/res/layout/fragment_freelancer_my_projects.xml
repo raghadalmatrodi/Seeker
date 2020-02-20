@@ -24,7 +24,11 @@
                 app:tabIndicatorColor="#fff"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                app:tabMode="scrollable" />
+                app:tabMaxWidth="0dp"
+                app:tabGravity="fill"
+                app:tabMode="fixed"
+                />
+<!--            tabMode used to be scrollable, changed to fixed. to let tabs equally fill parent layout width.-->
         </com.google.android.material.appbar.AppBarLayout>
 
         <androidx.viewpager.widget.ViewPager

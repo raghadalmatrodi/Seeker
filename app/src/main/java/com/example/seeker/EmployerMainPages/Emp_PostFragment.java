@@ -12,6 +12,7 @@ import androidx.fragment.app.Fragment;
 import androidx.viewpager.widget.ViewPager;
 
 import com.example.seeker.Database.ApiClients;
+import com.example.seeker.Model.Category;
 import com.example.seeker.Model.Exception.ApiError;
 import com.example.seeker.Model.Exception.ApiException;
 import com.example.seeker.Model.Project;
@@ -52,8 +53,9 @@ public class Emp_PostFragment extends Fragment implements ProjectTypeFragment.Pr
     private static final String LOG = Emp_PostFragment.class.getSimpleName();
 
 
-    private String projectType,projectCategory, paymentType, title,description, budget;
-    private LocalDateTime deadlineLocalDateTime;
+    private String projectType, paymentType, title,description, budget;
+    private Category category;
+    private String deadlineLocalDateTime, expiryLocalDateTime;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -96,8 +98,8 @@ public class Emp_PostFragment extends Fragment implements ProjectTypeFragment.Pr
         viewPager.setCurrentItem(1);
     }
     @Override
-    public void onCategoryTypeItemSelected(String projectCategory) {
-        this.projectCategory = projectCategory;
+    public void onCategoryTypeItemSelected(Category category) {
+        this.category = category;
         viewPager.setCurrentItem(2);
     }
     @Override
@@ -108,12 +110,13 @@ public class Emp_PostFragment extends Fragment implements ProjectTypeFragment.Pr
     }
 
     @Override
-    public void onPostProjectItemSelected(String title, String description, String budget, LocalDateTime deadlineLocalDateTime) {
+    public void onPostProjectItemSelected(String title, String description, String budget, String deadlineLocalDateTime, String expiryLocalDateTime) {
 
         this.title = title;
         this.description = description;
         this.budget = budget;
         this.deadlineLocalDateTime = deadlineLocalDateTime;
+        this.expiryLocalDateTime = expiryLocalDateTime;
 
 
         postProjectValidation();
@@ -123,7 +126,7 @@ public class Emp_PostFragment extends Fragment implements ProjectTypeFragment.Pr
 
     private void postProjectValidation() {
 
-        if(projectType.isEmpty() || projectCategory.isEmpty() || paymentType.isEmpty() || title.isEmpty() || budget.isEmpty()){
+        if(projectType.isEmpty() || (category == null) || paymentType.isEmpty() || title.isEmpty() || budget.isEmpty()){
 
             wrongInfoDialog("Missing Information");
         }
@@ -131,7 +134,9 @@ public class Emp_PostFragment extends Fragment implements ProjectTypeFragment.Pr
 
             double budgetValue = Double.parseDouble(budget);
 
-            Project project = new Project(title, description, budgetValue,projectType,paymentType,null ,null);
+
+
+            Project project = new Project(title, description, budgetValue,projectType,paymentType,expiryLocalDateTime ,deadlineLocalDateTime,  "0");
 
             Dialog(project.toString(), project);
 

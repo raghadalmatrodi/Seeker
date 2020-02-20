@@ -9,6 +9,15 @@
 
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="place_a_bid_on">Place a bid on</string>
+    <string name="price">Price: </string>
+    <string name="delivery_date">Delivery Date:</string>
+    <string name="describe_your_bid">Describe your Bid:</string>
+    <string name="post_a_bid">POST A BID</string>
+    <string name="bid_title">Bid Title:</string>
+    <string name="some_fields_are_empty">Some fields are empty..</string>
+    <string name="your_bid_has_been_posted_successfully">Your bid has been posted successfully!</string>
+    <string name="something_went_wrong">Something went wrong..</string>
     <string name="edit_your_account">Edit your account</string>
     <string name="switch_to_freelancer">Switch to <b>Freelancer</b></string>
     <string name="notifications">Notifications</string>

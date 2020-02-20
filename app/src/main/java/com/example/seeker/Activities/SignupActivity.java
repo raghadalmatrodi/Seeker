@@ -138,7 +138,7 @@ private static final String LOG= SignupActivity.class.getSimpleName();
                         if(errors != null)
                        if(!errors.isEmpty())
                            wrongInfoDialog(errors.get(0).getMessage());
-                       // Dialog(exception.getMessage());
+                        Dialog(exception.getMessage());
 
                     } catch (IOException e) {
                         e.printStackTrace();

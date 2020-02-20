@@ -43,7 +43,7 @@ public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.MyView
                 public void onClick(View v) {
 
 
-                    listener.onCategoryItemClick(categoryList.get(getAdapterPosition()).getTitle());
+                    listener.onCategoryItemClick(categoryList.get(getAdapterPosition()));
 
                 }
             });
@@ -54,13 +54,13 @@ public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.MyView
     }//Enf of class MyViewHolder
 
     public interface CategoryAdapterListener {
-        void onCategoryItemClick(String categoryName);
+        void onCategoryItemClick(Category category);
     }
 
     public CategoryAdapter(List<Category> categoryList) {
 
         this.categoryList = categoryList;
-    }//End of CategoryAdapter()
+    }//End of CategorySearchAdapter()
 
     @Override
     public CategoryAdapter.MyViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {

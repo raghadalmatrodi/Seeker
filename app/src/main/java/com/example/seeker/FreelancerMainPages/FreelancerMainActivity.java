@@ -12,6 +12,7 @@ import androidx.fragment.app.FragmentTransaction;
 
 import com.example.seeker.EmployerMainPages.Emp_MessagesFragment;
 import com.example.seeker.FreelancerMainPages.MyProjectsTab_Freelancer.Freelancer_MyProjectsFragment;
+import com.example.seeker.FreelancerMainPages.SearchTab_Freelancer.Freelancer_SearchFragment;
 import com.example.seeker.R;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 

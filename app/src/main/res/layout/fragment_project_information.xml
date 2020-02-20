@@ -1,6 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical" android:layout_width="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
     android:layout_height="match_parent">
 
     <LinearLayout
@@ -58,16 +60,19 @@
 
         <com.google.android.material.textfield.TextInputLayout
             android:layout_width="350dp"
-            android:layout_height="100dp"
+            android:layout_height="174dp"
             android:layout_marginLeft="25dp"
-            android:layout_marginTop="20dp">
+            android:layout_marginTop="20dp"
+            app:counterEnabled="true"
+            app:counterMaxLength="500">
 
             <EditText
                 android:id="@+id/project_description"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
+                android:layout_height="127dp"
                 android:gravity="top"
-
+                android:scrollbars="vertical"
+                android:maxLength="500"
                 android:hint="Descreption">
 
 
@@ -75,11 +80,24 @@
 
         </com.google.android.material.textfield.TextInputLayout>
 
+        <TextView
+            android:layout_width="331dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+
+            android:id="@+id/display_attach1"
+            ></TextView>
+
         <LinearLayout
             android:layout_width="331dp"
-            android:layout_height="70dp"
+            android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:orientation="horizontal">
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/attach_file">
 
             <ImageView
 
@@ -98,6 +116,8 @@
                 android:text="Attach File"
                 android:textColor="@color/colorPrimary"
                 android:textSize="17sp" />
+
+            </LinearLayout>
 
             <TextView
                 android:layout_width="wrap_content"
@@ -120,7 +140,7 @@
                 android:id="@+id/project_budget"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-
+                android:inputType="number"
                 android:hint="Budget">
 
 
@@ -129,25 +149,38 @@
         </com.google.android.material.textfield.TextInputLayout>
 
 
-        <com.google.android.material.textfield.TextInputLayout
-
-            android:layout_width="350dp"
+        <TextView
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginStart="25dp"
+            android:layout_marginTop="10dp"
+            android:text="Approximated deadline"
+            android:textColor="@color/colorPrimary"
+            android:textSize="15sp"
+            />
+
+        <TextView
+
+            android:id="@+id/project_deadline"
+            android:layout_width="350dp"
+            android:layout_height="40dp"
+            android:layout_gravity="bottom"
             android:layout_marginLeft="25dp"
-            android:layout_marginTop="10dp">
-
-            <EditText
-
-                android:id="@+id/project_deadline"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-
-                android:hint="Approximated deadline ">
+            android:gravity="bottom"
+            android:textColor="#000"
 
 
-            </EditText>
+            android:textSize="19sp">
 
-        </com.google.android.material.textfield.TextInputLayout>
+        </TextView>
+
+        <View
+            android:layout_width="350dp"
+            android:layout_gravity="center"
+            android:layout_height="1dp"
+            android:background="#FA929191" />
+
+
 
         <TextView
             android:layout_width="wrap_content"

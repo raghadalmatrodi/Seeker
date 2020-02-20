@@ -6,10 +6,10 @@ public class Bid {
     private String title;
     private String description;
     private double price;
-    private LocalDateTime deliver_date;
+    private String deliver_date;
     private String status;
 
-    public Bid(String title, String description, double price, LocalDateTime deliver_date, String status) {
+    public Bid(String title, String description, double price, String deliver_date, String status) {
         this.title = title;
         this.description = description;
         this.price = price;
@@ -41,11 +41,11 @@ public class Bid {
         this.price = price;
     }
 
-    public LocalDateTime getDeliver_date() {
+    public String getDeliver_date() {
         return deliver_date;
     }
 
-    public void setDeliver_date(LocalDateTime deliver_date) {
+    public void setDeliver_date(String deliver_date) {
         this.deliver_date = deliver_date;
     }
 
