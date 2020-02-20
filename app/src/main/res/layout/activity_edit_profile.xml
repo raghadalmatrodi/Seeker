@@ -1,0 +1,408 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    android:orientation="vertical"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".EmployerMainPages.AccountRelatedActivities.EditProfileActivity">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="171dp"
+        android:orientation="horizontal">
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:orientation="vertical">
+
+            <ImageView
+                android:id="@+id/edit_profile_pic"
+                android:layout_width="105dp"
+                android:layout_height="108dp"
+                android:layout_margin="20dp"
+                android:src="@drawable/meeting" />
+
+            <TextView
+                android:id="@+id/edit_profile_name"
+                android:layout_width="78dp"
+                android:layout_height="wrap_content"
+                android:text="faisal"
+                android:layout_marginStart="20dp"
+                android:textColor="#000"
+                android:gravity="center_horizontal"
+                android:textSize="17sp"
+
+                />
+
+        </LinearLayout>
+
+        <TextView
+            android:layout_width="51dp"
+            android:layout_height="50dp"
+            android:layout_marginStart="200sp"
+            android:background="@drawable/circle_shape"
+            android:gravity="center"
+            android:text="90%"
+            android:textColor="#000"
+            android:textSize="20sp"
+            android:layout_marginTop="20sp"
+            android:layout_marginRight="500dp"
+            />
+
+
+
+    </LinearLayout>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="... as freelancer"
+        android:paddingStart="15dp"
+        android:textColor="#000"
+        android:textSize="20sp"
+        android:layout_marginTop="12dp"
+        />
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="110dp">
+
+
+
+        <LinearLayout
+            android:layout_width="125dp"
+            android:layout_height="match_parent"
+            android:layout_gravity="center_horizontal"
+            android:orientation="vertical">
+
+
+
+
+            <TextView
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+
+                android:layout_marginTop="20dp"
+                android:layout_marginRight="500dp"
+                android:layout_marginLeft="43dp"
+                android:background="@drawable/circle_shape"
+                android:gravity="center"
+                android:text="90%"
+                android:textColor="#000"
+                android:textSize="15sp" />
+
+            <TextView
+                android:layout_width="113dp"
+                android:layout_height="37dp"
+                android:layout_marginLeft="12dp"
+                android:gravity="center"
+                android:text="Number of      worked on projects"
+                android:textColor="#000"
+                android:textSize="12sp" />
+
+        </LinearLayout>
+
+
+        <LinearLayout
+            android:layout_width="125dp"
+            android:layout_height="match_parent"
+            android:layout_gravity="center_horizontal"
+            android:orientation="vertical">
+
+
+
+
+            <TextView
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+
+                android:layout_marginTop="20dp"
+                android:layout_marginRight="500dp"
+                android:layout_marginLeft="43dp"
+                android:background="@drawable/circle_shape"
+                android:gravity="center"
+                android:text="90%"
+                android:textColor="#000"
+                android:textSize="15sp" />
+
+            <TextView
+                android:layout_width="113dp"
+                android:layout_height="37dp"
+                android:layout_marginLeft="12dp"
+                android:gravity="center"
+                android:text="Average           response time"
+                android:textColor="#000"
+                android:textSize="12sp" />
+
+        </LinearLayout>
+
+
+        <LinearLayout
+            android:layout_width="125dp"
+            android:layout_height="match_parent"
+            android:layout_gravity="center_horizontal"
+            android:orientation="vertical">
+
+
+
+
+            <TextView
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+
+                android:layout_marginTop="20dp"
+                android:layout_marginRight="500dp"
+                android:layout_marginLeft="43dp"
+                android:background="@drawable/circle_shape"
+                android:gravity="center"
+                android:text="90%"
+                android:textColor="#000"
+                android:textSize="15sp" />
+
+            <TextView
+                android:layout_width="113dp"
+                android:layout_height="37dp"
+                android:layout_marginLeft="12dp"
+                android:gravity="center"
+                android:text="Average                quality of time"
+                android:textColor="#000"
+                android:textSize="12sp" />
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingStart="15dp"
+        android:text="... as employer"
+        android:textColor="#000"
+        android:textSize="20sp"
+        android:layout_marginTop="12dp"
+        />
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="110dp">
+
+        <LinearLayout
+            android:layout_width="125dp"
+            android:layout_height="match_parent"
+            android:layout_gravity="center_horizontal"
+            android:orientation="vertical">
+
+
+
+
+            <TextView
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+
+                android:layout_marginTop="20dp"
+                android:layout_marginRight="500dp"
+                android:layout_marginLeft="43dp"
+                android:background="@drawable/circle_shape"
+                android:gravity="center"
+                android:text="90%"
+                android:textColor="#000"
+                android:textSize="15sp" />
+
+            <TextView
+                android:layout_width="113dp"
+                android:layout_height="37dp"
+                android:layout_marginLeft="12dp"
+                android:gravity="center"
+                android:text="Number of       posted projects"
+                android:textColor="#000"
+                android:textSize="12sp" />
+
+        </LinearLayout>
+
+
+        <LinearLayout
+            android:layout_width="125dp"
+            android:layout_height="match_parent"
+            android:layout_gravity="center_horizontal"
+            android:orientation="vertical">
+
+
+
+            <TextView
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+
+                android:layout_marginTop="20dp"
+                android:layout_marginRight="500dp"
+                android:layout_marginLeft="43dp"
+                android:background="@drawable/circle_shape"
+                android:gravity="center"
+                android:text="90%"
+                android:textColor="#000"
+                android:textSize="15sp" />
+
+            <TextView
+                android:layout_width="113dp"
+                android:layout_height="37dp"
+                android:layout_marginLeft="12dp"
+                android:gravity="center"
+                android:text="Average           response time"
+                android:textColor="#000"
+                android:textSize="12sp" />
+
+        </LinearLayout>
+
+
+        <LinearLayout
+            android:layout_width="125dp"
+            android:layout_height="match_parent"
+            android:layout_gravity="center_horizontal"
+            android:orientation="vertical">
+
+
+
+            <TextView
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+
+                android:layout_marginTop="20dp"
+                android:layout_marginRight="500dp"
+                android:layout_marginLeft="43dp"
+                android:background="@drawable/circle_shape"
+                android:gravity="center"
+                android:text="90%"
+                android:textColor="#000"
+                android:textSize="15sp" />
+
+            <TextView
+                android:layout_width="113dp"
+                android:layout_height="37dp"
+                android:layout_marginLeft="12dp"
+                android:gravity="center"
+                android:text="Average                  on-time payments"
+                android:textColor="#000"
+                android:textSize="12sp" />
+
+        </LinearLayout>
+
+          </LinearLayout>
+
+
+    <LinearLayout
+        android:layout_width="400dp"
+        android:layout_height="128dp"
+        android:layout_marginRight="102dp"
+        android:orientation="horizontal">
+
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/education_cl"
+            android:layout_width="206dp"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/education_text"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="20dp"
+                android:text="Eduction:"
+                android:textColor="#000"
+                app:layout_constraintTop_toTopOf="@id/education_cl"
+                app:layout_constraintStart_toStartOf="@id/education_cl"
+                android:textSize="20sp"
+                android:textStyle="bold" />
+            <ImageView
+                android:id="@+id/edit_img"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/editt"
+                app:layout_constraintStart_toEndOf="@id/education_text"
+                app:layout_constraintTop_toTopOf="@id/education_cl"
+                app:layout_constraintEnd_toEndOf="@id/education_cl"
+
+                />
+
+
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:layout_constraintTop_toBottomOf="@id/education_text"
+                app:layout_constraintStart_toStartOf="@id/education_text"
+                android:text="Bachelor's degree in Computer Scince"
+                android:textColor="#000"
+                android:textSize="20sp"
+                android:textStyle="bold" />
+
+<!--            -->
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/social_media_cl"
+            android:layout_width="192dp"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/social_media_text"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:layout_constraintStart_toStartOf="@id/social_media_cl"
+                app:layout_constraintTop_toTopOf="@id/social_media_cl"
+                android:layout_marginLeft="20dp"
+                android:text="Eduction:"
+                android:textColor="#000"
+                android:textSize="20sp"
+                android:textStyle="bold" />
+
+
+<!--            <TextView-->
+<!--                android:id=""-->
+<!--                android:layout_width="wrap_content"-->
+<!--                android:layout_height="103dp"-->
+<!--                android:layout_marginStart="20dp"-->
+<!--                android:layout_marginTop="25dp"-->
+<!--                android:text="Bachelor's degree in Computer Scince"-->
+<!--                android:textColor="#000"-->
+<!--                android:textSize="20sp"-->
+<!--                android:textStyle="bold" />-->
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+    </LinearLayout>
+
+
+    <LinearLayout
+        android:layout_width="401dp"
+        android:layout_height="match_parent"
+        android:layout_marginRight="102dp"
+        android:orientation="vertical">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="18dp"
+            android:text="Samples of previous work:"
+            android:textColor="#000"
+            android:textSize="20sp"
+            android:textStyle="bold"/>
+
+
+    </LinearLayout>
+
+</LinearLayout>
+
+
+
+
+
+
+
+
+
+

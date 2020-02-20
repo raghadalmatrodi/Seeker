@@ -2,8 +2,6 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.example.seeker">
 
-    <uses-permission android:name="android.permission.INTERNET" />
-
     <application
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
@@ -11,7 +9,8 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".PostBid.PostBidActivity"></activity>
+        <activity android:name=".EmployerMainPages.AccountRelatedActivities.EditProfileActivity"></activity>
+        <activity android:name=".EmployerMainPages.AccountRelatedActivities.NotificationsActivity" />
         <activity android:name=".Activities.SplashActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -19,11 +18,12 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".Activities.SignupActivity"></activity>
-        <activity android:name=".Activities.LoginActivity"></activity>
-        <activity android:name=".EmployerMainPages.EmployerMainActivity"></activity>
-        <activity android:name=".FreelancerMainPages.FreelancerMainActivity"></activity>
-
+        <activity android:name=".Activities.SignupActivity" />
+        <activity android:name=".Activities.LoginActivity" />
+        <activity android:name=".PostProject.PostProjectActivity" />
+        <activity android:name=".EmployerMainPages.EmployerMainActivity" />
     </application>
+
+    <uses-permission android:name="android.permission.INTERNET" />
 
 </manifest>

@@ -9,4 +9,12 @@
 
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="edit_your_account">Edit your account</string>
+    <string name="switch_to_freelancer">Switch to <b>Freelancer</b></string>
+    <string name="notifications">Notifications</string>
+    <string name="payments">Payments</string>
+    <string name="settings">Settings</string>
+    <string name="privacy_policy">Privacy Policy</string>
+    <string name="profile_terms_and_conditions">Terms and Conditions</string>
+    <string name="contact_support">Contact Support</string>
 </resources>
