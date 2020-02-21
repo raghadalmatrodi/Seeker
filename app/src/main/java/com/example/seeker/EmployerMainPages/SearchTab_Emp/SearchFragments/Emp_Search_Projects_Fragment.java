@@ -92,9 +92,6 @@ public class Emp_Search_Projects_Fragment extends Fragment {
         adapter.notifyDataSetChanged();
     }
 
-/**
- * RecyclerView item decoration - give equal margin around grid item
- */
 public class GridSpacingItemDecoration extends RecyclerView.ItemDecoration {
 
     private int spanCount;
@@ -130,9 +127,6 @@ public class GridSpacingItemDecoration extends RecyclerView.ItemDecoration {
     }
 }
 
-    /**
-     * Converting dp to pixel
-     */
     private int dpToPx(int dp) {
         Resources r = getResources();
         return Math.round(TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, dp, r.getDisplayMetrics()));
