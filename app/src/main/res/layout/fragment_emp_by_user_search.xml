@@ -12,9 +12,6 @@
     android:fitsSystemWindows="true">
 
 
-
-
-
     <androidx.appcompat.widget.SearchView
         android:id="@+id/SearchView_emp_byuser_search"
         android:layout_width="wrap_content"
