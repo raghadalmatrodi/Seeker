@@ -1,5 +1,6 @@
 package com.example.seeker.PostProject;
 
+import android.content.Context;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -87,7 +88,7 @@ public class ProjectCategoryFragment extends Fragment implements CategoryAdapter
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
-        categoryListener = (CategoryListener) getActivity();
+       // categoryListener = (CategoryListener) getActivity();
     }
 
     public interface BackCategoryListener{
