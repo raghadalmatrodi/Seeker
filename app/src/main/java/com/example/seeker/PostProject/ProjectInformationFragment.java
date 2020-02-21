@@ -1,9 +1,13 @@
 package com.example.seeker.PostProject;
 
+import android.app.AlertDialog;
 import android.app.DatePickerDialog;
 import android.content.DialogInterface;
+import android.content.res.Resources;
+import android.graphics.Rect;
 import android.os.Bundle;
 import android.util.Log;
+import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,6 +20,9 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.DefaultItemAnimator;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.seeker.Database.ApiClients;
 import com.example.seeker.Model.Project;
@@ -60,7 +67,7 @@ public class ProjectInformationFragment extends Fragment {
 
     private ImageView addSkillBtn;
     private ImageView addFileBtn;
-    private TextView attach1;
+
     private Button postBtn;
     private ImageView backBtn;
     private LinearLayout attachFile;
@@ -75,48 +82,74 @@ public class ProjectInformationFragment extends Fragment {
     private LocalDateTime expiryLocalDateTime;
     private String timeString;
     private String expiryDate;
+    int i=0;
 
 
 
+    private RecyclerView recyclerView;
+    private AttachmentAdapter adapter;
+    List<File> files;
 
 
 
 
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         view = inflater.inflate(R.layout.fragment_project_information, container, false);
-
         init();
+
+      files = new ArrayList<>(3);
+        recyclerView =  view.findViewById(R.id.attachment_recycle_view);
+        adapter = new AttachmentAdapter(getContext(), files);
+
+        LinearLayoutManager mLayoutManager = new LinearLayoutManager(getActivity(), RecyclerView.VERTICAL,false);
+        mLayoutManager.setStackFromEnd(false);
+        recyclerView.setLayoutManager(mLayoutManager);
+
+        recyclerView.addItemDecoration(new ProjectInformationFragment.VerticalSpaceItemDecoration(30));
+
+
+        recyclerView.setItemAnimator(new DefaultItemAnimator());
+
+        recyclerView.setAdapter(adapter);
 
 
         attachFile = view.findViewById(R.id.attach_file);
         attachFile.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                new ChooserDialog(view.getContext())
-                        .withStartFile("")
-                        .withChosenListener(new ChooserDialog.Result() {
-                            @Override
-                            public void onChoosePath(String path, File pathFile) {
-                                Toast.makeText(view.getContext(), "FILE: " + path, Toast.LENGTH_SHORT).show();
-                                attach1 = view.findViewById(R.id.display_attach1);
-                            //    attach1.setText(pathFile.getName());
+                ChooserDialog chooserDialog = new ChooserDialog(view.getContext());
+                chooserDialog.withStartFile("");
+                chooserDialog.withChosenListener(new ChooserDialog.Result() {
+                    @Override
+                    public void onChoosePath(String path, File pathFile) {
 
-                                //هنا الزبده
-                                // لاتشيلين ذا الكومنت ياريما
-//                                createProjectWithAttachments(Arrays.asList(pathFile));
-                            }
-                        })
-                        // to handle the back key pressed or clicked outside the dialog:
-                        .withOnCancelListener(new DialogInterface.OnCancelListener() {
-                            public void onCancel(DialogInterface dialog) {
-                                Log.d("CANCEL", "CANCEL");
-                                dialog.cancel(); // MUST have
-                            }
-                        })
-                        .build()
-                        .show();
+                       if(adapter.getItemCount() == 4){
+
+                           showDialog("The maximum number of attachments is 4");
+                       }else {
+
+                           files.add(pathFile);
+
+                           adapter.notifyDataSetChanged();
+                       }
+                        //هنا الزبده
+                        // لاتشيلين ذا الكومنت ياريما
+
+
+                    }
+                });
+                chooserDialog.withOnCancelListener(new DialogInterface.OnCancelListener() {
+                    public void onCancel(DialogInterface dialog) {
+                        Log.d("CANCEL", "CANCEL");
+                        dialog.cancel(); // MUST have
+                    }
+                });
+                chooserDialog.build();
+                chooserDialog.show();// to handle the back key pressed or clicked outside the dialog:
+
             }
         });
+
 
 
         deadlineDateText.setOnClickListener(new View.OnClickListener() {
@@ -160,8 +193,24 @@ public class ProjectInformationFragment extends Fragment {
 
                     Log.i("PROJECT", deadlineLocalDateTime.toString());
 
-                    projectInformationListener.onPostProjectItemSelected(title,description,budget,deadlineLocalDateTime.toString(),expiryLocalDateTime.toString());
-                    Log.i("PROJECT", deadlineLocalDateTime.toString());
+                    Log.i("FILES", files.toString());
+
+
+                    if(files.isEmpty()){
+                        projectInformationListener.onPostProjectItemSelected(title,description,budget,deadlineLocalDateTime.toString(),expiryLocalDateTime.toString());
+                        Log.i("PROJECT", deadlineLocalDateTime.toString());
+                    }else{
+
+                        //TODO CREATE THE OBJECT
+                      //  Double budgetToSave =  Double.parseDouble(budget);
+                   // Project project = new Project(title, description, budgetToSave,projectType,paymentType,expiryLocalDateTime ,deadlineLocalDateTime,  "0");
+                        projectInformationListener.onPostProjectItemSelectedWithAttachments(title,description,budget,deadlineLocalDateTime.toString(),expiryLocalDateTime.toString() ,files);
+
+                       // Project projectToSave = new Project(title , description , budgetToSave ,deadlineLocalDateTime.toString(), expiryLocalDateTime.toString());
+                     //   createProjectWithAttachments(files);
+
+                    }
+
 
 
                 }
@@ -180,6 +229,7 @@ public class ProjectInformationFragment extends Fragment {
         return view;
     }//End of onCreateView()
 
+
     private String setExpiryDate() {
 
         LocalDate today = LocalDate.parse(expiryDate);
@@ -193,8 +243,8 @@ public class ProjectInformationFragment extends Fragment {
     }
 
     private void createProjectWithAttachments(List<File> file)  {
-        Project project = new Project("hello","hello",333,null , null , null,
-                null ,"0");
+        Project project = new Project("ne111w","new11",333,null , null , null,
+                null ,null);
         List<MultipartBody.Part> attachments = new ArrayList<>();
 
             file.stream().forEach(file1 -> {
@@ -345,12 +395,35 @@ public class ProjectInformationFragment extends Fragment {
     public interface ProjectInformationListener{
 
          void onPostProjectItemSelected(String title, String description, String budget, String deadlineLocalDateTime, String expiryLocalDateTime);
+         void onPostProjectItemSelectedWithAttachments(String title, String description, String budget, String deadlineLocalDateTime, String expiryLocalDateTime , List<File> files );
 
     }//End of interface
 
     public interface BackInformationListener{
         void onBackInfoClick();
     }
+
+
+    public void showDialog(final String msg ) {
+        final AlertDialog alertDialog = new AlertDialog.Builder(getContext()).create();
+        // alertDialog.getWindow().setBackgroundDrawable(mContext.getResources().getDrawable(R.drawable.dialogbackground));
+        alertDialog.setMessage(msg);
+        alertDialog.setIcon(R.mipmap.ic_launcher);
+
+        alertDialog.setButton(AlertDialog.BUTTON_POSITIVE, "Ok",
+                new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        alertDialog.dismiss();
+
+
+                    }//End onClick()
+                });//End BUTTON_POSITIVE
+
+
+        alertDialog.show();
+
+    }//end showDialog
 
 //        @Override
 //    public void onAttach(Context context) {
@@ -359,6 +432,64 @@ public class ProjectInformationFragment extends Fragment {
 //    }
 
 
+    public class GridSpacingItemDecoration extends RecyclerView.ItemDecoration {
+
+        private int spanCount;
+        private int spacing;
+        private boolean includeEdge;
+
+        public GridSpacingItemDecoration(int spanCount, int spacing, boolean includeEdge) {
+            this.spanCount = spanCount;
+            this.spacing = spacing;
+            this.includeEdge = includeEdge;
+        }
+
+        @Override
+        public void getItemOffsets(Rect outRect, View view, RecyclerView parent, RecyclerView.State state) {
+            int position = parent.getChildAdapterPosition(view); // item position
+            int column = position % spanCount; // item column
+
+            if (includeEdge) {
+                outRect.left = spacing - column * spacing / spanCount; // spacing - column * ((1f / spanCount) * spacing)
+                outRect.right = (column + 1) * spacing / spanCount; // (column + 1) * ((1f / spanCount) * spacing)
+
+                if (position < spanCount) { // top edge
+                    outRect.top = spacing;
+                }
+                outRect.bottom = spacing; // item bottom
+            } else {
+                outRect.left = column * spacing / spanCount; // column * ((1f / spanCount) * spacing)
+                outRect.right = spacing - (column + 1) * spacing / spanCount; // spacing - (column + 1) * ((1f /    spanCount) * spacing)
+                if (position >= spanCount) {
+                    outRect.top = spacing; // item top
+                }
+            }
+        }
+    }
+    public class VerticalSpaceItemDecoration extends RecyclerView.ItemDecoration {
+
+        private final int verticalSpaceHeight;
+
+        public VerticalSpaceItemDecoration(int verticalSpaceHeight) {
+            this.verticalSpaceHeight = verticalSpaceHeight;
+        }
+
+        @Override
+        public void getItemOffsets(Rect outRect, View view, RecyclerView parent,
+                                   RecyclerView.State state) {
+            outRect.bottom = verticalSpaceHeight;
+        }
+    }
+    /**
+     * Converting dp to pixel
+     */
+    private int dpToPx(int dp) {
+        Resources r = getResources();
+        return Math.round(TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, dp, r.getDisplayMetrics()));
+    }
 
 
 }
+
+
+
