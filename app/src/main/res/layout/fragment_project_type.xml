@@ -4,23 +4,22 @@
     android:layout_height="match_parent">
 
     <LinearLayout
-        android:layout_width="wrap_content"
-        android:layout_marginTop="50dp"
-        android:orientation="horizontal"
-        android:layout_marginLeft="20sp"
-        android:layout_height="wrap_content">
+        android:layout_width="match_parent"
+        android:layout_height="100dp"
+
+        android:background="#48E0DDDD"
+        android:orientation="horizontal">
 
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textSize="20sp"
             android:layout_marginStart="45dp"
-           android:layout_marginTop="2dp"
+            android:layout_marginTop="30dp"
+            android:text="Project Type"
             android:textColor="#198A7A"
-            android:textStyle="bold"
-            android:text="Project Type"/>
-
+            android:textSize="20sp"
+            android:textStyle="bold" />
 
 
     </LinearLayout>
@@ -75,7 +74,7 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Or"
+            android:text="-Or-"
             android:layout_gravity="center"
             android:textColor="#000"
             android:layout_marginTop="50dp"

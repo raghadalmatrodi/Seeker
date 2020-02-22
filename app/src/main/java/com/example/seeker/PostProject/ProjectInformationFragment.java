@@ -56,6 +56,7 @@ public class ProjectInformationFragment extends Fragment {
     private EditText descriptionText;
     private EditText budgeText;
     private TextView deadlineDateText;
+    private TextView visibleText;
 
 
     private ImageView addSkillBtn;
@@ -123,6 +124,7 @@ public class ProjectInformationFragment extends Fragment {
             @Override
             public void onClick(View view) {
 
+                visibleText.setVisibility(TextView.VISIBLE);
                 calendarDialog();
             }
         });
@@ -333,6 +335,7 @@ public class ProjectInformationFragment extends Fragment {
         addFileBtn = view.findViewById(R.id.project_add_file);
         postBtn = view.findViewById(R.id.project_postBtn);
         backBtn = view.findViewById(R.id.project_info_back);
+        visibleText = view.findViewById(R.id.app_date);
 
     }//End of init()
 
