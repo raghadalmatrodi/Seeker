@@ -124,14 +124,13 @@
             />
 
 <!--        //todo: check the input type works or not??!-->
-            <EditText
+            <TextView
                 android:id="@+id/post_bid_delivery_date"
                 android:layout_width="248dp"
                 android:inputType="date"
                 android:layout_marginStart="60dp"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
-                android:editable="false"
                 android:background="@drawable/stroke_box"
                 android:padding="8dp" />
 

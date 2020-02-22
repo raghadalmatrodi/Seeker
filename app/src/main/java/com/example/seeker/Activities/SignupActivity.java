@@ -55,6 +55,8 @@ private static final String LOG= SignupActivity.class.getSimpleName();
 
         init();
 
+
+
         signUp.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

@@ -1,4 +1,4 @@
-package com.example.seeker.EmployerMainPages.SearchTab;
+package com.example.seeker.EmployerMainPages.SearchTab_Emp.SearchFragments;
 
 import android.content.res.Resources;
 import android.graphics.Rect;
@@ -8,8 +8,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.DefaultItemAnimator;
 import androidx.recyclerview.widget.GridLayoutManager;
@@ -22,8 +20,8 @@ import com.example.seeker.Search.CategorySearchAdapter;
 import java.util.ArrayList;
 import java.util.List;
 
+public class Emp_Search_Users_Fragment extends Fragment {
 
-public class Emp_SearchFragment extends Fragment {
     private View view;
     private RecyclerView recyclerView;
     private CategorySearchAdapter adapter;
@@ -34,18 +32,20 @@ public class Emp_SearchFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
 
-        view = inflater.inflate(R.layout.fragment_emp_search, container, false);
-        Toolbar toolbar = view.findViewById(R.id.toolbar);
-        ((AppCompatActivity) getActivity()).setSupportActionBar(toolbar);
-        // setSupportActionBar(toolbar);
-        recyclerView = (RecyclerView) view.findViewById(R.id.recycler_view_search);
+        view = inflater.inflate(R.layout.fragment_emp_by_user_search, container, false);
+
+        recyclerView = (RecyclerView) view.findViewById(R.id.recycler_view_emp_byuser_search);
 
 
         categorySearchSearchList = new ArrayList<>();
         adapter = new CategorySearchAdapter(getActivity(), categorySearchSearchList);
 
         recyclerView.setLayoutManager(new GridLayoutManager(getActivity(), 2));
-        recyclerView.addItemDecoration(new GridSpacingItemDecoration(2, dpToPx(10), true));
+
+        recyclerView.addItemDecoration(new com.example.seeker.EmployerMainPages.SearchTab_Emp.
+                SearchFragments.Emp_Search_Users_Fragment.
+                GridSpacingItemDecoration(2, dpToPx(10), true));
+
         recyclerView.setItemAnimator(new DefaultItemAnimator());
         recyclerView.setAdapter(adapter);
 
@@ -135,3 +135,4 @@ public class Emp_SearchFragment extends Fragment {
         return Math.round(TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, dp, r.getDisplayMetrics()));
     }
 }
+

@@ -44,8 +44,8 @@ public class PostBidActivity extends AppCompatActivity {
     private static final String LOG = PostBidActivity.class.getSimpleName();
 
 
-    private TextView project_title;
-    private EditText price, delivery_date, bid_decsription, bid_title;
+    private TextView project_title, delivery_date;
+    private EditText price, bid_decsription, bid_title;
 
     private Button post_bid;
     private ImageButton close_bid;
