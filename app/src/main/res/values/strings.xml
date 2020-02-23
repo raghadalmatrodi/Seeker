@@ -18,4 +18,12 @@
     <string name="some_fields_are_empty">Some fields are empty..</string>
     <string name="your_bid_has_been_posted_successfully">Your bid has been posted successfully!</string>
     <string name="something_went_wrong">Something went wrong..</string>
+    <string name="edit_your_account">Edit your account</string>
+    <string name="switch_to_freelancer">Switch to <b>Freelancer</b></string>
+    <string name="notifications">Notifications</string>
+    <string name="payments">Payments</string>
+    <string name="settings">Settings</string>
+    <string name="privacy_policy">Privacy Policy</string>
+    <string name="profile_terms_and_conditions">Terms and Conditions</string>
+    <string name="contact_support">Contact Support</string>
 </resources>

@@ -18,6 +18,7 @@ import retrofit2.http.GET;
 import retrofit2.http.Multipart;
 import retrofit2.http.POST;
 import retrofit2.http.Part;
+import retrofit2.http.Path;
 
 
 public interface ApiMethods {
@@ -30,7 +31,7 @@ public interface ApiMethods {
         String POST_PROJECT = "project/post";
         String POST_PROJECT_WITH_ATTACHMENTS = "project/with-attachments";
         String POST_BID = "bid/post";
-        String GET_PROJECT = "project/status";
+        String GET_PROJECT = "project/status/{status}";
         String GET_BIDS = "bid/findall";
 
     }//End of Methods interface
@@ -52,13 +53,12 @@ public interface ApiMethods {
     @POST(Methods.POST_PROJECT_WITH_ATTACHMENTS)
     Call<ApiResponse> getPostProjectWithAttachmentsRequest(@Part("project") RequestBody project , @Part List<MultipartBody.Part> attachments);
 
-    //todo: step 1 - post bid
     @POST(Methods.POST_BID)
     Call<ApiResponse> getPostBidRequest(@Body Bid bid);
 
-    @Multipart
+
     @POST(Methods.GET_PROJECT)
-    Call<ApiResponse> getProjectByStatus(@Part("status") String status);
+    Call<List<Project>> getProjectByStatus(@Path("status") String status);
 
     @GET(Methods.GET_BIDS)
     Call<List<Bid>> getAllBids();
