@@ -1,0 +1,34 @@
+package com.example.seeker.PostBid;
+
+import androidx.appcompat.app.AppCompatActivity;
+
+import android.content.Intent;
+import android.os.Bundle;
+import android.widget.TextView;
+
+import com.example.seeker.Model.Bid;
+import com.example.seeker.R;
+
+import java.io.Serializable;
+
+public class ViewFullBid extends AppCompatActivity {
+
+    private TextView price, dd, desc;
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_view_full_bid);
+
+        price = findViewById(R.id.vbid_proposed_price);
+        dd = findViewById(R.id.vbid_deliverydate);
+        desc = findViewById(R.id.vbid_user_description);
+
+        Intent i = getIntent();
+        Bid dene = (Bid) i.getSerializableExtra("bidObj");
+
+        String priceStr = Double.toString(dene.getPrice());
+        price.setText(priceStr);
+        dd.setText(dene.getDeliver_date());
+        desc.setText(dene.getDescription());
+    }
+}

@@ -31,6 +31,7 @@ public interface ApiMethods {
         String POST_PROJECT_WITH_ATTACHMENTS = "project/with-attachments";
         String POST_BID = "bid/post";
         String GET_PROJECT = "project/status";
+        String GET_BIDS = "bid/findall";
 
     }//End of Methods interface
 
@@ -58,6 +59,9 @@ public interface ApiMethods {
     @Multipart
     @POST(Methods.GET_PROJECT)
     Call<ApiResponse> getProjectByStatus(@Part("status") String status);
+
+    @GET(Methods.GET_BIDS)
+    Call<List<Bid>> getAllBids();
 
 
 
