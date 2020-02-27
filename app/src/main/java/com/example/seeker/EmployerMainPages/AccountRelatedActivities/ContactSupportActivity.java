@@ -13,7 +13,6 @@ import com.example.seeker.R;
 
 
 
-
 public class ContactSupportActivity extends AppCompatActivity {
 
     private EditText eTo;

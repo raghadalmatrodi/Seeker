@@ -314,18 +314,17 @@
                 app:layout_constraintStart_toStartOf="@id/education_cl"
                 android:textSize="20sp"
                 android:textStyle="bold" />
+
+
             <ImageView
                 android:id="@+id/edit_img"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:src="@drawable/editt"
-                app:layout_constraintStart_toEndOf="@id/education_text"
-                app:layout_constraintTop_toTopOf="@id/education_cl"
                 app:layout_constraintEnd_toEndOf="@id/education_cl"
-
-                />
-
-
+                app:layout_constraintHorizontal_bias="0.792"
+                app:layout_constraintStart_toEndOf="@id/education_text"
+                app:layout_constraintTop_toTopOf="@id/education_cl" />
 
             <TextView
                 android:layout_width="wrap_content"
@@ -359,6 +358,79 @@
                 android:textSize="20sp"
                 android:textStyle="bold" />
 
+
+            <ImageView
+                android:id="@+id/edit_social_media"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/editt"
+                app:layout_constraintEnd_toEndOf="@id/social_media_cl"
+                app:layout_constraintHorizontal_bias="0.746"
+                app:layout_constraintStart_toEndOf="@id/social_media_text"
+                app:layout_constraintTop_toTopOf="@id/social_media_text" />
+
+            <TextView
+                android:id="@+id/linkedin_link"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="5dp"
+                android:text="www.linkedin.com"
+                android:textColor="#000"
+                app:layout_constraintStart_toEndOf="@id/linkedin"
+                app:layout_constraintTop_toTopOf="@id/linkedin"
+                />
+
+            <ImageView
+                android:id="@+id/linkedin"
+                android:layout_width="26dp"
+                android:layout_height="26dp"
+                android:src="@drawable/linkedin"
+                android:layout_marginTop="5dp"
+                app:layout_constraintStart_toStartOf="@id/social_media_text"
+                app:layout_constraintTop_toBottomOf="@id/social_media_text"
+               />
+
+
+            <ImageView
+                android:id="@+id/twitter"
+                android:layout_width="26dp"
+                android:layout_height="26dp"
+                android:src="@drawable/twitter"
+                android:layout_marginTop="5dp"
+                app:layout_constraintStart_toStartOf="@id/linkedin"
+                app:layout_constraintTop_toBottomOf="@id/linkedin"
+                />
+
+            <TextView
+                android:id="@+id/twitter_link"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="5dp"
+                android:text="www.twitter.com"
+                android:textColor="#000"
+                app:layout_constraintStart_toEndOf="@id/twitter"
+                app:layout_constraintTop_toTopOf="@id/twitter"
+                />
+
+            <ImageView
+                android:id="@+id/facebook"
+                android:layout_width="26dp"
+                android:layout_height="26dp"
+                android:src="@drawable/facebook"
+                android:layout_marginTop="5dp"
+                app:layout_constraintStart_toStartOf="@id/twitter"
+                app:layout_constraintTop_toBottomOf="@id/twitter"
+                />
+            <TextView
+                android:id="@+id/facebook_link"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="5dp"
+                android:text="www.facebook.com"
+                android:textColor="#000"
+                app:layout_constraintStart_toEndOf="@id/facebook"
+                app:layout_constraintTop_toTopOf="@id/facebook"
+                />
 
 <!--            <TextView-->
 <!--                android:id=""-->
