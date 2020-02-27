@@ -14,8 +14,8 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity android:name=".PostBid.ViewFullBid"></activity>
-        <activity android:name=".PostBid.ViewBid" />
         <activity android:name=".PostBid.PostBidActivity" />
+        <activity android:name=".PostBid.ViewBid" />
         <activity android:name=".EmployerMainPages.AccountRelatedActivities.EditProfileActivity"></activity>
         <activity android:name=".EmployerMainPages.AccountRelatedActivities.NotificationsActivity" />
         <activity android:name=".Activities.SplashActivity">
@@ -30,6 +30,7 @@
         <activity android:name=".EmployerMainPages.EmployerMainActivity" />
         <activity android:name=".FreelancerMainPages.FreelancerMainActivity" />
         <activity android:name=".PostProject.PostProjectActivity" />
+        <activity android:name=".EmployerMainPages.AccountRelatedActivities.ContactSupportActivity"/>
     </application>
 
     <uses-permission android:name="android.permission.INTERNET" />

@@ -26,6 +26,8 @@ public class ContactSupportActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_contact_support);
             eTo = (EditText)findViewById(R.id.txtTo);
+            eTo.setText("SeekerApp@hotmail.com");
+            eTo.setEnabled(false);
             eSubject = (EditText)findViewById(R.id.txtSub);
             eMsg = (EditText)findViewById(R.id.txtMsg);
             btn = (Button)findViewById(R.id.btnSend);
@@ -33,7 +35,8 @@ public class ContactSupportActivity extends AppCompatActivity {
                 @Override
                 public void onClick(View v) {
                     Intent it = new Intent(Intent.ACTION_SEND);
-                    it.putExtra(Intent.EXTRA_EMAIL, new String[]{eTo.getText().toString()});
+                    String seekerEmail = "SeekerApp@hotmail.com";
+                    it.putExtra(Intent.EXTRA_EMAIL, new String[]{seekerEmail});
                     it.putExtra(Intent.EXTRA_SUBJECT,eSubject.getText().toString());
                     it.putExtra(Intent.EXTRA_TEXT,eMsg.getText());
                     it.setType("message/rfc822");

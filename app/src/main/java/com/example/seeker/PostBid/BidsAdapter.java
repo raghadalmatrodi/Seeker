@@ -80,15 +80,41 @@ public class BidsAdapter extends RecyclerView.Adapter<BidsAdapter.MyViewHolder> 
     public void onBindViewHolder(final BidsAdapter.MyViewHolder holder, int position) {
         Bid bid = bidList.get(position);
 
-        //add user image
+        //*
+        //
+        // *
+        // add user image
 //        holder.user_img
 
-        //HOW TO GET THE USER'S NAME?
+        /**
+         *    HOW TO GET THE USER'S NAME?
+         */
 //        holder.username.setText();
-        holder.description.setText(bid.getDescription());
+
+        String shortDescription, longDescription;
+        longDescription = bid.getDescription();
+        if(longDescription.length() > 85 ){
+            shortDescription = longDescription.substring(0,85).concat("...");
+            holder.description.setText(shortDescription);
+
+        } else {
+            holder.description.setText(bid.getDescription());
+        }
         String priceStr = Double.toString(bid.getPrice());
         holder.price.setText(priceStr);
-        holder.deadline.setText(bid.getDeliver_date());
+        if (bid.getDeliver_date() == null ){
+            holder.deadline.setText(bid.getDeliver_date());
+
+        } else{
+            String noTimeDeadline = bid.getDeliver_date().substring(0,10);
+            holder.deadline.setText(noTimeDeadline);
+        }
+//        if(!bid.getDeliver_date().isEmpty()){
+//            String noTimeDeadline = bid.getDeliver_date().substring(0,10);
+//            holder.deadline.setText(noTimeDeadline);
+//        } else {
+//            holder.deadline.setText(bid.getDeliver_date());
+//        }
 
 
     }//End of onBindViewHolder

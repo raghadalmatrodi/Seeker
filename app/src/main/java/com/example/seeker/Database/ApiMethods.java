@@ -6,6 +6,7 @@ import com.example.seeker.Model.Project;
 import com.example.seeker.Model.Responses.ApiResponse;
 import com.example.seeker.Model.Responses.ProjectResponse;
 import com.example.seeker.Model.User;
+import com.example.seeker.Model.UserSocialMedia;
 
 import java.util.List;
 
@@ -32,7 +33,11 @@ public interface ApiMethods {
         String POST_PROJECT_WITH_ATTACHMENTS = "project/with-attachments";
         String POST_BID = "bid/post";
         String GET_PROJECT = "project/status/{status}";
-        String GET_BIDS = "bid/findall";
+        String GET_BIDS = "bid/find-all";
+        String POST_SOCIAL_MEDIA = "userSocialMedia/add-accounts";
+        String GET_SOCIAL_MEDIA = "userSocialMedia/find-all";
+
+
 
     }//End of Methods interface
 
@@ -60,9 +65,18 @@ public interface ApiMethods {
     @POST(Methods.GET_PROJECT)
     Call<List<Project>> getProjectByStatus(@Path("status") String status);
 
+    @POST(Methods.POST_SOCIAL_MEDIA)
+    Call<ApiResponse> getPostSocialMediaRequest(@Body UserSocialMedia userSocialMedia);
+
+
+    //GET METHODS
+
     @GET(Methods.GET_BIDS)
     Call<List<Bid>> getAllBids();
 
+
+    @GET(Methods.GET_SOCIAL_MEDIA)
+    Call<List<UserSocialMedia>> getAllSocialMedia();
 
 
 
