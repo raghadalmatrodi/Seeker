@@ -1,5 +1,6 @@
 package com.example.seeker.EmployerMainPages.MyProjectsTab_Emp.ProjectsStatusFragments;
 
+import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
@@ -32,6 +33,8 @@ import com.example.seeker.R;
 import java.util.ArrayList;
 import java.util.List;
 
+import okhttp3.MediaType;
+import okhttp3.RequestBody;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -45,51 +48,25 @@ public class Emp_MyProjects_Pending_Fragment extends Fragment implements Project
     private ProjectListener projectListener;
     private TextView pendingText;
 
+
     private static final String LOG = Emp_MyProjects_Pending_Fragment.class.getSimpleName();
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+
         // Inflate the layout for this fragment
         view =  inflater.inflate(R.layout.fragment_pending_projects, container, false);
 
 
-        pendingText = view.findViewById(R.id.pending_text);
-        getProjectList();
+        pendingText = view.findViewById(R.id.emp_pending_text);
+//        getProjectList();
 
-        recyclerView = (RecyclerView) view.findViewById(R.id.recycler_view);
-        recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
-        adapter = new ProjectAdapter(projectList);
-        recyclerView.setItemAnimator(new DefaultItemAnimator());
-        recyclerView.setAdapter(adapter);
-        adapter.setListener(this);
+        if(!projectList.isEmpty()) {
 
-        recyclerView.setNestedScrollingEnabled(true);
-        DividerItemDecoration dividerItemDecoration = new DividerItemDecoration(recyclerView.getContext(), DividerItemDecoration.VERTICAL);
-        recyclerView.addItemDecoration(dividerItemDecoration);
+        }
+
 
         return view;
-    }
-
-    private void getProjectList() {
-
-        ApiClients.getAPIs().getProjectByStatus("0").enqueue(new Callback<ApiResponse>() {
-            @Override
-            public void onResponse(Call<ApiResponse> call, Response<ApiResponse> response) {
-                if(response.isSuccessful()){
-
-                }
-                else{
-                   pendingText.setText("No Project");
-                }
-            }
-
-            @Override
-            public void onFailure(Call<ApiResponse> call, Throwable t) {
-
-                pendingText.setText("No Project");
-
-            }
-        });
     }
 
     public interface ProjectListener{
@@ -130,6 +107,49 @@ public class Emp_MyProjects_Pending_Fragment extends Fragment implements Project
         alertDialog.show();
 
     }//end wrongInfoDialog()
+
+    @Override
+    public void onResume() {
+        super.onResume();
+
+
+        ApiClients.getAPIs().getProjectByStatus("0").enqueue(new Callback<List<Project>>() {
+            @Override
+            public void onResponse(Call<List<Project>> call, Response<List<Project>> response) {
+                if(response.isSuccessful()){
+
+                    projectList = (List) response.body();
+                    pendingText.setText("");
+                    recyclerView = (RecyclerView) view.findViewById(R.id.recycler_view);
+
+                    recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
+                    adapter = new ProjectAdapter(projectList);
+                    recyclerView.setItemAnimator(new DefaultItemAnimator());
+                    recyclerView.setAdapter(adapter);
+                    //adapter.setListener(this);
+                    recyclerView.setNestedScrollingEnabled(true);
+                    DividerItemDecoration dividerItemDecoration = new DividerItemDecoration(recyclerView.getContext(), DividerItemDecoration.VERTICAL);
+                    recyclerView.addItemDecoration(dividerItemDecoration);
+
+                }
+                else{
+
+                    pendingText.setText("No Projects");
+                    Log.i(LOG, "onResponse not suc: " + response.toString());
+                }
+            }
+
+            @Override
+            public void onFailure(Call<List<Project>> call, Throwable t) {
+
+                pendingText.setText("fail");
+
+            }
+        });
+
+    }
+
+
 
 
 

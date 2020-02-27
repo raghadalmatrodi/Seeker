@@ -1,8 +1,9 @@
 package com.example.seeker.Model;
 
+import java.io.Serializable;
 import java.time.LocalDateTime;
 
-public class Bid {
+public class Bid implements Serializable {
     private String title;
     private String description;
     private double price;

@@ -23,12 +23,19 @@ import com.example.seeker.PostProject.ProjectCategoryFragment;
 import com.example.seeker.PostProject.ProjectInformationFragment;
 import com.example.seeker.PostProject.ProjectTypeFragment;
 import com.example.seeker.R;
+import com.google.gson.Gson;
 
+import java.io.File;
 import java.io.IOException;
 import java.lang.annotation.Annotation;
+import java.nio.file.Files;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 
+import okhttp3.MediaType;
+import okhttp3.MultipartBody;
+import okhttp3.RequestBody;
 import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -122,6 +129,90 @@ public class Emp_PostFragment extends Fragment implements ProjectTypeFragment.Pr
         postProjectValidation();
 
 
+    }
+
+    @Override
+    public void onPostProjectItemSelectedWithAttachments(String title, String description, String budget, String deadlineLocalDateTime, String expiryLocalDateTime, List<File> files) {
+        if(projectType.isEmpty() || (category == null) || paymentType.isEmpty() || title.isEmpty() || budget.isEmpty()){
+
+            wrongInfoDialog("Missing Information");
+        }
+        else{
+
+            double budgetValue = Double.parseDouble(budget);
+            Project project = new Project(title, description, budgetValue,projectType,paymentType,expiryLocalDateTime ,deadlineLocalDateTime,  "0");
+
+
+            AlertDialog.Builder alertDialog = new AlertDialog.Builder(getContext());
+            // Setting Dialog Message
+            alertDialog.setTitle("Project details Review");
+            alertDialog.setMessage(project.toString());
+
+            //Setting positive "ok" Button
+            alertDialog.setPositiveButton("POST", new DialogInterface.OnClickListener() {
+                public void onClick(DialogInterface dialog, int which) {
+
+
+                    createProjectWithAttachments(files,project);
+
+                    dialog.dismiss();
+
+
+                }//end onClick
+            });//end setPositiveButton
+
+
+            alertDialog.setNegativeButton("CANCEL", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialogInterface, int i) {
+                    dialogInterface.dismiss();
+
+                }
+            });
+            alertDialog.show();
+
+        }
+    }
+
+
+    private void createProjectWithAttachments(List<File> file ,Project project)  {
+
+        List<MultipartBody.Part> attachments = new ArrayList<>();
+
+        file.stream().forEach(file1 -> {
+            try {
+                attachments.add(MultipartBody.Part.createFormData("attachments",file1.getName() , RequestBody
+                        .create(MediaType.parse(Files.probeContentType(file1.toPath()).toString()) , file1)));
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        });
+
+
+        Gson gson = new Gson();
+        RequestBody projectRequestBody = RequestBody.create(MediaType.parse("application/json; charset=utf-8"), gson.toJson(project));
+
+        ApiClients.getAPIs().getPostProjectWithAttachmentsRequest(projectRequestBody,attachments).enqueue(new Callback<ApiResponse>() {
+            private  final String LOG = ProjectInformationFragment.class.getSimpleName() ;
+
+            @Override
+            public void onResponse(Call<ApiResponse> call, Response<ApiResponse> response) {
+                if (response.isSuccessful()) {
+
+                    Log.i(LOG, "onResponse : Success");
+
+                }else{
+                    Log.i(LOG, "onResponse : fail");
+
+                }
+            }
+
+            @Override
+            public void onFailure(Call<ApiResponse> call, Throwable t) {
+                Log.i(LOG, "onFailure : fail");
+
+            }
+        });
     }
 
     private void postProjectValidation() {

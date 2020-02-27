@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+    android:id="@+id/vbid_parent_cl"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".PostBid.ViewFullBid">
+
+    <TextView
+        android:id="@+id/vbid_user_description"
+        android:layout_width="244dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="68dp"
+        android:layout_marginTop="148dp"
+        android:text="Hello, I am an expert in a designing using photoshop I have experience of 5 years."
+        android:textColor="#000"
+        android:textSize="12sp"
+        app:layout_constraintStart_toStartOf="@id/vbid_parent_cl"
+        app:layout_constraintTop_toTopOf="@id/vbid_parent_cl" />
+
+    <TextView
+        android:id="@+id/vbid_proposed_price"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="380"
+        android:textColor="#000"
+        app:layout_constraintTop_toTopOf="@id/vbid_parent_cl"
+        app:layout_constraintEnd_toEndOf="@id/vbid_parent_cl"
+        android:layout_marginEnd="20dp"
+        android:layout_marginTop="5dp"/>
+
+    <TextView
+        android:id="@+id/vpp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Proposed Price (SAR): "
+        android:textColor="#000"
+        app:layout_constraintTop_toTopOf="@id/vbid_proposed_price"
+        app:layout_constraintEnd_toStartOf="@id/vbid_proposed_price"/>
+
+    <TextView
+        android:id="@+id/vbid_deliverydate"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="09/12/2019"
+        app:layout_constraintTop_toBottomOf="@id/vbid_proposed_price"
+        app:layout_constraintStart_toEndOf="@id/vdd"
+        android:layout_marginEnd="10dp"
+        />
+
+    <TextView
+        android:id="@+id/vdd"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Delivery date: "
+        app:layout_constraintTop_toTopOf="@id/vbid_deliverydate"
+        app:layout_constraintStart_toStartOf="@+id/vpp"/>
+</androidx.constraintlayout.widget.ConstraintLayout>

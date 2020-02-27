@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/bid_parent_cl"
+    android:layout_width="match_parent"
+    android:layout_height="110dp">
+
+    <ImageView
+        android:id="@+id/bid_user_img"
+        android:layout_width="83dp"
+        android:layout_height="78dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="16dp"
+        app:layout_constraintStart_toStartOf="@id/bid_parent_cl"
+        app:layout_constraintTop_toTopOf="@id/bid_parent_cl" />
+
+    <TextView
+        android:id="@+id/bid_user_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Jack Harry"
+        app:layout_constraintStart_toEndOf="@id/bid_user_img"
+        app:layout_constraintTop_toTopOf="@id/bid_user_img"
+        android:layout_marginStart="15dp"
+        android:textColor="#000"
+        android:textSize="17sp"
+        android:textStyle="bold"
+        />
+
+    <TextView
+        android:id="@+id/bid_user_description"
+        android:layout_width="244dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:text="Hello, I am an expert in a designing using photoshop I have experience of 5 years."
+        android:textColor="#000"
+        android:textSize="12sp"
+        app:layout_constraintStart_toStartOf="@id/bid_user_name"
+        app:layout_constraintTop_toBottomOf="@id/bid_user_name" />
+
+    <TextView
+        android:id="@+id/bid_proposed_price"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="380"
+        android:textColor="#000"
+        app:layout_constraintTop_toTopOf="@id/bid_parent_cl"
+        app:layout_constraintEnd_toEndOf="@id/bid_parent_cl"
+        android:layout_marginEnd="20dp"
+        android:layout_marginTop="5dp"/>
+
+    <TextView
+        android:id="@+id/pp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Proposed Price (SAR): "
+        android:textColor="#000"
+        app:layout_constraintTop_toTopOf="@id/bid_proposed_price"
+        app:layout_constraintEnd_toStartOf="@id/bid_proposed_price"/>
+
+    <TextView
+        android:id="@+id/bid_deliverydate"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="09/12/2019"
+        app:layout_constraintTop_toBottomOf="@id/bid_proposed_price"
+        app:layout_constraintStart_toEndOf="@id/dd"
+        android:layout_marginEnd="10dp"
+        />
+
+    <TextView
+        android:id="@+id/dd"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Delivery date: "
+        app:layout_constraintTop_toTopOf="@id/bid_deliverydate"
+        app:layout_constraintStart_toStartOf="@+id/pp"/>
+
+
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>
