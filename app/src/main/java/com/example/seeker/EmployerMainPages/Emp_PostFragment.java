@@ -17,10 +17,12 @@ import com.example.seeker.Model.Exception.ApiError;
 import com.example.seeker.Model.Exception.ApiException;
 import com.example.seeker.Model.Project;
 import com.example.seeker.Model.Responses.ApiResponse;
+import com.example.seeker.Model.Skill;
 import com.example.seeker.PostProject.FragmentAdapter;
 import com.example.seeker.PostProject.PaymentTypeFragment;
 import com.example.seeker.PostProject.ProjectCategoryFragment;
 import com.example.seeker.PostProject.ProjectInformationFragment;
+import com.example.seeker.PostProject.ProjectSkillsFragment;
 import com.example.seeker.PostProject.ProjectTypeFragment;
 import com.example.seeker.R;
 import com.google.gson.Gson;
@@ -46,7 +48,7 @@ import retrofit2.Response;
 public class Emp_PostFragment extends Fragment implements ProjectTypeFragment.ProjectTypeListener
         , ProjectCategoryFragment.CategoryListener, PaymentTypeFragment.PaymentListener,
         ProjectInformationFragment.ProjectInformationListener, ProjectCategoryFragment.BackCategoryListener,
-        PaymentTypeFragment.BackPaymentListener, ProjectInformationFragment.BackInformationListener{
+        PaymentTypeFragment.BackPaymentListener, ProjectInformationFragment.BackInformationListener, ProjectSkillsFragment.BackSkillListener, ProjectSkillsFragment.SkillsListener {
 
 
     private FragmentAdapter adapter;
@@ -57,11 +59,13 @@ public class Emp_PostFragment extends Fragment implements ProjectTypeFragment.Pr
     private ProjectCategoryFragment projectCategoryFragment;
     private PaymentTypeFragment paymentTypeFragment;
     private ProjectInformationFragment projectInformationFragment;
+    private ProjectSkillsFragment projectSkillsFragment;
     private static final String LOG = Emp_PostFragment.class.getSimpleName();
 
 
     private String projectType, paymentType, title,description, budget;
     private Category category;
+    private List<Skill> skillList;
     private String deadlineLocalDateTime, expiryLocalDateTime;
 
     @Override
@@ -74,18 +78,21 @@ public class Emp_PostFragment extends Fragment implements ProjectTypeFragment.Pr
         projectCategoryFragment= new ProjectCategoryFragment();
         paymentTypeFragment = new PaymentTypeFragment();
         projectInformationFragment = new ProjectInformationFragment();
+        projectSkillsFragment = new ProjectSkillsFragment();
 
 
         projectTypeFragment.setListener(this);
         projectCategoryFragment.setListener(this,this);
         paymentTypeFragment.setListener(this,this);
         projectInformationFragment.setListener(this,this);
+        projectSkillsFragment.setListener(this, this);
 
 
 
         adapter = new FragmentAdapter(getFragmentManager());
         adapter.addFragment(projectTypeFragment);
         adapter.addFragment(projectCategoryFragment);
+        adapter.addFragment(projectSkillsFragment);
         adapter.addFragment(paymentTypeFragment);
         adapter.addFragment(projectInformationFragment);
 
@@ -109,10 +116,17 @@ public class Emp_PostFragment extends Fragment implements ProjectTypeFragment.Pr
         this.category = category;
         viewPager.setCurrentItem(2);
     }
+
+    @Override
+    public void onNextSelected(List<Skill> skill) {
+        skillList = skill;
+        viewPager.setCurrentItem(3);
+
+    }
     @Override
     public void onPaymentTypeItemSelected(String paymentType) {
         this.paymentType = paymentType;
-        viewPager.setCurrentItem(3);
+        viewPager.setCurrentItem(4);
 
     }
 
@@ -240,7 +254,7 @@ public class Emp_PostFragment extends Fragment implements ProjectTypeFragment.Pr
         AlertDialog.Builder alertDialog = new AlertDialog.Builder(getContext());
         // Setting Dialog Message
         alertDialog.setTitle("Project details Review");
-        alertDialog.setMessage(msg);
+        alertDialog.setMessage(msg +"   "+ skillList.toString());
 
         //Setting positive "ok" Button
         alertDialog.setPositiveButton("POST", new DialogInterface.OnClickListener() {
@@ -248,6 +262,7 @@ public class Emp_PostFragment extends Fragment implements ProjectTypeFragment.Pr
 
 
                 excutePostProjectRequest(project);
+
 
                 dialog.dismiss();
 
@@ -367,26 +382,33 @@ public class Emp_PostFragment extends Fragment implements ProjectTypeFragment.Pr
 
 
     @Override
-    public void onBackPaymentClick() {
-
-        viewPager.setCurrentItem(1);
-
-    }
-
-    @Override
     public void onBacCategorySelected() {
 
         viewPager.setCurrentItem(0);
+
+    }
+    @Override
+    public void onBacSkillSelected() {
+        viewPager.setCurrentItem(1);
+    }
+
+
+    @Override
+    public void onBackPaymentClick() {
+
+        viewPager.setCurrentItem(2);
 
     }
 
     @Override
     public void onBackInfoClick() {
 
-        viewPager.setCurrentItem(2);
+        viewPager.setCurrentItem(3);
 
 
     }
+
+
 
 
 }

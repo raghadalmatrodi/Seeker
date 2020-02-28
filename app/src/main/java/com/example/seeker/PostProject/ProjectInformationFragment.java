@@ -66,8 +66,6 @@ public class ProjectInformationFragment extends Fragment {
     private TextView visibleText;
 
 
-    private ImageView addSkillBtn;
-    private ImageView addFileBtn;
 
     private Button postBtn;
     private ImageView backBtn;
@@ -381,8 +379,8 @@ public class ProjectInformationFragment extends Fragment {
         budgeText = view.findViewById(R.id.project_budget);
         deadlineDateText =  view.findViewById(R.id.project_deadline);
 
-        addSkillBtn = view.findViewById(R.id.project_add_skill);
-        addFileBtn = view.findViewById(R.id.project_add_file);
+
+
         postBtn = view.findViewById(R.id.project_postBtn);
         backBtn = view.findViewById(R.id.project_info_back);
         visibleText = view.findViewById(R.id.app_date);
