@@ -9,16 +9,29 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AlertDialog;
 
 import com.example.seeker.Database.ApiClients;
 import com.example.seeker.EmployerMainPages.EmployerMainActivity;
+import com.example.seeker.Model.Exception.ApiError;
+import com.example.seeker.Model.Exception.ApiException;
 import com.example.seeker.Model.Login;
+import com.example.seeker.Model.User;
+import com.example.seeker.PostBid.ViewBid;
 import com.example.seeker.R;
+import com.example.seeker.SharedPref.Constants;
+import com.example.seeker.SharedPref.MySharedPreference;
 
+import java.io.IOException;
+import java.lang.annotation.Annotation;
+import java.util.List;
+
+import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.Callback;
+import retrofit2.Converter;
 import retrofit2.Response;
 
 public class LoginActivity extends Activity {
@@ -28,6 +41,7 @@ public class LoginActivity extends Activity {
     private Button login;
     private TextView forgotPass, createAccount;
     private String userEmail, userPassword;
+
 
 //comment to test
     @Override
@@ -81,6 +95,7 @@ public class LoginActivity extends Activity {
                 Log.i(LOG, "onResponse : Success");
                 if (response.isSuccessful()) {
                     Log.i(LOG, "onResponse : " + response.body().toString());
+                    executeGetUserByEmailRequest(userEmail);
                     Dialog("ok");
 
                 }//End of if
@@ -100,7 +115,6 @@ public class LoginActivity extends Activity {
     }//End of LoginApiRequest()
 
     private void init() {
-
         email = findViewById(R.id.login_emailET);
         password = findViewById(R.id.login_passwordlET);
 //        forgotPass = findViewById(R.id.forgetPass);
@@ -176,7 +190,7 @@ public class LoginActivity extends Activity {
         alertDialog.setPositiveButton("OK", new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int which) {
 //                firebaseAuth.signOut();
-
+//                dialog.dismiss();
                 Intent intent;
                 intent = new Intent(LoginActivity.this, EmployerMainActivity.class);
                 startActivity(intent);
@@ -187,4 +201,67 @@ public class LoginActivity extends Activity {
         alertDialog.show();
 
     }//End of Dialog()
+
+
+
+    private void executeGetUserByEmailRequest(String usermail){
+        ApiClients.getAPIs().findUSerByEmailRequest(usermail).enqueue(new Callback<User>() {
+            @Override
+            public void onResponse(Call<User> call, Response<User> response) {
+                if (response.isSuccessful()){
+//                    Toast.makeText(LoginActivity.this,"RESPONSE ON SUCCESS", Toast.LENGTH_LONG).show();
+                    Log.i(LOG, "onResponse: " + response.body().toString());
+                    addCurrentUser(response.body());
+
+                }else {
+//                    Toast.makeText(LoginActivity.this,"RESPONSE Fail", Toast.LENGTH_LONG).show();
+                    Converter<ResponseBody, ApiException> converter = ApiClients.getInstant().responseBodyConverter(ApiException.class, new Annotation[0]);
+                    ApiException exception = null;
+                    try {
+
+                        exception = converter.convert(response.errorBody());
+
+                        List<ApiError> errors = exception.getErrors();
+
+                        if (errors != null)
+                            if (!errors.isEmpty())
+                                wrongInfoDialog(errors.get(0).getMessage());
+                        wrongInfoDialog(exception.getMessage());
+
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+
+                }
+            }
+
+            @Override
+            public void onFailure(Call<User> call, Throwable t) {
+//                Toast.makeText(LoginActivity.this,"RESPONSE ON FAILURE ", Toast.LENGTH_LONG).show();
+                Log.i(LOG, t.getLocalizedMessage());
+                wrongInfoDialog("Error");
+
+            }
+        });
+    }
+
+    private void addCurrentUser(User user) {
+//        MySharedPreference.putBoolean(this,Constants.Keys.IS_LOGIN, true);
+        MySharedPreference.putLong(this, Constants.Keys.USER_ID, user.getId());
+        MySharedPreference.putString(this, Constants.Keys.USER_NAME, user.getUsername());
+        MySharedPreference.putString(this, Constants.Keys.USER_EMAIL,  user.getEmail());
+//        MySharedPreference.putString(this, Constants.Keys.USER_IMG, user.getImage());
+//        MySharedPreference.putString(this, Constants.Keys.ENABLE_NOTI, user.getEnable_noti());
+
+
+        /**
+         * WHY?? DO I NEED IT? THINK!
+         */
+//        finish();
+    }//End addCurrentUser()
+
+
+
+
+
 }//End of LoginActivity

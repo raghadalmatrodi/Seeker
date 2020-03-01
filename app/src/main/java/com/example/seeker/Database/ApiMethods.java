@@ -36,6 +36,7 @@ public interface ApiMethods {
         String GET_BIDS = "bid/find-all";
         String POST_SOCIAL_MEDIA = "userSocialMedia/add-accounts";
         String GET_SOCIAL_MEDIA = "userSocialMedia/find-all";
+        String FIND_USER_BY_EMAIL = "user/email/{email}";
 
 
 
@@ -77,6 +78,9 @@ public interface ApiMethods {
 
     @GET(Methods.GET_SOCIAL_MEDIA)
     Call<List<UserSocialMedia>> getAllSocialMedia();
+
+    @GET(Methods.FIND_USER_BY_EMAIL)
+    Call<User> findUSerByEmailRequest(@Path("email") String email);
 
 
 

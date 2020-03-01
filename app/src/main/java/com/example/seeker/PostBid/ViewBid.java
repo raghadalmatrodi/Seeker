@@ -1,11 +1,13 @@
 package com.example.seeker.PostBid;
 
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.DefaultItemAnimator;
 import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
@@ -15,21 +17,29 @@ import android.widget.Toast;
 
 import com.example.seeker.Database.ApiClients;
 import com.example.seeker.Model.Bid;
+import com.example.seeker.Model.Exception.ApiError;
+import com.example.seeker.Model.Exception.ApiException;
+import com.example.seeker.Model.Login;
+import com.example.seeker.Model.Responses.ApiResponse;
 import com.example.seeker.Model.User;
 import com.example.seeker.R;
 
+import java.io.IOException;
 import java.io.Serializable;
+import java.lang.annotation.Annotation;
 import java.util.ArrayList;
 import java.util.List;
 
+import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.Callback;
+import retrofit2.Converter;
 import retrofit2.Response;
 
 public class ViewBid extends AppCompatActivity implements Serializable,BidsAdapter.BidsAdapterListener  {
 
     private TextView t1,t2,t3;
-    private Button getb;
+    private Button getb, secondbtn;
     //
     private RecyclerView recyclerView;
     private BidsAdapter adapter;
@@ -60,6 +70,14 @@ public class ViewBid extends AppCompatActivity implements Serializable,BidsAdapt
 
         //WORKS ONLY WITH THE BUTTON! IDK WHY :) + I HAVE TO CLICK IT TWICE :)!!!!!!!!
         getb = findViewById(R.id.getbtn);
+        secondbtn = findViewById(R.id.anotherbtn);
+        secondbtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+//                executeGetUserByMailRequest();
+
+            }
+        });
 //
         getb.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -97,7 +115,7 @@ public class ViewBid extends AppCompatActivity implements Serializable,BidsAdapt
 
 
 //        t1 = findViewById(R.id.tv1);
-//        t2 = findViewById(R.id.tv2);
+        t2 = findViewById(R.id.tv2);
 //        t3 = findViewById(R.id.tv3);
 //
 //        getb = findViewById(R.id.getbtn);
@@ -158,6 +176,7 @@ public class ViewBid extends AppCompatActivity implements Serializable,BidsAdapt
        });
     }
 
+//    String tryName;
 
     @Override
     public void onBidItemClick(Bid bid) {
@@ -168,4 +187,73 @@ public class ViewBid extends AppCompatActivity implements Serializable,BidsAdapt
         i.putExtra("bidObj", (Serializable) bid);
         startActivity(i);
     }
-}
+
+
+
+//    private void executeGetUserByMailRequest(){
+//        ApiClients.getAPIs().findUSerByEmailRequest("hindoo87@hotmail.com").enqueue(new Callback<Login>() {
+//            @Override
+//            public void onResponse(Call<Login> call, Response<Login> response) {
+//                if (response.isSuccessful()){
+//                    Toast.makeText(ViewBid.this,"Correct",Toast.LENGTH_SHORT).show();
+//                    tryName = response.body().getPassword()+response.body().getEmail();
+//                    t2.setText(tryName);
+//                }else{
+//                    Toast.makeText(ViewBid.this,response.errorBody().toString(),Toast.LENGTH_SHORT).show();
+//
+////                    wrongInfoDialogWithTitle(getString(R.string.something_went_wrong),response.message());
+////                    Toast.makeText(PostBidActivity.this,response.toString(),Toast.LENGTH_SHORT).show();
+//                    Converter<ResponseBody, ApiException> converter = ApiClients.getInstant().responseBodyConverter(ApiException.class, new Annotation[0]);
+//                    ApiException exception = null;
+//                    try {
+//
+//                        exception = converter.convert(response.errorBody());
+//
+//                        List<ApiError> errors = exception.getErrors();
+//
+//                        if (errors != null)
+//                            if (!errors.isEmpty())
+//                                wrongInfoDialog(errors.get(0).getMessage());
+//                        wrongInfoDialog(exception.getMessage());
+//
+//                    } catch (IOException e) {
+//                        e.printStackTrace();
+//                    }
+//
+//                }
+//
+//
+//            }
+//
+//            @Override
+//            public void onFailure(Call<Login> call, Throwable t) {
+//                Toast.makeText(ViewBid.this,t.getLocalizedMessage().toString(),Toast.LENGTH_LONG).show();
+//
+//            }
+//        });
+//    }
+
+    private void wrongInfoDialog(String msg) {
+        final AlertDialog.Builder alertDialog = new AlertDialog.Builder(this);
+
+//        alertDialog.setTitle(title);
+
+        // Setting Dialog Message
+        alertDialog.setMessage(msg);
+
+        // Setting Icon to Dialog
+//        alertDialog.setIcon(R.drawable.exclamation);
+
+        //Setting Negative "ok" Button
+        alertDialog.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.dismiss();
+            }//end onClick
+        });//end setPositiveButton
+
+        alertDialog.show();
+
+    }//End wrongInfoDialog()
+
+
+}//End Class

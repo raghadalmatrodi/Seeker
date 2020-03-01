@@ -16,6 +16,13 @@
         android:gravity="center"
         android:text="GET!"
         />
+    <Button
+        android:id="@+id/anotherbtn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:text="GET!"
+        />
     <TextView
 
         android:id="@+id/tv1"
