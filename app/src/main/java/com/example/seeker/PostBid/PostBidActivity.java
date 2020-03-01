@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.app.DatePickerDialog;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -16,12 +17,16 @@ import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.seeker.Activities.LoginActivity;
 import com.example.seeker.Database.ApiClients;
 import com.example.seeker.Model.Bid;
 import com.example.seeker.Model.Exception.ApiError;
 import com.example.seeker.Model.Exception.ApiException;
+import com.example.seeker.Model.Freelancer;
 import com.example.seeker.Model.Responses.ApiResponse;
 import com.example.seeker.R;
+import com.example.seeker.SharedPref.Constants;
+import com.example.seeker.SharedPref.MySharedPreference;
 
 import java.io.IOException;
 import java.lang.annotation.Annotation;
@@ -112,9 +117,12 @@ public class PostBidActivity extends AppCompatActivity {
                     dateStr = dateStr+timeString;
                     localDateTimet = convertStringToLocalDateTime(dateStr);
 
-
-
-                    Bid bid = new Bid(bidTitleStr,bidDescriptionStr,priceDouble,localDateTimet.toString() ,"pending");
+//                    Freelancer freelancer = new Freelancer(MySharedPreference.getLong(PostBidActivity.this, Constants.Keys.USER_ID, -1));
+                    Freelancer freelancer = new Freelancer(702);
+                    //CHECK! NOT SURE
+//                    if (MySharedPreference.getLong(PostBidActivity.this, Constants.Keys.USER_ID, -1) != -1)
+//                    freelancer.setId(MySharedPreference.getLong(PostBidActivity.this, Constants.Keys.USER_ID, -1));
+                    Bid bid = new Bid(bidTitleStr,bidDescriptionStr,priceDouble,localDateTimet.toString() ,"pending", 702);
 
 //                    String checkStr = bidTitleStr+" -- "+bidDescriptionStr+ " -- "+ priceStr + " -- "+" -- " + dateStr;
 //                    Toast.makeText(getApplicationContext(),checkStr,Toast.LENGTH_LONG).show();
@@ -170,8 +178,6 @@ public class PostBidActivity extends AppCompatActivity {
 
 
 
-
-    //todo: finish the method.
     private void executePostBidRequest(Bid bid){
 
         ApiClients.getAPIs().getPostBidRequest(bid).enqueue(new Callback<ApiResponse>() {
@@ -212,9 +218,6 @@ public class PostBidActivity extends AppCompatActivity {
 
             }//end onResponse()
 
-            /**
-             * DO STH!!!
-             */
 
             @Override
             public void onFailure(Call<ApiResponse> call, Throwable t) {
@@ -306,7 +309,10 @@ public class PostBidActivity extends AppCompatActivity {
         alertDialog.setPositiveButton("OK", new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int which) {
                 dialog.dismiss();
-                finish();
+                Intent intent;
+                intent = new Intent(PostBidActivity.this, ViewBid.class);
+                startActivity(intent);
+//                finish();
 
             }//end onClick
         });//end setPositiveButton

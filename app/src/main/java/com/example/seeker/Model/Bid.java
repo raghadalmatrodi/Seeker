@@ -9,13 +9,18 @@ public class Bid implements Serializable {
     private double price;
     private String deliver_date;
     private String status;
+    private long freelancerId;
+    private Freelancer freelancer;
 
-    public Bid(String title, String description, double price, String deliver_date, String status) {
+
+
+    public Bid(String title, String description, double price, String deliver_date, String status, long freelancer) {
         this.title = title;
         this.description = description;
         this.price = price;
         this.deliver_date = deliver_date;
         this.status = status;
+        this.freelancerId = freelancer;
     }
 
     public String getTitle() {
@@ -56,6 +61,14 @@ public class Bid implements Serializable {
 
     public void setStatus(String status) {
         this.status = status;
+    }
+
+    public Freelancer getFreelancer() {
+        return freelancer;
+    }
+
+    public void setFreelancer(Freelancer freelancer) {
+        this.freelancer = freelancer;
     }
 
     @Override

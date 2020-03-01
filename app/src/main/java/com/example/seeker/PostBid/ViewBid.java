@@ -38,7 +38,6 @@ import retrofit2.Response;
 
 public class ViewBid extends AppCompatActivity implements Serializable,BidsAdapter.BidsAdapterListener  {
 
-    private TextView t1,t2,t3;
     private Button getb, secondbtn;
     //
     private RecyclerView recyclerView;
@@ -53,80 +52,12 @@ public class ViewBid extends AppCompatActivity implements Serializable,BidsAdapt
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_view_bid);
-        User user;
-
-        //Add takes bid
-//        bidList.add();
-//        bidList.add(new Bid("test","test ddd",200,"2/2/2020","pending"));
-        //  LONG DESCRIPTION PROBLEM !!
-        // TRY SUBSTRING THEN CONCAT WITH ...
-//        bidList.add(new Bid("Hindddooo","Hello, I am an expert in a designing using photoshop I have experience of 5 yearHello, I am an expert in a designing using photoshop I have experience of 5 years.s.",50,"13/3/2020","pending"));
-//        categoryList.add(new Category("Reema", "My Test"));
-//        categoryList.add(new Category("HHHHH", "Test Me Me"));
 
         /**
          * Call getbids
          */
 
-        //WORKS ONLY WITH THE BUTTON! IDK WHY :) + I HAVE TO CLICK IT TWICE :)!!!!!!!!
-        getb = findViewById(R.id.getbtn);
-        secondbtn = findViewById(R.id.anotherbtn);
-        secondbtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-//                executeGetUserByMailRequest();
-
-            }
-        });
-//
-        getb.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                getBids();
-
-
-                recyclerView = (RecyclerView) findViewById(R.id.recycler_view_b);
-                recyclerView.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
-                adapter = new BidsAdapter(bidList);
-                bidList = new ArrayList<>();
-                recyclerView.setItemAnimator(new DefaultItemAnimator());
-                recyclerView.setAdapter(adapter);
-                //IDK WHAT TO SET THE LISTENER :)
-                adapter.setListener(ViewBid.this);
-
-                recyclerView.setNestedScrollingEnabled(true);
-                DividerItemDecoration dividerItemDecoration = new DividerItemDecoration(recyclerView.getContext(), DividerItemDecoration.VERTICAL);
-                recyclerView.addItemDecoration(dividerItemDecoration);
-            }
-        });
-
-//        recyclerView = (RecyclerView) findViewById(R.id.recycler_view_b);
-//        recyclerView.setLayoutManager(new LinearLayoutManager(this));
-//        adapter = new BidsAdapter(bidList);
-//        bidList = new ArrayList<>();
-//        recyclerView.setItemAnimator(new DefaultItemAnimator());
-//        recyclerView.setAdapter(adapter);
-//        adapter.setListener(this);
-//
-//        recyclerView.setNestedScrollingEnabled(true);
-//        DividerItemDecoration dividerItemDecoration = new DividerItemDecoration(recyclerView.getContext(), DividerItemDecoration.VERTICAL);
-//        recyclerView.addItemDecoration(dividerItemDecoration);
-
-
-
-//        t1 = findViewById(R.id.tv1);
-        t2 = findViewById(R.id.tv2);
-//        t3 = findViewById(R.id.tv3);
-//
-//        getb = findViewById(R.id.getbtn);
-////
-//        getb.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//            getBids();
-//            }
-//        });
-
+        getBids();
 
 
 
@@ -160,6 +91,23 @@ public class ViewBid extends AppCompatActivity implements Serializable,BidsAdapt
 //                       bidList.add(b);
                        bidList.add(response.body().get(i));
                    }
+
+                   recyclerView = (RecyclerView) findViewById(R.id.recycler_view_b);
+                   recyclerView.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
+                   adapter = new BidsAdapter(bidList);
+                   bidList = new ArrayList<>();
+                   recyclerView.setItemAnimator(new DefaultItemAnimator());
+                   recyclerView.setAdapter(adapter);
+                   //IDK WHAT TO SET THE LISTENER :)
+                   adapter.setListener(ViewBid.this);
+
+                   recyclerView.setNestedScrollingEnabled(true);
+                   DividerItemDecoration dividerItemDecoration = new DividerItemDecoration(recyclerView.getContext(), DividerItemDecoration.VERTICAL);
+                   recyclerView.addItemDecoration(dividerItemDecoration);
+
+
+
+
                }//end if success
                else {
                    //CHAAAANGE IT!

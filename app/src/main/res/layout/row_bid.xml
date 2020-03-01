@@ -12,6 +12,7 @@
         android:layout_height="78dp"
         android:layout_marginStart="16dp"
         android:layout_marginTop="16dp"
+        android:src="@drawable/stroke_box"
         app:layout_constraintStart_toStartOf="@id/bid_parent_cl"
         app:layout_constraintTop_toTopOf="@id/bid_parent_cl" />
 
@@ -19,7 +20,7 @@
         android:id="@+id/bid_user_name"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Jack Harry"
+        android:text="Freeelancer"
         app:layout_constraintStart_toEndOf="@id/bid_user_img"
         app:layout_constraintTop_toTopOf="@id/bid_user_img"
         android:layout_marginStart="15dp"

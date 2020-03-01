@@ -19,6 +19,7 @@ import com.example.seeker.Model.Exception.ApiError;
 import com.example.seeker.Model.Exception.ApiException;
 import com.example.seeker.Model.Login;
 import com.example.seeker.Model.User;
+import com.example.seeker.PostBid.PostBidActivity;
 import com.example.seeker.PostBid.ViewBid;
 import com.example.seeker.R;
 import com.example.seeker.SharedPref.Constants;

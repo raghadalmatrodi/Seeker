@@ -4,59 +4,66 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.example.seeker.Model.Bid;
 import com.example.seeker.R;
-import com.example.seeker.SharedPref.Constants;
-import com.example.seeker.SharedPref.MySharedPreference;
-
-import java.io.Serializable;
 
 public class ViewFullBid extends AppCompatActivity {
 
-    private TextView price, dd, desc;
+    private TextView price, deliverydate, desc, title;
+    private TextView username;
+    private ImageView userImg;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_view_full_bid);
 
+        fillData();
+
+
+
+    }//End onCreate()
+
+    private void fillData() {
+
+
         price = findViewById(R.id.vbid_proposed_price);
-        dd = findViewById(R.id.vbid_deliverydate);
+        deliverydate = findViewById(R.id.vbid_deliverydate);
         desc = findViewById(R.id.vbid_user_description);
+        title = findViewById(R.id.viewfullbid_title);
 
         Intent i = getIntent();
-        Bid dene = (Bid) i.getSerializableExtra("bidObj");
+        Bid bid = (Bid) i.getSerializableExtra("bidObj");
 
-        String priceStr = Double.toString(dene.getPrice());
+        String priceStr = Double.toString(bid.getPrice());
         price.setText(priceStr);
-        dd.setText(dene.getDeliver_date());
-        desc.setText(dene.getDescription());
+
+        if (bid.getDeliver_date() == null ){
+            deliverydate.setText(bid.getDeliver_date());
+
+        } else{
+            String noTimeDeadline = bid.getDeliver_date().substring(0,10);
+            deliverydate.setText(noTimeDeadline);
+        }
+
+
+        desc.setText(bid.getDescription());
+        title.setText(bid.getTitle());
+
+
+        //        desc.setText(String.valueOf(bid.getFreelancer().getId()));
+//        bid.getFreelancer().getId();
 
         //Test sharedPref
 //        if (!MySharedPreference.getString(ViewFullBid.this, Constants.Keys.USER_NAME, "").equals(""))
 //        price.setText("NAME:  " + MySharedPreference.getString(ViewFullBid.this, Constants.Keys.USER_NAME, ""));
-//        dd.setText("EMAIL:  " +MySharedPreference.getString(ViewFullBid.this, Constants.Keys.USER_EMAIL, ""));
+//        deliverydate.setText("EMAIL:  " +MySharedPreference.getString(ViewFullBid.this, Constants.Keys.USER_EMAIL, ""));
 //        desc.setText("ID:  "+MySharedPreference.getLong(ViewFullBid.this, Constants.Keys.USER_ID, -1));
+
     }
 
-//    private void fillData(){
-//        if (!MySharedPreference.getString(v.getContext(), Constants.Keys.USER_NAME, "").equals(""))
-//            txtName.setText(MySharedPreference.getString(v.getContext(), Constants.Keys.USER_NAME, ""));
-//
-//        if (!MySharedPreference.getString(v.getContext(), Constants.Keys.USER_EMAIL, "").equals(""))
-//            txtEmail.setText(MySharedPreference.getString(v.getContext(), Constants.Keys.USER_EMAIL, ""));
-//
-//        if (!MySharedPreference.getString(v.getContext(), Constants.Keys.USER_PASSWORD, "").equals(""))
-//            txtPassword.setText(MySharedPreference.getString(v.getContext(), Constants.Keys.USER_PASSWORD, ""));
-//
-//        String imageString = MySharedPreference.getString(getContext(),Constants.Keys.USER_IMG,"");
-//        Glide.with(this).load(imageString).into(profile_pic);
-//
-//        txtName.setEnabled(false);
-//        txtPassword.setEnabled(false);
-//        txtEmail.setEnabled(false);
-//
-//
-//    }//End fillData()
+
 }

@@ -9,49 +9,6 @@
     tools:context=".PostBid.ViewBid">
 
 
-    <Button
-        android:id="@+id/getbtn"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:gravity="center"
-        android:text="GET!"
-        />
-    <Button
-        android:id="@+id/anotherbtn"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:gravity="center"
-        android:text="GET!"
-        />
-    <TextView
-
-        android:id="@+id/tv1"
-        android:layout_width="wrap_content"
-        android:gravity="center"
-        android:text="TEST"
-        android:textSize="20sp"
-        android:layout_marginTop="20dp"
-        android:layout_height="wrap_content"/>
-    <TextView
-
-        android:id="@+id/tv2"
-        android:layout_marginTop="20dp"
-
-        android:layout_width="wrap_content"
-        android:gravity="center"
-        android:text="TEST"
-        android:textSize="20sp"
-        android:layout_height="wrap_content"/>
-    <TextView
-
-        android:id="@+id/tv3"
-        android:layout_marginTop="20dp"
-
-        android:layout_width="wrap_content"
-        android:gravity="center"
-        android:text="TEST"
-        android:textSize="20sp"
-        android:layout_height="wrap_content"/>
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recycler_view_b"
