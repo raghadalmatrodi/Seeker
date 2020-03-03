@@ -24,6 +24,7 @@ public class Constants {
         String USER_ID = "user_id";
 //        String ENABLE_NOTI = "enable_noti";
 //        String FB_TOKEN = "fb_token";
+         String EMPLOYER_ID = "employer_id";
 
     }//End Keys interface
 

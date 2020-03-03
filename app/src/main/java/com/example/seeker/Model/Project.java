@@ -2,9 +2,13 @@ package com.example.seeker.Model;
 
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
 
 public class Project  {
-    
+
     private String title;
     private String description;
     private double budget;
@@ -12,7 +16,9 @@ public class Project  {
     private String payment_type;
     private String expiry_date;
     private String deadline;
-
+    private List<Milestone> milestones = new ArrayList<>();
+    private Employer employer;
+    private Set<Skill> skills = new HashSet<>();
     private String status;
     // 0 -> pending
     //1 -> inProgress
@@ -21,7 +27,7 @@ public class Project  {
 
     private Category category;
 
-    public Project(String title, String description, double budget, String type, String payment_type, String  expiry_date, String deadline,  String status) {
+    public Project(String title, String description, double budget,String type, String payment_type, String expiry_date, String deadline, Employer employer , String status){
         this.title = title;
         this.description = description;
         this.budget = budget;
@@ -29,10 +35,24 @@ public class Project  {
         this.payment_type = payment_type;
         this.expiry_date = expiry_date;
         this.deadline = deadline;
-//        this.category = category;
+        this.employer = employer;
         this.status = status;
     }
 
+//    public Project(String title, String description, double budget, String type, String payment_type, String expiry_date, String deadline, List<Milestone> milestones, Employer employer, Set<Skill> skills, String status, Category category) {
+//        this.title = title;
+//        this.description = description;
+//        this.budget = budget;
+//        this.type = type;
+//        this.payment_type = payment_type;
+//        this.expiry_date = expiry_date;
+//        this.deadline = deadline;
+////        this.milestones = milestones;
+//        this.employer = employer;
+//        this.skills = skills;
+//        this.status = status;
+////        this.category = category;
+//    }
 
     public String getTitle() {
         return title;
@@ -105,6 +125,38 @@ public class Project  {
         this.status = status;
     }
 
+    public List<Milestone> getMilestones() {
+        return milestones;
+    }
+
+    public void setMilestones(List<Milestone> milestones) {
+        this.milestones = milestones;
+    }
+
+    public Employer getEmployer() {
+        return employer;
+    }
+
+    public void setEmployer(Employer employer) {
+        this.employer = employer;
+    }
+
+    public Set<Skill> getSkills() {
+        return skills;
+    }
+
+    public void setSkills(Set<Skill> skills) {
+        this.skills = skills;
+    }
+
+    public Category getCategory() {
+        return category;
+    }
+
+    public void setCategory(Category category) {
+        this.category = category;
+    }
+
     @Override
     public String toString() {
         return "Project{" +
@@ -115,7 +167,11 @@ public class Project  {
                 ", payment_type='" + payment_type + '\'' +
                 ", expiry_date='" + expiry_date + '\'' +
                 ", deadline='" + deadline + '\'' +
+                ", milestones=" + milestones +
+                ", employer=" + employer +
+                ", skills=" + skills +
                 ", status='" + status + '\'' +
+                ", category=" + category +
                 '}';
     }
 }//End of project

@@ -22,6 +22,7 @@ import com.example.seeker.Database.ApiClients;
 import com.example.seeker.EmployerMainPages.Emp_PostFragment;
 import com.example.seeker.EmployerMainPages.EmployerMainActivity;
 import com.example.seeker.Model.Category;
+import com.example.seeker.Model.Employer;
 import com.example.seeker.Model.Login;
 import com.example.seeker.Model.Project;
 import com.example.seeker.Model.Responses.ApiResponse;
@@ -29,6 +30,8 @@ import com.example.seeker.Model.Responses.ProjectResponse;
 import com.example.seeker.PostProject.CategoryAdapter;
 import com.example.seeker.PostProject.ProjectCategoryFragment;
 import com.example.seeker.R;
+import com.example.seeker.SharedPref.Constants;
+import com.example.seeker.SharedPref.MySharedPreference;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -47,6 +50,7 @@ public class Emp_MyProjects_Pending_Fragment extends Fragment implements Project
     private List<Project> projectList = new ArrayList<>();
     private ProjectListener projectListener;
     private TextView pendingText;
+    private Employer employer;
 
 
     private static final String LOG = Emp_MyProjects_Pending_Fragment.class.getSimpleName();
@@ -54,14 +58,20 @@ public class Emp_MyProjects_Pending_Fragment extends Fragment implements Project
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
 
+
+
         // Inflate the layout for this fragment
         view =  inflater.inflate(R.layout.fragment_pending_projects, container, false);
 
+        long employer_id = MySharedPreference.getLong(getContext(), Constants.Keys.EMPLOYER_ID, -1);
+        employer = new Employer(employer_id);
 
         pendingText = view.findViewById(R.id.emp_pending_text);
 //        getProjectList();
 
         if(!projectList.isEmpty()) {
+
+
 
         }
 
@@ -113,7 +123,7 @@ public class Emp_MyProjects_Pending_Fragment extends Fragment implements Project
         super.onResume();
 
 
-        ApiClients.getAPIs().getProjectByStatus("0").enqueue(new Callback<List<Project>>() {
+        ApiClients.getAPIs().getProjectByStatus("0", employer ).enqueue(new Callback<List<Project>>() {
             @Override
             public void onResponse(Call<List<Project>> call, Response<List<Project>> response) {
                 if(response.isSuccessful()){
@@ -126,7 +136,7 @@ public class Emp_MyProjects_Pending_Fragment extends Fragment implements Project
                     adapter = new ProjectAdapter(projectList);
                     recyclerView.setItemAnimator(new DefaultItemAnimator());
                     recyclerView.setAdapter(adapter);
-                    //adapter.setListener(this);
+                    adapter.setListener(Emp_MyProjects_Pending_Fragment.this);
                     recyclerView.setNestedScrollingEnabled(true);
                     DividerItemDecoration dividerItemDecoration = new DividerItemDecoration(recyclerView.getContext(), DividerItemDecoration.VERTICAL);
                     recyclerView.addItemDecoration(dividerItemDecoration);

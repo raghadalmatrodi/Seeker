@@ -15,6 +15,7 @@ import androidx.appcompat.app.AlertDialog;
 
 import com.example.seeker.Database.ApiClients;
 import com.example.seeker.EmployerMainPages.EmployerMainActivity;
+import com.example.seeker.Model.Employer;
 import com.example.seeker.Model.Exception.ApiError;
 import com.example.seeker.Model.Exception.ApiException;
 import com.example.seeker.Model.Login;
@@ -255,14 +256,35 @@ public class LoginActivity extends Activity {
 //        MySharedPreference.putString(this, Constants.Keys.ENABLE_NOTI, user.getEnable_noti());
 
 
+        getEmployerByUserId(MySharedPreference.getLong(this,Constants.Keys.USER_ID,-1));
         /**
          * WHY?? DO I NEED IT? THINK!
          */
 //        finish();
     }//End addCurrentUser()
 
+    private void getEmployerByUserId(long user_id) {
 
+        ApiClients.getAPIs().getEmployerByUserIdRequest(user_id).enqueue(new Callback<Employer>() {
+            @Override
+            public void onResponse(Call<Employer> call, Response<Employer> response) {
 
+                if(response.isSuccessful()){
+
+                    Employer employer = response.body();
+                    MySharedPreference.putLong(LoginActivity.this, Constants.Keys.EMPLOYER_ID, employer.getId());
+                    Log.i(LOG, "Employer ID "+   MySharedPreference.getLong(LoginActivity.this, Constants.Keys.EMPLOYER_ID,-1));
+
+                }
+            }
+
+            @Override
+            public void onFailure(Call<Employer> call, Throwable t) {
+
+            }
+        });
+
+    }
 
 
 }//End of LoginActivity

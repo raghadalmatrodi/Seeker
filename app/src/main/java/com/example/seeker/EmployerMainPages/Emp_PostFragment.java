@@ -13,6 +13,7 @@ import androidx.viewpager.widget.ViewPager;
 
 import com.example.seeker.Database.ApiClients;
 import com.example.seeker.Model.Category;
+import com.example.seeker.Model.Employer;
 import com.example.seeker.Model.Exception.ApiError;
 import com.example.seeker.Model.Exception.ApiException;
 import com.example.seeker.Model.Project;
@@ -25,6 +26,8 @@ import com.example.seeker.PostProject.ProjectInformationFragment;
 import com.example.seeker.PostProject.ProjectSkillsFragment;
 import com.example.seeker.PostProject.ProjectTypeFragment;
 import com.example.seeker.R;
+import com.example.seeker.SharedPref.Constants;
+import com.example.seeker.SharedPref.MySharedPreference;
 import com.google.gson.Gson;
 
 import java.io.File;
@@ -154,20 +157,22 @@ public class Emp_PostFragment extends Fragment implements ProjectTypeFragment.Pr
         else{
 
             double budgetValue = Double.parseDouble(budget);
-            Project project = new Project(title, description, budgetValue,projectType,paymentType,expiryLocalDateTime ,deadlineLocalDateTime,  "0");
+
+
+//            Project project = new Project(title, description, budgetValue,projectType,paymentType,expiryLocalDateTime ,deadlineLocalDateTime,  "0");
 
 
             AlertDialog.Builder alertDialog = new AlertDialog.Builder(getContext());
             // Setting Dialog Message
             alertDialog.setTitle("Project details Review");
-            alertDialog.setMessage(project.toString());
+//            alertDialog.setMessage(project.toString());
 
             //Setting positive "ok" Button
             alertDialog.setPositiveButton("POST", new DialogInterface.OnClickListener() {
                 public void onClick(DialogInterface dialog, int which) {
 
 
-                    createProjectWithAttachments(files,project);
+//                    createProjectWithAttachments(files,project);
 
                     dialog.dismiss();
 
@@ -240,8 +245,12 @@ public class Emp_PostFragment extends Fragment implements ProjectTypeFragment.Pr
             double budgetValue = Double.parseDouble(budget);
 
 
+            long empID = MySharedPreference.getLong(getContext(), Constants.Keys.EMPLOYER_ID,-1);
 
-            Project project = new Project(title, description, budgetValue,projectType,paymentType,expiryLocalDateTime ,deadlineLocalDateTime,  "0");
+            Employer employer = new Employer(empID);
+
+
+            Project project = new Project(title,description, budgetValue, projectType, paymentType, expiryLocalDateTime,deadlineLocalDateTime, employer,  "0");
 
             Dialog(project.toString(), project);
 
@@ -259,6 +268,7 @@ public class Emp_PostFragment extends Fragment implements ProjectTypeFragment.Pr
         //Setting positive "ok" Button
         alertDialog.setPositiveButton("POST", new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int which) {
+
 
 
                 excutePostProjectRequest(project);

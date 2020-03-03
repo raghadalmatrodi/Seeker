@@ -17,8 +17,11 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.seeker.Database.ApiClients;
+import com.example.seeker.Model.Employer;
 import com.example.seeker.Model.Project;
 import com.example.seeker.R;
+import com.example.seeker.SharedPref.Constants;
+import com.example.seeker.SharedPref.MySharedPreference;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -36,6 +39,7 @@ public class Emp_MyProjects_In_Progress_Fragment extends Fragment  implements Pr
     private List<Project> projectList = new ArrayList<>();
     private Emp_MyProjects_Pending_Fragment.ProjectListener projectListener;
     private TextView pendingText;
+    private Employer employer;
 
     private static final String LOG = Emp_MyProjects_In_Progress_Fragment.class.getSimpleName();
 
@@ -44,6 +48,9 @@ public class Emp_MyProjects_In_Progress_Fragment extends Fragment  implements Pr
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         view =  inflater.inflate(R.layout.fragment_in_progress_projects, container, false);
+
+        long employer_id = MySharedPreference.getLong(getContext(), Constants.Keys.EMPLOYER_ID, -1);
+        employer = new Employer(employer_id);
 
 
         pendingText = view.findViewById(R.id.emp_inProgress_text);
@@ -96,7 +103,7 @@ public class Emp_MyProjects_In_Progress_Fragment extends Fragment  implements Pr
     public void onResume() {
         super.onResume();
 
-        ApiClients.getAPIs().getProjectByStatus("1").enqueue(new Callback<List<Project>>() {
+        ApiClients.getAPIs().getProjectByStatus("1", employer).enqueue(new Callback<List<Project>>() {
             @Override
             public void onResponse(Call<List<Project>> call, Response<List<Project>> response) {
                 if(response.isSuccessful()){
