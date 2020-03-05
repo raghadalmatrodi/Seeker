@@ -27,13 +27,18 @@ public class ViewFullBid extends AppCompatActivity {
 
     }//End onCreate()
 
-    private void fillData() {
-
+    private void init() {
 
         price = findViewById(R.id.vbid_proposed_price);
         deliverydate = findViewById(R.id.vbid_deliverydate);
         desc = findViewById(R.id.vbid_user_description);
         title = findViewById(R.id.viewfullbid_title);
+        username = findViewById(R.id.viewfullbidfreelancername);
+    }
+
+    private void fillData() {
+
+        init();
 
         Intent i = getIntent();
         Bid bid = (Bid) i.getSerializableExtra("bidObj");
@@ -52,18 +57,13 @@ public class ViewFullBid extends AppCompatActivity {
 
         desc.setText(bid.getDescription());
         title.setText(bid.getTitle());
+        username.setText(String.valueOf(bid.getFreelancer().getId()));
 
 
-        //        desc.setText(String.valueOf(bid.getFreelancer().getId()));
-//        bid.getFreelancer().getId();
 
-        //Test sharedPref
-//        if (!MySharedPreference.getString(ViewFullBid.this, Constants.Keys.USER_NAME, "").equals(""))
-//        price.setText("NAME:  " + MySharedPreference.getString(ViewFullBid.this, Constants.Keys.USER_NAME, ""));
-//        deliverydate.setText("EMAIL:  " +MySharedPreference.getString(ViewFullBid.this, Constants.Keys.USER_EMAIL, ""));
-//        desc.setText("ID:  "+MySharedPreference.getLong(ViewFullBid.this, Constants.Keys.USER_ID, -1));
 
     }
+
 
 
 }

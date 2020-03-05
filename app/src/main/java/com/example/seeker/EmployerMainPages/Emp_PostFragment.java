@@ -12,10 +12,12 @@ import androidx.fragment.app.Fragment;
 import androidx.viewpager.widget.ViewPager;
 
 import com.example.seeker.Database.ApiClients;
+import com.example.seeker.Model.Bid;
 import com.example.seeker.Model.Category;
 import com.example.seeker.Model.Employer;
 import com.example.seeker.Model.Exception.ApiError;
 import com.example.seeker.Model.Exception.ApiException;
+import com.example.seeker.Model.Freelancer;
 import com.example.seeker.Model.Project;
 import com.example.seeker.Model.Responses.ApiResponse;
 import com.example.seeker.Model.Skill;
@@ -256,6 +258,9 @@ public class Emp_PostFragment extends Fragment implements ProjectTypeFragment.Pr
 
             Project project = new Project(title, description, budgetValue, projectType, paymentType, expiryLocalDateTime, deadlineLocalDateTime, employer, skillList, "0", category);
 
+            //todo hind's changes to add list of bids in a project , keep commented i'll need it later
+//            List<Bid> bidlist = new ArrayList<>();
+//            Project project1 = new Project(title,description, budgetValue, projectType, paymentType, expiryLocalDateTime,deadlineLocalDateTime, employer,  "0",bidlist );
             Dialog(project.toString(), project);
 
         }

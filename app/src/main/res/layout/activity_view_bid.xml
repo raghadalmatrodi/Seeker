@@ -8,13 +8,27 @@
     android:orientation="vertical"
     tools:context=".PostBid.ViewBid">
 
-
-
+    <TextView
+        android:id="@+id/vppttest"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="PROJECT TITLE TEST"
+        android:textColor="#000"
+        android:layout_margin="10dp"
+        android:textSize="20dp"
+        />
+    <Button
+        android:id="@+id/placebidtest"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="PLACE BID"
+        android:layout_margin="10dp"
+        />
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recycler_view_b"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="10dp"
+        android:layout_marginTop="200dp"
         android:clipToPadding="false"
         android:scrollbars="vertical" />
 

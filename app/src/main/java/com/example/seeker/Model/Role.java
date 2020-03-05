@@ -1,7 +1,9 @@
 package com.example.seeker.Model;
 
+import java.io.Serializable;
 
-public class Role {
+//todo 9 hind implemented serializable to all project attributes :)
+public class Role implements Serializable {
 
     private long id;
     private String role;

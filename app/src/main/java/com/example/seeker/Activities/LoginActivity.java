@@ -9,7 +9,6 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.appcompat.app.AlertDialog;
 
@@ -18,10 +17,9 @@ import com.example.seeker.EmployerMainPages.EmployerMainActivity;
 import com.example.seeker.Model.Employer;
 import com.example.seeker.Model.Exception.ApiError;
 import com.example.seeker.Model.Exception.ApiException;
+import com.example.seeker.Model.Freelancer;
 import com.example.seeker.Model.Login;
 import com.example.seeker.Model.User;
-import com.example.seeker.PostBid.PostBidActivity;
-import com.example.seeker.PostBid.ViewBid;
 import com.example.seeker.R;
 import com.example.seeker.SharedPref.Constants;
 import com.example.seeker.SharedPref.MySharedPreference;
@@ -194,7 +192,9 @@ public class LoginActivity extends Activity {
 //                firebaseAuth.signOut();
 //                dialog.dismiss();
                 Intent intent;
+//                intent = new Intent(LoginActivity.this, EmployerMainActivity.class);
                 intent = new Intent(LoginActivity.this, EmployerMainActivity.class);
+
                 startActivity(intent);
 
             }//end onClick
@@ -257,6 +257,9 @@ public class LoginActivity extends Activity {
 
 
         getEmployerByUserId(MySharedPreference.getLong(this,Constants.Keys.USER_ID,-1));
+        //todo: hind added to test get freelancer by use id -> remove later if didn't work :)
+        getFreelancerByUserIDRequest(MySharedPreference.getLong(this,Constants.Keys.USER_ID,-1));
+
         /**
          * WHY?? DO I NEED IT? THINK!
          */
@@ -285,6 +288,35 @@ public class LoginActivity extends Activity {
         });
 
     }
+
+    //todo: HIND FIND FREELANCER BY USER ID API REQUEST METHOD IMPLEMENTATION
+
+    private void getFreelancerByUserIDRequest(long user_id ){
+
+        ApiClients.getAPIs().getFreelancerByUserIdRequest(user_id).enqueue(new Callback<Freelancer>() {
+            @Override
+            public void onResponse(Call<Freelancer> call, Response<Freelancer> response) {
+                if (response.isSuccessful()){
+                    Freelancer freelancer = response.body();
+                    MySharedPreference.putLong(LoginActivity.this, Constants.Keys.FREELANCER_ID, freelancer.getId());
+                    MySharedPreference.putString(LoginActivity.this, Constants.Keys.FREELANCER_NAME, freelancer.getUser().getUsername());
+                }else{
+
+                }
+            }
+
+            @Override
+            public void onFailure(Call<Freelancer> call, Throwable t) {
+
+            }
+        });
+
+
+
+
+
+
+    }//End getFreelancerByUserIdRequest()
 
 
 }//End of LoginActivity

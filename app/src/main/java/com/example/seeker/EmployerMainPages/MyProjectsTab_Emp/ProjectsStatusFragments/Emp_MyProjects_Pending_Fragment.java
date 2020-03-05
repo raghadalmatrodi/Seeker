@@ -27,12 +27,14 @@ import com.example.seeker.Model.Login;
 import com.example.seeker.Model.Project;
 import com.example.seeker.Model.Responses.ApiResponse;
 import com.example.seeker.Model.Responses.ProjectResponse;
+import com.example.seeker.PostBid.ViewBid;
 import com.example.seeker.PostProject.CategoryAdapter;
 import com.example.seeker.PostProject.ProjectCategoryFragment;
 import com.example.seeker.R;
 import com.example.seeker.SharedPref.Constants;
 import com.example.seeker.SharedPref.MySharedPreference;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -42,7 +44,8 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class Emp_MyProjects_Pending_Fragment extends Fragment{
+//todo 6 hind implemented serializable
+public class Emp_MyProjects_Pending_Fragment extends Fragment implements Serializable{
 
     private View view;
     private RecyclerView recyclerView;
