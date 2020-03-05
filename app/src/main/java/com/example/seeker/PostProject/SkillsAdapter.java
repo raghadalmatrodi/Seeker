@@ -39,6 +39,7 @@ public class SkillsAdapter extends RecyclerView.Adapter<SkillsAdapter.MyViewHold
 
             title = view.findViewById(R.id.row_title);
             checkBox = view.findViewById(R.id.row_arrow);
+            skillsCounter = 0;
 
 
 
@@ -73,8 +74,7 @@ public class SkillsAdapter extends RecyclerView.Adapter<SkillsAdapter.MyViewHold
                 }
             }
         });
-
-
+            
 
         }//End of MyViewHolder()
 

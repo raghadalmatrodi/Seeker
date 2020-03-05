@@ -42,13 +42,13 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class Emp_MyProjects_Pending_Fragment extends Fragment implements ProjectAdapter.ProjectAdapterListener{
+public class Emp_MyProjects_Pending_Fragment extends Fragment{
 
     private View view;
     private RecyclerView recyclerView;
     private ProjectAdapter adapter;
     private List<Project> projectList = new ArrayList<>();
-    private ProjectListener projectListener;
+
     private TextView pendingText;
     private Employer employer;
 
@@ -67,35 +67,12 @@ public class Emp_MyProjects_Pending_Fragment extends Fragment implements Project
         employer = new Employer(employer_id);
 
         pendingText = view.findViewById(R.id.emp_pending_text);
-//        getProjectList();
 
-        if(!projectList.isEmpty()) {
-
-
-
-        }
 
 
         return view;
     }
 
-    public interface ProjectListener{
-
-        void onProjectItemSelected(Project project);
-    }//End of interface
-
-    @Override
-    public void onProjectItemSelectedAdapter(Project project) {
-
-        projectListener.onProjectItemSelected(project);
-
-    }
-
-    public void setListener (ProjectListener projectListener)
-    {
-        this.projectListener = projectListener;
-
-    }
 
     private void wrongInfoDialog(String msg) {
         AlertDialog.Builder alertDialog = new AlertDialog.Builder(getContext());
@@ -130,16 +107,7 @@ public class Emp_MyProjects_Pending_Fragment extends Fragment implements Project
 
                     projectList = (List) response.body();
                     pendingText.setText("");
-                    recyclerView = (RecyclerView) view.findViewById(R.id.recycler_view);
-
-                    recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
-                    adapter = new ProjectAdapter(projectList);
-                    recyclerView.setItemAnimator(new DefaultItemAnimator());
-                    recyclerView.setAdapter(adapter);
-                    adapter.setListener(Emp_MyProjects_Pending_Fragment.this);
-                    recyclerView.setNestedScrollingEnabled(true);
-                    DividerItemDecoration dividerItemDecoration = new DividerItemDecoration(recyclerView.getContext(), DividerItemDecoration.VERTICAL);
-                    recyclerView.addItemDecoration(dividerItemDecoration);
+                    setRecyclerView();
 
                 }
                 else{
@@ -159,7 +127,18 @@ public class Emp_MyProjects_Pending_Fragment extends Fragment implements Project
 
     }
 
+    private void setRecyclerView() {
 
+        recyclerView = (RecyclerView) view.findViewById(R.id.recycler_view);
+        recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
+        adapter = new ProjectAdapter(projectList);
+        recyclerView.setItemAnimator(new DefaultItemAnimator());
+        recyclerView.setAdapter(adapter);
+        recyclerView.setNestedScrollingEnabled(true);
+        DividerItemDecoration dividerItemDecoration = new DividerItemDecoration(recyclerView.getContext(), DividerItemDecoration.VERTICAL);
+        recyclerView.addItemDecoration(dividerItemDecoration);
+
+    }
 
 
 

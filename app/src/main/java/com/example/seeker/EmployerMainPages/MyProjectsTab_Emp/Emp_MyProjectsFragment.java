@@ -56,8 +56,9 @@ public class Emp_MyProjectsFragment extends Fragment {
 
 
         Adapter adapter = new Adapter(getChildFragmentManager());
-        adapter.addFragment(new Emp_MyProjects_In_Progress_Fragment(), "In Progress");
+
         adapter.addFragment(new Emp_MyProjects_Pending_Fragment(), "Pending");
+        adapter.addFragment(new Emp_MyProjects_In_Progress_Fragment(), "In Progress");
         adapter.addFragment(new Emp_MyProjects_Completed_Fragment(), "Completed");
 
         viewPager.setAdapter(adapter);
@@ -68,6 +69,15 @@ public class Emp_MyProjectsFragment extends Fragment {
     static class Adapter extends FragmentPagerAdapter {
         private final List<Fragment> mFragmentList = new ArrayList<>();
         private final List<String> mFragmentTitleList = new ArrayList<>();
+
+
+
+
+
+
+
+
+
 
         public Adapter(FragmentManager manager) {
             super(manager);

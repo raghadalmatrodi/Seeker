@@ -21,18 +21,27 @@ import com.example.seeker.Model.Skill;
 import com.example.seeker.R;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 public class ProjectSkillsFragment  extends Fragment  {
     private View view;
     private RecyclerView recyclerView;
     private SkillsAdapter adapter;
-    private List<Skill> skillList = new ArrayList<>();
+
+
     private SkillsListener skillsListener;
     private BackSkillListener backSkillListener;
     private ImageView backBtn;
     private Button nextBtn;
-    private List<Skill> projectSkillList;
+
+    private List<Skill> projectSkillList = new ArrayList<>();
+    private List<Skill> skillArrayList ;
+
+    private Set<Skill> projectSkillHashList = new HashSet<>();
+    private Set<Skill> skillList = new HashSet<>();
+
 
 
 
@@ -46,25 +55,8 @@ public class ProjectSkillsFragment  extends Fragment  {
         backBtn = view.findViewById(R.id.project_skills_back);
         nextBtn = view.findViewById(R.id.next_skill);
 
-        skillList.add(new Skill(11,"Java"));
-        skillList.add(new Skill(21,"C#"));
-        skillList.add(new Skill(31,"swift"));
-        skillList.add(new Skill(22,"python"));
-        skillList.add(new Skill(33,"php"));
-        skillList.add(new Skill(44,"html"));
 
 
-        //RecyclerView Code
-        recyclerView = (RecyclerView) view.findViewById(R.id.recycler_view);
-        recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
-        adapter = new SkillsAdapter(skillList);
-        skillList = new ArrayList<>();
-        recyclerView.setItemAnimator(new DefaultItemAnimator());
-        recyclerView.setAdapter(adapter);
-
-        recyclerView.setNestedScrollingEnabled(true);
-        DividerItemDecoration dividerItemDecoration = new DividerItemDecoration(recyclerView.getContext(), DividerItemDecoration.VERTICAL);
-        recyclerView.addItemDecoration(dividerItemDecoration);
 
 
         //Back Button ToolBar listener
@@ -81,12 +73,16 @@ public class ProjectSkillsFragment  extends Fragment  {
             @Override
             public void onClick(View view) {
 
+                projectSkillHashList = new HashSet<>();
                projectSkillList=  adapter.getProjectSkills();
                if(projectSkillList.isEmpty()){
                    wrongInfoDialog("You have to choose at least one skill");
                }else {
 
-                   skillsListener.onNextSelected(projectSkillList);
+                   for(Skill skill: projectSkillList){
+                       projectSkillHashList.add(skill);
+                   }
+                   skillsListener.onNextSelected(projectSkillHashList);
                }
 
 
@@ -99,11 +95,17 @@ public class ProjectSkillsFragment  extends Fragment  {
         return view;
     }//End of onCreateView()
 
+    public void setData(Category category){
+
+        skillArrayList = new ArrayList<>();
+        setRecyclerView(category);
+
+    }
 
     //Needed Interfaces
     public interface SkillsListener{
 
-        void onNextSelected(List<Skill> skillList);
+        void onNextSelected(Set<Skill> skillList);
     }//End of interface
 
     public interface BackSkillListener{
@@ -111,8 +113,28 @@ public class ProjectSkillsFragment  extends Fragment  {
         void onBacSkillSelected();
     }
 
+    public void setRecyclerView(Category category) {
+
+        skillList =  category.getSkills();
 
 
+        for(Skill skill : skillList){
+            skillArrayList.add(skill);
+        }
+
+
+
+        //RecyclerView Code
+        recyclerView = (RecyclerView) view.findViewById(R.id.recycler_view);
+        recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
+        adapter = new SkillsAdapter(skillArrayList);
+        recyclerView.setItemAnimator(new DefaultItemAnimator());
+        recyclerView.setAdapter(adapter);
+        recyclerView.setNestedScrollingEnabled(true);
+        DividerItemDecoration dividerItemDecoration = new DividerItemDecoration(recyclerView.getContext(), DividerItemDecoration.VERTICAL);
+        recyclerView.addItemDecoration(dividerItemDecoration);
+
+    }
 
     public void setListener (SkillsListener skillsListener, BackSkillListener backSkillListener)
     {

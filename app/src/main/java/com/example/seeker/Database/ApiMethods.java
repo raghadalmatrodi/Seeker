@@ -1,6 +1,7 @@
 package com.example.seeker.Database;
 
 import com.example.seeker.Model.Bid;
+import com.example.seeker.Model.Category;
 import com.example.seeker.Model.Employer;
 import com.example.seeker.Model.Login;
 import com.example.seeker.Model.Project;
@@ -39,6 +40,7 @@ public interface ApiMethods {
         String GET_SOCIAL_MEDIA = "userSocialMedia/find-all";
         String FIND_USER_BY_EMAIL = "user/email/{email}";
         String GET_EMPLOYER_BY_USER_ID = "employer/user_id/{user_id}";
+        String GET_ALL_CATEGORY = "category/find-all";
 
 
 
@@ -86,6 +88,9 @@ public interface ApiMethods {
 
     @GET(Methods.GET_EMPLOYER_BY_USER_ID)
     Call<Employer> getEmployerByUserIdRequest(@Path("user_id") long user_id);
+
+    @GET(Methods.GET_ALL_CATEGORY)
+    Call<List<Category>> getALLCategoryRequest();
 
 
 

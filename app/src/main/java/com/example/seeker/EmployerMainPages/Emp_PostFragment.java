@@ -36,7 +36,9 @@ import java.lang.annotation.Annotation;
 import java.nio.file.Files;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import okhttp3.MediaType;
 import okhttp3.MultipartBody;
@@ -68,7 +70,7 @@ public class Emp_PostFragment extends Fragment implements ProjectTypeFragment.Pr
 
     private String projectType, paymentType, title,description, budget;
     private Category category;
-    private List<Skill> skillList;
+    private Set<Skill> skillList = new HashSet<>();
     private String deadlineLocalDateTime, expiryLocalDateTime;
 
     @Override
@@ -112,16 +114,18 @@ public class Emp_PostFragment extends Fragment implements ProjectTypeFragment.Pr
     @Override
     public void onProjectTypeItemSelected(String projectType) {
         this.projectType = projectType;
+        projectCategoryFragment.setData(projectType);
         viewPager.setCurrentItem(1);
     }
     @Override
     public void onCategoryTypeItemSelected(Category category) {
         this.category = category;
+        projectSkillsFragment.setData(category);
         viewPager.setCurrentItem(2);
     }
 
     @Override
-    public void onNextSelected(List<Skill> skill) {
+    public void onNextSelected(Set<Skill> skill) {
         skillList = skill;
         viewPager.setCurrentItem(3);
 
@@ -250,7 +254,7 @@ public class Emp_PostFragment extends Fragment implements ProjectTypeFragment.Pr
             Employer employer = new Employer(empID);
 
 
-            Project project = new Project(title,description, budgetValue, projectType, paymentType, expiryLocalDateTime,deadlineLocalDateTime, employer,  "0");
+            Project project = new Project(title, description, budgetValue, projectType, paymentType, expiryLocalDateTime, deadlineLocalDateTime, employer, skillList, "0", category);
 
             Dialog(project.toString(), project);
 
@@ -399,14 +403,17 @@ public class Emp_PostFragment extends Fragment implements ProjectTypeFragment.Pr
     }
     @Override
     public void onBacSkillSelected() {
+        projectCategoryFragment.setData(projectType);
         viewPager.setCurrentItem(1);
+
     }
 
 
     @Override
     public void onBackPaymentClick() {
-
+        projectSkillsFragment.setData(category);
         viewPager.setCurrentItem(2);
+
 
     }
 

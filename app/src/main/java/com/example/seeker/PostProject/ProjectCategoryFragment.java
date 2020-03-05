@@ -2,6 +2,7 @@ package com.example.seeker.PostProject;
 
 import android.content.Context;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,11 +14,17 @@ import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.seeker.Activities.SignupActivity;
+import com.example.seeker.Database.ApiClients;
 import com.example.seeker.Model.Category;
 import com.example.seeker.R;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class ProjectCategoryFragment extends Fragment implements CategoryAdapter.CategoryAdapterListener {
 
@@ -25,9 +32,13 @@ public class ProjectCategoryFragment extends Fragment implements CategoryAdapter
     private RecyclerView recyclerView;
     private CategoryAdapter adapter;
     private List<Category> categoryList = new ArrayList<>();
+    private List<Category> lastList = new ArrayList<>();
     private CategoryListener categoryListener;
     private BackCategoryListener backCategoryListener;
     private ImageView backBtn;
+    private static final String LOG= ProjectCategoryFragment.class.getSimpleName();
+
+
 
 
 
@@ -37,21 +48,10 @@ public class ProjectCategoryFragment extends Fragment implements CategoryAdapter
         view = inflater.inflate(R.layout.fragment_project_category, container, false);
 
         backBtn = view.findViewById(R.id.project_category_back);
-        categoryList.add(new Category("Test","Test to Test"));
-        categoryList.add(new Category("Reema", "My Test"));
-        categoryList.add(new Category("HHHHH", "Test Me Me"));
+
 
         recyclerView = (RecyclerView) view.findViewById(R.id.recycler_view);
-        recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
-        adapter = new CategoryAdapter(categoryList);
-        categoryList = new ArrayList<>();
-        recyclerView.setItemAnimator(new DefaultItemAnimator());
-        recyclerView.setAdapter(adapter);
-        adapter.setListener(this);
 
-        recyclerView.setNestedScrollingEnabled(true);
-        DividerItemDecoration dividerItemDecoration = new DividerItemDecoration(recyclerView.getContext(), DividerItemDecoration.VERTICAL);
-        recyclerView.addItemDecoration(dividerItemDecoration);
 
         backBtn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -61,11 +61,34 @@ public class ProjectCategoryFragment extends Fragment implements CategoryAdapter
             }
         });
 
+        getArray();
 
 
 
         return view;
     }//End of onCreateView()
+
+    private void getArray() {
+
+
+        ApiClients.getAPIs().getALLCategoryRequest().enqueue(new Callback<List<Category>>() {
+            @Override
+            public void onResponse(Call<List<Category>> call, Response<List<Category>> response) {
+                if (response.isSuccessful()) {
+
+                    categoryList = response.body();
+
+
+                }
+            }
+
+            @Override
+            public void onFailure(Call<List<Category>> call, Throwable t) {
+
+            }
+        });
+    }
+
 
     public interface CategoryListener{
 
@@ -85,16 +108,38 @@ public class ProjectCategoryFragment extends Fragment implements CategoryAdapter
         this.backCategoryListener = backCategoryListener;
     }
 
-    @Override
-    public void onAttach(Context context) {
-        super.onAttach(context);
-       // categoryListener = (CategoryListener) getActivity();
-    }
-
     public interface BackCategoryListener{
 
         void onBacCategorySelected();
     }
 
+    public void setData(String projectType) {
 
+        lastList = new ArrayList<>();
+        setRecyclerView(projectType);
+    }
+
+
+
+    private void setRecyclerView(String projectType) {
+
+
+
+        for(Category c : categoryList){
+            if(c.getCategory_type().equals(projectType))
+            {
+                lastList.add(c);
+            }
+
+        }
+
+        recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
+        adapter = new CategoryAdapter(lastList);
+        recyclerView.setItemAnimator(new DefaultItemAnimator());
+        recyclerView.setAdapter(adapter);
+        adapter.setListener(this);
+        recyclerView.setNestedScrollingEnabled(true);
+        DividerItemDecoration dividerItemDecoration = new DividerItemDecoration(recyclerView.getContext(), DividerItemDecoration.VERTICAL);
+        recyclerView.addItemDecoration(dividerItemDecoration);
+    }
 }

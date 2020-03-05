@@ -26,8 +26,21 @@ public class Project  {
 
 
     private Category category;
+//
+//    public Project(String title, String description, double budget,String type, String payment_type, String expiry_date, String deadline, Employer employer , String status){
+//        this.title = title;
+//        this.description = description;
+//        this.budget = budget;
+//        this.type = type;
+//        this.payment_type = payment_type;
+//        this.expiry_date = expiry_date;
+//        this.deadline = deadline;
+//        this.employer = employer;
+//        this.status = status;
+//    }
+//
 
-    public Project(String title, String description, double budget,String type, String payment_type, String expiry_date, String deadline, Employer employer , String status){
+    public Project(String title, String description, double budget, String type, String payment_type, String expiry_date, String deadline,  Employer employer, Set<Skill> skills, String status, Category category) {
         this.title = title;
         this.description = description;
         this.budget = budget;
@@ -36,23 +49,10 @@ public class Project  {
         this.expiry_date = expiry_date;
         this.deadline = deadline;
         this.employer = employer;
+        this.skills = skills;
         this.status = status;
+        this.category = category;
     }
-
-//    public Project(String title, String description, double budget, String type, String payment_type, String expiry_date, String deadline, List<Milestone> milestones, Employer employer, Set<Skill> skills, String status, Category category) {
-//        this.title = title;
-//        this.description = description;
-//        this.budget = budget;
-//        this.type = type;
-//        this.payment_type = payment_type;
-//        this.expiry_date = expiry_date;
-//        this.deadline = deadline;
-////        this.milestones = milestones;
-//        this.employer = employer;
-//        this.skills = skills;
-//        this.status = status;
-////        this.category = category;
-//    }
 
     public String getTitle() {
         return title;
