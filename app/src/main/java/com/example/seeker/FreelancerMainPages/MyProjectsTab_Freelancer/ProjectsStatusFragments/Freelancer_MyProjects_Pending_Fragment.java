@@ -32,12 +32,12 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class Freelancer_MyProjects_Pending_Fragment extends Fragment implements Serializable, ProjectAdapter.ProjectAdapterListener {
+public class Freelancer_MyProjects_Pending_Fragment extends Fragment implements Serializable, FRProjectAdapter.ProjectAdapterListener {
 
     //TODO HIND #?
     private View view;
     private RecyclerView recyclerView;
-    private ProjectAdapter adapter;
+    private FRProjectAdapter adapter;
     private List<Project> projectList = new ArrayList<>();
     private Freelancer_MyProjects_Pending_Fragment.ProjectListener projectListener;
     private TextView pendingText;
@@ -64,7 +64,7 @@ public class Freelancer_MyProjects_Pending_Fragment extends Fragment implements 
     }//End of interface
 
     @Override
-    public void onProjectItemSelectedAdapter(Project project) {
+    public void onProjectItemClick(Project project) {
 
 //        projectListener.onProjectItemSelected(project);
 //        todo 3? hind
@@ -143,7 +143,7 @@ public class Freelancer_MyProjects_Pending_Fragment extends Fragment implements 
 
                     recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
 
-                    adapter = new ProjectAdapter(projectList);
+                    adapter = new FRProjectAdapter(projectList);
                     projectList = new ArrayList<>();
                     recyclerView.setItemAnimator(new DefaultItemAnimator());
                     recyclerView.setAdapter(adapter);
