@@ -135,7 +135,7 @@ public class Emp_PostFragment extends Fragment implements ProjectTypeFragment.Pr
         this.skillRecyclerViews = skillRecyclerViews;
 
         skillList = new HashSet<>();
-        
+
         for(SkillRecyclerView s: skillRecyclerViews){
             Skill skill = new Skill(s.getId(), s.getName());
             skillList.add(skill);
@@ -174,9 +174,11 @@ public class Emp_PostFragment extends Fragment implements ProjectTypeFragment.Pr
         else{
 
             double budgetValue = Double.parseDouble(budget);
+            long empID = MySharedPreference.getLong(getContext(), Constants.Keys.EMPLOYER_ID,-1);
 
+            Employer employer = new Employer(empID);
 
-//            Project project = new Project(title, description, budgetValue,projectType,paymentType,expiryLocalDateTime ,deadlineLocalDateTime,  "0");
+            Project project = new Project(title, description, budgetValue, projectType, paymentType, expiryLocalDateTime, deadlineLocalDateTime, employer, skillList, "0", category);
 
 
             AlertDialog.Builder alertDialog = new AlertDialog.Builder(getContext());
@@ -189,7 +191,7 @@ public class Emp_PostFragment extends Fragment implements ProjectTypeFragment.Pr
                 public void onClick(DialogInterface dialog, int which) {
 
 
-//                    createProjectWithAttachments(files,project);
+                    createProjectWithAttachments(files,project);
 
                     dialog.dismiss();
 

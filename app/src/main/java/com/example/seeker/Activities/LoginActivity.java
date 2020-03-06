@@ -43,7 +43,6 @@ public class LoginActivity extends Activity {
     private String userEmail, userPassword;
 
 
-//comment to test
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -84,8 +83,6 @@ public class LoginActivity extends Activity {
 
     }//End onCreate()
 
-
-
     private void LoginApiRequest() {
 
         ApiClients.getAPIs().getLoginRequest(new Login(userEmail,userPassword)).enqueue(new Callback<String>() {
@@ -96,7 +93,11 @@ public class LoginActivity extends Activity {
                 if (response.isSuccessful()) {
                     Log.i(LOG, "onResponse : " + response.body().toString());
                     executeGetUserByEmailRequest(userEmail);
-                    Dialog("ok");
+
+
+                   Intent intent = new Intent(LoginActivity.this, EmployerMainActivity.class);
+                    startActivity(intent);
+
 
                 }//End of if
                 else {
@@ -179,44 +180,15 @@ public class LoginActivity extends Activity {
 
     }//end wrongInfoDialog()
 
-    private void Dialog(String msg) {
-
-        AlertDialog.Builder alertDialog = new AlertDialog.Builder(this);
-
-        // Setting Dialog Message
-        alertDialog.setMessage(msg);
-
-        //Setting Negative "ok" Button
-        alertDialog.setPositiveButton("OK", new DialogInterface.OnClickListener() {
-            public void onClick(DialogInterface dialog, int which) {
-//                firebaseAuth.signOut();
-//                dialog.dismiss();
-                Intent intent;
-//                intent = new Intent(LoginActivity.this, EmployerMainActivity.class);
-                intent = new Intent(LoginActivity.this, EmployerMainActivity.class);
-
-                startActivity(intent);
-
-            }//end onClick
-        });//end setPositiveButton
-
-        alertDialog.show();
-
-    }//End of Dialog()
-
-
-
     private void executeGetUserByEmailRequest(String usermail){
         ApiClients.getAPIs().findUSerByEmailRequest(usermail).enqueue(new Callback<User>() {
             @Override
             public void onResponse(Call<User> call, Response<User> response) {
                 if (response.isSuccessful()){
-//                    Toast.makeText(LoginActivity.this,"RESPONSE ON SUCCESS", Toast.LENGTH_LONG).show();
                     Log.i(LOG, "onResponse: " + response.body().toString());
                     addCurrentUser(response.body());
 
                 }else {
-//                    Toast.makeText(LoginActivity.this,"RESPONSE Fail", Toast.LENGTH_LONG).show();
                     Converter<ResponseBody, ApiException> converter = ApiClients.getInstant().responseBodyConverter(ApiException.class, new Annotation[0]);
                     ApiException exception = null;
                     try {
