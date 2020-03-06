@@ -174,7 +174,7 @@ public void setTheAdapter(){
     recyclerView.setItemAnimator(new DefaultItemAnimator());
     recyclerView.setAdapter(adapter);
     if(!projectList.isEmpty())
-    adapter.setListener(this);
+   adapter.setListener(this);
     recyclerView.setNestedScrollingEnabled(true);
     DividerItemDecoration dividerItemDecoration = new DividerItemDecoration(recyclerView.getContext(), DividerItemDecoration.VERTICAL);
     recyclerView.addItemDecoration(dividerItemDecoration);

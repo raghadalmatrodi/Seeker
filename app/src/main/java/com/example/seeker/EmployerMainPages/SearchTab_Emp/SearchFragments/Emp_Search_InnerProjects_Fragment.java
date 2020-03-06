@@ -51,7 +51,7 @@ private Emp_Search_Projects_Fragment emp_search_projects_fragment;
         Bundle bundle= this.getArguments();
         if(bundle!=null){
             category=(Category)bundle.getSerializable("category");
-executeRequest(category);
+        executeRequest(category);
         }
         emp_search_projects_fragment.setListener(this);
 

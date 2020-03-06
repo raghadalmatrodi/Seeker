@@ -20,6 +20,7 @@ import retrofit2.http.Body;
 import retrofit2.http.GET;
 import retrofit2.http.Multipart;
 import retrofit2.http.POST;
+import retrofit2.http.PUT;
 import retrofit2.http.Part;
 import retrofit2.http.Path;
 
@@ -46,6 +47,8 @@ public interface ApiMethods {
         String GET_PROJECTS_BY_STATUS = "project/statuses/{status}";
         String POST_CERTIFICATES = "certificate/create";
         String GET_CERTIFICATES = "certificate/find-all";
+        String ACCEPT_BID ="bid/accept-bid/{id}";
+        String GET_PROJECTS_BY_CATEGORY = "project/category";
 
 
 
@@ -114,7 +117,12 @@ public interface ApiMethods {
     @GET(Methods.GET_CERTIFICATES)
     Call<List<Certificate>> getAllCertificates();
 
+    @PUT(Methods.ACCEPT_BID)
+    Call<ApiResponse> acceptBid(@Path("id") long id);
 
+
+    @POST(Methods.GET_PROJECTS_BY_CATEGORY)
+    Call<List<Project>> getProjectsByCategory(@Body Category category);
 
 
 

@@ -61,19 +61,19 @@ public class Freelancer_Search_Users_Fragment extends Fragment {
      * Adding few albums for testing
      */
     private void prepareCategories() {
-        int[] covers = new int[]{
-                R.drawable.wesite_and_it,
-                R.drawable.mobile,
-                R.drawable.writing,
-                R.drawable.art_and_design,
-                R.drawable.data_entry,
-                R.drawable.music_and_audio};
-
-
-
-
-
-
+//        int[] covers = new int[]{
+//                R.drawable.wesite_and_it,
+//                R.drawable.mobile,
+//                R.drawable.writing,
+//                R.drawable.art_and_design,
+//                R.drawable.data_entry,
+//                R.drawable.music_and_audio};
+//
+//
+//
+//
+//
+//
 //        CategorySearch a = new CategorySearch("Website & IT", covers[0]);
 //        categorySearchSearchList.add(a);
 //

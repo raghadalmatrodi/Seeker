@@ -1,6 +1,7 @@
 package com.example.seeker.Search;
 
 import android.content.Context;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -38,7 +39,17 @@ public class CategorySearchAdapter extends RecyclerView.Adapter<CategorySearchAd
             title = (TextView) view.findViewById(R.id.title);
             thumbnail = (ImageView) view.findViewById(R.id.thumbnail);
 //4
-            view.setOnClickListener(new View.OnClickListener() {
+            thumbnail.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+
+
+                    listener.onCategoryItemClick(categorySearchList.get(getAdapterPosition()));
+
+                }
+            });
+
+            title.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
 
