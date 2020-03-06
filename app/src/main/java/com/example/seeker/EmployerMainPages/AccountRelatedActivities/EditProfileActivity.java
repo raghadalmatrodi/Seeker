@@ -40,6 +40,8 @@ public class EditProfileActivity extends AppCompatActivity {
     TextView saveSocialEditing;
     TextView name, nameAsFreelancer, nameAsEmployer;
     TextView education;
+    TextView saveEducationEditing;
+    EditText EducationET;
 
 
     boolean LinkedinFlag = false;
@@ -58,6 +60,38 @@ public class EditProfileActivity extends AppCompatActivity {
 
         init();
         executeGetSocialMedia();
+        executeGetEducation();
+
+
+
+        editEdu.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                EducationET.setEnabled(true);
+
+
+                saveEducationEditing.setVisibility(View.VISIBLE);
+
+
+                saveEducationEditing.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+//                        UserSocialMedia userSocialMedia = new UserSocialMedia(EducationET.getText().toString());
+//                        executePostSocialMediaRequest(userSocialMedia);
+
+
+                        EducationET.setEnabled(false);
+
+                        //Hiding Save
+                        saveEducationEditing.setVisibility(View.INVISIBLE);
+
+                    }
+
+                });
+
+            }//end onClick
+
+
+            });
 
 
 
@@ -116,6 +150,10 @@ public class EditProfileActivity extends AppCompatActivity {
 
 
     }//End onCreate
+
+    private void executeGetEducation() {
+
+    }
 
     private void init() {
         editLinks = findViewById(R.id.edit_social_media);

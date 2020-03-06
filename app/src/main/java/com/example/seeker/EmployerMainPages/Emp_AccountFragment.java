@@ -55,6 +55,8 @@ public class Emp_AccountFragment extends Fragment implements View.OnClickListene
         switch_btn = view.findViewById(R.id.switch_to_f_btn);
         switch_btn.setOnClickListener(this);
 
+
+
         edit_profileLL = view.findViewById(R.id.edit_profile_ll);
         edit_profileLL.setOnClickListener(this);
 
