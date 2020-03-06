@@ -7,7 +7,7 @@ public class Constants {
 //        String NAME = "nameET";
 //        String ID = "id";
 //        String QUESTION = "question";
-//        String USER_IMG = "user_img";
+        String USER_IMG = "user_img";
 
 
         /**
@@ -18,6 +18,7 @@ public class Constants {
 //        String APP_LANGUAGE = "app_language";
 //        String IS_LOGIN = "IS_LOGIN";
 //        String IS_FILL_DATA = "IS_FILL_DATA";
+
         String USER_NAME = "USER_NAME";
         String USER_EMAIL = "USER_EMAIL";
 //        String USER_PASSWORD = "USER_PASSWORD";
