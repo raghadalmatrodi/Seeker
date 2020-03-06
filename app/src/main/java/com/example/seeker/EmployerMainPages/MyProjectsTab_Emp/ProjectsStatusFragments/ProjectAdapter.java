@@ -6,6 +6,7 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import androidx.fragment.app.FragmentActivity;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.seeker.Model.Project;
@@ -17,8 +18,11 @@ public class ProjectAdapter extends RecyclerView.Adapter<ProjectAdapter.MyViewHo
 
 
     private List<Project> projectList;
+    private ProjectAdapterListener listener;
 
-
+    public void setListener(ProjectAdapterListener listener) {
+        this.listener = listener;
+    }
 
     public class MyViewHolder extends RecyclerView.ViewHolder {
 
@@ -35,13 +39,23 @@ public class ProjectAdapter extends RecyclerView.Adapter<ProjectAdapter.MyViewHo
             arrow = view.findViewById(R.id.row_arrow);
 
 
+            view.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
 
+                    listener.onProjectItemSelectedAdapter(projectList.get(getAdapterPosition()));
+
+                }
+            });
 
         }//End of MyViewHolder()
 
 
     }//Enf of class MyViewHolder
 
+    public interface ProjectAdapterListener {
+        void onProjectItemSelectedAdapter(Project project);
+    }
 
     public ProjectAdapter(List<Project> projectList) {
 
@@ -61,7 +75,7 @@ public class ProjectAdapter extends RecyclerView.Adapter<ProjectAdapter.MyViewHo
     public void onBindViewHolder(final ProjectAdapter.MyViewHolder holder, int position) {
         Project project = projectList.get(position);
         holder.title.setText(project.getTitle());
-        holder.description.setText(project.getCategory().getTitle());
+//        holder.description.setText(project.getCategory().getTitle());
 
 
     }//End of onBindViewHolder

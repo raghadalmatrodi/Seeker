@@ -5,6 +5,15 @@
     android:layout_height="match_parent"
     android:background="#fafafa">
 
+    <ProgressBar
+        android:id="@+id/myDataLoaderProgressBar"
+        style="?android:attr/progressBarStyleHorizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:indeterminate="true"
+        android:indeterminateBehavior="cycle"
+        android:visibility="gone" />
+
 
     <TextView
         android:id="@+id/emp_completed_text"
