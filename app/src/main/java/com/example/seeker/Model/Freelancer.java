@@ -1,9 +1,10 @@
 package com.example.seeker.Model;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Freelancer {
+public class Freelancer implements Serializable {
 
     private long id;
     private User user;
@@ -21,6 +22,62 @@ public class Freelancer {
 
     public void setId(long id) {
         this.id = id;
+    }
+
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
+    }
+
+    public String getMaarof_account() {
+        return maarof_account;
+    }
+
+    public void setMaarof_account(String maarof_account) {
+        this.maarof_account = maarof_account;
+    }
+
+    public int getNum_of_ratings() {
+        return num_of_ratings;
+    }
+
+    public void setNum_of_ratings(int num_of_ratings) {
+        this.num_of_ratings = num_of_ratings;
+    }
+
+    public int getTotal_response_time() {
+        return total_response_time;
+    }
+
+    public void setTotal_response_time(int total_response_time) {
+        this.total_response_time = total_response_time;
+    }
+
+    public int getTotal_quality_of_work() {
+        return total_quality_of_work;
+    }
+
+    public void setTotal_quality_of_work(int total_quality_of_work) {
+        this.total_quality_of_work = total_quality_of_work;
+    }
+
+    public int getNum_of_hired_projects() {
+        return num_of_hired_projects;
+    }
+
+    public void setNum_of_hired_projects(int num_of_hired_projects) {
+        this.num_of_hired_projects = num_of_hired_projects;
+    }
+
+    public List<Bid> getBids() {
+        return bids;
+    }
+
+    public void setBids(List<Bid> bids) {
+        this.bids = bids;
     }
 
     public Freelancer(long id) {

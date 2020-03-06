@@ -242,46 +242,48 @@ public class ProjectInformationFragment extends Fragment {
        return formattedDate;
     }
 
-    private void createProjectWithAttachments(List<File> file)  {
-        Project project = new Project("ne111w","new11",333,null , null , null,
-                null ,null);
-        List<MultipartBody.Part> attachments = new ArrayList<>();
+    //TODO reema remove comment
 
-            file.stream().forEach(file1 -> {
-                try {
-                    attachments.add(MultipartBody.Part.createFormData("attachments",file1.getName() , RequestBody
-                            .create(MediaType.parse(Files.probeContentType(file1.toPath()).toString()) , file1)));
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-            });
-
-
-        Gson gson = new Gson();
-        RequestBody projectRequestBody = RequestBody.create(MediaType.parse("application/json; charset=utf-8"), gson.toJson(project));
-
-        ApiClients.getAPIs().getPostProjectWithAttachmentsRequest(projectRequestBody,attachments).enqueue(new Callback<ApiResponse>() {
-            private  final String LOG = ProjectInformationFragment.class.getSimpleName() ;
-
-            @Override
-            public void onResponse(Call<ApiResponse> call, Response<ApiResponse> response) {
-                if (response.isSuccessful()) {
-
-                    Log.i(LOG, "onResponse : Success");
-
-                }else{
-                    Log.i(LOG, "onResponse : fail");
-
-                }
-            }
-
-            @Override
-            public void onFailure(Call<ApiResponse> call, Throwable t) {
-                Log.i(LOG, "onFailure : fail");
-
-            }
-        });
-    }
+//    private void createProjectWithAttachments(List<File> file)  {
+//        Project project = new Project("ne111w","new11",333,null , null , null,
+//                null ,null);
+//        List<MultipartBody.Part> attachments = new ArrayList<>();
+//
+//            file.stream().forEach(file1 -> {
+//                try {
+//                    attachments.add(MultipartBody.Part.createFormData("attachments",file1.getName() , RequestBody
+//                            .create(MediaType.parse(Files.probeContentType(file1.toPath()).toString()) , file1)));
+//                } catch (IOException e) {
+//                    e.printStackTrace();
+//                }
+//            });
+//
+//
+//        Gson gson = new Gson();
+//        RequestBody projectRequestBody = RequestBody.create(MediaType.parse("application/json; charset=utf-8"), gson.toJson(project));
+//
+//        ApiClients.getAPIs().getPostProjectWithAttachmentsRequest(projectRequestBody,attachments).enqueue(new Callback<ApiResponse>() {
+//            private  final String LOG = ProjectInformationFragment.class.getSimpleName() ;
+//
+//            @Override
+//            public void onResponse(Call<ApiResponse> call, Response<ApiResponse> response) {
+//                if (response.isSuccessful()) {
+//
+//                    Log.i(LOG, "onResponse : Success");
+//
+//                }else{
+//                    Log.i(LOG, "onResponse : fail");
+//
+//                }
+//            }
+//
+//            @Override
+//            public void onFailure(Call<ApiResponse> call, Throwable t) {
+//                Log.i(LOG, "onFailure : fail");
+//
+//            }
+//        });
+//    }
 
     private LocalDateTime convertStringToLocalDateTime(String dateString) {
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm:ss");

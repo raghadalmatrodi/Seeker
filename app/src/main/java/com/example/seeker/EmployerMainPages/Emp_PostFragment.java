@@ -12,12 +12,16 @@ import androidx.fragment.app.Fragment;
 import androidx.viewpager.widget.ViewPager;
 
 import com.example.seeker.Database.ApiClients;
+import com.example.seeker.Model.Bid;
 import com.example.seeker.Model.Category;
+import com.example.seeker.Model.Employer;
 import com.example.seeker.Model.Exception.ApiError;
 import com.example.seeker.Model.Exception.ApiException;
+import com.example.seeker.Model.Freelancer;
 import com.example.seeker.Model.Project;
 import com.example.seeker.Model.Responses.ApiResponse;
 import com.example.seeker.Model.Skill;
+import com.example.seeker.Model.SkillRecyclerView;
 import com.example.seeker.PostProject.FragmentAdapter;
 import com.example.seeker.PostProject.PaymentTypeFragment;
 import com.example.seeker.PostProject.ProjectCategoryFragment;
@@ -25,6 +29,8 @@ import com.example.seeker.PostProject.ProjectInformationFragment;
 import com.example.seeker.PostProject.ProjectSkillsFragment;
 import com.example.seeker.PostProject.ProjectTypeFragment;
 import com.example.seeker.R;
+import com.example.seeker.SharedPref.Constants;
+import com.example.seeker.SharedPref.MySharedPreference;
 import com.google.gson.Gson;
 
 import java.io.File;
@@ -33,7 +39,9 @@ import java.lang.annotation.Annotation;
 import java.nio.file.Files;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import okhttp3.MediaType;
 import okhttp3.MultipartBody;
@@ -65,7 +73,8 @@ public class Emp_PostFragment extends Fragment implements ProjectTypeFragment.Pr
 
     private String projectType, paymentType, title,description, budget;
     private Category category;
-    private List<Skill> skillList;
+    private Set<Skill> skillList = new HashSet<>();
+    private List<SkillRecyclerView> skillRecyclerViews = new ArrayList<>();
     private String deadlineLocalDateTime, expiryLocalDateTime;
 
     @Override
@@ -109,17 +118,28 @@ public class Emp_PostFragment extends Fragment implements ProjectTypeFragment.Pr
     @Override
     public void onProjectTypeItemSelected(String projectType) {
         this.projectType = projectType;
+        projectCategoryFragment.setData(projectType);
         viewPager.setCurrentItem(1);
     }
     @Override
     public void onCategoryTypeItemSelected(Category category) {
         this.category = category;
+        skillRecyclerViews = new ArrayList<>();
+
+        projectSkillsFragment.setData(category);
         viewPager.setCurrentItem(2);
     }
 
     @Override
-    public void onNextSelected(List<Skill> skill) {
-        skillList = skill;
+    public void onNextSelected(List<SkillRecyclerView> skillRecyclerViews) {
+        this.skillRecyclerViews = skillRecyclerViews;
+
+        skillList = new HashSet<>();
+        
+        for(SkillRecyclerView s: skillRecyclerViews){
+            Skill skill = new Skill(s.getId(), s.getName());
+            skillList.add(skill);
+        }
         viewPager.setCurrentItem(3);
 
     }
@@ -154,20 +174,22 @@ public class Emp_PostFragment extends Fragment implements ProjectTypeFragment.Pr
         else{
 
             double budgetValue = Double.parseDouble(budget);
-            Project project = new Project(title, description, budgetValue,projectType,paymentType,expiryLocalDateTime ,deadlineLocalDateTime,  "0");
+
+
+//            Project project = new Project(title, description, budgetValue,projectType,paymentType,expiryLocalDateTime ,deadlineLocalDateTime,  "0");
 
 
             AlertDialog.Builder alertDialog = new AlertDialog.Builder(getContext());
             // Setting Dialog Message
             alertDialog.setTitle("Project details Review");
-            alertDialog.setMessage(project.toString());
+//            alertDialog.setMessage(project.toString());
 
             //Setting positive "ok" Button
             alertDialog.setPositiveButton("POST", new DialogInterface.OnClickListener() {
                 public void onClick(DialogInterface dialog, int which) {
 
 
-                    createProjectWithAttachments(files,project);
+//                    createProjectWithAttachments(files,project);
 
                     dialog.dismiss();
 
@@ -240,9 +262,16 @@ public class Emp_PostFragment extends Fragment implements ProjectTypeFragment.Pr
             double budgetValue = Double.parseDouble(budget);
 
 
+            long empID = MySharedPreference.getLong(getContext(), Constants.Keys.EMPLOYER_ID,-1);
 
-            Project project = new Project(title, description, budgetValue,projectType,paymentType,expiryLocalDateTime ,deadlineLocalDateTime,  "0");
+            Employer employer = new Employer(empID);
 
+
+            Project project = new Project(title, description, budgetValue, projectType, paymentType, expiryLocalDateTime, deadlineLocalDateTime, employer, skillList, "0", category);
+
+            //todo hind's changes to add list of bids in a project , keep commented i'll need it later
+//            List<Bid> bidlist = new ArrayList<>();
+//            Project project1 = new Project(title,description, budgetValue, projectType, paymentType, expiryLocalDateTime,deadlineLocalDateTime, employer,  "0",bidlist );
             Dialog(project.toString(), project);
 
         }
@@ -259,6 +288,7 @@ public class Emp_PostFragment extends Fragment implements ProjectTypeFragment.Pr
         //Setting positive "ok" Button
         alertDialog.setPositiveButton("POST", new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int which) {
+
 
 
                 excutePostProjectRequest(project);
@@ -389,14 +419,17 @@ public class Emp_PostFragment extends Fragment implements ProjectTypeFragment.Pr
     }
     @Override
     public void onBacSkillSelected() {
+        projectCategoryFragment.setData(projectType);
         viewPager.setCurrentItem(1);
+
     }
 
 
     @Override
     public void onBackPaymentClick() {
-
+        projectSkillsFragment.setBackData(category,skillRecyclerViews);
         viewPager.setCurrentItem(2);
+
 
     }
 

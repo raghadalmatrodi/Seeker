@@ -1,10 +1,16 @@
 package com.example.seeker.Model;
 
 
+import java.io.Serializable;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
 
-public class Project  {
-    
+//todo 4 hind implemented serializable
+public class Project implements Serializable {
+
     private String title;
     private String description;
     private double budget;
@@ -12,16 +18,22 @@ public class Project  {
     private String payment_type;
     private String expiry_date;
     private String deadline;
-
+    private List<Milestone> milestones = new ArrayList<>();
+    private Employer employer;
+    private Set<Skill> skills = new HashSet<>();
     private String status;
     // 0 -> pending
     //1 -> inProgress
     //2 -> completed
 
+    //todo hind 1 + added setter and getters + project id and its setters and getters
+    private List<Bid> bids = new ArrayList<>();
+    private long id;
 
     private Category category;
 
-    public Project(String title, String description, double budget, String type, String payment_type, String  expiry_date, String deadline,  String status) {
+    //todo hind 2 added bid list to project constructor
+    public Project(String title, String description, double budget,String type, String payment_type, String expiry_date, String deadline, Employer employer , String status, List<Bid> bids){
         this.title = title;
         this.description = description;
         this.budget = budget;
@@ -29,10 +41,37 @@ public class Project  {
         this.payment_type = payment_type;
         this.expiry_date = expiry_date;
         this.deadline = deadline;
-//        this.category = category;
+        this.employer = employer;
         this.status = status;
+        this.bids = bids;
     }
 
+//    public Project(String title, String description, double budget, String type, String payment_type, String expiry_date, String deadline, List<Milestone> milestones, Employer employer, Set<Skill> skills, String status, Category category) {
+//        this.title = title;
+//        this.description = description;
+//        this.budget = budget;
+//        this.type = type;
+//        this.payment_type = payment_type;
+//        this.expiry_date = expiry_date;
+//        this.deadline = deadline;
+//        this.employer = employer;
+//        this.status = status;
+//    }
+//
+
+    public Project(String title, String description, double budget, String type, String payment_type, String expiry_date, String deadline,  Employer employer, Set<Skill> skills, String status, Category category) {
+        this.title = title;
+        this.description = description;
+        this.budget = budget;
+        this.type = type;
+        this.payment_type = payment_type;
+        this.expiry_date = expiry_date;
+        this.deadline = deadline;
+        this.employer = employer;
+        this.skills = skills;
+        this.status = status;
+        this.category = category;
+    }
 
     public String getTitle() {
         return title;
@@ -105,6 +144,55 @@ public class Project  {
         this.status = status;
     }
 
+    public List<Milestone> getMilestones() {
+        return milestones;
+    }
+
+    public void setMilestones(List<Milestone> milestones) {
+        this.milestones = milestones;
+    }
+
+    public Employer getEmployer() {
+        return employer;
+    }
+
+    public void setEmployer(Employer employer) {
+        this.employer = employer;
+    }
+
+    public Set<Skill> getSkills() {
+        return skills;
+    }
+
+    public void setSkills(Set<Skill> skills) {
+        this.skills = skills;
+    }
+
+    public Category getCategory() {
+        return category;
+    }
+
+    public void setCategory(Category category) {
+        this.category = category;
+    }
+
+
+    public List<Bid> getBids() {
+        return bids;
+    }
+
+    public void setBids(List<Bid> bids) {
+        this.bids = bids;
+    }
+
+    public long getId() {
+        return id;
+    }
+
+    public void setId(long id) {
+        this.id = id;
+    }
+
     @Override
     public String toString() {
         return "Project{" +
@@ -115,7 +203,11 @@ public class Project  {
                 ", payment_type='" + payment_type + '\'' +
                 ", expiry_date='" + expiry_date + '\'' +
                 ", deadline='" + deadline + '\'' +
+                ", milestones=" + milestones +
+                ", employer=" + employer +
+                ", skills=" + skills +
                 ", status='" + status + '\'' +
+                ", category=" + category +
                 '}';
     }
 }//End of project

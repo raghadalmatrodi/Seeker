@@ -1,10 +1,12 @@
 package com.example.seeker.Database;
 
 import com.example.seeker.Model.Bid;
+import com.example.seeker.Model.Category;
+import com.example.seeker.Model.Employer;
+import com.example.seeker.Model.Freelancer;
 import com.example.seeker.Model.Login;
 import com.example.seeker.Model.Project;
 import com.example.seeker.Model.Responses.ApiResponse;
-import com.example.seeker.Model.Responses.ProjectResponse;
 import com.example.seeker.Model.User;
 import com.example.seeker.Model.UserSocialMedia;
 
@@ -14,7 +16,6 @@ import okhttp3.MultipartBody;
 import okhttp3.RequestBody;
 import retrofit2.Call;
 import retrofit2.http.Body;
-import retrofit2.http.Field;
 import retrofit2.http.GET;
 import retrofit2.http.Multipart;
 import retrofit2.http.POST;
@@ -36,7 +37,12 @@ public interface ApiMethods {
         String GET_BIDS = "bid/find-all";
         String POST_SOCIAL_MEDIA = "userSocialMedia/add-accounts";
         String GET_SOCIAL_MEDIA = "userSocialMedia/find-all";
-        String FIND_USER_BY_EMAIL = "user/email/{email}";
+        String GET_USER_BY_EMAIL = "user/email/{email}";
+        String GET_EMPLOYER_BY_USER_ID = "employer/user_id/{user_id}";
+        String GET_ALL_CATEGORY = "category/find-all";
+        String GET_FREELANCER_BY_USER_ID = "freelancer/user_id/{user_id}";
+        String GET_BIDS_BY_STATUS = "bid/status/{status}";
+        String GET_PROJECTS_BY_STATUS = "project/statuses/{status}";
 
 
 
@@ -64,13 +70,21 @@ public interface ApiMethods {
 
 
     @POST(Methods.GET_PROJECT)
-    Call<List<Project>> getProjectByStatus(@Path("status") String status);
+    Call<List<Project>> getProjectByStatus(@Path("status") String status, @Body Employer employer);
 
     @POST(Methods.POST_SOCIAL_MEDIA)
     Call<ApiResponse> getPostSocialMediaRequest(@Body UserSocialMedia userSocialMedia);
 
+    @POST(Methods.GET_BIDS_BY_STATUS)
+    Call<List<Bid>> getBidByStatus(@Path("status") String status);
 
-    //GET METHODS
+    @POST(Methods.GET_PROJECTS_BY_STATUS)
+    Call<List<Project>> getProjectsByStatusOnly(@Path("status") String status);
+
+    /**
+     * GET METHODS
+     */
+
 
     @GET(Methods.GET_BIDS)
     Call<List<Bid>> getAllBids();
@@ -79,8 +93,17 @@ public interface ApiMethods {
     @GET(Methods.GET_SOCIAL_MEDIA)
     Call<List<UserSocialMedia>> getAllSocialMedia();
 
-    @GET(Methods.FIND_USER_BY_EMAIL)
+    @GET(Methods.GET_USER_BY_EMAIL)
     Call<User> findUSerByEmailRequest(@Path("email") String email);
+
+    @GET(Methods.GET_EMPLOYER_BY_USER_ID)
+    Call<Employer> getEmployerByUserIdRequest(@Path("user_id") long user_id);
+
+    @GET(Methods.GET_ALL_CATEGORY)
+    Call<List<Category>> getALLCategoryRequest();
+
+    @GET(Methods.GET_FREELANCER_BY_USER_ID)
+    Call<Freelancer> getFreelancerByUserIdRequest(@Path("user_id") long user_id);
 
 
 

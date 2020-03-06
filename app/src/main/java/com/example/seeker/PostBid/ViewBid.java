@@ -20,6 +20,7 @@ import com.example.seeker.Model.Bid;
 import com.example.seeker.Model.Exception.ApiError;
 import com.example.seeker.Model.Exception.ApiException;
 import com.example.seeker.Model.Login;
+import com.example.seeker.Model.Project;
 import com.example.seeker.Model.Responses.ApiResponse;
 import com.example.seeker.Model.User;
 import com.example.seeker.R;
@@ -45,6 +46,10 @@ public class ViewBid extends AppCompatActivity implements Serializable,BidsAdapt
     private List<Bid> bidList = new ArrayList<>();
 //    private B caListener;
 
+    //todo 5 hind
+    private Button placebid;
+    private TextView projtitle;
+
 
 
 
@@ -57,40 +62,69 @@ public class ViewBid extends AppCompatActivity implements Serializable,BidsAdapt
          * Call getbids
          */
 
-        getBids();
+//        getBids();
+
+        //todo 5 hind
+        fillData();
+
+        getBidsByStatus("pending");
+
+
 
 
 
 
     }//end onCreate
 
+    //todo 5 hind
+    private void init() {
+        placebid = findViewById(R.id.placebidtest);
+        projtitle = findViewById(R.id.vppttest);
 
-//    private List<Bid> bids;
+    }
+
+    private void fillData() {
+        init();
+
+        Intent i = getIntent();
+        Project project = (Project) i.getSerializableExtra("projectObj");
+
+        projtitle.setText(project.getTitle());
+
+
+        placebid.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                /**
+                 * INTENT TO POST BID WITH CURRENT PROJECT
+                 */
+                Intent i = new Intent(ViewBid.this, PostBidActivity.class);
+
+                //casting to serializable didn't work, so i let class bid implements the serializable and it worked :)
+                i.putExtra("currentProjObj", project);
+                startActivity(i);
+            }
+        });
+
+
+    }
+
+
+
+    //    private List<Bid> bids;
     private void getBids() {
 
        ApiClients.getAPIs().getAllBids().enqueue(new Callback<List<Bid>>() {
            @Override
            public void onResponse(Call<List<Bid>> call, Response<List<Bid>> response) {
                if (response.isSuccessful()){
-//                   while(!response.body().isEmpty()){ //غلط الشرط
-//                       for(int i = 0; i<response.body().lastIndexOf(response.body()); i++)
-//                       bids.add(response.body().get(i));
-//                   }
-//                   t1.setText(response.body().get(0).getTitle());
-//                   t2.setText(response.body().get(0).getDescription());
-//                   String delivery = response.body().get(4).getDeliver_date().substring(0,10);
-//                   t3.setText(delivery);
-//                   bidList.add(new Bid("test","test ddd",200,"2/2/2020","pending"));
-
-//                   bidList.add(new Bid(response.body().get(0).getTitle(),response.body().get(0).getDescription(),response.body().get(0).getPrice(),response.body().get(0).getDeliver_date(),response.body().get(0).getStatus() ));
 
                    int responseSize = response.body().size();
                    for (int i = 0; i<responseSize; i++){
                        //todo: YOU HAVE TO GET THE FREELANCER'S INFO --> NAME, PROFILE PIC ...
-//                       Bid b = response.body().get(i);
-//                       bidList.add(b);
                        bidList.add(response.body().get(i));
-                   }
+                   }//end for loop
 
                    recyclerView = (RecyclerView) findViewById(R.id.recycler_view_b);
                    recyclerView.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
@@ -98,7 +132,10 @@ public class ViewBid extends AppCompatActivity implements Serializable,BidsAdapt
                    bidList = new ArrayList<>();
                    recyclerView.setItemAnimator(new DefaultItemAnimator());
                    recyclerView.setAdapter(adapter);
-                   //IDK WHAT TO SET THE LISTENER :)
+
+                   /**
+                    *  IDK WHAT TO SET THE LISTENER :)
+                    */
                    adapter.setListener(ViewBid.this);
 
                    recyclerView.setNestedScrollingEnabled(true);
@@ -124,6 +161,62 @@ public class ViewBid extends AppCompatActivity implements Serializable,BidsAdapt
        });
     }
 
+    private void getBidsByStatus(String status){
+        ApiClients.getAPIs().getBidByStatus(status).enqueue(new Callback<List<Bid>>() {
+            @Override
+            public void onResponse(Call<List<Bid>> call, Response<List<Bid>> response) {
+                if (response.isSuccessful()){
+
+
+
+                    int responseSize = response.body().size();
+                    for (int i = 0; i< responseSize; i++){
+                        if (response.body().get(i).getFreelancer() != null)
+                        if (response.body().get(i).getFreelancer().getId() == 252){
+                            bidList.add(response.body().get(i));
+                        }
+                    }
+
+
+
+//                    for (int i = 0; i<responseSize; i++){
+//                        //todo: YOU HAVE TO GET THE FREELANCER'S INFO --> NAME, PROFILE PIC ...
+//                        bidList.add(response.body().get(i));
+//                    }//end for loop
+
+                    recyclerView = (RecyclerView) findViewById(R.id.recycler_view_b);
+                    recyclerView.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
+                    adapter = new BidsAdapter(bidList);
+                    bidList = new ArrayList<>();
+                    recyclerView.setItemAnimator(new DefaultItemAnimator());
+                    recyclerView.setAdapter(adapter);
+
+                    /**
+                     *  IDK WHAT TO SET THE LISTENER :)
+                     */
+                    adapter.setListener(ViewBid.this);
+
+                    recyclerView.setNestedScrollingEnabled(true);
+                    DividerItemDecoration dividerItemDecoration = new DividerItemDecoration(recyclerView.getContext(), DividerItemDecoration.VERTICAL);
+                    recyclerView.addItemDecoration(dividerItemDecoration);
+
+
+
+
+                }//end if success
+                else {
+                    //CHAAAANGE IT!
+                    Toast.makeText(getApplicationContext(),response.toString(),Toast.LENGTH_SHORT).show();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<List<Bid>> call, Throwable t) {
+
+            }
+        });
+    }
+
 //    String tryName;
 
     @Override
@@ -132,7 +225,7 @@ public class ViewBid extends AppCompatActivity implements Serializable,BidsAdapt
         Intent i = new Intent(this, ViewFullBid.class);
 
         //casting to serializable didn't work, so i let class bid implements the serializable and it worked :)
-        i.putExtra("bidObj", (Serializable) bid);
+        i.putExtra("bidObj", bid);
         startActivity(i);
     }
 

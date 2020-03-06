@@ -24,6 +24,10 @@ public class Constants {
         String USER_ID = "user_id";
 //        String ENABLE_NOTI = "enable_noti";
 //        String FB_TOKEN = "fb_token";
+         String EMPLOYER_ID = "employer_id";
+         //todo: new
+         String FREELANCER_ID = "freelancer_id";
+         String FREELANCER_NAME = "freelancer_name";
 
     }//End Keys interface
 

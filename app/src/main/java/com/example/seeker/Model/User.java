@@ -1,8 +1,10 @@
 package com.example.seeker.Model;
 
+import java.io.Serializable;
 import java.util.Set;
 
-public class User {
+//todo 8 hind implemented serializable
+public class User implements Serializable {
     private long id;
     private String username;
     private String password;
