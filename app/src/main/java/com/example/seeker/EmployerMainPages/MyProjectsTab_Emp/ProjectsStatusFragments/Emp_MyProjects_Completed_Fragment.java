@@ -1,6 +1,6 @@
 package com.example.seeker.EmployerMainPages.MyProjectsTab_Emp.ProjectsStatusFragments;
 
-import android.app.ProgressDialog;
+
 import android.content.DialogInterface;
 import android.os.Bundle;
 import android.util.Log;
