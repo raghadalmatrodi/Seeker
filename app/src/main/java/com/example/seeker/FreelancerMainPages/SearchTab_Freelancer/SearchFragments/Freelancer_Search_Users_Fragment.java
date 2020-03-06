@@ -13,6 +13,7 @@ import androidx.recyclerview.widget.DefaultItemAnimator;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.seeker.Model.Category;
 import com.example.seeker.R;
 import com.example.seeker.Search.CategorySearch;
 import com.example.seeker.Search.CategorySearchAdapter;
@@ -25,7 +26,7 @@ public class Freelancer_Search_Users_Fragment extends Fragment {
     private View view;
     private RecyclerView recyclerView;
     private CategorySearchAdapter adapter;
-    private List<CategorySearch> categorySearchSearchList;
+    private List<Category> categorySearchSearchList;
 
 
     @Override
@@ -34,21 +35,21 @@ public class Freelancer_Search_Users_Fragment extends Fragment {
 
         view = inflater.inflate(R.layout.fragment_freelancer_by_user_search, container, false);
 
-        recyclerView = (RecyclerView) view.findViewById(R.id.recycler_view_freelancer_byuser_search);
-
-
-        categorySearchSearchList = new ArrayList<>();
-        adapter = new CategorySearchAdapter(getActivity(), categorySearchSearchList);
-
-        recyclerView.setLayoutManager(new GridLayoutManager(getActivity(), 2));
-
-        recyclerView.addItemDecoration(new Freelancer_Search_Users_Fragment.
-                GridSpacingItemDecoration(2, dpToPx(10), true));
-
-        recyclerView.setItemAnimator(new DefaultItemAnimator());
-        recyclerView.setAdapter(adapter);
-
-        prepareCategories();
+//        recyclerView = (RecyclerView) view.findViewById(R.id.recycler_view_freelancer_byuser_search);
+//
+//
+//        categorySearchSearchList = new ArrayList<>();
+//        adapter = new CategorySearchAdapter(getActivity(), categorySearchSearchList);
+//
+//        recyclerView.setLayoutManager(new GridLayoutManager(getActivity(), 2));
+//
+//        recyclerView.addItemDecoration(new Freelancer_Search_Users_Fragment.
+//                GridSpacingItemDecoration(2, dpToPx(10), true));
+//
+//        recyclerView.setItemAnimator(new DefaultItemAnimator());
+//        recyclerView.setAdapter(adapter);
+//
+//        prepareCategories();
 
 
         // Inflate the layout for this fragment
@@ -68,24 +69,29 @@ public class Freelancer_Search_Users_Fragment extends Fragment {
                 R.drawable.data_entry,
                 R.drawable.music_and_audio};
 
-        CategorySearch a = new CategorySearch("Website & IT", covers[0]);
-        categorySearchSearchList.add(a);
-
-        a = new CategorySearch("Mobile", covers[1]);
-        categorySearchSearchList.add(a);
-
-        a = new CategorySearch("Writing", covers[2]);
-        categorySearchSearchList.add(a);
-        a = new CategorySearch("Art & Design", covers[3]);
-        categorySearchSearchList.add(a);
-
-        a = new CategorySearch("Data Entry", covers[4]);
-        categorySearchSearchList.add(a);
-        a = new CategorySearch("Music & Audio", covers[5]);
-        categorySearchSearchList.add(a);
 
 
-        adapter.notifyDataSetChanged();
+
+
+
+//        CategorySearch a = new CategorySearch("Website & IT", covers[0]);
+//        categorySearchSearchList.add(a);
+//
+//        a = new CategorySearch("Mobile", covers[1]);
+//        categorySearchSearchList.add(a);
+//
+//        a = new CategorySearch("Writing", covers[2]);
+//        categorySearchSearchList.add(a);
+//        a = new CategorySearch("Art & Design", covers[3]);
+//        categorySearchSearchList.add(a);
+//
+//        a = new CategorySearch("Data Entry", covers[4]);
+//        categorySearchSearchList.add(a);
+//        a = new CategorySearch("Music & Audio", covers[5]);
+//        categorySearchSearchList.add(a);
+//
+//
+//        adapter.notifyDataSetChanged();
     }
 
     /**

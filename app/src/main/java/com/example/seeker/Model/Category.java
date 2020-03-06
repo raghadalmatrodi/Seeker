@@ -1,11 +1,12 @@
 package com.example.seeker.Model;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-public class Category {
+public class Category implements Serializable {
 
     private long id;
     private String title;
@@ -13,6 +14,8 @@ public class Category {
     private String category_type;
     private List<Project> projects = new ArrayList<>();
     private Set<Skill> skills = new HashSet<>();
+    private int image;
+
 
     public Category(long id, String title, String description, String category_type, List<Project> projects, Set<Skill> skills) {
         this.id = id;
@@ -69,6 +72,14 @@ public class Category {
 
     public void setSkills(Set<Skill> skills) {
         this.skills = skills;
+    }
+
+    public int getImage() {
+        return image;
+    }
+
+    public void setImage(int image) {
+        this.image = image;
     }
 
     @Override

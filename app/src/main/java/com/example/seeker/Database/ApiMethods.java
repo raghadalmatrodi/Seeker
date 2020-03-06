@@ -45,6 +45,7 @@ public interface ApiMethods {
         String GET_PROJECTS_BY_STATUS = "project/statuses/{status}";
 
 
+        String GET_PROJECTS_BY_CATEGORY = "project/category";
 
     }//End of Methods interface
 
@@ -81,6 +82,10 @@ public interface ApiMethods {
     @POST(Methods.GET_PROJECTS_BY_STATUS)
     Call<List<Project>> getProjectsByStatusOnly(@Path("status") String status);
 
+
+    @POST(Methods.GET_PROJECTS_BY_CATEGORY)
+    Call<List<Project>> getProjectsByCategory(@Body Category category);
+
     /**
      * GET METHODS
      */
@@ -88,7 +93,6 @@ public interface ApiMethods {
 
     @GET(Methods.GET_BIDS)
     Call<List<Bid>> getAllBids();
-
 
     @GET(Methods.GET_SOCIAL_MEDIA)
     Call<List<UserSocialMedia>> getAllSocialMedia();

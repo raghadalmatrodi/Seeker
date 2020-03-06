@@ -10,6 +10,8 @@ import android.widget.TextView;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
+import com.example.seeker.Model.Category;
+import com.example.seeker.PostProject.CategoryAdapter;
 import com.example.seeker.R;
 
 import java.util.List;
@@ -17,7 +19,15 @@ import java.util.List;
 public class CategorySearchAdapter extends RecyclerView.Adapter<CategorySearchAdapter.MyViewHolder> {
 
     private Context mContext;
-    private List<CategorySearch> categorySearchList;
+    private List<Category> categorySearchList;
+
+    //2
+    private CategoryAdapterListener listener;
+    //3
+    public void setListener(CategoryAdapterListener listener) {
+        this.listener = listener;
+    }
+//------------------
 
     public class MyViewHolder extends RecyclerView.ViewHolder {
         public TextView title;
@@ -27,11 +37,24 @@ public class CategorySearchAdapter extends RecyclerView.Adapter<CategorySearchAd
             super(view);
             title = (TextView) view.findViewById(R.id.title);
             thumbnail = (ImageView) view.findViewById(R.id.thumbnail);
+//4
+            view.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+
+
+                    listener.onCategoryItemClick(categorySearchList.get(getAdapterPosition()));
+
+                }
+            });
+
         }
+
+
     }
 
 
-    public CategorySearchAdapter(Context mContext, List<CategorySearch> categorySearchList) {
+    public CategorySearchAdapter(Context mContext, List<Category> categorySearchList) {
         this.mContext = mContext;
         this.categorySearchList = categorySearchList;
     }
@@ -46,15 +69,21 @@ public class CategorySearchAdapter extends RecyclerView.Adapter<CategorySearchAd
 
     @Override
     public void onBindViewHolder(final MyViewHolder holder, int position) {
-        CategorySearch categorySearch = categorySearchList.get(position);
-        holder.title.setText(categorySearch.getName());
+        Category category = categorySearchList.get(position);
+        holder.title.setText(category.getTitle());
 
         // loading album cover using Glide library
-        Glide.with(mContext).load(categorySearch.getThumbnail()).into(holder.thumbnail);
+        Glide.with(mContext).load(category.getImage()).into(holder.thumbnail);
     }
 
     @Override
     public int getItemCount() {
         return categorySearchList.size();
+    }
+
+
+//1
+    public interface CategoryAdapterListener {
+        void onCategoryItemClick(Category category);
     }
 }

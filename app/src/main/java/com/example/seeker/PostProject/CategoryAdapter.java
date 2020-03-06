@@ -17,12 +17,13 @@ import java.util.List;
 public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.MyViewHolder> {
 
     private List<Category> categoryList;
+    //2
     private CategoryAdapterListener listener;
-
+//3
     public void setListener(CategoryAdapterListener listener) {
         this.listener = listener;
     }
-
+//------------------
     public class MyViewHolder extends RecyclerView.ViewHolder {
 
 
@@ -37,7 +38,7 @@ public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.MyView
             description = view.findViewById(R.id.row_description);
             arrow = view.findViewById(R.id.row_arrow);
 
-
+//4
             view.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -53,9 +54,12 @@ public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.MyView
 
     }//Enf of class MyViewHolder
 
+
+//1
     public interface CategoryAdapterListener {
         void onCategoryItemClick(Category category);
     }
+    //-------
 
     public CategoryAdapter(List<Category> categoryList) {
 
