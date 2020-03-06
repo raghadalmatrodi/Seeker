@@ -20,7 +20,7 @@ public class LogOut extends LoginActivity {
         protected void onCreate(Bundle savedInstanceState) {
             super.onCreate(savedInstanceState);
             setContentView(R.layout.fragment_emp_account);
-            Logout = findViewById(R.id.profile_logout_btn);
+//            Logout = findViewById(R.id.profile_logout_btn);
 
             Intent in = getIntent();
             String string = in.getStringExtra("message");

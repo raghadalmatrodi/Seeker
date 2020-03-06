@@ -14,11 +14,15 @@ import android.widget.TextView;
 import androidx.appcompat.app.AlertDialog;
 import androidx.fragment.app.Fragment;
 
+import com.example.seeker.Activities.LoginActivity;
 import com.example.seeker.EmployerMainPages.AccountRelatedActivities.ContactSupportActivity;
 import com.example.seeker.EmployerMainPages.AccountRelatedActivities.EditProfileActivity;
 import com.example.seeker.EmployerMainPages.AccountRelatedActivities.NotificationsActivity;
 import com.example.seeker.FreelancerMainPages.FreelancerMainActivity;
+import com.example.seeker.LogOut;
 import com.example.seeker.R;
+import com.example.seeker.SharedPref.Constants;
+import com.example.seeker.SharedPref.MySharedPreference;
 
 public class Emp_AccountFragment extends Fragment implements View.OnClickListener {
 
@@ -55,7 +59,8 @@ public class Emp_AccountFragment extends Fragment implements View.OnClickListene
         switch_btn = view.findViewById(R.id.switch_to_f_btn);
         switch_btn.setOnClickListener(this);
 
-
+        name = view.findViewById(R.id.profile_name);
+        fillCurrentUserData();
 
         edit_profileLL = view.findViewById(R.id.edit_profile_ll);
         edit_profileLL.setOnClickListener(this);
@@ -80,6 +85,13 @@ public class Emp_AccountFragment extends Fragment implements View.OnClickListene
 
         logout = view.findViewById(R.id.profile_logout_btn);
         logout.setOnClickListener(this);
+
+    }
+
+    private void fillCurrentUserData() {
+        String currentUSerName = MySharedPreference.getString(getContext(), Constants.Keys.USER_NAME, "");
+        name.setText(currentUSerName);
+
 
     }
 
@@ -139,6 +151,7 @@ public class Emp_AccountFragment extends Fragment implements View.OnClickListene
             case R.id.profile_logout_btn:
                 //todo: logout api
 //                startActivity(new Intent(Emp_AccountFragment.this.getActivity(), ...));
+                logoutDialog();
                 break;
 
         }//End switch
@@ -149,6 +162,30 @@ public class Emp_AccountFragment extends Fragment implements View.OnClickListene
 //        intent = new Intent(Emp_AccountFragment.this.getActivity(), FreelancerMainActivity.class);
 //        startActivity(intent);
     }
+
+    private void logoutDialog() {
+        Intent i;
+//        String string = in.getStringExtra("message");
+        AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
+        builder.setMessage("Are you sure, that you want to logout?");
+        builder.setPositiveButton("Yes",
+                new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) {
+                        Intent i = new Intent(getContext(),
+                                LoginActivity.class);
+                        startActivity(i);
+                    }
+                });
+        builder.setNegativeButton("No",
+                new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) {
+                        dialog.cancel();
+                    }
+                });
+        AlertDialog alert11 = builder.create();
+        alert11.show();
+
+    }//End LogoutDialog()
 
     private void openDialog() {
         AlertDialog.Builder alertDialog = new AlertDialog.Builder(getContext());
@@ -168,4 +205,7 @@ public class Emp_AccountFragment extends Fragment implements View.OnClickListene
 
         alertDialog.show();
     }
+
+
+
 }

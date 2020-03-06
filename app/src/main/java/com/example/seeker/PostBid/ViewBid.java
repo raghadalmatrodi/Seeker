@@ -65,9 +65,9 @@ public class ViewBid extends AppCompatActivity implements Serializable,BidsAdapt
 //        getBids();
 
         //todo 5 hind
-        fillData();
+//        fillData();
 
-        getBidsByStatus("pending");
+
 
 
 
@@ -90,6 +90,7 @@ public class ViewBid extends AppCompatActivity implements Serializable,BidsAdapt
         Project project = (Project) i.getSerializableExtra("projectObj");
 
         projtitle.setText(project.getTitle());
+        getBidsByStatus("pending", project);
 
 
         placebid.setOnClickListener(new View.OnClickListener() {
@@ -161,7 +162,7 @@ public class ViewBid extends AppCompatActivity implements Serializable,BidsAdapt
        });
     }
 
-    private void getBidsByStatus(String status){
+    private void getBidsByStatus(String status, Project project){
         ApiClients.getAPIs().getBidByStatus(status).enqueue(new Callback<List<Bid>>() {
             @Override
             public void onResponse(Call<List<Bid>> call, Response<List<Bid>> response) {
@@ -170,19 +171,26 @@ public class ViewBid extends AppCompatActivity implements Serializable,BidsAdapt
 
 
                     int responseSize = response.body().size();
-                    for (int i = 0; i< responseSize; i++){
-                        if (response.body().get(i).getFreelancer() != null)
-                        if (response.body().get(i).getFreelancer().getId() == 252){
-                            bidList.add(response.body().get(i));
+//                    for (int i = 0; i< responseSize; i++){
+//                        if (response.body().get(i).getFreelancer() != null)
+//                        if (response.body().get(i).getFreelancer().getId() == 252){
+//                            bidList.add(response.body().get(i));
+//                        }
+//                    }
+
+
+
+                    for (int i = 0; i<responseSize; i++){
+                        //todo: YOU HAVE TO GET THE FREELANCER'S INFO --> NAME, PROFILE PIC ...
+                        //TODO: CONDITION IS WRONG
+                        if (response.body().get(i).getProject() != null ){
+                            if (response.body().get(i).getProject().getId() == project.getId())
+                                bidList.add(response.body().get(i));
+
                         }
-                    }
 
 
-
-//                    for (int i = 0; i<responseSize; i++){
-//                        //todo: YOU HAVE TO GET THE FREELANCER'S INFO --> NAME, PROFILE PIC ...
-//                        bidList.add(response.body().get(i));
-//                    }//end for loop
+                    }//end for loop
 
                     recyclerView = (RecyclerView) findViewById(R.id.recycler_view_b);
                     recyclerView.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
@@ -199,7 +207,7 @@ public class ViewBid extends AppCompatActivity implements Serializable,BidsAdapt
                     recyclerView.setNestedScrollingEnabled(true);
                     DividerItemDecoration dividerItemDecoration = new DividerItemDecoration(recyclerView.getContext(), DividerItemDecoration.VERTICAL);
                     recyclerView.addItemDecoration(dividerItemDecoration);
-
+//                    adapter.notifyDataSetChanged();
 
 
 
@@ -229,9 +237,17 @@ public class ViewBid extends AppCompatActivity implements Serializable,BidsAdapt
         startActivity(i);
     }
 
+    @Override
+    protected void onResume() {
+        super.onResume();
+        fillData();
 
 
-//    private void executeGetUserByMailRequest(){
+
+//        adapter.notifyDataSetChanged();
+    }
+
+    //    private void executeGetUserByMailRequest(){
 //        ApiClients.getAPIs().findUSerByEmailRequest("hindoo87@hotmail.com").enqueue(new Callback<Login>() {
 //            @Override
 //            public void onResponse(Call<Login> call, Response<Login> response) {
