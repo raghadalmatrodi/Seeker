@@ -31,7 +31,7 @@
 
     <TextView
         android:id="@+id/bid_user_description"
-        android:layout_width="244dp"
+        android:layout_width="210dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="20dp"
         android:text="Hello, I am an expert in a designing using photoshop I have experience of 5 years."
@@ -78,7 +78,22 @@
         app:layout_constraintTop_toTopOf="@id/bid_deliverydate"
         app:layout_constraintStart_toStartOf="@+id/pp"/>
 
+    <Button
+        android:id="@+id/accept_bid"
+        android:layout_width="50dp"
+        android:layout_height="30dp"
+        android:visibility="gone"
+        android:layout_marginTop="12dp"
+        android:background="@color/colorAccent"
+         android:textSize="12dp"
+        android:layout_marginLeft="15dp"
+        android:text="Accept"
+        android:textColor="@android:color/white"
+        app:layout_constraintTop_toBottomOf="@id/dd"
+        app:layout_constraintStart_toEndOf="@+id/bid_user_description"
+        tools:layout_editor_absoluteX="314dp">
 
+    </Button>
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

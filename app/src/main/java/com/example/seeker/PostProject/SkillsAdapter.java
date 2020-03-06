@@ -53,7 +53,15 @@ public class SkillsAdapter extends RecyclerView.Adapter<SkillsAdapter.MyViewHold
 
     private void removeSkill(SkillRecyclerView skill) {
 
-        projectSkillList.remove(skill);
+
+        for(SkillRecyclerView s: projectSkillList)
+        {
+            if(s.getId() == skill.getId()){
+                s.setSelected(false);
+                projectSkillList.remove(s);
+            }
+        }
+
 
     }
 
@@ -94,21 +102,31 @@ public class SkillsAdapter extends RecyclerView.Adapter<SkillsAdapter.MyViewHold
                 Integer pos = (Integer) holder.checkBox.getTag();
 
 
-                if (skillList.get(position).isSelected()) {
+                if (skillList.get(pos).isSelected()) {
 
                     skillList.get(pos).setSelected(false);
-                    removeSkill(skillList.get(position));
+                    removeSkill(skillList.get(pos));
+
+
 
                 } else {
 
-                    if(projectSkillList.size() < 4)
+                    if(projectSkillList.size() <= 4)
                     {
                         skillList.get(pos).setSelected(true);
-                        projectSkillList.add(skillList.get(pos));
+
+                        SkillRecyclerView skillRecyclerView = skillList.get(pos);
+                        projectSkillList.add(skillRecyclerView);
                     }else{
                         skillList.get(pos).setSelected(false);
                         holder.checkBox.setChecked(false);
+
+
+
+
                     }
+
+
 
                 }
             }

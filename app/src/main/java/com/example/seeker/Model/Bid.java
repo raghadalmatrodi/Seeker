@@ -4,6 +4,7 @@ import java.io.Serializable;
 import java.time.LocalDateTime;
 
 public class Bid implements Serializable {
+    private long id;
     private String title;
     private String description;
     private double price;
@@ -15,9 +16,43 @@ public class Bid implements Serializable {
     //todo 10 hind added project obj to bid and its constructor
 
     private Project project;
+    public long getId() {
+        return id;
+    }
+
+    public Bid(long id, String title, String description, double price, String deliver_date, String status, long freelancerId, Freelancer freelancer) {
+        this.id = id;
+        this.title = title;
+        this.description = description;
+        this.price = price;
+        this.deliver_date = deliver_date;
+        this.status = status;
+        this.freelancerId = freelancerId;
+        this.freelancer = freelancer;
+    }
+    public Bid(long id, String title, String description, double price, String deliver_date, String status, long freelancerId) {
+        this.id = id;
+        this.title = title;
+        this.description = description;
+        this.price = price;
+        this.deliver_date = deliver_date;
+        this.status = status;
+        this.freelancerId = freelancerId;
+        this.freelancer = freelancer;
+    }
+    public void setId(long id) {
+        this.id = id;
+    }
 
     public Project getProject() {
         return project;
+    }
+    public long getFreelancerId() {
+        return freelancerId;
+    }
+
+    public void setFreelancerId(long freelancerId) {
+        this.freelancerId = freelancerId;
     }
 
     public void setProject(Project project) {
@@ -46,6 +81,7 @@ public class Bid implements Serializable {
         this.deliver_date = deliver_date;
         this.status = status;
     }
+
 
     public String getTitle() {
         return title;
@@ -98,11 +134,14 @@ public class Bid implements Serializable {
     @Override
     public String toString() {
         return "Bid{" +
-                "title='" + title + '\'' +
+                "id=" + id +
+                ", title='" + title + '\'' +
                 ", description='" + description + '\'' +
                 ", price=" + price +
-                ", deliver_date=" + deliver_date +
+                ", deliver_date='" + deliver_date + '\'' +
                 ", status='" + status + '\'' +
+                ", freelancerId=" + freelancerId +
+                ", freelancer=" + freelancer +
                 '}';
     }
 }

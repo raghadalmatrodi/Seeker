@@ -125,7 +125,7 @@ private static final String LOG= SignupActivity.class.getSimpleName();
                     Log.i(LOG, "onResponse : " + response.body().toString());
 
                     //Todo: intent
-                    Dialog("ok");
+                    Dialog("You have successfully registered");
 
                 } else{
                     Converter<ResponseBody,ApiException> converter = ApiClients.getInstant().responseBodyConverter(ApiException.class,new Annotation[0]);
@@ -138,7 +138,6 @@ private static final String LOG= SignupActivity.class.getSimpleName();
                         if(errors != null)
                        if(!errors.isEmpty())
                            wrongInfoDialog(errors.get(0).getMessage());
-                        Dialog(exception.getMessage());
 
                     } catch (IOException e) {
                         e.printStackTrace();
@@ -161,7 +160,6 @@ private static final String LOG= SignupActivity.class.getSimpleName();
     }//End of executeSignUpApiRequest()
 
 
-
     private RequestBody createPartFromString(String field) {
         if (field != null) {
             return RequestBody.create(MediaType.parse("text/plain"), field);
@@ -171,9 +169,6 @@ private static final String LOG= SignupActivity.class.getSimpleName();
 
         }//End of else
     }//End of createPartFromString()
-
-
-
 
     private void init() {
 

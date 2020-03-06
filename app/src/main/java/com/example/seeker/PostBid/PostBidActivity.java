@@ -383,10 +383,10 @@ public class PostBidActivity extends AppCompatActivity {
         alertDialog.setPositiveButton("OK", new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int which) {
                 dialog.dismiss();
-                Intent intent;
-                intent = new Intent(PostBidActivity.this, ViewBid.class);
-                startActivity(intent);
-//                finish();
+//                Intent intent;
+//                intent = new Intent(PostBidActivity.this, ViewBid.class);
+//                startActivity(intent);
+                finish();
 
             }//end onClick
         });//end setPositiveButton

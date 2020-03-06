@@ -243,7 +243,7 @@ public class ProjectInformationFragment extends Fragment {
     }
 
     //TODO reema remove comment
-
+//
 //    private void createProjectWithAttachments(List<File> file)  {
 //        Project project = new Project("ne111w","new11",333,null , null , null,
 //                null ,null);
@@ -428,11 +428,7 @@ public class ProjectInformationFragment extends Fragment {
 
     }//end showDialog
 
-//        @Override
-//    public void onAttach(Context context) {
-//        super.onAttach(context);
-//        projectInformationListener = (ProjectInformationListener) getActivity();
-//    }
+
 
 
     public class GridSpacingItemDecoration extends RecyclerView.ItemDecoration {
