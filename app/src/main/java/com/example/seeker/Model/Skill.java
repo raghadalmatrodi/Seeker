@@ -32,4 +32,8 @@ public class Skill {
                 ", name='" + name + '\'' +
                 '}';
     }
+
+    public String skillName(){
+        return name +"/n";
+    }
 }

@@ -4,11 +4,7 @@ package com.example.seeker.PostProject;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
-import android.graphics.drawable.Drawable;
-import android.view.ContextMenu;
 import android.view.LayoutInflater;
-import android.view.Menu;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
@@ -136,7 +132,7 @@ public class AttachmentAdapter extends RecyclerView.Adapter<AttachmentAdapter.My
     @Override
     public MyViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View itemView = LayoutInflater.from(parent.getContext())
-                .inflate(R.layout.attachment_card, parent, false);
+                .inflate(R.layout.row_attachment, parent, false);
 
         return new MyViewHolder(itemView ,mListener);
     } // end onCreateViewHolder

@@ -20,6 +20,7 @@ import retrofit2.http.Body;
 import retrofit2.http.GET;
 import retrofit2.http.Multipart;
 import retrofit2.http.POST;
+import retrofit2.http.PUT;
 import retrofit2.http.Part;
 import retrofit2.http.Path;
 
@@ -47,6 +48,7 @@ public interface ApiMethods {
         String POST_CERTIFICATES = "certificate/create";
         String GET_CERTIFICATES = "certificate/find-all";
 
+        String ACCEPT_BID ="bid/accept-bid/{id}";
 
 
 
@@ -111,6 +113,9 @@ public interface ApiMethods {
 
     @GET(Methods.GET_FREELANCER_BY_USER_ID)
     Call<Freelancer> getFreelancerByUserIdRequest(@Path("user_id") long user_id);
+
+    @PUT(Methods.ACCEPT_BID)
+    Call<ApiResponse> acceptBid(@Path("id") long id);
 
     @GET(Methods.GET_CERTIFICATES)
     Call<List<Certificate>> getAllCertificates();

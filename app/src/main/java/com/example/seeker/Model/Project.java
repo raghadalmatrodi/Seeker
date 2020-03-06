@@ -8,8 +8,8 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+public class Project  implements Serializable {
 //todo 4 hind implemented serializable
-public class Project implements Serializable {
 
     private String title;
     private String description;
@@ -22,7 +22,9 @@ public class Project implements Serializable {
     private Employer employer;
     private Set<Skill> skills = new HashSet<>();
     private String status;
-    // 0 -> pending
+  //  private List<Bid> bids = new ArrayList<>();
+
+// 0 -> pending
     //1 -> inProgress
     //2 -> completed
 
