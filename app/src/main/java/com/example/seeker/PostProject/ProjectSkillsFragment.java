@@ -18,6 +18,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.seeker.Model.Category;
 import com.example.seeker.Model.Skill;
+import com.example.seeker.Model.SkillRecyclerView;
 import com.example.seeker.R;
 
 import java.util.ArrayList;
@@ -36,8 +37,8 @@ public class ProjectSkillsFragment  extends Fragment  {
     private ImageView backBtn;
     private Button nextBtn;
 
-    private List<Skill> projectSkillList = new ArrayList<>();
-    private List<Skill> skillArrayList ;
+    private List<SkillRecyclerView> projectSkillList = new ArrayList<>();
+    private List<SkillRecyclerView> skillArrayList ;
 
     private Set<Skill> projectSkillHashList = new HashSet<>();
     private Set<Skill> skillList = new HashSet<>();
@@ -79,7 +80,8 @@ public class ProjectSkillsFragment  extends Fragment  {
                    wrongInfoDialog("You have to choose at least one skill");
                }else {
 
-                   for(Skill skill: projectSkillList){
+                   for(SkillRecyclerView s: projectSkillList){
+                       Skill skill = new Skill(s.getId(), s.getName());
                        projectSkillHashList.add(skill);
                    }
                    skillsListener.onNextSelected(projectSkillHashList);
@@ -118,7 +120,8 @@ public class ProjectSkillsFragment  extends Fragment  {
         skillList =  category.getSkills();
 
 
-        for(Skill skill : skillList){
+        for(Skill s : skillList){
+            SkillRecyclerView skill = new SkillRecyclerView(s.getId(),s.getName(), false);
             skillArrayList.add(skill);
         }
 

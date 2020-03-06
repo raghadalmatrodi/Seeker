@@ -13,6 +13,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.seeker.Model.Category;
 import com.example.seeker.Model.Skill;
+import com.example.seeker.Model.SkillRecyclerView;
 import com.example.seeker.R;
 
 import java.util.ArrayList;
@@ -21,9 +22,8 @@ import java.util.List;
 public class SkillsAdapter extends RecyclerView.Adapter<SkillsAdapter.MyViewHolder> {
 
 
-    private List<Skill> skillList;
-    private List<Skill> projectSkillList = new ArrayList<>();
-    int skillsCounter = 0;
+    private List<SkillRecyclerView> skillList;
+    private List<SkillRecyclerView> projectSkillList = new ArrayList<>();
     private static final String LOG = SkillsAdapter.class.getSimpleName();
 
 
@@ -39,56 +39,26 @@ public class SkillsAdapter extends RecyclerView.Adapter<SkillsAdapter.MyViewHold
 
             title = view.findViewById(R.id.row_title);
             checkBox = view.findViewById(R.id.row_arrow);
-            skillsCounter = 0;
-
-
-
-            checkBox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-
-                @Override
-                public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                    if (checkBox.isChecked()) {
-
-                        if (skillsCounter < 4){
-
-                            skillsCounter++;
-
-                           projectSkillList.add(skillList.get(getAdapterPosition()));
-
-                        }else{
-                            Log.i(LOG, "counter : "+skillsCounter);
-                            buttonView.setChecked(false);
 
 
 
 
 
-                        }
 
-                    }
-                 else {
-
-
-                     skillsCounter--;
-                     removeSkill(skillList.get(getAdapterPosition()));
-                }
-            }
-        });
-            
 
         }//End of MyViewHolder()
 
 
     }//Enf of class MyViewHolder
 
-    private void removeSkill(Skill skill) {
+    private void removeSkill(SkillRecyclerView skill) {
 
         projectSkillList.remove(skill);
 
     }
 
 
-    public SkillsAdapter(List<Skill> skillList) {
+    public SkillsAdapter(List<SkillRecyclerView> skillList) {
 
         this.skillList = skillList;
     }//End of CategorySearchAdapter()
@@ -104,8 +74,40 @@ public class SkillsAdapter extends RecyclerView.Adapter<SkillsAdapter.MyViewHold
 
     @Override
     public void onBindViewHolder(final SkillsAdapter.MyViewHolder holder, int position) {
-        Skill skill = skillList.get(position);
+
+        SkillRecyclerView skill = skillList.get(position);
         holder.title.setText(skill.getName());
+
+        holder.checkBox.setChecked(skill.isSelected());
+        holder.checkBox.setTag(position);
+
+        holder.checkBox.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                Integer pos = (Integer) holder.checkBox.getTag();
+
+
+                if (skillList.get(position).isSelected()) {
+
+                    skillList.get(pos).setSelected(false);
+                    removeSkill(skillList.get(position));
+
+                } else {
+
+                    if(projectSkillList.size() < 4)
+                    {
+                        skillList.get(pos).setSelected(true);
+                        projectSkillList.add(skillList.get(pos));
+                    }else{
+                        skillList.get(pos).setSelected(false);
+                        holder.checkBox.setChecked(false);
+                    }
+
+                }
+            }
+        });
+
 
 
     }//End of onBindViewHolder
@@ -116,8 +118,12 @@ public class SkillsAdapter extends RecyclerView.Adapter<SkillsAdapter.MyViewHold
         return skillList.size();
     }
 
-    public List<Skill> getProjectSkills()
+    public List<SkillRecyclerView> getProjectSkills()
     {
+//        List<SkillRecyclerView> newSkillList = projectSkillList;
+//        projectSkillList = new ArrayList<>();
         return projectSkillList;
+
+
     }
 }
