@@ -10,7 +10,6 @@ import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentPagerAdapter;
 import androidx.viewpager.widget.ViewPager;
 
-import com.example.seeker.FreelancerMainPages.MyProjectsTab_Freelancer.ProjectsStatusFragments.Freelancer_MyProjects_Completed_Fragment;
 import com.example.seeker.FreelancerMainPages.MyProjectsTab_Freelancer.ProjectsStatusFragments.Freelancer_MyProjects_In_Progress_Fragment;
 import com.example.seeker.FreelancerMainPages.MyProjectsTab_Freelancer.ProjectsStatusFragments.Freelancer_MyProjects_Pending_Fragment;
 import com.example.seeker.R;
@@ -52,7 +51,7 @@ public class Freelancer_MyProjectsFragment extends Fragment {
         Adapter adapter = new Adapter(getChildFragmentManager());
         adapter.addFragment(new Freelancer_MyProjects_In_Progress_Fragment(), "In Progress");
         adapter.addFragment(new Freelancer_MyProjects_Pending_Fragment(), "Pending");
-        adapter.addFragment(new Freelancer_MyProjects_Completed_Fragment(), "Completed");
+
 
         viewPager.setAdapter(adapter);
 

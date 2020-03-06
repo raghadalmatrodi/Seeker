@@ -34,7 +34,7 @@ public class ProjectTypeFragment extends Fragment {
             @Override
             public void onClick(View view) {
 
-                projectTypeListener.onProjectTypeItemSelected("OnlineProject");
+                projectTypeListener.onProjectTypeItemSelected("0");
 
             }
         });
@@ -43,7 +43,7 @@ public class ProjectTypeFragment extends Fragment {
             @Override
             public void onClick(View view) {
 
-                projectTypeListener.onProjectTypeItemSelected("OnFieldProject");
+                projectTypeListener.onProjectTypeItemSelected("1");
             }
         });
 

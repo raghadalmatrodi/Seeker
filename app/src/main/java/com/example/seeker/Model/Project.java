@@ -1,13 +1,15 @@
 package com.example.seeker.Model;
 
 
+import java.io.Serializable;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-public class Project  {
+//todo 4 hind implemented serializable
+public class Project implements Serializable {
 
     private String title;
     private String description;
@@ -24,10 +26,14 @@ public class Project  {
     //1 -> inProgress
     //2 -> completed
 
+    //todo hind 1 + added setter and getters + project id and its setters and getters
+    private List<Bid> bids = new ArrayList<>();
+    private long id;
 
     private Category category;
 
-    public Project(String title, String description, double budget,String type, String payment_type, String expiry_date, String deadline, Employer employer , String status){
+    //todo hind 2 added bid list to project constructor
+    public Project(String title, String description, double budget,String type, String payment_type, String expiry_date, String deadline, Employer employer , String status, List<Bid> bids){
         this.title = title;
         this.description = description;
         this.budget = budget;
@@ -37,6 +43,7 @@ public class Project  {
         this.deadline = deadline;
         this.employer = employer;
         this.status = status;
+        this.bids = bids;
     }
 
 //    public Project(String title, String description, double budget, String type, String payment_type, String expiry_date, String deadline, List<Milestone> milestones, Employer employer, Set<Skill> skills, String status, Category category) {
@@ -47,12 +54,24 @@ public class Project  {
 //        this.payment_type = payment_type;
 //        this.expiry_date = expiry_date;
 //        this.deadline = deadline;
-////        this.milestones = milestones;
 //        this.employer = employer;
-//        this.skills = skills;
 //        this.status = status;
-////        this.category = category;
 //    }
+//
+
+    public Project(String title, String description, double budget, String type, String payment_type, String expiry_date, String deadline,  Employer employer, Set<Skill> skills, String status, Category category) {
+        this.title = title;
+        this.description = description;
+        this.budget = budget;
+        this.type = type;
+        this.payment_type = payment_type;
+        this.expiry_date = expiry_date;
+        this.deadline = deadline;
+        this.employer = employer;
+        this.skills = skills;
+        this.status = status;
+        this.category = category;
+    }
 
     public String getTitle() {
         return title;
@@ -155,6 +174,23 @@ public class Project  {
 
     public void setCategory(Category category) {
         this.category = category;
+    }
+
+
+    public List<Bid> getBids() {
+        return bids;
+    }
+
+    public void setBids(List<Bid> bids) {
+        this.bids = bids;
+    }
+
+    public long getId() {
+        return id;
+    }
+
+    public void setId(long id) {
+        this.id = id;
     }
 
     @Override

@@ -30,14 +30,14 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class Emp_MyProjects_In_Progress_Fragment extends Fragment  implements ProjectAdapter.ProjectAdapterListener{
+public class Emp_MyProjects_In_Progress_Fragment extends Fragment{
 
 
     private View view;
     private RecyclerView recyclerView;
     private ProjectAdapter adapter;
     private List<Project> projectList = new ArrayList<>();
-    private Emp_MyProjects_Pending_Fragment.ProjectListener projectListener;
+
     private TextView pendingText;
     private Employer employer;
 
@@ -53,30 +53,17 @@ public class Emp_MyProjects_In_Progress_Fragment extends Fragment  implements Pr
         employer = new Employer(employer_id);
 
 
-        pendingText = view.findViewById(R.id.emp_inProgress_text);
+        pendingText = view.findViewById(R.id.emp_InProgress_text);
+        pendingText.setText("No Project");
+
+        onResume();
 
         return view;
     }
 
 
 
-    public interface ProjectListener{
 
-        void onProjectItemSelected(Project project);
-    }//End of interface
-
-    @Override
-    public void onProjectItemSelectedAdapter(Project project) {
-
-        projectListener.onProjectItemSelected(project);
-
-    }
-
-    public void setListener (Emp_MyProjects_Pending_Fragment.ProjectListener projectListener)
-    {
-        this.projectListener = projectListener;
-
-    }
 
     private void wrongInfoDialog(String msg) {
         AlertDialog.Builder alertDialog = new AlertDialog.Builder(getContext());
@@ -116,7 +103,6 @@ public class Emp_MyProjects_In_Progress_Fragment extends Fragment  implements Pr
                     adapter = new ProjectAdapter(projectList);
                     recyclerView.setItemAnimator(new DefaultItemAnimator());
                     recyclerView.setAdapter(adapter);
-                    //adapter.setListener(this);
                     recyclerView.setNestedScrollingEnabled(true);
                     DividerItemDecoration dividerItemDecoration = new DividerItemDecoration(recyclerView.getContext(), DividerItemDecoration.VERTICAL);
                     recyclerView.addItemDecoration(dividerItemDecoration);

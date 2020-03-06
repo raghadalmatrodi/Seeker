@@ -15,14 +15,13 @@ import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.TextView;
-import android.widget.Toast;
 
-import com.example.seeker.Activities.LoginActivity;
 import com.example.seeker.Database.ApiClients;
 import com.example.seeker.Model.Bid;
 import com.example.seeker.Model.Exception.ApiError;
 import com.example.seeker.Model.Exception.ApiException;
 import com.example.seeker.Model.Freelancer;
+import com.example.seeker.Model.Project;
 import com.example.seeker.Model.Responses.ApiResponse;
 import com.example.seeker.R;
 import com.example.seeker.SharedPref.Constants;
@@ -36,7 +35,6 @@ import java.time.format.DateTimeFormatter;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
-import java.util.Locale;
 
 import okhttp3.ResponseBody;
 import retrofit2.Call;
@@ -62,6 +60,9 @@ public class PostBidActivity extends AppCompatActivity {
     private LocalDateTime localDateTimet;
     private DatePickerDialog picker;
 
+    //todo: hind commented -> remove later
+//    Freelancer freelancer;
+
 
 
 
@@ -77,6 +78,14 @@ public class PostBidActivity extends AppCompatActivity {
         getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN);
 
         init();
+
+
+//        getCurrentProject();
+
+        Intent i = getIntent();
+        Project project = (Project) i.getSerializableExtra("currentProjObj");
+        project_title.setText(project.getTitle());
+
 
         //When x is pressed:
         close_bid.setOnClickListener(new View.OnClickListener() {
@@ -118,11 +127,22 @@ public class PostBidActivity extends AppCompatActivity {
                     localDateTimet = convertStringToLocalDateTime(dateStr);
 
 //                    Freelancer freelancer = new Freelancer(MySharedPreference.getLong(PostBidActivity.this, Constants.Keys.USER_ID, -1));
-                    Freelancer freelancer = new Freelancer(702);
+
                     //CHECK! NOT SURE
 //                    if (MySharedPreference.getLong(PostBidActivity.this, Constants.Keys.USER_ID, -1) != -1)
 //                    freelancer.setId(MySharedPreference.getLong(PostBidActivity.this, Constants.Keys.USER_ID, -1));
-                    Bid bid = new Bid(bidTitleStr,bidDescriptionStr,priceDouble,localDateTimet.toString() ,"pending", 702);
+                    //todo: hind commented -> remove later
+
+//                        executeFindFreelancerByUserIdRequest(MySharedPreference.getLong(PostBidActivity.this, Constants.Keys.USER_ID, -1));
+
+                    long freelancerID = MySharedPreference.getLong(PostBidActivity.this, Constants.Keys.FREELANCER_ID,-1);
+
+                    Freelancer freelancer = new Freelancer(freelancerID);
+//                    Employer employer = new Employer(empID);
+
+                    long projectID = project.getId();
+                    project.setId(projectID);
+                    Bid bid = new Bid(bidTitleStr,bidDescriptionStr,priceDouble,localDateTimet.toString() ,"pending", freelancer, project);
 
 //                    String checkStr = bidTitleStr+" -- "+bidDescriptionStr+ " -- "+ priceStr + " -- "+" -- " + dateStr;
 //                    Toast.makeText(getApplicationContext(),checkStr,Toast.LENGTH_LONG).show();
@@ -138,6 +158,12 @@ public class PostBidActivity extends AppCompatActivity {
 
 
     }//end onCreate()
+
+    private void getCurrentProject() {
+//        Intent i = getIntent();
+//        Project project = (Project) i.getSerializableExtra("currentProjObj");
+//        project_title.setText(project.getTitle());
+    }
 
     private void init() {
 
@@ -213,7 +239,7 @@ public class PostBidActivity extends AppCompatActivity {
                         e.printStackTrace();
                     }
 
-                }
+                }//end else block
 
 
             }//end onResponse()
@@ -232,6 +258,54 @@ public class PostBidActivity extends AppCompatActivity {
 
     }//End executePostBidRequest()
 
+    //todo hind commented -> remove later
+
+//    private void executeFindFreelancerByUserIdRequest(Long id){
+//
+//
+////        if (MySharedPreference.getLong(PostBidActivity.this, Constants.Keys.USER_ID, -1) != -1)
+////          long curren_user_id = MySharedPreference.getLong(PostBidActivity.this, Constants.Keys.USER_ID, -1);
+//
+//        ApiClients.getAPIs().getFreelancerByUserIdRequest(id).enqueue(new Callback<Freelancer>() {
+//            @Override
+//            public void onResponse(Call<Freelancer> call, Response<Freelancer> response) {
+//                if (response.isSuccessful()){
+//
+//                    Log.i(LOG, "onResponse: " + response.body().toString());
+//                    freelancer = Freelancer(response.body().getId());
+////                    freelancer.setId(response.body().getId());
+//
+//
+//                }else {
+//                    Converter<ResponseBody, ApiException> converter = ApiClients.getInstant().responseBodyConverter(ApiException.class, new Annotation[0]);
+//                    ApiException exception = null;
+//                    try {
+//
+//                        exception = converter.convert(response.errorBody());
+//
+//                        List<ApiError> errors = exception.getErrors();
+//
+//                        if (errors != null)
+//                            if (!errors.isEmpty())
+//                                wrongInfoDialog(errors.get(0).getMessage());
+//                        wrongInfoDialog(exception.getMessage());
+//
+//                    } catch (IOException e) {
+//                        e.printStackTrace();
+//                    }
+//                }//end else block
+//            }//End onResponse()
+//
+//            @Override
+//            public void onFailure(Call<Freelancer> call, Throwable t) {
+//                Log.i(LOG, t.getLocalizedMessage() );
+//                wrongInfoDialog("Error!");
+//            }//end onFailure()
+//        });
+//
+//
+//
+//    }//End executeFindFreelancerByUserIdRequest()
 
     private void calendarDialog() {
 
@@ -309,10 +383,10 @@ public class PostBidActivity extends AppCompatActivity {
         alertDialog.setPositiveButton("OK", new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int which) {
                 dialog.dismiss();
-                Intent intent;
-                intent = new Intent(PostBidActivity.this, ViewBid.class);
-                startActivity(intent);
-//                finish();
+//                Intent intent;
+//                intent = new Intent(PostBidActivity.this, ViewBid.class);
+//                startActivity(intent);
+                finish();
 
             }//end onClick
         });//end setPositiveButton
@@ -342,7 +416,6 @@ public class PostBidActivity extends AppCompatActivity {
         alertDialog.show();
 
     }//End wrongInfoDialog()
-
 
     private void wrongInfoDialogWithTitle(String title, String msg) {
         final AlertDialog.Builder alertDialog = new AlertDialog.Builder(this);

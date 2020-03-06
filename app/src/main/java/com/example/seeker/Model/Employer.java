@@ -1,9 +1,11 @@
 package com.example.seeker.Model;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Employer {
+//todo 7? hind implemented serialiazble
+public class Employer implements Serializable {
 
     private long id;
     private int  num_of_ratings;
