@@ -2,6 +2,7 @@ package com.example.seeker.Database;
 
 import com.example.seeker.Model.Bid;
 import com.example.seeker.Model.Category;
+import com.example.seeker.Model.Certificate;
 import com.example.seeker.Model.Employer;
 import com.example.seeker.Model.Freelancer;
 import com.example.seeker.Model.Login;
@@ -43,6 +44,8 @@ public interface ApiMethods {
         String GET_FREELANCER_BY_USER_ID = "freelancer/user_id/{user_id}";
         String GET_BIDS_BY_STATUS = "bid/status/{status}";
         String GET_PROJECTS_BY_STATUS = "project/statuses/{status}";
+        String POST_CERTIFICATES = "certificate/create";
+        String GET_CERTIFICATES = "certificate/find-all";
 
 
 
@@ -81,6 +84,9 @@ public interface ApiMethods {
     @POST(Methods.GET_PROJECTS_BY_STATUS)
     Call<List<Project>> getProjectsByStatusOnly(@Path("status") String status);
 
+    @POST(Methods.POST_CERTIFICATES)
+    Call<ApiResponse> getPostCertificatesRequest(@Body Certificate certificate);
+
     /**
      * GET METHODS
      */
@@ -104,6 +110,9 @@ public interface ApiMethods {
 
     @GET(Methods.GET_FREELANCER_BY_USER_ID)
     Call<Freelancer> getFreelancerByUserIdRequest(@Path("user_id") long user_id);
+
+    @GET(Methods.GET_CERTIFICATES)
+    Call<List<Certificate>> getAllCertificates();
 
 
 
