@@ -52,7 +52,6 @@ public class Freelancer_MyProjects_Pending_Fragment extends Fragment implements 
         // Inflate the layout for this fragment
        view =  inflater.inflate(R.layout.fragment_freelancer_pending_projects, container, false);
 
-        pendingText = view.findViewById(R.id.freelancer_pending_projects_text);
 
 
         return view;
@@ -104,41 +103,9 @@ public class Freelancer_MyProjects_Pending_Fragment extends Fragment implements 
                      *                     }
                      */
 
-                    int responseSize = response.body().size();
-                    List<Bid> testBidList = new ArrayList<>();
-                    List<Project> testP = new ArrayList<>();
-
-                    int tryy = -1;
-                    long currFree = MySharedPreference.getLong(getContext(), Constants.Keys.FREELANCER_ID,-1);
-                    Freelancer currf = new Freelancer(currFree);
 
 
-                    for (int i = 0; i< responseSize; i++){
-//                        if (response.body().get(i).getBids() != null)
-
-                            if (response.body().get(i).getBids().size() > 0){
-//                                tryy++;
-                                testP.add(response.body().get(i));
-                          testBidList = response.body().get(i).getBids();
-                          }
-
-                    }
-                    int bidlistSize = testBidList.size();
-                    int testPSize = testP.size();
-                    for (int k = 0; k< testPSize; k++){
-//                        if (response.body().get(k).getBids().get(k).getFreelancer() != null)
-                        for (int h = 0; h<bidlistSize; h++){
-                            if (testP.get(k).getBids().get(h).getFreelancer() != null)
-                                if (testP.get(k).getBids().get(h).getFreelancer().getId() == currFree){
-                                    tryy++;
-                                    projectList.add(testP.get(k));
-                                }
-                        }
-
-                    }
-
-//                    projectList =  response.body();
-                    pendingText.setText(""+tryy);
+                    projectList =  response.body();
                     recyclerView = (RecyclerView) view.findViewById(R.id.fr_pending_recycler_view);
 
                     recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
