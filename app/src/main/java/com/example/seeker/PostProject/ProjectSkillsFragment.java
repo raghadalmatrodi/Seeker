@@ -38,9 +38,9 @@ public class ProjectSkillsFragment  extends Fragment  {
     private Button nextBtn;
 
     private List<SkillRecyclerView> projectSkillList = new ArrayList<>();
-    private List<SkillRecyclerView> skillArrayList ;
+    private List<SkillRecyclerView> skillArrayList = new ArrayList<>();
 
-    private Set<Skill> projectSkillHashList = new HashSet<>();
+
     private Set<Skill> skillList = new HashSet<>();
 
 
@@ -74,17 +74,14 @@ public class ProjectSkillsFragment  extends Fragment  {
             @Override
             public void onClick(View view) {
 
-                projectSkillHashList = new HashSet<>();
+
                projectSkillList=  adapter.getProjectSkills();
                if(projectSkillList.isEmpty()){
                    wrongInfoDialog("You have to choose at least one skill");
                }else {
 
-                   for(SkillRecyclerView s: projectSkillList){
-                       Skill skill = new Skill(s.getId(), s.getName());
-                       projectSkillHashList.add(skill);
-                   }
-                   skillsListener.onNextSelected(projectSkillHashList);
+
+                   skillsListener.onNextSelected(projectSkillList);
                }
 
 
@@ -99,15 +96,20 @@ public class ProjectSkillsFragment  extends Fragment  {
 
     public void setData(Category category){
 
-        skillArrayList = new ArrayList<>();
-        setRecyclerView(category);
+         skillArrayList= new ArrayList<>();
+        setRecyclerView(category, null);
 
+    }
+    public void setBackData(Category category, List<SkillRecyclerView> skillRecyclerViews){
+
+        skillArrayList= new ArrayList<>();
+        setRecyclerView(category, skillRecyclerViews);
     }
 
     //Needed Interfaces
     public interface SkillsListener{
 
-        void onNextSelected(Set<Skill> skillList);
+        void onNextSelected(List<SkillRecyclerView> skillList);
     }//End of interface
 
     public interface BackSkillListener{
@@ -115,7 +117,7 @@ public class ProjectSkillsFragment  extends Fragment  {
         void onBacSkillSelected();
     }
 
-    public void setRecyclerView(Category category) {
+    public void setRecyclerView(Category category, List<SkillRecyclerView> skillRecyclerViews){
 
         skillList =  category.getSkills();
 
@@ -126,11 +128,32 @@ public class ProjectSkillsFragment  extends Fragment  {
         }
 
 
+        if( skillRecyclerViews != null){
+
+            if(!skillRecyclerViews.isEmpty()) {
+
+                for (SkillRecyclerView s : skillArrayList) {
+
+                    for (SkillRecyclerView r : skillRecyclerViews) {
+
+                        if (s.getId() == r.getId()) {
+                            s.setSelected(true);
+
+                            break;
+                        }
+                    }
+                }
+
+
+            }
+        }
+
+
 
         //RecyclerView Code
         recyclerView = (RecyclerView) view.findViewById(R.id.recycler_view);
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
-        adapter = new SkillsAdapter(skillArrayList);
+        adapter = new SkillsAdapter(skillArrayList,skillRecyclerViews);
         recyclerView.setItemAnimator(new DefaultItemAnimator());
         recyclerView.setAdapter(adapter);
         recyclerView.setNestedScrollingEnabled(true);

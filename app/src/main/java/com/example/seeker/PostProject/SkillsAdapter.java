@@ -23,7 +23,7 @@ public class SkillsAdapter extends RecyclerView.Adapter<SkillsAdapter.MyViewHold
 
 
     private List<SkillRecyclerView> skillList;
-    private List<SkillRecyclerView> projectSkillList = new ArrayList<>();
+    private List<SkillRecyclerView> projectSkillList;
     private static final String LOG = SkillsAdapter.class.getSimpleName();
 
 
@@ -58,9 +58,15 @@ public class SkillsAdapter extends RecyclerView.Adapter<SkillsAdapter.MyViewHold
     }
 
 
-    public SkillsAdapter(List<SkillRecyclerView> skillList) {
+    public SkillsAdapter(List<SkillRecyclerView> skillList, List<SkillRecyclerView> projectSkillList) {
 
         this.skillList = skillList;
+        if(projectSkillList != null){
+            this.projectSkillList = projectSkillList;
+        }else{
+            this.projectSkillList = new ArrayList<>();
+        }
+
     }//End of CategorySearchAdapter()
 
     @Override
@@ -120,10 +126,11 @@ public class SkillsAdapter extends RecyclerView.Adapter<SkillsAdapter.MyViewHold
 
     public List<SkillRecyclerView> getProjectSkills()
     {
-//        List<SkillRecyclerView> newSkillList = projectSkillList;
-//        projectSkillList = new ArrayList<>();
         return projectSkillList;
 
 
     }
+
+
+
 }

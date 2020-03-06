@@ -21,6 +21,7 @@ import com.example.seeker.Model.Freelancer;
 import com.example.seeker.Model.Project;
 import com.example.seeker.Model.Responses.ApiResponse;
 import com.example.seeker.Model.Skill;
+import com.example.seeker.Model.SkillRecyclerView;
 import com.example.seeker.PostProject.FragmentAdapter;
 import com.example.seeker.PostProject.PaymentTypeFragment;
 import com.example.seeker.PostProject.ProjectCategoryFragment;
@@ -73,6 +74,7 @@ public class Emp_PostFragment extends Fragment implements ProjectTypeFragment.Pr
     private String projectType, paymentType, title,description, budget;
     private Category category;
     private Set<Skill> skillList = new HashSet<>();
+    private List<SkillRecyclerView> skillRecyclerViews = new ArrayList<>();
     private String deadlineLocalDateTime, expiryLocalDateTime;
 
     @Override
@@ -122,13 +124,22 @@ public class Emp_PostFragment extends Fragment implements ProjectTypeFragment.Pr
     @Override
     public void onCategoryTypeItemSelected(Category category) {
         this.category = category;
+        skillRecyclerViews = new ArrayList<>();
+
         projectSkillsFragment.setData(category);
         viewPager.setCurrentItem(2);
     }
 
     @Override
-    public void onNextSelected(Set<Skill> skill) {
-        skillList = skill;
+    public void onNextSelected(List<SkillRecyclerView> skillRecyclerViews) {
+        this.skillRecyclerViews = skillRecyclerViews;
+
+        skillList = new HashSet<>();
+        
+        for(SkillRecyclerView s: skillRecyclerViews){
+            Skill skill = new Skill(s.getId(), s.getName());
+            skillList.add(skill);
+        }
         viewPager.setCurrentItem(3);
 
     }
@@ -416,7 +427,7 @@ public class Emp_PostFragment extends Fragment implements ProjectTypeFragment.Pr
 
     @Override
     public void onBackPaymentClick() {
-        projectSkillsFragment.setData(category);
+        projectSkillsFragment.setBackData(category,skillRecyclerViews);
         viewPager.setCurrentItem(2);
 
 
