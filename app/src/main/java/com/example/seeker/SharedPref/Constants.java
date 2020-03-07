@@ -16,7 +16,7 @@ public class Constants {
 
         String USER_DETAILS = "user_details";
 //        String APP_LANGUAGE = "app_language";
-//        String IS_LOGIN = "IS_LOGIN";
+        String IS_LOGIN = "IS_LOGIN";
 //        String IS_FILL_DATA = "IS_FILL_DATA";
 
         String USER_NAME = "USER_NAME";

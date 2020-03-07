@@ -171,9 +171,7 @@ public class Emp_AccountFragment extends Fragment implements View.OnClickListene
         builder.setPositiveButton("Yes",
                 new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int id) {
-                        Intent i = new Intent(getContext(),
-                                LoginActivity.class);
-                        startActivity(i);
+                       logout();
                     }
                 });
         builder.setNegativeButton("No",
@@ -206,6 +204,22 @@ public class Emp_AccountFragment extends Fragment implements View.OnClickListene
         alertDialog.show();
     }
 
+    //TODO: REEMA LOGOUT
+    public void logout() {
 
+        clearData();
+        Intent intent = new Intent(getContext(), LoginActivity.class);
+        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
+        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        startActivity(intent);
+
+
+    }//End of logout()
+
+    public void clearData() {
+
+        MySharedPreference.clearData(getContext());
+
+    }//End of clearData()
 
 }
