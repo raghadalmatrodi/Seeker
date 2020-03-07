@@ -18,6 +18,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.seeker.EmployerMainPages.MyProjectsTab_Emp.ProjectsStatusFragments.Emp_MyProjects_Pending_Fragment;
 import com.example.seeker.Model.Bid;
 import com.example.seeker.Model.Project;
+import com.example.seeker.Model.Skill;
 import com.example.seeker.PostBid.BidsAdapter;
 import com.example.seeker.R;
 
@@ -66,31 +67,7 @@ public class Emp_viewProjectFragment extends Fragment implements  Emp_MyProjects
              isPending = bundle.getInt("pending" ,0);
         }
 
-            if( (project.getTitle() != null))
-                if(!project.getTitle().trim().equals(""))
-            title.setText(project.getTitle());
-
-
-        if(project.getDescription() != null )
-            if(!project.getDescription().trim().equals(""))
-            descreption.setText(project.getDescription());
-
-        if(!(project.getBudget() == 0))
-            budget.setText(project.getBudget() +"");
-
-        if(!project.getType().trim().equals("") || !(project.getType() == null))
-            type.setText(project.getType());
-        String skills ="";
-
-        if( !(project.getSkills() ==null))
-            if(!project.getSkills().isEmpty()) {
-                Object[] arraySkills = project.getSkills().toArray();
-                for(int i=0 ; i<arraySkills.length; i++)
-                    skills += arraySkills[i] + " \n";
-            }
-
-
-        employerName.setText(project.getEmployer().getUser().getUsername());
+        setProjectInformation();
 
 
         bids = project.getBids();
@@ -126,6 +103,50 @@ public class Emp_viewProjectFragment extends Fragment implements  Emp_MyProjects
     this.project = project;
 
     }
+    public void setProjectInformation(){
+        if( (project.getTitle() != null))
+            if(!project.getTitle().trim().equals(""))
+                title.setText(project.getTitle());
+
+
+        if(project.getDescription() != null )
+            if(!project.getDescription().trim().equals(""))
+                descreption.setText(project.getDescription());
+
+        if(!(project.getBudget() == 0))
+            budget.setText(project.getBudget() +"");
+
+        if(!project.getType().trim().equals("") || !(project.getType() == null)){
+
+            if(project.getType().equals("0")){
+                type.setText("Online");
+            }
+            else {
+                type.setText("On-field");
+            }
+
+        }
+
+
+        String skill ="";
+
+        if( project.getSkills() !=null){
+
+            if (!project.getSkills().isEmpty()) {
+                for (Skill s : project.getSkills()) {
+                    skill += s.getName() + " \n";
+                }
+            }
+            skills.setText(skill);
+        }
+
+
+        employerName.setText(project.getEmployer().getUser().getUsername());
+
+        if(project.getDeadline() != null){
+            deadline.setText(project.getDeadline().substring(0,10));
+        }
+    }
 
 
     public void setTheAdapter(){
@@ -148,4 +169,5 @@ public class Emp_viewProjectFragment extends Fragment implements  Emp_MyProjects
     public void onBidItemClick(Bid bid) {
 
     }
+
 }
