@@ -5,6 +5,8 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Filter;
+import android.widget.Filterable;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -15,18 +17,50 @@ import com.example.seeker.Model.Category;
 import com.example.seeker.PostProject.CategoryAdapter;
 import com.example.seeker.R;
 
+import java.util.ArrayList;
 import java.util.List;
 
-public class CategorySearchAdapter extends RecyclerView.Adapter<CategorySearchAdapter.MyViewHolder> {
+public class CategorySearchAdapter extends RecyclerView.Adapter<CategorySearchAdapter.MyViewHolder> implements Filterable {
 
     private Context mContext;
     private List<Category> categorySearchList;
-
+    private List<Category> filteredCategorySearchList;
     //2
     private CategoryAdapterListener listener;
     //3
     public void setListener(CategoryAdapterListener listener) {
         this.listener = listener;
+    }
+
+    @Override
+    public Filter getFilter() {
+        return new Filter() {
+            @Override
+            protected FilterResults performFiltering(CharSequence constraint) {
+                String charSequenceString = constraint.toString();
+                if (charSequenceString.isEmpty()) {
+                    filteredCategorySearchList = categorySearchList;
+                } else {
+                    List<Category> filteredList = new ArrayList<>();
+                    for (Category category : categorySearchList) {
+                        if (category.getTitle().toLowerCase().contains(charSequenceString.toLowerCase())) {
+                            filteredList.add(category);
+                        }
+                        categorySearchList = filteredList;
+                    }
+
+                }
+                FilterResults results = new FilterResults();
+                results.values = filteredCategorySearchList;
+                return results;
+            }
+
+            @Override
+            protected void publishResults(CharSequence constraint, FilterResults results) {
+                filteredCategorySearchList = (List<Category>) results.values;
+                notifyDataSetChanged();
+            }
+        };
     }
 //------------------
 

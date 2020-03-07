@@ -1,24 +1,6 @@
 package com.example.seeker.FreelancerMainPages.SearchTab_Freelancer.SearchFragments;
 
-import android.content.res.Resources;
-import android.graphics.Rect;
-import android.os.Bundle;
-import android.util.TypedValue;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
-
 import androidx.fragment.app.Fragment;
-import androidx.recyclerview.widget.DefaultItemAnimator;
-import androidx.recyclerview.widget.GridLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
-
-import com.example.seeker.R;
-import com.example.seeker.Search.CategorySearch;
-import com.example.seeker.Search.CategorySearchAdapter;
-
-import java.util.ArrayList;
-import java.util.List;
 
 public class Freelancer_Search_Projects_Fragment extends Fragment {
 
