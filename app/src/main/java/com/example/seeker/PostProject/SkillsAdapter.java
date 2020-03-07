@@ -111,7 +111,7 @@ public class SkillsAdapter extends RecyclerView.Adapter<SkillsAdapter.MyViewHold
 
                 } else {
 
-                    if(projectSkillList.size() <= 4)
+                    if(projectSkillList.size() < 4)
                     {
                         skillList.get(pos).setSelected(true);
 

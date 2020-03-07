@@ -61,7 +61,7 @@ public class ProjectSearchAdapter extends RecyclerView.Adapter<ProjectSearchAdap
     public void onBindViewHolder(final ProjectSearchAdapter.MyViewHolder holder, int position) {
         Project project = projectList.get(position);
         holder.title.setText(project.getTitle());
-        holder.description.setText(project.getCategory().getTitle());
+       holder.description.setText(project.getCategory().getTitle());
 
 
     }//End of onBindViewHolder

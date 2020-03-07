@@ -1,6 +1,7 @@
 package com.example.seeker.EmployerMainPages;
 
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -9,9 +10,13 @@ import android.view.ViewGroup;
 
 import androidx.appcompat.app.AlertDialog;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
 import androidx.viewpager.widget.ViewPager;
 
 import com.example.seeker.Database.ApiClients;
+import com.example.seeker.EmployerMainPages.MyProjectsTab_Emp.Emp_MyProjectsFragment;
+import com.example.seeker.EmployerMainPages.MyProjectsTab_Emp.Emp_viewProjectFragment;
 import com.example.seeker.Model.Bid;
 import com.example.seeker.Model.Category;
 import com.example.seeker.Model.Employer;
@@ -290,7 +295,45 @@ public class Emp_PostFragment extends Fragment implements ProjectTypeFragment.Pr
         AlertDialog.Builder alertDialog = new AlertDialog.Builder(getContext());
         // Setting Dialog Message
         alertDialog.setTitle("Project details Review");
-        alertDialog.setMessage(msg +"   "+ skillList.toString());
+
+        String type ;
+        if(project.getType().equals("0")){
+            type = "Online";
+        }else
+        {
+            type = "On-field";
+        }
+
+        String payType ;
+        if(project.getType().equals("0")){
+            payType = "Fixed Price";
+        }else
+        {
+            payType = "Hourly";
+        }
+
+
+        String skill ="";
+
+        if( project.getSkills() !=null){
+
+            if (!project.getSkills().isEmpty()) {
+                for (Skill s : project.getSkills()) {
+                    skill += s.getName() + " \n";
+                }
+            }
+
+        }
+        String info =
+                "Title: " + project.getTitle() + "\n" +
+                " Description: " + project.getDescription() + "\n" +
+                "Budget: " + project.getBudget() +"\n"+
+                "Type: " + type + "\n" +
+                "Payment: " + payType + "\n" +
+                "Deadline: " + project.getDeadline().substring(0,10) + "\n" +
+                "Skills: \n" + skill +
+                "Category: " + project.getCategory().getTitle();
+        alertDialog.setMessage(info);
 
         //Setting positive "ok" Button
         alertDialog.setPositiveButton("POST", new DialogInterface.OnClickListener() {
@@ -407,7 +450,15 @@ public class Emp_PostFragment extends Fragment implements ProjectTypeFragment.Pr
         //Setting Negative "ok" Button
         alertDialog.setPositiveButton("OK", new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int which) {
+
                 dialog.dismiss();
+
+                Fragment fragment = new Emp_MyProjectsFragment();
+                FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
+                FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+                fragmentTransaction.replace(R.id.frame_container_emp, fragment);
+                fragmentTransaction.addToBackStack(null);
+                fragmentTransaction.commit();
                 //finish();
 
             }//end onClick

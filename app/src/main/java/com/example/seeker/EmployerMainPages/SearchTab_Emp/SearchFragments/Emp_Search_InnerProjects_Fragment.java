@@ -51,7 +51,7 @@ private Emp_Search_Projects_Fragment emp_search_projects_fragment;
         Bundle bundle= this.getArguments();
         if(bundle!=null){
             category=(Category)bundle.getSerializable("category");
-executeRequest(category);
+        executeRequest(category);
         }
         emp_search_projects_fragment.setListener(this);
 
@@ -89,16 +89,19 @@ executeRequest(category);
             public void onResponse(Call<List<Project>> call, Response<List<Project>> response) {
                 if(response.isSuccessful()){
 
-                    projectList = (List) response.body();
-                    recyclerView = (RecyclerView) view.findViewById(R.id.recycler_view);
-
+                    if(response.body()==null)
+                        wrongInfoDialog("There is no projects in this category");
+else
+                    {  projectList = (List) response.body();
+                    recyclerView = (RecyclerView) view.findViewById(R.id.recycler_emp_search_projects);
                     recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
                     adapter = new ProjectSearchAdapter(projectList);
                     recyclerView.setItemAnimator(new DefaultItemAnimator());
                     recyclerView.setAdapter(adapter);
                     recyclerView.setNestedScrollingEnabled(true);
                     DividerItemDecoration dividerItemDecoration = new DividerItemDecoration(recyclerView.getContext(), DividerItemDecoration.VERTICAL);
-                    recyclerView.addItemDecoration(dividerItemDecoration);
+                    recyclerView.addItemDecoration(dividerItemDecoration);}
+
 
                 }
                 else{

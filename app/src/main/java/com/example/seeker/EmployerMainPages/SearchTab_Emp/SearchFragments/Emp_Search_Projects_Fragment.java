@@ -11,25 +11,19 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import androidx.appcompat.app.AlertDialog;
+import androidx.appcompat.widget.SearchView;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.DefaultItemAnimator;
-import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.GridLayoutManager;
-import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.seeker.Database.ApiClients;
-import com.example.seeker.EmployerMainPages.MyProjectsTab_Emp.ProjectsStatusFragments.ProjectAdapter;
 import com.example.seeker.Model.Category;
-import com.example.seeker.Model.Project;
 import com.example.seeker.R;
-import com.example.seeker.Search.CategorySearch;
 import com.example.seeker.Search.CategorySearchAdapter;
 
-import java.io.Serializable;
-import java.util.ArrayList;
 import java.util.List;
 
 import retrofit2.Call;
@@ -37,7 +31,7 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 public class Emp_Search_Projects_Fragment extends Fragment
-        implements CategorySearchAdapter.CategoryAdapterListener , Serializable {
+        implements CategorySearchAdapter.CategoryAdapterListener  {
 
 
 
@@ -45,9 +39,11 @@ public class Emp_Search_Projects_Fragment extends Fragment
     private View view;
     private RecyclerView recyclerView;
     private CategorySearchAdapter adapter;
+    private SearchView searchView;
     private List<Category> categorySearchSearchList;
     private static final String LOG = Emp_Search_Projects_Fragment.class.getSimpleName();
-    private CategoryListener categoryListener;
+   private CategoryListener categoryListener;
+
 
 
 
@@ -56,11 +52,34 @@ public class Emp_Search_Projects_Fragment extends Fragment
 
 
         view = inflater.inflate(R.layout.fragment_emp_by_category_search, container, false);
+       searchView= view.findViewById(R.id.SearchView_emp_bycategory_search);
+
+
+
+
+
+        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String queryString) {
+                adapter.getFilter().filter(queryString);
+                return false;
+            }
+
+            @Override
+            public boolean onQueryTextChange(String queryString) {
+                adapter.getFilter().filter(queryString);
+                return false;
+            }
+        });
+
+
+
+
+
 
         // Inflate the layout for this fragment
         return view;
     }
-
 
 
     public interface CategoryListener {
@@ -113,6 +132,8 @@ public class Emp_Search_Projects_Fragment extends Fragment
 
 
 for(int i=0; i<categorySearchSearchList.size();i++){
+    // قاعد يسوي لي كراش بدون هالشرط
+    if(categorySearchSearchList.get(i).getCategory_type()!= null)
 if(categorySearchSearchList.get(i).getCategory_type().equals("1"))
     categorySearchSearchList.get(i).setTitle(categorySearchSearchList.get(i).getTitle()+ " (On-Field) ");
 
@@ -155,6 +176,7 @@ if(categorySearchSearchList.get(i).getCategory_type().equals("1"))
 
     private void setRecyclerView() {
 
+
         recyclerView = (RecyclerView) view.findViewById(R.id.recycler_view_emp_bycategory_search);
         recyclerView.setLayoutManager(new GridLayoutManager(getActivity(), 2));
         adapter = new CategorySearchAdapter(getActivity(), categorySearchSearchList);
@@ -162,6 +184,7 @@ if(categorySearchSearchList.get(i).getCategory_type().equals("1"))
         recyclerView.setAdapter(adapter);
         recyclerView.setNestedScrollingEnabled(true);
         adapter.setListener(this);
+
         recyclerView.addItemDecoration(new com.example.seeker.EmployerMainPages.SearchTab_Emp.
                 SearchFragments.Emp_Search_Projects_Fragment.
                 GridSpacingItemDecoration(2, dpToPx(10), true));
@@ -191,7 +214,8 @@ if(categorySearchSearchList.get(i).getCategory_type().equals("1"))
 
     @Override
     public void onCategoryItemClick(Category category) {
-Fragment fragment=new Emp_Search_InnerProjects_Fragment();
+
+        Fragment fragment=new Emp_Search_InnerProjects_Fragment();
 
     Bundle bundle=new Bundle();
     bundle.putSerializable("category",category);
@@ -199,8 +223,12 @@ Fragment fragment=new Emp_Search_InnerProjects_Fragment();
         FragmentManager fragmentManager=getActivity().getSupportFragmentManager();
         FragmentTransaction fragmentTransaction=fragmentManager.beginTransaction();
         fragmentTransaction.replace(R.id.frame_container_emp,fragment);
+
         fragmentTransaction.addToBackStack(null);
         fragmentTransaction.commit();
+
+
+
 
 
     }

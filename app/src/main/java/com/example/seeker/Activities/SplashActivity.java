@@ -8,7 +8,10 @@ import android.os.Handler;
 
 import androidx.constraintlayout.widget.ConstraintLayout;
 
+import com.example.seeker.EmployerMainPages.EmployerMainActivity;
 import com.example.seeker.R;
+import com.example.seeker.SharedPref.Constants;
+import com.example.seeker.SharedPref.MySharedPreference;
 
 public class SplashActivity extends Activity {
 
@@ -21,29 +24,30 @@ public class SplashActivity extends Activity {
         setContentView(R.layout.activity_splash);
 
 
-        //replace it with our code
-//        firebaseAuth = FirebaseAuth.getInstance();
-//        //checks with the database if the user is already logged into our app or not
-//        final FirebaseUser user = firebaseAuth.getCurrentUser();
 
 
         new Handler().postDelayed(new Runnable() {
 
             @Override
             public void run() {
-//                if (user != null) {
-//                    finish();
-//                    Intent i = new Intent(SplashActivity.this, .class);
-//                    startActivity(i);
-//                } else {
-                    Intent i = new Intent(SplashActivity.this, LoginActivity.class);
-                    startActivity(i);
-                    finish();
-              //  }
+
+                    checkIsLogin();
+
             }//End of run()
         }, 3000);
 
     }//End onCreate()
+
+    private void checkIsLogin() {
+        if (MySharedPreference.getBoolean(this, Constants.Keys.IS_LOGIN, false)) {
+            startActivity(new Intent(getApplicationContext(), EmployerMainActivity.class));
+            finish();
+        }//End of if
+        else {
+            startActivity(new Intent(getApplicationContext(), LoginActivity.class));
+            finish();
+        }//End of else
+    }//End of checkIsLogin
 
 
 }//End class

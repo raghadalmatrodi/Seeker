@@ -95,8 +95,11 @@ public class LoginActivity extends Activity {
                     executeGetUserByEmailRequest(userEmail);
 
 
-                   Intent intent = new Intent(LoginActivity.this, EmployerMainActivity.class);
+                     Intent intent = new Intent(LoginActivity.this, EmployerMainActivity.class);
+                    intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                    intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                     startActivity(intent);
+                    finish();
 
 
                 }//End of if
@@ -220,12 +223,14 @@ public class LoginActivity extends Activity {
     }
 
     private void addCurrentUser(User user) {
-//        MySharedPreference.putBoolean(this,Constants.Keys.IS_LOGIN, true);
+
+        MySharedPreference.putBoolean(this,Constants.Keys.IS_LOGIN, true);
         MySharedPreference.putLong(this, Constants.Keys.USER_ID, user.getId());
         MySharedPreference.putString(this, Constants.Keys.USER_NAME, user.getUsername());
         MySharedPreference.putString(this, Constants.Keys.USER_EMAIL,  user.getEmail());
 //        MySharedPreference.putString(this, Constants.Keys.USER_IMG, user.getImage());
 //        MySharedPreference.putString(this, Constants.Keys.ENABLE_NOTI, user.getEnable_noti());
+
 
 
         getEmployerByUserId(MySharedPreference.getLong(this,Constants.Keys.USER_ID,-1));
@@ -235,6 +240,7 @@ public class LoginActivity extends Activity {
         /**
          * WHY?? DO I NEED IT? THINK!
          */
+
 //        finish();
     }//End addCurrentUser()
 
