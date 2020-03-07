@@ -2,6 +2,7 @@ package com.example.seeker.PostBid;
 
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 import androidx.recyclerview.widget.DefaultItemAnimator;
 import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -82,6 +83,21 @@ public class ViewBid extends AppCompatActivity implements Serializable,BidsAdapt
         projtitle = findViewById(R.id.vppttest);
 
     }
+    private void initToolbar(Project project){
+
+        //init toolbar
+
+        Toolbar toolbar = findViewById(R.id.toolbar);
+        toolbar.setTitle(project.getTitle());
+        toolbar.setNavigationIcon(R.drawable.back_arrow_24dp);
+        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                onBackPressed();
+            }//End onClick()
+        });
+
+    }//End initToolBar()
 
     private void fillData() {
         init();
@@ -108,8 +124,9 @@ public class ViewBid extends AppCompatActivity implements Serializable,BidsAdapt
             }
         });
 
+        initToolbar(project);
 
-    }
+    }//End fillData()
 
 
 

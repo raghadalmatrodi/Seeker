@@ -8,6 +8,15 @@
     android:layout_height="match_parent"
     tools:context=".PostBid.ViewFullBid">
 <!--    TODO: ADD TOOLBAR -->
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize"
+        android:background="#4AFFFFFF"
+        app:layout_constraintTop_toTopOf="@id/vbid_parent_cl"
+        app:layout_constraintStart_toStartOf="@id/vbid_parent_cl"
+        app:layout_constraintEnd_toEndOf="@id/vbid_parent_cl"
+        app:titleTextColor="@color/colorPrimary" />
 
     <ImageView
         android:id="@+id/viewfullbidfreelancerimg"

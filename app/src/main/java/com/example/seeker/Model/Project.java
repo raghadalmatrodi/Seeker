@@ -8,7 +8,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-public class Project  implements Serializable {
+public class Project implements Serializable {
 //todo 4 hind implemented serializable
 
     private String title;
@@ -61,7 +61,9 @@ public class Project  implements Serializable {
 //    }
 //
 
-    public Project(String title, String description, double budget, String type, String payment_type, String expiry_date, String deadline,  Employer employer, Set<Skill> skills, String status, Category category) {
+    //TODO: HIND ADDED BIDS LIST TO BE ABLE TO ADD BIDS TO THE PROJECT! (SAT MAR.7 - 1:00AM)
+
+    public Project(String title, String description, double budget, String type, String payment_type, String expiry_date, String deadline,  Employer employer, Set<Skill> skills, String status, Category category, List<Bid> bids) {
         this.title = title;
         this.description = description;
         this.budget = budget;
@@ -73,6 +75,7 @@ public class Project  implements Serializable {
         this.skills = skills;
         this.status = status;
         this.category = category;
+        this.bids = bids;
     }
 
     public String getTitle() {
