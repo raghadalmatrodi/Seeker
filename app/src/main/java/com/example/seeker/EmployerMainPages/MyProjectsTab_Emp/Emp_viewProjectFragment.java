@@ -116,6 +116,7 @@ public class Emp_viewProjectFragment extends Fragment implements  Emp_MyProjects
         if(!(project.getBudget() == 0))
             budget.setText(project.getBudget() +"");
 
+        if(project.getType() != null)
         if(!project.getType().trim().equals("") || !(project.getType() == null)){
 
             if(project.getType().equals("0")){
@@ -140,7 +141,7 @@ public class Emp_viewProjectFragment extends Fragment implements  Emp_MyProjects
             skills.setText(skill);
         }
 
-
+        if(project.getEmployer() != null)
         employerName.setText(project.getEmployer().getUser().getUsername());
 
         if(project.getDeadline() != null){

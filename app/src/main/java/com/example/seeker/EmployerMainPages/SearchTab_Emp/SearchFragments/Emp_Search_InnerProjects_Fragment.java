@@ -10,12 +10,15 @@ import android.view.ViewGroup;
 
 import androidx.appcompat.app.AlertDialog;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.DefaultItemAnimator;
 import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.seeker.Database.ApiClients;
+import com.example.seeker.EmployerMainPages.MyProjectsTab_Emp.Emp_viewProjectFragment;
 import com.example.seeker.EmployerMainPages.SearchTab_Emp.ProjectSearchAdapter;
 import com.example.seeker.Model.Category;
 import com.example.seeker.Model.Project;
@@ -28,7 +31,7 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class Emp_Search_InnerProjects_Fragment extends Fragment implements Emp_Search_Projects_Fragment.CategoryListener{
+public class Emp_Search_InnerProjects_Fragment extends Fragment implements Emp_Search_Projects_Fragment.CategoryListener , ProjectSearchAdapter.ProjectSearchAdapterListener {
 
 
     private View view;
@@ -91,16 +94,10 @@ private Emp_Search_Projects_Fragment emp_search_projects_fragment;
 
                     if(response.body()==null)
                         wrongInfoDialog("There is no projects in this category");
-else
+                    else
                     {  projectList = (List) response.body();
-                    recyclerView = (RecyclerView) view.findViewById(R.id.recycler_emp_search_projects);
-                    recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
-                    adapter = new ProjectSearchAdapter(projectList);
-                    recyclerView.setItemAnimator(new DefaultItemAnimator());
-                    recyclerView.setAdapter(adapter);
-                    recyclerView.setNestedScrollingEnabled(true);
-                    DividerItemDecoration dividerItemDecoration = new DividerItemDecoration(recyclerView.getContext(), DividerItemDecoration.VERTICAL);
-                    recyclerView.addItemDecoration(dividerItemDecoration);}
+                        settheAdapter();
+                  }
 
 
                 }
@@ -117,11 +114,44 @@ else
             }
         });
 
+//        if(!projectList.isEmpty())
+//            adapter.setListener(this);
+
     }
 
 
     @Override
     public void onCategoryTypeItemSelected(Category category) {
         this.category=category;
+    }
+
+    @Override
+    public void onProjectItemSelectedAdapter(Project project) {
+
+        Fragment fragment = new Emp_viewProjectFragment();
+        Bundle bundle = new Bundle();
+        bundle.putSerializable("project",project);
+        fragment.setArguments(bundle);
+        FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
+        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+        fragmentTransaction.replace(R.id.frame_container_emp, fragment);
+        fragmentTransaction.addToBackStack(null);
+        fragmentTransaction.commit();
+
+
+
+    }
+
+    public void settheAdapter(){
+        recyclerView = (RecyclerView) view.findViewById(R.id.recycler_emp_search_projects);
+        recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
+        adapter = new ProjectSearchAdapter(projectList);
+        recyclerView.setItemAnimator(new DefaultItemAnimator());
+        recyclerView.setAdapter(adapter);
+        if(!projectList.isEmpty())
+            adapter.setListener(this);
+        recyclerView.setNestedScrollingEnabled(true);
+        DividerItemDecoration dividerItemDecoration = new DividerItemDecoration(recyclerView.getContext(), DividerItemDecoration.VERTICAL);
+        recyclerView.addItemDecoration(dividerItemDecoration);
     }
 }
