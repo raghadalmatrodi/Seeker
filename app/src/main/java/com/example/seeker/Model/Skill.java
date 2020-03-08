@@ -1,6 +1,9 @@
 package com.example.seeker.Model;
 
-public class Skill {
+import java.io.Serializable;
+
+//todo hind implemented serializable
+public class Skill implements Serializable {
     private long id;
     private String name;
 

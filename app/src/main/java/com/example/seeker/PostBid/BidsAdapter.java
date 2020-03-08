@@ -1,5 +1,7 @@
 package com.example.seeker.PostBid;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -7,6 +9,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -32,7 +35,6 @@ public class BidsAdapter extends RecyclerView.Adapter<BidsAdapter.MyViewHolder> 
     public void setListener(BidsAdapterListener listener) {
         this.listener = listener;
     }
-
 
     public class MyViewHolder extends RecyclerView.ViewHolder {
 
@@ -111,7 +113,29 @@ public class BidsAdapter extends RecyclerView.Adapter<BidsAdapter.MyViewHolder> 
         /**
          *    HOW TO GET THE USER'S NAME?
          */
-//        holder.username.setText();
+//        if (bid.getFreelancerResponse() != null) {
+//
+//            holder.username.setText(String.valueOf(bid.getFreelancerResponse().getId()));
+//        } else {
+//            holder.username.setText(bid.getProject().getTitle());
+//        }
+//        if (bid.getFreelancer() != null ) {
+//            if (bid.getFreelancer().getUser() != null){
+//                if (bid.getFreelancer().getUser().getUsername() != null){
+//                    holder.username.setText(bid.getFreelancer().getUser().getUsername());
+//                }else holder.username.setText("empty");
+//            }else{
+//                holder.username.setText("user null");
+//            }
+//
+//
+//
+//
+//        }
+//        else {
+//            holder.username.setText("NO NAME FOUND!");
+//        }
+
 
         String shortDescription, longDescription;
         longDescription = bid.getDescription();
@@ -144,6 +168,8 @@ public class BidsAdapter extends RecyclerView.Adapter<BidsAdapter.MyViewHolder> 
                     public void onResponse(Call<ApiResponse> call, Response<ApiResponse> response) {
                         Log.i("onResponse ",response.message());
 
+                        bidList.remove(bidList.get(position));
+                        notifyDataSetChanged();
 
                     }
 
@@ -155,6 +181,7 @@ public class BidsAdapter extends RecyclerView.Adapter<BidsAdapter.MyViewHolder> 
                 });
 
             }
+
         });
 //        if(!bid.getDeliver_date().isEmpty()){
 //            String noTimeDeadline = bid.getDeliver_date().substring(0,10);

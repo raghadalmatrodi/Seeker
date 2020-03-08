@@ -15,6 +15,7 @@ import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.seeker.Database.ApiClients;
 import com.example.seeker.Model.Bid;
@@ -134,20 +135,31 @@ public class PostBidActivity extends AppCompatActivity {
                     //todo: hind commented -> remove later
 
 //                        executeFindFreelancerByUserIdRequest(MySharedPreference.getLong(PostBidActivity.this, Constants.Keys.USER_ID, -1));
-
-                    long freelancerID = MySharedPreference.getLong(PostBidActivity.this, Constants.Keys.FREELANCER_ID,-1);
-
-                    Freelancer freelancer = new Freelancer(freelancerID);
+                    //todo: JUST COMMENTED SAT 7 MARCH 9PM
+//
+//                    long freelancerID = MySharedPreference.getLong(PostBidActivity.this, Constants.Keys.FREELANCER_ID,-1);
+//
+//                    Freelancer freelancer = new Freelancer(freelancerID);
 //                    Employer employer = new Employer(empID);
 
-                    long projectID = project.getId();
-                    project.setId(projectID);
-                    Bid bid = new Bid(bidTitleStr,bidDescriptionStr,priceDouble,localDateTimet.toString() ,"pending", freelancer, project);
 
-//                    String checkStr = bidTitleStr+" -- "+bidDescriptionStr+ " -- "+ priceStr + " -- "+" -- " + dateStr;
-//                    Toast.makeText(getApplicationContext(),checkStr,Toast.LENGTH_LONG).show();
 
-                    executePostBidRequest(bid);
+//                    long projectID = project.getId();
+//                    project.setId(projectID);
+//
+//
+//
+//                    Bid bid = new Bid(bidTitleStr,bidDescriptionStr,priceDouble,localDateTimet.toString() ,"pending", freelancer, project);
+//
+////                    String checkStr = bidTitleStr+" -- "+bidDescriptionStr+ " -- "+ priceStr + " -- "+" -- " + dateStr;
+////                    Toast.makeText(getApplicationContext(),checkStr,Toast.LENGTH_LONG).show();
+//
+//                    executePostBidRequest(bid);
+                    /**
+                     * hind added and commented above lines on mar.7
+                     *
+                     */
+                    executeFindFreelancerByUserIdRequest(MySharedPreference.getLong(PostBidActivity.this, Constants.Keys.USER_ID, -1));
 
                 }
 
@@ -258,54 +270,74 @@ public class PostBidActivity extends AppCompatActivity {
 
     }//End executePostBidRequest()
 
-    //todo hind commented -> remove later
+//    todo hind commented -> remove later
 
-//    private void executeFindFreelancerByUserIdRequest(Long id){
-//
-//
-////        if (MySharedPreference.getLong(PostBidActivity.this, Constants.Keys.USER_ID, -1) != -1)
-////          long curren_user_id = MySharedPreference.getLong(PostBidActivity.this, Constants.Keys.USER_ID, -1);
-//
-//        ApiClients.getAPIs().getFreelancerByUserIdRequest(id).enqueue(new Callback<Freelancer>() {
-//            @Override
-//            public void onResponse(Call<Freelancer> call, Response<Freelancer> response) {
-//                if (response.isSuccessful()){
-//
-//                    Log.i(LOG, "onResponse: " + response.body().toString());
+    private void executeFindFreelancerByUserIdRequest(Long id){
+
+
+//        if (MySharedPreference.getLong(PostBidActivity.this, Constants.Keys.USER_ID, -1) != -1)
+//          long curren_user_id = MySharedPreference.getLong(PostBidActivity.this, Constants.Keys.USER_ID, -1);
+
+        ApiClients.getAPIs().getFreelancerByUserIdRequest(id).enqueue(new Callback<Freelancer>() {
+            @Override
+            public void onResponse(Call<Freelancer> call, Response<Freelancer> response) {
+                if (response.isSuccessful()){
+
+                    Log.i(LOG, "onResponse: " + response.body().toString());
+                    Freelancer freelancer = response.body();
+//                    Toast.makeText(PostBidActivity.this, "fr name = "+freelancer.getUser().getUsername(), Toast.LENGTH_LONG ).show();
+
+                    /**
+                     * hind just added mar. 7, moved from post bid btn to here
+                     */
+                    Intent i = getIntent();
+                    Project project = (Project) i.getSerializableExtra("currentProjObj");
+
+                    long projectID = project.getId();
+                    project.setId(projectID);
+
+
+                    Bid bid = new Bid(bidTitleStr,bidDescriptionStr,priceDouble,localDateTimet.toString() ,"pending", freelancer, project, freelancer.getUser());
+
+//                    String checkStr = bidTitleStr+" -- "+bidDescriptionStr+ " -- "+ priceStr + " -- "+" -- " + dateStr;
+//                    Toast.makeText(getApplicationContext(),checkStr,Toast.LENGTH_LONG).show();
+
+                    executePostBidRequest(bid);
+//                    freelancer.getUser().getUsername()
 //                    freelancer = Freelancer(response.body().getId());
-////                    freelancer.setId(response.body().getId());
-//
-//
-//                }else {
-//                    Converter<ResponseBody, ApiException> converter = ApiClients.getInstant().responseBodyConverter(ApiException.class, new Annotation[0]);
-//                    ApiException exception = null;
-//                    try {
-//
-//                        exception = converter.convert(response.errorBody());
-//
-//                        List<ApiError> errors = exception.getErrors();
-//
-//                        if (errors != null)
-//                            if (!errors.isEmpty())
-//                                wrongInfoDialog(errors.get(0).getMessage());
-//                        wrongInfoDialog(exception.getMessage());
-//
-//                    } catch (IOException e) {
-//                        e.printStackTrace();
-//                    }
-//                }//end else block
-//            }//End onResponse()
-//
-//            @Override
-//            public void onFailure(Call<Freelancer> call, Throwable t) {
-//                Log.i(LOG, t.getLocalizedMessage() );
-//                wrongInfoDialog("Error!");
-//            }//end onFailure()
-//        });
-//
-//
-//
-//    }//End executeFindFreelancerByUserIdRequest()
+//                    freelancer.setId(response.body().getId());
+
+
+                }else {
+                    Converter<ResponseBody, ApiException> converter = ApiClients.getInstant().responseBodyConverter(ApiException.class, new Annotation[0]);
+                    ApiException exception = null;
+                    try {
+
+                        exception = converter.convert(response.errorBody());
+
+                        List<ApiError> errors = exception.getErrors();
+
+                        if (errors != null)
+                            if (!errors.isEmpty())
+                                wrongInfoDialog(errors.get(0).getMessage());
+                        wrongInfoDialog(exception.getMessage());
+
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                }//end else block
+            }//End onResponse()
+
+            @Override
+            public void onFailure(Call<Freelancer> call, Throwable t) {
+                Log.i(LOG, t.getLocalizedMessage() );
+                wrongInfoDialog("Error!");
+            }//end onFailure()
+        });
+
+
+
+    }//End executeFindFreelancerByUserIdRequest()
 
     private void calendarDialog() {
 
@@ -383,9 +415,9 @@ public class PostBidActivity extends AppCompatActivity {
         alertDialog.setPositiveButton("OK", new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int which) {
                 dialog.dismiss();
-//                Intent intent;
-//                intent = new Intent(PostBidActivity.this, ViewBid.class);
-//                startActivity(intent);
+//                Intent x;
+//                x = new Intent(PostBidActivity.this, ViewBid.class);
+//                startActivity(x);
                 finish();
 
             }//end onClick

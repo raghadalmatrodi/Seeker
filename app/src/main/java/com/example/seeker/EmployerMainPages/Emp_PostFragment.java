@@ -183,7 +183,10 @@ public class Emp_PostFragment extends Fragment implements ProjectTypeFragment.Pr
 
             Employer employer = new Employer(empID);
 
-            Project project = new Project(title, description, budgetValue, projectType, paymentType, expiryLocalDateTime, deadlineLocalDateTime, employer, skillList, "0", category);
+            //TODO: HIND ADDED BIDS LIST TO BE ABLE TO ADD BIDS TO THE PROJECT! (SAT MAR.7 - 1:00AM)
+            List<Bid> bidlist = new ArrayList<>();
+
+            Project project = new Project(title, description, budgetValue, projectType, paymentType, expiryLocalDateTime, deadlineLocalDateTime, employer, skillList, "0", category, bidlist);
 
 
             AlertDialog.Builder alertDialog = new AlertDialog.Builder(getContext());
@@ -306,8 +309,10 @@ public class Emp_PostFragment extends Fragment implements ProjectTypeFragment.Pr
 
             Employer employer = new Employer(empID);
 
+            //TODO: HIND ADDED BIDS LIST TO BE ABLE TO ADD BIDS TO THE PROJECT! (SAT MAR.7 - 1:00AM)
+            List<Bid> bidlist = new ArrayList<>();
 
-            Project project = new Project(title, description, budgetValue, projectType, paymentType, expiryLocalDateTime, deadlineLocalDateTime, employer, skillList, "0", category);
+            Project project = new Project(title, description, budgetValue, projectType, paymentType, expiryLocalDateTime, deadlineLocalDateTime, employer, skillList, "0", category, bidlist);
 
             //todo hind's changes to add list of bids in a project , keep commented i'll need it later
 //            List<Bid> bidlist = new ArrayList<>();
