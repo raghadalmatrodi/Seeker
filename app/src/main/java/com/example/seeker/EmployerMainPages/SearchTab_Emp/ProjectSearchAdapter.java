@@ -17,8 +17,11 @@ public class ProjectSearchAdapter extends RecyclerView.Adapter<ProjectSearchAdap
 
 
     private List<Project> projectList;
+    ProjectSearchAdapterListener listener;
 
-
+    public void setListener(ProjectSearchAdapterListener listener) {
+        this.listener = listener;
+    }
 
     public class MyViewHolder extends RecyclerView.ViewHolder {
 
@@ -34,6 +37,14 @@ public class ProjectSearchAdapter extends RecyclerView.Adapter<ProjectSearchAdap
             description = view.findViewById(R.id.row_search_emp_project_description);
             arrow = view.findViewById(R.id.row_arrow_search_emp);
 
+            view.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    if(listener != null)
+                    listener.onProjectItemSelectedAdapter(projectList.get(getAdapterPosition()));
+
+                }
+            });
 
 
 
@@ -67,6 +78,9 @@ public class ProjectSearchAdapter extends RecyclerView.Adapter<ProjectSearchAdap
     }//End of onBindViewHolder
 
 
+    public interface ProjectSearchAdapterListener {
+        void onProjectItemSelectedAdapter(Project project);
+    }
     @Override
     public int getItemCount() {
         return projectList.size();

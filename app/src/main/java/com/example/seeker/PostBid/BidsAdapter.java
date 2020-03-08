@@ -1,5 +1,7 @@
 package com.example.seeker.PostBid;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -32,7 +34,6 @@ public class BidsAdapter extends RecyclerView.Adapter<BidsAdapter.MyViewHolder> 
     public void setListener(BidsAdapterListener listener) {
         this.listener = listener;
     }
-
 
     public class MyViewHolder extends RecyclerView.ViewHolder {
 
@@ -144,6 +145,8 @@ public class BidsAdapter extends RecyclerView.Adapter<BidsAdapter.MyViewHolder> 
                     public void onResponse(Call<ApiResponse> call, Response<ApiResponse> response) {
                         Log.i("onResponse ",response.message());
 
+                        bidList.remove(bidList.get(position));
+                        notifyDataSetChanged();
 
                     }
 
@@ -155,6 +158,7 @@ public class BidsAdapter extends RecyclerView.Adapter<BidsAdapter.MyViewHolder> 
                 });
 
             }
+
         });
 //        if(!bid.getDeliver_date().isEmpty()){
 //            String noTimeDeadline = bid.getDeliver_date().substring(0,10);
