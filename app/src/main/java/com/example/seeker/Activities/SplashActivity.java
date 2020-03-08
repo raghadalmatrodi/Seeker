@@ -5,9 +5,11 @@ import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
+import android.provider.Settings;
 
 import androidx.constraintlayout.widget.ConstraintLayout;
 
+import com.example.seeker.ApplictionNAme;
 import com.example.seeker.EmployerMainPages.EmployerMainActivity;
 import com.example.seeker.R;
 import com.example.seeker.SharedPref.Constants;
@@ -16,7 +18,7 @@ import com.example.seeker.SharedPref.MySharedPreference;
 public class SplashActivity extends Activity {
 
     ConstraintLayout splashL;
-
+//    ApplictionNAme.ANDROID_DEVICE_ID = Settings.Secure.getString(getContentResolver(), Settings.Secure.ANDROID_ID);
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
