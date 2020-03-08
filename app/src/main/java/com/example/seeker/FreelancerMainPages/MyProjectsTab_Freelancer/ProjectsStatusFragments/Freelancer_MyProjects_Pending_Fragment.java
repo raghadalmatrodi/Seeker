@@ -52,7 +52,7 @@ public class Freelancer_MyProjects_Pending_Fragment extends Fragment implements 
         // Inflate the layout for this fragment
        view =  inflater.inflate(R.layout.fragment_freelancer_pending_projects, container, false);
 
-
+        pendingText = view.findViewById(R.id.freelancer_pending_projects_text);
 
         return view;
     }
@@ -92,7 +92,7 @@ public class Freelancer_MyProjects_Pending_Fragment extends Fragment implements 
             public void onResponse(Call<List<Project>> call, Response<List<Project>> response) {
 
                 if(response.isSuccessful()){
-
+                    Toast.makeText(getContext(),"SUCCESS",Toast.LENGTH_LONG).show();
                     /**
                      *     int responseSize = response.body().size();
                      *                     for (int i = 0; i< responseSize; i++){
@@ -105,7 +105,71 @@ public class Freelancer_MyProjects_Pending_Fragment extends Fragment implements 
 
 
 
-                    projectList =  response.body();
+//                    int responseSize = response.body().size();
+//                    List<Bid> testBidList = new ArrayList<>();
+//                    List<Project> testP = new ArrayList<>();
+//
+//                    int tryy = 0;
+                    long currFree = MySharedPreference.getLong(getContext(), Constants.Keys.FREELANCER_ID,-1);
+//                    Freelancer currf = new Freelancer(currFree);
+//
+//
+//                    for (int i = 0; i< responseSize; i++){
+////                        if (response.body().get(i).getBids() != null)
+//
+//                        if (response.body().get(i).getBids().size() > 0){
+////                                tryy++;
+//                            testP.add(response.body().get(i));
+//                            testBidList = response.body().get(i).getBids();
+//                        }
+//
+//                    }
+
+                    /**
+                     * LET'S RESTART, FROM THE BEGINNING.
+                     * ASSUMING ALL PROJECTS HAS LIST OF BIDS.
+                     * 1ST: WE FOR LOOP IN ALL PROJECTS, K
+                     * 2ND: WE FOR LOOP IN ALL BIDS IN PROJECT K, H
+                     * 3RD: NOW I'M ON THE FIRST BID H OF THE FIRST PROJECT K, (ASSUMING THAT ALL BIDS CONTAINS FREELANCER OBJS) -> unfortunately not, so check on that plz :)
+                     * -> I'LL CHECK WHETHER PROJECT K . BID H . FREELANCER . FRID EQUALS CURRENT FREELANCER ID
+                     * IF YES, I'LL ADD THIS PROJECT K TO MY PROJECTSLIST. IF NOT, MOVE TO BID H+1.
+                     *
+                     */
+
+                    int rSize = response.body().size();
+                    int bidSize = 0;
+
+                    //Projects loop
+                    for (int k = 0; k < rSize; k++){
+                        bidSize = response.body().get(k).getBids().size();
+
+                        //Bids on project k loop
+                        for (int h = 0; h < bidSize; h++ ){
+
+                            if (response.body().get(k).getBids().get(h).getFreelancer() != null)
+                                if (response.body().get(k).getBids().get(h).getFreelancer().getId() == currFree)
+                                    projectList.add(response.body().get(k));
+
+                        }//Bids loop
+                    }//Projects loop.
+
+//                    int bidlistSize = testBidList.size();
+//                    int testPSize = testP.size();
+//                    for (int k = 0; k< testPSize; k++){
+////                        if (response.body().get(k).getBids().get(k).getFreelancer() != null)
+//                        for (int h = 0; h<bidlistSize; h++){
+//                            if (testP.get(k).getBids().get(h).getFreelancer() != null)
+//                                if (testP.get(k).getBids().get(h).getFreelancer().getId() == currFree){
+//                                    tryy++;
+//                                    projectList.add(testP.get(k));
+//                                }
+//                        }
+//
+//                    }
+
+//                    projectList =  response.body();
+                    pendingText.setText("");
+
                     recyclerView = (RecyclerView) view.findViewById(R.id.fr_pending_recycler_view);
 
                     recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
@@ -121,13 +185,15 @@ public class Freelancer_MyProjects_Pending_Fragment extends Fragment implements 
 
 
                 }else{
-
+                    Toast.makeText(getContext(),"not success",Toast.LENGTH_LONG).show();
+                    pendingText.setText("There are no pending projects");
                 }
             }
 
             @Override
             public void onFailure(Call<List<Project>> call, Throwable t) {
-
+                Toast.makeText(getContext(),"fail",Toast.LENGTH_LONG).show();
+                pendingText.setText("Error, Something went wrong..");
             }
         });
 
@@ -139,3 +205,4 @@ public class Freelancer_MyProjects_Pending_Fragment extends Fragment implements 
 
 
 }
+

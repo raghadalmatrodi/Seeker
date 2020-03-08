@@ -1,14 +1,19 @@
 package com.example.seeker.PostBid;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.example.seeker.EmployerMainPages.AccountRelatedActivities.EditProfileActivity;
 import com.example.seeker.Model.Bid;
 import com.example.seeker.R;
+import com.example.seeker.SharedPref.Constants;
+import com.example.seeker.SharedPref.MySharedPreference;
 
 public class ViewFullBid extends AppCompatActivity {
 
@@ -34,8 +39,24 @@ public class ViewFullBid extends AppCompatActivity {
         desc = findViewById(R.id.vbid_user_description);
         title = findViewById(R.id.viewfullbid_title);
         username = findViewById(R.id.viewfullbidfreelancername);
+
     }
 
+    private void initToolbar(Bid bid){
+
+        //init toolbar
+
+        Toolbar toolbar = findViewById(R.id.toolbar);
+        toolbar.setTitle(bid.getTitle());
+        toolbar.setNavigationIcon(R.drawable.back_arrow_24dp);
+        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                onBackPressed();
+            }//End onClick()
+        });
+
+    }//End initToolBar()
     private void fillData() {
 
         init();
@@ -57,9 +78,13 @@ public class ViewFullBid extends AppCompatActivity {
 
         desc.setText(bid.getDescription());
         title.setText(bid.getTitle());
-        username.setText(String.valueOf(bid.getFreelancer().getId()));
+//        username.setText(String.valueOf(bid.getFreelancer().getId()));
+        if (bid.getFreelancer().getUser() != null)
+        username.setText(bid.getFreelancer().getUser().getUsername());
+//        else
+//            username.setText(String.valueOf(bid.getFreelancer().getId()));
 
-
+        initToolbar(bid);
 
 
     }

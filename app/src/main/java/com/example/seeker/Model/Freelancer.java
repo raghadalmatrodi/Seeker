@@ -15,6 +15,16 @@ public class Freelancer implements Serializable {
     private int num_of_hired_projects;
     private List<Bid> bids = new ArrayList<>();
 
+    public Freelancer(long id, User user, String maarof_account, int num_of_ratings, int total_response_time, int total_quality_of_work, int num_of_hired_projects, List<Bid> bids) {
+        this.id = id;
+        this.user = user;
+        this.maarof_account = maarof_account;
+        this.num_of_ratings = num_of_ratings;
+        this.total_response_time = total_response_time;
+        this.total_quality_of_work = total_quality_of_work;
+        this.num_of_hired_projects = num_of_hired_projects;
+        this.bids = bids;
+    }
 
     public long getId() {
         return id;

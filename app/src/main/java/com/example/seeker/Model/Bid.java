@@ -59,7 +59,28 @@ public class Bid implements Serializable {
         this.project = project;
     }
 
-    public Bid(String title, String description, double price, String deliver_date, String status, Freelancer freelancer, Project project) {
+    //todo: hind added str name of current freelancer to be able to view it in view bids :) + user
+    User user;
+
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
+    }
+
+    String currentFrName;
+
+    public String getCurrentFrName() {
+        return currentFrName;
+    }
+
+    public void setCurrentFrName(String currentFrName) {
+        this.currentFrName = currentFrName;
+    }
+
+    public Bid(String title, String description, double price, String deliver_date, String status, Freelancer freelancer, Project project, User user) {
         this.title = title;
         this.description = description;
         this.price = price;
@@ -67,6 +88,7 @@ public class Bid implements Serializable {
         this.status = status;
         this.freelancer = freelancer;
         this.project = project;
+        this.user = user;
     }
 
     //todo hind

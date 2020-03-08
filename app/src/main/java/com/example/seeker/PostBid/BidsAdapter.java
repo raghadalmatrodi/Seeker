@@ -9,6 +9,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -112,7 +113,29 @@ public class BidsAdapter extends RecyclerView.Adapter<BidsAdapter.MyViewHolder> 
         /**
          *    HOW TO GET THE USER'S NAME?
          */
-//        holder.username.setText();
+//        if (bid.getFreelancerResponse() != null) {
+//
+//            holder.username.setText(String.valueOf(bid.getFreelancerResponse().getId()));
+//        } else {
+//            holder.username.setText(bid.getProject().getTitle());
+//        }
+//        if (bid.getFreelancer() != null ) {
+//            if (bid.getFreelancer().getUser() != null){
+//                if (bid.getFreelancer().getUser().getUsername() != null){
+//                    holder.username.setText(bid.getFreelancer().getUser().getUsername());
+//                }else holder.username.setText("empty");
+//            }else{
+//                holder.username.setText("user null");
+//            }
+//
+//
+//
+//
+//        }
+//        else {
+//            holder.username.setText("NO NAME FOUND!");
+//        }
+
 
         String shortDescription, longDescription;
         longDescription = bid.getDescription();

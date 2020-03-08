@@ -90,6 +90,13 @@ public interface ApiMethods {
     @POST(Methods.POST_CERTIFICATES)
     Call<ApiResponse> getPostCertificatesRequest(@Body Certificate certificate);
 
+    @PUT(Methods.ACCEPT_BID)
+    Call<ApiResponse> acceptBid(@Path("id") long id);
+
+
+    @POST(Methods.GET_PROJECTS_BY_CATEGORY)
+    Call<List<Project>> getProjectsByCategory(@Body Category category);
+
     /**
      * GET METHODS
      */

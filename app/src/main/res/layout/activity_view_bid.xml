@@ -8,6 +8,16 @@
     android:orientation="vertical"
     tools:context=".PostBid.ViewBid">
 
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize"
+        android:background="#4AFFFFFF"
+        app:layout_constraintTop_toTopOf="@id/vbid_parent_cl"
+        app:layout_constraintStart_toStartOf="@id/vbid_parent_cl"
+        app:layout_constraintEnd_toEndOf="@id/vbid_parent_cl"
+        app:titleTextColor="@color/colorPrimary" />
+
     <TextView
         android:id="@+id/vppttest"
         android:layout_width="wrap_content"
@@ -17,13 +27,15 @@
         android:layout_margin="10dp"
         android:textSize="20dp"
         />
+
     <Button
         android:id="@+id/placebidtest"
-        android:layout_width="wrap_content"
+        android:layout_width="208dp"
         android:layout_height="wrap_content"
-        android:text="PLACE BID"
         android:layout_margin="10dp"
-        />
+        android:background="@color/colorPrimary"
+        android:textColor="#fff"
+        android:text="PLACE BID" />
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recycler_view_b"
         android:layout_width="match_parent"
