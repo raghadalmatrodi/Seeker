@@ -297,7 +297,7 @@ public class PostBidActivity extends AppCompatActivity {
                     project.setId(projectID);
 
 
-                    Bid bid = new Bid(bidTitleStr,bidDescriptionStr,priceDouble,localDateTimet.toString() ,"pending", freelancer, project, freelancer.getUser());
+                    Bid bid = new Bid(bidTitleStr,bidDescriptionStr,priceDouble,localDateTimet.toString() ,"pending", freelancer, project);
 
 //                    String checkStr = bidTitleStr+" -- "+bidDescriptionStr+ " -- "+ priceStr + " -- "+" -- " + dateStr;
 //                    Toast.makeText(getApplicationContext(),checkStr,Toast.LENGTH_LONG).show();
