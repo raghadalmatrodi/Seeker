@@ -11,7 +11,14 @@ import retrofit2.converter.gson.GsonConverterFactory;
 
 public class ApiClients {
 
-    public static final String BASE_URL = "http://172.20.10.6:8080/api/";
+
+    //if you are using a real phone
+//    public static final String BASE_URL = "http://172.20.10.6:8080/api/";
+
+    //if you are using emulator
+    public static final String BASE_URL = "http://10.0.2.2:8080/api/";
+
+
 
     private static ApiMethods apiMethods = null;
     final static OkHttpClient   okHttpClient = new OkHttpClient.Builder().readTimeout(1, TimeUnit.MINUTES)
