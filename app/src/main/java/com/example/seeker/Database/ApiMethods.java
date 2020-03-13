@@ -50,6 +50,7 @@ public interface ApiMethods {
         String ACCEPT_BID ="bid/accept-bid/{id}";
         String GET_PROJECTS_BY_CATEGORY = "project/category";
 
+        String GET_ALL_PROJECTS = "project/findAll";
 
 
     }//End of Methods interface
@@ -123,5 +124,17 @@ public interface ApiMethods {
 
     @GET(Methods.GET_CERTIFICATES)
     Call<List<Certificate>> getAllCertificates();
+
+    @GET(Methods.GET_ALL_PROJECTS)
+    Call<List<Project>> getAllProjects();
+
+//    @PUT(Methods.ACCEPT_BID)
+//    Call<ApiResponse> acceptBid(@Path("id") long id);
+//
+//
+//    @POST(Methods.GET_PROJECTS_BY_CATEGORY)
+//    Call<List<Project>> getProjectsByCategory(@Body Category category);
+
+
 
 }//End of ApiMethods interface

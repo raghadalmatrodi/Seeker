@@ -52,16 +52,22 @@ public class SkillsAdapter extends RecyclerView.Adapter<SkillsAdapter.MyViewHold
     }//Enf of class MyViewHolder
 
     private void removeSkill(SkillRecyclerView skill) {
-
-
-        for(SkillRecyclerView s: projectSkillList)
-        {
-            if(s.getId() == skill.getId()){
-                s.setSelected(false);
-                projectSkillList.remove(s);
+        if(!projectSkillList.isEmpty()) {
+            for(int i =0; i<projectSkillList.size(); i++) {
+                SkillRecyclerView s = projectSkillList.get(i);
+                if (s.getId() == skill.getId()) {
+                    s.setSelected(false);
+                    projectSkillList.remove(s);
+                }
             }
-        }
 
+//            for (SkillRecyclerView s : projectSkillList) {
+//                if (s.getId() == skill.getId()) {
+//                    s.setSelected(false);
+//                    projectSkillList.remove(s);
+//                }
+//            }
+        }
 
     }
 

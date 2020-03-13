@@ -7,6 +7,8 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
+import android.widget.TextView;
 
 import androidx.appcompat.app.AlertDialog;
 import androidx.fragment.app.Fragment;
@@ -39,6 +41,8 @@ public class Emp_Search_InnerProjects_Fragment extends Fragment implements Emp_S
     private ProjectSearchAdapter adapter;
     private List<Project> projectList = new ArrayList<>();
     private Category category;
+    ImageView backBtn;
+    TextView categoryTitle,pendintTxt;
 private Emp_Search_Projects_Fragment emp_search_projects_fragment;
 
     private static final String LOG = Emp_Search_InnerProjects_Fragment.class.getSimpleName();
@@ -47,16 +51,25 @@ private Emp_Search_Projects_Fragment emp_search_projects_fragment;
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         view =  inflater.inflate(R.layout.fragment_search_emp_projects, container, false);
-
-
+backBtn=view.findViewById(R.id.category_back);
+categoryTitle=view.findViewById(R.id.category_title);
+pendintTxt=view.findViewById(R.id.emp_search_projects_inner_text);
         emp_search_projects_fragment=new Emp_Search_Projects_Fragment();
 
         Bundle bundle= this.getArguments();
         if(bundle!=null){
             category=(Category)bundle.getSerializable("category");
         executeRequest(category);
+        categoryTitle.setText(category.getTitle());
         }
         emp_search_projects_fragment.setListener(this);
+
+        backBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                getFragmentManager().popBackStackImmediate();
+            }
+        });
 
 
         return view;
@@ -102,7 +115,7 @@ private Emp_Search_Projects_Fragment emp_search_projects_fragment;
 
                 }
                 else{
-
+pendintTxt.setText("No projects yet");
                     Log.i(LOG, "onResponse not suc: " + response.toString());
                 }
             }

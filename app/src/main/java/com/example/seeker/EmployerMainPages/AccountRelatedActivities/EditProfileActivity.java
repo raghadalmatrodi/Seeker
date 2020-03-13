@@ -309,7 +309,7 @@ public class EditProfileActivity extends AppCompatActivity {
             @Override
             public void onResponse(Call<List<UserSocialMedia>> call, Response<List<UserSocialMedia>> response) {
                 if(response.isSuccessful()){
-                    int responseSize = response.body().size() - 1;
+                    int responseSize = response.body().size()-1;
                     UserSocialMedia user = response.body().get(responseSize);
 
                     linkedinET.setText(user.getLinkedIn());
@@ -413,7 +413,7 @@ public class EditProfileActivity extends AppCompatActivity {
             @Override
             public void onResponse(Call<List<Certificate>> call, Response<List<Certificate>> response) {
                 if (response.isSuccessful()){
-                    int responseSize = response.body().size() -1 ;
+                    int responseSize = response.body().size() -1;
                     Certificate certificate = response.body().get(responseSize);
                     EducationET.setText(certificate.getCertificates());
 //                    name.setText(certificate.getCertificates());
