@@ -2,6 +2,7 @@ package com.example.seeker.Activities;
 
 
 import android.app.Activity;
+import android.app.Dialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
@@ -45,6 +46,7 @@ public class SignupActivity extends Activity {
     private Button signUp;
     private AlertDialog dialog;
     private CheckBox checkTerms ;
+    private TextView termAndCondition;
 private static final String LOG= SignupActivity.class.getSimpleName();
 
     @Override
@@ -93,6 +95,18 @@ private static final String LOG= SignupActivity.class.getSimpleName();
             }
 
         });
+
+        termAndCondition.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+              TermsAndConditionsDialogue termsAndConditionsDialogue
+                      =new TermsAndConditionsDialogue(SignupActivity.this);
+              termsAndConditionsDialogue.show();
+            }
+        });
+
+
+
     }//End of onCreate()
 
     private void executeSignUpApiRequest() {
@@ -179,6 +193,7 @@ private static final String LOG= SignupActivity.class.getSimpleName();
         signUp = findViewById(R.id.signup_btn);
         haveAccount = findViewById(R.id.goto_login);
         checkTerms = findViewById(R.id.terms_conditions_cb);
+        termAndCondition=findViewById(R.id.goto_terms_conditions);
     }//End of init()
 
     private boolean validate() {
