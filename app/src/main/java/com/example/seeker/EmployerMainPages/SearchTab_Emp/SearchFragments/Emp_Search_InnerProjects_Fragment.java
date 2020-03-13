@@ -33,7 +33,7 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class Emp_Search_InnerProjects_Fragment extends Fragment implements Emp_Search_Projects_Fragment.CategoryListener , ProjectSearchAdapter.ProjectSearchAdapterListener {
+public class Emp_Search_InnerProjects_Fragment extends Fragment implements Emp_Search_Projects_Fragment.CategoryListener, ProjectSearchAdapter.ProjectSearchAdapterListener {
 
 
     private View view;
@@ -42,25 +42,25 @@ public class Emp_Search_InnerProjects_Fragment extends Fragment implements Emp_S
     private List<Project> projectList = new ArrayList<>();
     private Category category;
     ImageView backBtn;
-    TextView categoryTitle,pendintTxt;
-private Emp_Search_Projects_Fragment emp_search_projects_fragment;
+    TextView categoryTitle, pendintTxt;
+    private Emp_Search_Projects_Fragment emp_search_projects_fragment;
 
     private static final String LOG = Emp_Search_InnerProjects_Fragment.class.getSimpleName();
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        view =  inflater.inflate(R.layout.fragment_search_emp_projects, container, false);
-backBtn=view.findViewById(R.id.category_back);
-categoryTitle=view.findViewById(R.id.category_title);
-pendintTxt=view.findViewById(R.id.emp_search_projects_inner_text);
-        emp_search_projects_fragment=new Emp_Search_Projects_Fragment();
+        view = inflater.inflate(R.layout.fragment_search_emp_projects, container, false);
+        backBtn = view.findViewById(R.id.category_back);
+        categoryTitle = view.findViewById(R.id.category_title);
+        pendintTxt = view.findViewById(R.id.emp_search_projects_inner_text);
+        emp_search_projects_fragment = new Emp_Search_Projects_Fragment();
 
-        Bundle bundle= this.getArguments();
-        if(bundle!=null){
-            category=(Category)bundle.getSerializable("category");
-        executeRequest(category);
-        categoryTitle.setText(category.getTitle());
+        Bundle bundle = this.getArguments();
+        if (bundle != null) {
+            category = (Category) bundle.getSerializable("category");
+            executeRequest(category);
+            categoryTitle.setText(category.getTitle());
         }
         emp_search_projects_fragment.setListener(this);
 
@@ -103,19 +103,18 @@ pendintTxt=view.findViewById(R.id.emp_search_projects_inner_text);
         ApiClients.getAPIs().getProjectsByCategory(category).enqueue(new Callback<List<Project>>() {
             @Override
             public void onResponse(Call<List<Project>> call, Response<List<Project>> response) {
-                if(response.isSuccessful()){
+                if (response.isSuccessful()) {
 
-                    if(response.body()==null)
+                    if (response.body() == null)
                         wrongInfoDialog("There is no projects in this category");
-                    else
-                    {  projectList = (List) response.body();
+                    else {
+                        projectList = (List) response.body();
                         settheAdapter();
-                  }
+                    }
 
 
-                }
-                else{
-pendintTxt.setText("No projects yet");
+                } else {
+                    pendintTxt.setText("No projects yet");
                     Log.i(LOG, "onResponse not suc: " + response.toString());
                 }
             }
@@ -127,15 +126,13 @@ pendintTxt.setText("No projects yet");
             }
         });
 
-//        if(!projectList.isEmpty())
-//            adapter.setListener(this);
 
     }
 
 
     @Override
     public void onCategoryTypeItemSelected(Category category) {
-        this.category=category;
+        this.category = category;
     }
 
     @Override
@@ -143,7 +140,7 @@ pendintTxt.setText("No projects yet");
 
         Fragment fragment = new Emp_viewProjectFragment();
         Bundle bundle = new Bundle();
-        bundle.putSerializable("project",project);
+        bundle.putSerializable("project", project);
         fragment.setArguments(bundle);
         FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
@@ -152,19 +149,36 @@ pendintTxt.setText("No projects yet");
         fragmentTransaction.commit();
 
 
-
     }
 
-    public void settheAdapter(){
+    public void settheAdapter() {
         recyclerView = (RecyclerView) view.findViewById(R.id.recycler_emp_search_projects);
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
         adapter = new ProjectSearchAdapter(projectList);
         recyclerView.setItemAnimator(new DefaultItemAnimator());
         recyclerView.setAdapter(adapter);
-        if(!projectList.isEmpty())
+        if (!projectList.isEmpty())
             adapter.setListener(this);
         recyclerView.setNestedScrollingEnabled(true);
         DividerItemDecoration dividerItemDecoration = new DividerItemDecoration(recyclerView.getContext(), DividerItemDecoration.VERTICAL);
         recyclerView.addItemDecoration(dividerItemDecoration);
     }
+
+
+    public void setProjectAdapter() {
+        recyclerView = (RecyclerView) view.findViewById(R.id.recycler_emp_search_projects);
+        recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
+        adapter = new ProjectSearchAdapter(projectList);
+        recyclerView.setItemAnimator(new DefaultItemAnimator());
+        recyclerView.setAdapter(adapter);
+        if (!projectList.isEmpty())
+            adapter.setListener(this);
+        recyclerView.setNestedScrollingEnabled(true);
+        DividerItemDecoration dividerItemDecoration = new DividerItemDecoration(recyclerView.getContext(), DividerItemDecoration.VERTICAL);
+        recyclerView.addItemDecoration(dividerItemDecoration);
+    }
+
+
+
+
 }

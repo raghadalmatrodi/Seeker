@@ -3,21 +3,28 @@ package com.example.seeker.EmployerMainPages.SearchTab_Emp;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Filter;
+import android.widget.Filterable;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.seeker.Model.Category;
 import com.example.seeker.Model.Project;
 import com.example.seeker.R;
 
+import java.util.ArrayList;
 import java.util.List;
 
-public class ProjectSearchAdapter extends RecyclerView.Adapter<ProjectSearchAdapter.MyViewHolder>  {
+public class ProjectSearchAdapter extends RecyclerView.Adapter<ProjectSearchAdapter.MyViewHolder> implements Filterable {
 
 
+    private List<Project> projecSearchtList;
     private List<Project> projectList;
+
     ProjectSearchAdapterListener listener;
+    private List<Project> filteredProjectSearchList;
 
     public void setListener(ProjectSearchAdapterListener listener) {
         this.listener = listener;
@@ -57,6 +64,7 @@ public class ProjectSearchAdapter extends RecyclerView.Adapter<ProjectSearchAdap
     public ProjectSearchAdapter(List<Project> projectList) {
 
         this.projectList = projectList;
+        this.projecSearchtList=projectList;
     }//End of CategorySearchAdapter()
 
     @Override
@@ -85,4 +93,48 @@ public class ProjectSearchAdapter extends RecyclerView.Adapter<ProjectSearchAdap
     public int getItemCount() {
         return projectList.size();
     }
+
+
+
+    //search view
+
+
+    @Override
+    public Filter getFilter() {
+        return new Filter() {
+            @Override
+            protected FilterResults performFiltering(CharSequence constraint) {
+                String charSequenceString = constraint.toString();
+                if (charSequenceString.isEmpty()) {
+                   projectList=projecSearchtList;
+                    filteredProjectSearchList = projectList;
+                } else {
+                   // filteredProjectSearchList.clear();
+                    List<Project> filteredList = new ArrayList<>();
+                    for (Project project : projectList) {
+                        if (project.getTitle().toLowerCase().contains(charSequenceString.toLowerCase())) {
+                            filteredList.add(project);
+                        }
+
+
+                        projectList = filteredList;
+                    }
+
+                }
+                FilterResults results = new FilterResults();
+                results.values = filteredProjectSearchList;
+                return results;
+            }
+
+            @Override
+            protected void publishResults(CharSequence constraint, FilterResults results) {
+
+
+                filteredProjectSearchList = (List<Project>) results.values;
+                notifyDataSetChanged();
+            }
+        };
+    }
+
+
 }

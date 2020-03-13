@@ -32,9 +32,9 @@ public class SplashActivity extends Activity {
 
             @Override
             public void run() {
-                startActivity(new Intent(getApplicationContext(), LoginActivity.class));
+              //  startActivity(new Intent(getApplicationContext(), LoginActivity.class));
 
-                  //  checkIsLogin();
+                   checkIsLogin();
 
             }//End of run()
         }, 3000);

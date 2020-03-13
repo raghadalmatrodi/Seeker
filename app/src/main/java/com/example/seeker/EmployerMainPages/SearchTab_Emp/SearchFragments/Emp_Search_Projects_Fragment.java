@@ -16,11 +16,15 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.DefaultItemAnimator;
+import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.GridLayoutManager;
+import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.seeker.Database.ApiClients;
+import com.example.seeker.EmployerMainPages.SearchTab_Emp.ProjectSearchAdapter;
 import com.example.seeker.Model.Category;
+import com.example.seeker.Model.Project;
 import com.example.seeker.R;
 import com.example.seeker.Search.CategorySearchAdapter;
 
@@ -31,18 +35,22 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 public class Emp_Search_Projects_Fragment extends Fragment
-        implements CategorySearchAdapter.CategoryAdapterListener  {
+        implements CategorySearchAdapter.CategoryAdapterListener, ProjectSearchAdapter.ProjectSearchAdapterListener {
 
 
 
 
     private View view;
-    private RecyclerView recyclerView;
+    private RecyclerView recyclerView,recyclerViewProject;
     private CategorySearchAdapter adapter;
     private SearchView searchView;
     private List<Category> categorySearchSearchList;
+    private List<Project> projectList;
+
     private static final String LOG = Emp_Search_Projects_Fragment.class.getSimpleName();
    private CategoryListener categoryListener;
+    private ProjectSearchAdapter projectSearchAdapter;
+
 
 
 
@@ -59,26 +67,40 @@ public class Emp_Search_Projects_Fragment extends Fragment
 
 
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+
+
             @Override
             public boolean onQueryTextSubmit(String queryString) {
-                adapter.getFilter().filter(queryString);
+
+                recyclerView.setVisibility(View.GONE);
+                recyclerViewProject.setVisibility(View.VISIBLE);
+
+                    projectSearchAdapter.getFilter().filter(queryString);
+
                 return false;
             }
 
             @Override
             public boolean onQueryTextChange(String queryString) {
-                adapter.getFilter().filter(queryString);
+
+                recyclerView.setVisibility(View.GONE);
+                recyclerViewProject.setVisibility(View.VISIBLE);
+                projectSearchAdapter.getFilter().filter(queryString);
+
+
                 return false;
             }
         });
 
-
-
-
-
-
         // Inflate the layout for this fragment
         return view;
+    }
+
+
+    //no need
+    @Override
+    public void onProjectItemSelectedAdapter(Project project) {
+
     }
 
 
@@ -149,6 +171,13 @@ if(categorySearchSearchList.get(i).getCategory_type().equals("1"))
     @Override
     public void onResume() {
         super.onResume();
+getAllCategory();
+        getAllProjects();
+
+
+    }//end on resume
+
+    private void getAllCategory() {
 
         ApiClients.getAPIs().getALLCategoryRequest().enqueue(new Callback<List<Category>>() {
             @Override
@@ -171,8 +200,7 @@ if(categorySearchSearchList.get(i).getCategory_type().equals("1"))
                 Log.i(LOG, "Fail");
             }
         });
-
-    }//end on resume
+    }
 
     private void setRecyclerView() {
 
@@ -190,6 +218,55 @@ if(categorySearchSearchList.get(i).getCategory_type().equals("1"))
                 GridSpacingItemDecoration(2, dpToPx(10), true));
 
         prepareCategories();
+    }
+
+
+
+    private void setProjectRecyclerView() {
+
+
+//recyclerView.clearDisappearingChildren();
+        recyclerViewProject = (RecyclerView) view.findViewById(R.id.recycler_view_emp_bycategory_search_project);
+        recyclerViewProject.setLayoutManager(new LinearLayoutManager(getActivity()));
+        projectSearchAdapter = new ProjectSearchAdapter(projectList);
+        recyclerViewProject.setItemAnimator(new DefaultItemAnimator());
+        recyclerViewProject.setAdapter(projectSearchAdapter);
+        if (!projectList.isEmpty())
+            projectSearchAdapter.setListener(this);
+        recyclerViewProject.setNestedScrollingEnabled(true);
+        DividerItemDecoration dividerItemDecoration = new DividerItemDecoration(recyclerViewProject.getContext(), DividerItemDecoration.VERTICAL);
+        recyclerViewProject.addItemDecoration(dividerItemDecoration);
+        recyclerViewProject.setVisibility(View.GONE);
+
+    }
+
+    private void getAllProjects() {
+
+        ApiClients.getAPIs().getAllProjects().enqueue(new Callback<List<Project>>() {
+            @Override
+            public void onResponse(Call<List<Project>> call, Response<List<Project>> response) {
+                if(response.isSuccessful()){
+
+                    projectList = (List) response.body();
+                    setProjectRecyclerView();
+
+                }
+                else{
+
+                    Log.i(LOG, "onResponse not suc: " + response.toString());
+                }
+            }
+
+            @Override
+            public void onFailure(Call<List<Project>> call, Throwable t) {
+
+                Log.i(LOG, "Fail");
+            }
+        });
+
+
+
+
     }
 
 
