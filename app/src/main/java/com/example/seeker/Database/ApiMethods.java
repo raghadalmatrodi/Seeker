@@ -124,13 +124,4 @@ public interface ApiMethods {
     @GET(Methods.GET_CERTIFICATES)
     Call<List<Certificate>> getAllCertificates();
 
-    @PUT(Methods.ACCEPT_BID)
-    Call<ApiResponse> acceptBid(@Path("id") long id);
-
-
-    @POST(Methods.GET_PROJECTS_BY_CATEGORY)
-    Call<List<Project>> getProjectsByCategory(@Body Category category);
-
-
-
 }//End of ApiMethods interface

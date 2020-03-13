@@ -15,7 +15,8 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".FreelancerMainPages.FreelancerEditProfile"></activity>
+        <activity android:name=".EmployerMainPages.AcceptBidConfirmation"></activity>
+        <activity android:name=".FreelancerMainPages.FreelancerEditProfile" />
         <activity android:name=".PostBid.ViewFullBid" />
         <activity android:name=".PostBid.PostBidActivity" />
         <activity android:name=".PostBid.ViewBid" />

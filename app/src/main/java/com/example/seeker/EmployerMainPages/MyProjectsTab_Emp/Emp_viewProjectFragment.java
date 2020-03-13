@@ -1,5 +1,6 @@
 package com.example.seeker.EmployerMainPages.MyProjectsTab_Emp;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -10,19 +11,27 @@ import android.widget.TextView;
 
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.DefaultItemAnimator;
 import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.seeker.Database.ApiClients;
+import com.example.seeker.EmployerMainPages.AcceptBidConfirmation;
 import com.example.seeker.EmployerMainPages.MyProjectsTab_Emp.ProjectsStatusFragments.Emp_MyProjects_Pending_Fragment;
 import com.example.seeker.Model.Bid;
 import com.example.seeker.Model.Project;
+import com.example.seeker.Model.Responses.ApiResponse;
 import com.example.seeker.Model.Skill;
 import com.example.seeker.PostBid.BidsAdapter;
 import com.example.seeker.R;
 
 import java.util.List;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class Emp_viewProjectFragment extends Fragment implements  Emp_MyProjects_Pending_Fragment.ProjectListener ,BidsAdapter.BidsAdapterListener {
 
@@ -163,11 +172,25 @@ public class Emp_viewProjectFragment extends Fragment implements  Emp_MyProjects
         if(isPending==1)
         adapter.showAccept();
 
-
     }
 
     @Override
     public void onBidItemClick(Bid bid) {
+
+    }
+
+    @Override
+    public void onAcceptBidItemClick(Bid bid) {
+
+        Fragment fragment = new AcceptBidConfirmation();
+        Bundle bundle = new Bundle();
+        bundle.putSerializable("bid",bid);
+        fragment.setArguments(bundle);
+        FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
+        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+        fragmentTransaction.replace(R.id.frame_container_emp, fragment);
+        fragmentTransaction.addToBackStack(null);
+        fragmentTransaction.commit();
 
     }
 
