@@ -255,6 +255,11 @@ public class ViewBid extends AppCompatActivity implements Serializable,BidsAdapt
     }
 
     @Override
+    public void onAcceptBidItemClick(Bid bid) {
+
+    }
+
+    @Override
     protected void onResume() {
         super.onResume();
         fillData();

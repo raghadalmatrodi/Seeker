@@ -89,6 +89,9 @@ public class BidsAdapter extends RecyclerView.Adapter<BidsAdapter.MyViewHolder> 
 
     public interface BidsAdapterListener {
         void onBidItemClick(Bid bid);
+
+        //انا مسويته ياهند اذا صاح عندك سوي له امبلمنت وبس خليه فاضي
+        void onAcceptBidItemClick(Bid bid);
     }
 
     @Override
@@ -161,24 +164,27 @@ public class BidsAdapter extends RecyclerView.Adapter<BidsAdapter.MyViewHolder> 
             @Override
             public void onClick(View v) {
                 //TODO ACCEPT BID REQUEST
-                Log.i("bid information ", bid.toString());
+//                Log.i("bid information ", bid.toString());
+//
+//                ApiClients.getAPIs().acceptBid(bid.getId()).enqueue(new Callback<ApiResponse>() {
+//                    @Override
+//                    public void onResponse(Call<ApiResponse> call, Response<ApiResponse> response) {
+//                        Log.i("onResponse ",response.message());
+//
+//                        bidList.remove(bidList.get(position));
+//                        notifyDataSetChanged();
+//
+//                    }
+//
+//                    @Override
+//                    public void onFailure(Call<ApiResponse> call, Throwable t) {
+//                        Log.i("onFailure ",t.getLocalizedMessage());
+//
+//                    }
+//                });
 
-                ApiClients.getAPIs().acceptBid(bid.getId()).enqueue(new Callback<ApiResponse>() {
-                    @Override
-                    public void onResponse(Call<ApiResponse> call, Response<ApiResponse> response) {
-                        Log.i("onResponse ",response.message());
+                listener.onAcceptBidItemClick(bid);
 
-                        bidList.remove(bidList.get(position));
-                        notifyDataSetChanged();
-
-                    }
-
-                    @Override
-                    public void onFailure(Call<ApiResponse> call, Throwable t) {
-                        Log.i("onFailure ",t.getLocalizedMessage());
-
-                    }
-                });
 
             }
 
