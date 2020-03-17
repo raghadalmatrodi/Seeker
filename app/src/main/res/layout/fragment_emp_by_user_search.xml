@@ -16,6 +16,7 @@
         android:id="@+id/SearchView_emp_byuser_search"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        app:queryHint="Username"
         android:layout_marginTop="-10dp"
        />
 
