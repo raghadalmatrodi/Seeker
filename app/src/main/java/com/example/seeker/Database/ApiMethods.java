@@ -56,6 +56,7 @@ public interface ApiMethods {
         String CREATE_MILESTONE = "milestone/create";
 
         String GET_ALL_PROJECTS = "project/findAll";
+       String GET_ALL_USERS="user/findAll";
 
 
     }//End of Methods interface
@@ -138,6 +139,9 @@ public interface ApiMethods {
 
     @GET(Methods.GET_ALL_PROJECTS)
     Call<List<Project>> getAllProjects();
+
+    @GET(Methods.GET_ALL_USERS)
+    Call<List<User>> getAllUsers();
 
 //    @PUT(Methods.ACCEPT_BID)
 //    Call<ApiResponse> acceptBid(@Path("id") long id);
