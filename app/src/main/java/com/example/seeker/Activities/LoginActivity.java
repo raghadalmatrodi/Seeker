@@ -55,7 +55,7 @@ public class LoginActivity extends Activity {
             @Override
             public void onClick(View view) {
 
-                userEmail = email.getText().toString().toLowerCase();
+                userEmail = email.getText().toString().toLowerCase().trim();
                 userPassword = password.getText().toString().toLowerCase();
 
                 if(validate(userEmail, userPassword))

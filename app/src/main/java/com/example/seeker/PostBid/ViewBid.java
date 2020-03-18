@@ -45,6 +45,7 @@ public class ViewBid extends AppCompatActivity implements Serializable,BidsAdapt
     private RecyclerView recyclerView;
     private BidsAdapter adapter;
     private List<Bid> bidList = new ArrayList<>();
+    private Project mainProject;
 //    private B caListener;
 
     //todo 5 hind
@@ -103,10 +104,10 @@ public class ViewBid extends AppCompatActivity implements Serializable,BidsAdapt
         init();
 
         Intent i = getIntent();
-        Project project = (Project) i.getSerializableExtra("projectObj");
+        mainProject = (Project) i.getSerializableExtra("projectObj");
 
-        projtitle.setText(project.getTitle());
-        getBidsByStatus("pending", project);
+        projtitle.setText(mainProject.getTitle());
+        getBidsByStatus("pending", mainProject);
 
 
         placebid.setOnClickListener(new View.OnClickListener() {
@@ -119,12 +120,12 @@ public class ViewBid extends AppCompatActivity implements Serializable,BidsAdapt
                 Intent i = new Intent(ViewBid.this, PostBidActivity.class);
 
                 //casting to serializable didn't work, so i let class bid implements the serializable and it worked :)
-                i.putExtra("currentProjObj", project);
+                i.putExtra("currentProjObj", mainProject);
                 startActivity(i);
             }
         });
 
-        initToolbar(project);
+        initToolbar(mainProject);
 
     }//End fillData()
 
@@ -146,7 +147,7 @@ public class ViewBid extends AppCompatActivity implements Serializable,BidsAdapt
 
                    recyclerView = (RecyclerView) findViewById(R.id.recycler_view_b);
                    recyclerView.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
-                   adapter = new BidsAdapter(bidList);
+                   adapter = new BidsAdapter(bidList, mainProject);
                    bidList = new ArrayList<>();
                    recyclerView.setItemAnimator(new DefaultItemAnimator());
                    recyclerView.setAdapter(adapter);
@@ -211,7 +212,7 @@ public class ViewBid extends AppCompatActivity implements Serializable,BidsAdapt
 
                     recyclerView = (RecyclerView) findViewById(R.id.recycler_view_b);
                     recyclerView.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
-                    adapter = new BidsAdapter(bidList);
+                    adapter = new BidsAdapter(bidList, mainProject);
                     bidList = new ArrayList<>();
                     recyclerView.setItemAnimator(new DefaultItemAnimator());
                     recyclerView.setAdapter(adapter);

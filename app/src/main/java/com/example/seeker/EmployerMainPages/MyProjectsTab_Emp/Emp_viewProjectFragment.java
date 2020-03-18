@@ -17,10 +17,12 @@ import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.seeker.Activities.Contract.ContractFragment;
 import com.example.seeker.Database.ApiClients;
 import com.example.seeker.EmployerMainPages.AcceptBidConfirmation;
 import com.example.seeker.EmployerMainPages.MyProjectsTab_Emp.ProjectsStatusFragments.Emp_MyProjects_Pending_Fragment;
 import com.example.seeker.Model.Bid;
+import com.example.seeker.Model.Contract;
 import com.example.seeker.Model.Project;
 import com.example.seeker.Model.Responses.ApiResponse;
 import com.example.seeker.Model.Skill;
@@ -45,6 +47,9 @@ public class Emp_viewProjectFragment extends Fragment implements  Emp_MyProjects
     TextView deadline;
     ImageView backButton;
     TextView employerName;
+    Contract contract;
+
+    ImageView contractImg;
 
     Emp_MyProjects_Pending_Fragment emp_myProjects_pending_fragment;
     private RecyclerView recyclerView;
@@ -56,17 +61,8 @@ public class Emp_viewProjectFragment extends Fragment implements  Emp_MyProjects
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
          view = inflater.inflate(R.layout.fragment_view_project, container, false);
-        backButton = view.findViewById(R.id.project_view_back);
 
-
-        title = view.findViewById(R.id.project_title);
-        descreption = view.findViewById(R.id.project_des);
-        deadline = view.findViewById(R.id.project_date);
-        budget = view.findViewById(R.id.project_budget);
-        type = view.findViewById(R.id.project_type);
-        skills = view.findViewById(R.id.project_skills);
-        employerName = view.findViewById(R.id.employer_name);
-
+         init();
 
         emp_myProjects_pending_fragment = new Emp_MyProjects_Pending_Fragment();
 
@@ -78,6 +74,21 @@ public class Emp_viewProjectFragment extends Fragment implements  Emp_MyProjects
 
         setProjectInformation();
 
+        contractImg.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                Fragment fragment = new ContractFragment();
+                Bundle bundle = new Bundle();
+                bundle.putSerializable("contract",contract);
+                fragment.setArguments(bundle);
+                FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
+                FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+                fragmentTransaction.replace(R.id.frame_container_emp, fragment);
+                fragmentTransaction.addToBackStack(null);
+                fragmentTransaction.commit();
+            }
+        });
 
         bids = project.getBids();
         TextView number_of_bids = view.findViewById(R.id.numberOfBids);
@@ -107,12 +118,28 @@ public class Emp_viewProjectFragment extends Fragment implements  Emp_MyProjects
 
     }
 
+    private void init() {
+        backButton = view.findViewById(R.id.project_view_back);
+        title = view.findViewById(R.id.project_title);
+        descreption = view.findViewById(R.id.project_des);
+        deadline = view.findViewById(R.id.project_date);
+        budget = view.findViewById(R.id.project_budget);
+        type = view.findViewById(R.id.project_type);
+        skills = view.findViewById(R.id.project_skills);
+        employerName = view.findViewById(R.id.employer_name);
+        contractImg = view.findViewById(R.id.contract_img);
+
+
+    }
+
     @Override
     public void onProjectItemSelected(Project project) {
     this.project = project;
 
     }
     public void setProjectInformation(){
+
+
         if( (project.getTitle() != null))
             if(!project.getTitle().trim().equals(""))
                 title.setText(project.getTitle());
@@ -156,13 +183,21 @@ public class Emp_viewProjectFragment extends Fragment implements  Emp_MyProjects
         if(project.getDeadline() != null){
             deadline.setText(project.getDeadline().substring(0,10));
         }
+
+        if(project.getStatus().equals("0")){
+            contractImg.setVisibility(View.INVISIBLE);
+        }else{
+            contractImg.setVisibility(View.VISIBLE);
+            performAPIRequest(project.getId());
+
+        }
     }
 
 
     public void setTheAdapter(){
         recyclerView = (RecyclerView) view.findViewById(R.id.recycler_view_b);
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
-        adapter = new BidsAdapter(bids);
+        adapter = new BidsAdapter(bids, project);
         recyclerView.setItemAnimator(new DefaultItemAnimator());
         recyclerView.setAdapter(adapter);
         adapter.setListener(this);
@@ -176,6 +211,30 @@ public class Emp_viewProjectFragment extends Fragment implements  Emp_MyProjects
 
     @Override
     public void onBidItemClick(Bid bid) {
+
+    }
+
+    public void performAPIRequest(long project_id){
+
+
+        ApiClients.getAPIs().getContractByProjectIdRequest(project_id).enqueue(new Callback<Contract>() {
+            @Override
+            public void onResponse(Call<Contract> call, Response<Contract> response) {
+                if (response.isSuccessful()){
+
+                     contract = response.body();
+
+                    Log.i("on Response: contract suc", response.message());
+
+                }
+                Log.i("on Response: contract Notsuc", response.message());
+            }
+
+            @Override
+            public void onFailure(Call<Contract> call, Throwable t) {
+                Log.i("on Response: contract fail", t.getMessage());
+            }
+        });
 
     }
 

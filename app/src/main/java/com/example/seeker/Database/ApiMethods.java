@@ -1,11 +1,14 @@
 package com.example.seeker.Database;
 
+import com.example.seeker.Activities.Contract.ContractFragment;
 import com.example.seeker.Model.Bid;
 import com.example.seeker.Model.Category;
 import com.example.seeker.Model.Certificate;
+import com.example.seeker.Model.Contract;
 import com.example.seeker.Model.Employer;
 import com.example.seeker.Model.Freelancer;
 import com.example.seeker.Model.Login;
+import com.example.seeker.Model.Milestone;
 import com.example.seeker.Model.Project;
 import com.example.seeker.Model.Responses.ApiResponse;
 import com.example.seeker.Model.User;
@@ -49,6 +52,8 @@ public interface ApiMethods {
         String GET_CERTIFICATES = "certificate/find-all";
         String ACCEPT_BID ="bid/accept-bid/{id}";
         String GET_PROJECTS_BY_CATEGORY = "project/category";
+        String GET_CONTRACT_BY_PROJECT_ID = "contract/project_id/{project_id}";
+        String CREATE_MILESTONE = "milestone/create";
 
         String GET_ALL_PROJECTS = "project/findAll";
 
@@ -98,6 +103,9 @@ public interface ApiMethods {
     @POST(Methods.GET_PROJECTS_BY_CATEGORY)
     Call<List<Project>> getProjectsByCategory(@Body Category category);
 
+    @POST(Methods.CREATE_MILESTONE)
+    Call<Milestone> createMilestoneRequest(@Body Milestone milestone);
+
     /**
      * GET METHODS
      */
@@ -124,6 +132,9 @@ public interface ApiMethods {
 
     @GET(Methods.GET_CERTIFICATES)
     Call<List<Certificate>> getAllCertificates();
+
+    @GET(Methods.GET_CONTRACT_BY_PROJECT_ID)
+    Call<Contract> getContractByProjectIdRequest(@Path("project_id") long project_id);
 
     @GET(Methods.GET_ALL_PROJECTS)
     Call<List<Project>> getAllProjects();

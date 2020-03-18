@@ -16,6 +16,8 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.seeker.Database.ApiClients;
 import com.example.seeker.Model.Bid;
 import com.example.seeker.Model.Category;
+import com.example.seeker.Model.Milestone;
+import com.example.seeker.Model.Project;
 import com.example.seeker.Model.Responses.ApiResponse;
 import com.example.seeker.R;
 
@@ -31,6 +33,7 @@ public class BidsAdapter extends RecyclerView.Adapter<BidsAdapter.MyViewHolder> 
     private BidsAdapterListener listener;
     boolean isEmployer =false;
     boolean isPending=false;
+    Project project;
 
     public void setListener(BidsAdapterListener listener) {
         this.listener = listener;
@@ -81,8 +84,8 @@ public class BidsAdapter extends RecyclerView.Adapter<BidsAdapter.MyViewHolder> 
         isPending = true;
 
     }
-    public BidsAdapter(List<Bid> bidList) {
-
+    public BidsAdapter(List<Bid> bidList, Project project) {
+        this.project = project;
         this.bidList = bidList;
     }//End of BidsAdapter()
 
@@ -186,6 +189,8 @@ public class BidsAdapter extends RecyclerView.Adapter<BidsAdapter.MyViewHolder> 
                 listener.onAcceptBidItemClick(bid);
 
 
+                addMilestone(bid);
+
             }
 
         });
@@ -198,6 +203,35 @@ public class BidsAdapter extends RecyclerView.Adapter<BidsAdapter.MyViewHolder> 
 
 
     }//End of onBindViewHolder
+
+    private void addMilestone(Bid bid) {
+
+        if(project.getPayment_type().equals("FixedPrice") || project.getType().equals("1")){
+
+            Milestone milestone = new Milestone(bid.getPrice(), "0", bid.getDeliver_date(),project.getTitle(), project);
+
+            ApiClients.getAPIs().createMilestoneRequest(milestone).enqueue(new Callback<Milestone>() {
+                @Override
+                public void onResponse(Call<Milestone> call, Response<Milestone> response) {
+                    if (response.isSuccessful()){
+                        Log.i("onResponse successful ",response.message());
+                    }
+                    Log.i("onResponse Notsuccessful ",response.message());
+                }
+
+
+                @Override
+                public void onFailure(Call<Milestone> call, Throwable t) {
+
+                    Log.i("onResponse fail ", "fail");
+                }
+            });
+
+
+        }
+
+
+    }
 
 
     @Override
