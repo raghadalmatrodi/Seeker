@@ -158,14 +158,14 @@ public void setTheAdapter(){
     recyclerView = (RecyclerView) view.findViewById(R.id.recycler_view);
 
     recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
-    if(!projectList.isEmpty())
+    if(!projectList.isEmpty()) {
         adapter = new ProjectAdapter(projectList);
-    recyclerView.setItemAnimator(new DefaultItemAnimator());
-    recyclerView.setAdapter(adapter);
-    adapter.setListener(this);
-    recyclerView.setNestedScrollingEnabled(true);
-    DividerItemDecoration dividerItemDecoration = new DividerItemDecoration(recyclerView.getContext(), DividerItemDecoration.VERTICAL);
-    recyclerView.addItemDecoration(dividerItemDecoration);
-
+        recyclerView.setItemAnimator(new DefaultItemAnimator());
+        recyclerView.setAdapter(adapter);
+        adapter.setListener(this);
+        recyclerView.setNestedScrollingEnabled(true);
+        DividerItemDecoration dividerItemDecoration = new DividerItemDecoration(recyclerView.getContext(), DividerItemDecoration.VERTICAL);
+        recyclerView.addItemDecoration(dividerItemDecoration);
+    }
 }
 }

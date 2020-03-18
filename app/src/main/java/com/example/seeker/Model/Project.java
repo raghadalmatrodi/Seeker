@@ -11,6 +11,7 @@ import java.util.Set;
 public class Project implements Serializable {
 //todo 4 hind implemented serializable
 
+
     private String title;
     private String description;
     private double budget;
@@ -47,6 +48,9 @@ public class Project implements Serializable {
         this.status = status;
         this.bids = bids;
     }
+    public Project(long id){
+        this.id = id;
+    }
 
 //    public Project(String title, String description, double budget, String type, String payment_type, String expiry_date, String deadline, List<Milestone> milestones, Employer employer, Set<Skill> skills, String status, Category category) {
 //        this.title = title;
@@ -77,6 +81,7 @@ public class Project implements Serializable {
         this.category = category;
         this.bids = bids;
     }
+
 
     public String getTitle() {
         return title;

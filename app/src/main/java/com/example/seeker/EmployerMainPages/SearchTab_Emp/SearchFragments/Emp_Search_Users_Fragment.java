@@ -11,15 +11,20 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import androidx.appcompat.app.AlertDialog;
+import androidx.appcompat.widget.SearchView;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.DefaultItemAnimator;
+import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.GridLayoutManager;
+import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.seeker.Database.ApiClients;
+import com.example.seeker.EmployerMainPages.SearchTab_Emp.UserSearchAdapter;
 import com.example.seeker.Model.Category;
+import com.example.seeker.Model.User;
 import com.example.seeker.R;
 import com.example.seeker.Search.CategorySearchAdapter;
 
@@ -29,14 +34,24 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class Emp_Search_Users_Fragment extends Fragment  implements CategorySearchAdapter.CategoryAdapterListener  {
+public class Emp_Search_Users_Fragment extends Fragment
+        implements CategorySearchAdapter.CategoryAdapterListener, UserSearchAdapter.UserSearchAdapterListener {
+
+
+
 
     private View view;
-    private RecyclerView recyclerView;
+    private RecyclerView recyclerView,recyclerViewUser;
     private CategorySearchAdapter adapter;
+    private SearchView searchView;
     private List<Category> categorySearchSearchList;
-    private static final String LOG = Emp_Search_Projects_Fragment.class.getSimpleName();
+    private List<User> userList;
+
+    private static final String LOG = Emp_Search_Users_Fragment.class.getSimpleName();
     private Emp_Search_Users_Fragment.CategoryListener categoryListener;
+    private UserSearchAdapter userSearchAdapter;
+
+
 
 
 
@@ -45,9 +60,47 @@ public class Emp_Search_Users_Fragment extends Fragment  implements CategorySear
 
 
         view = inflater.inflate(R.layout.fragment_emp_by_user_search, container, false);
+        searchView= view.findViewById(R.id.SearchView_emp_byuser_search);
+
+
+
+
+
+        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+
+
+            @Override
+            public boolean onQueryTextSubmit(String queryString) {
+
+                recyclerView.setVisibility(View.GONE);
+                recyclerViewUser.setVisibility(View.VISIBLE);
+
+                userSearchAdapter.getFilter().filter(queryString);
+
+                return false;
+            }
+
+            @Override
+            public boolean onQueryTextChange(String queryString) {
+
+                recyclerView.setVisibility(View.GONE);
+                recyclerViewUser.setVisibility(View.VISIBLE);
+                userSearchAdapter.getFilter().filter(queryString);
+
+
+                return false;
+            }
+        });
 
         // Inflate the layout for this fragment
         return view;
+    }
+
+
+    //no need
+    @Override
+    public void onUserItemSelectedAdapter(User user) {
+
     }
 
 
@@ -118,6 +171,13 @@ public class Emp_Search_Users_Fragment extends Fragment  implements CategorySear
     @Override
     public void onResume() {
         super.onResume();
+        getAllCategory();
+        getAllProjects();
+
+
+    }//end on resume
+
+    private void getAllCategory() {
 
         ApiClients.getAPIs().getALLCategoryRequest().enqueue(new Callback<List<Category>>() {
             @Override
@@ -140,8 +200,7 @@ public class Emp_Search_Users_Fragment extends Fragment  implements CategorySear
                 Log.i(LOG, "Fail");
             }
         });
-
-    }//end on resume
+    }
 
     private void setRecyclerView() {
 
@@ -159,6 +218,54 @@ public class Emp_Search_Users_Fragment extends Fragment  implements CategorySear
                 GridSpacingItemDecoration(2, dpToPx(10), true));
 
         prepareCategories();
+    }
+
+
+
+    private void setUserRecyclerView() {
+
+
+        recyclerViewUser = (RecyclerView) view.findViewById(R.id.recycler_view_emp_byuser_search_user);
+        recyclerViewUser.setLayoutManager(new LinearLayoutManager(getActivity()));
+        userSearchAdapter = new UserSearchAdapter(userList);
+        recyclerViewUser.setItemAnimator(new DefaultItemAnimator());
+        recyclerViewUser.setAdapter(userSearchAdapter);
+        if (!userList.isEmpty())
+            userSearchAdapter.setListener(this);
+        recyclerViewUser.setNestedScrollingEnabled(true);
+        DividerItemDecoration dividerItemDecoration = new DividerItemDecoration(recyclerViewUser.getContext(), DividerItemDecoration.VERTICAL);
+        recyclerViewUser.addItemDecoration(dividerItemDecoration);
+        recyclerViewUser.setVisibility(View.GONE);
+
+    }
+
+    private void getAllProjects() {
+
+        ApiClients.getAPIs().getAllUsers().enqueue(new Callback<List<User>>() {
+            @Override
+            public void onResponse(Call<List<User>> call, Response<List<User>> response) {
+                if(response.isSuccessful()){
+
+                    userList = (List) response.body();
+                    setUserRecyclerView();
+
+                }
+                else{
+
+                    Log.i(LOG, "onResponse not suc: " + response.toString());
+                }
+            }
+
+            @Override
+            public void onFailure(Call<List<User>> call, Throwable t) {
+
+                Log.i(LOG, "Fail");
+            }
+        });
+
+
+
+
     }
 
 
@@ -183,9 +290,8 @@ public class Emp_Search_Users_Fragment extends Fragment  implements CategorySear
 
     @Override
     public void onCategoryItemClick(Category category) {
-        //المفروض اغير هنا
 
-        Fragment fragment=new Emp_Search_InnerProjects_Fragment();
+        Fragment fragment=new Emp_Search_InnerUsers_Fragment();
 
         Bundle bundle=new Bundle();
         bundle.putSerializable("category",category);
@@ -196,9 +302,6 @@ public class Emp_Search_Users_Fragment extends Fragment  implements CategorySear
 
         fragmentTransaction.addToBackStack(null);
         fragmentTransaction.commit();
-
-
-
 
 
     }
@@ -243,9 +346,5 @@ public class Emp_Search_Users_Fragment extends Fragment  implements CategorySear
         return Math.round(TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, dp, r.getDisplayMetrics()));
     }
 
-
-
-
-
-
 }
+
