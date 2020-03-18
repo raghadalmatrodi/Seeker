@@ -13,10 +13,10 @@ public class ApiClients {
 
 
     //if you are using a real phone
-    public static final String BASE_URL = "http://192.168.8.199:8080/api/";
+//    public static final String BASE_URL = "http://192.168.8.199:8080/api/";
 
     //if you are using emulator
-//    public static final String BASE_URL = "http://10.0.2.2:8080/api/";
+    public static final String BASE_URL = "http://10.0.2.2:8080/api/";
 
 
 
