@@ -11,6 +11,7 @@ import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
@@ -85,6 +86,8 @@ public class ProjectInformationFragment extends Fragment {
 
 
 
+
+
     private RecyclerView recyclerView;
     private AttachmentAdapter adapter;
     List<File> files;
@@ -94,6 +97,9 @@ public class ProjectInformationFragment extends Fragment {
 
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         view = inflater.inflate(R.layout.fragment_project_information, container, false);
+
+        getActivity().getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN);
+
         init();
 
       files = new ArrayList<>(3);
@@ -213,6 +219,11 @@ public class ProjectInformationFragment extends Fragment {
 
 
 
+                }else {
+
+                    showDialog("Missing information");
+
+
                 }
 
 
@@ -232,7 +243,7 @@ public class ProjectInformationFragment extends Fragment {
 
     private String setExpiryDate() {
 
-        LocalDate today = LocalDate.parse(expiryDate);
+        LocalDate today = LocalDate.now();
 
         // increment days by 7
 

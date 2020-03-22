@@ -80,7 +80,7 @@ public class Emp_viewProjectFragment extends Fragment implements  Emp_MyProjects
 
                 Fragment fragment = new ContractFragment();
                 Bundle bundle = new Bundle();
-                bundle.putSerializable("contract",contract);
+                bundle.putSerializable("project",project);
                 fragment.setArguments(bundle);
                 FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
                 FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
@@ -188,7 +188,7 @@ public class Emp_viewProjectFragment extends Fragment implements  Emp_MyProjects
             contractImg.setVisibility(View.INVISIBLE);
         }else{
             contractImg.setVisibility(View.VISIBLE);
-            performAPIRequest(project.getId());
+
 
         }
     }
@@ -214,29 +214,7 @@ public class Emp_viewProjectFragment extends Fragment implements  Emp_MyProjects
 
     }
 
-    public void performAPIRequest(long project_id){
 
-
-        ApiClients.getAPIs().getContractByProjectIdRequest(project_id).enqueue(new Callback<Contract>() {
-            @Override
-            public void onResponse(Call<Contract> call, Response<Contract> response) {
-                if (response.isSuccessful()){
-
-                     contract = response.body();
-
-                    Log.i("on Response: contract suc", response.message());
-
-                }
-                Log.i("on Response: contract Notsuc", response.message());
-            }
-
-            @Override
-            public void onFailure(Call<Contract> call, Throwable t) {
-                Log.i("on Response: contract fail", t.getMessage());
-            }
-        });
-
-    }
 
     @Override
     public void onAcceptBidItemClick(Bid bid) {

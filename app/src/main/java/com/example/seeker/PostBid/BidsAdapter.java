@@ -206,7 +206,7 @@ public class BidsAdapter extends RecyclerView.Adapter<BidsAdapter.MyViewHolder> 
 
     private void addMilestone(Bid bid) {
 
-        if(project.getPayment_type().equals("FixedPrice") || project.getType().equals("1")){
+        if(project.getType().equals("1")){
 
             Milestone milestone = new Milestone(bid.getPrice(), "0", bid.getDeliver_date(),project.getTitle(), project);
 
