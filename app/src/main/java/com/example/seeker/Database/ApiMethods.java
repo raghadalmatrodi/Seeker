@@ -13,6 +13,7 @@ import com.example.seeker.Model.Project;
 import com.example.seeker.Model.Responses.ApiResponse;
 import com.example.seeker.Model.User;
 import com.example.seeker.Model.UserSocialMedia;
+import com.example.seeker.Model.Chat;
 
 import java.util.List;
 
@@ -57,6 +58,7 @@ public interface ApiMethods {
 
         String GET_ALL_PROJECTS = "project/findAll";
        String GET_ALL_USERS="user/findAll";
+        String FIND_CHAT_BY_USER ="chat/user/{user_id}";
 
 
     }//End of Methods interface
@@ -151,5 +153,6 @@ public interface ApiMethods {
 //    Call<List<Project>> getProjectsByCategory(@Body Category category);
 
 
-
+    @GET(Methods.FIND_CHAT_BY_USER)
+    Call<List<Chat>> findChatsByUser(@Path("user_id") Long user_id);
 }//End of ApiMethods interface

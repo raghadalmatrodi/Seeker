@@ -14,6 +14,15 @@ public class User implements Serializable {
     private String national_id;
     private String rating;
 
+    public User(long id, String username) {
+        this.id = id;
+        this.username = username;
+    }
+
+    public User() {
+
+    }
+
     public long getId() {
         return id;
     }
