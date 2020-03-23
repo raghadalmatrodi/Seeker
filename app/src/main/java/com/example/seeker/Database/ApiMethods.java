@@ -4,6 +4,7 @@ import com.example.seeker.Activities.Contract.ContractFragment;
 import com.example.seeker.Model.Bid;
 import com.example.seeker.Model.Category;
 import com.example.seeker.Model.Certificate;
+import com.example.seeker.Model.Chat;
 import com.example.seeker.Model.Contract;
 import com.example.seeker.Model.Employer;
 import com.example.seeker.Model.Freelancer;
@@ -60,6 +61,7 @@ public interface ApiMethods {
        String GET_ALL_USERS="user/findAll";
         String DELETE_PROJECT="project/{id}";
         String EXTEND_PROJECT="project/extend";
+        String FIND_CHAT_BY_USER ="chat/user/{user_id}";
 
 
     }//End of Methods interface
@@ -162,6 +164,7 @@ public interface ApiMethods {
 //    @POST(Methods.GET_PROJECTS_BY_CATEGORY)
 //    Call<List<Project>> getProjectsByCategory(@Body Category category);
 
-
+    @GET(Methods.FIND_CHAT_BY_USER)
+    Call<List<Chat>> findChatsByUser(@Path("user_id") Long user_id);
 
 }//End of ApiMethods interface
