@@ -59,7 +59,7 @@ public interface ApiMethods {
 
         String GET_ALL_PROJECTS = "project/findAll";
        String GET_ALL_USERS="user/findAll";
-        String DELETE_PROJECT="project/{id}";
+        String DELETE_PROJECT="project/{project_id}";
         String EXTEND_PROJECT="project/extend";
         String FIND_CHAT_BY_USER ="chat/user/{user_id}";
 
