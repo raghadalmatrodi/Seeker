@@ -215,12 +215,6 @@ public class ProjectInformationFragment extends Fragment {
 
                 }
 
-
-
-
-
-
-
             }
         });
 

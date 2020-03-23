@@ -36,14 +36,51 @@
             android:textSize="17dp" />
 
     </LinearLayout>
+<LinearLayout
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
+
+<LinearLayout
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_marginLeft="60dp"
+    >
+
+
+    <ImageView
+        android:id="@+id/image_trash"
+        android:layout_width="@dimen/ic_album_overflow_width"
+        android:layout_height="@dimen/ic_album_overflow_height"
+        android:layout_alignParentRight="true"
+        android:layout_marginTop="@dimen/ic_album_overflow_margin_top"
+        android:scaleType="centerCrop"
+        android:visibility="invisible"
+        android:src="@drawable/ic_delete_black_24dp"/>
+
+    <ImageView
+        android:id="@+id/image_extend"
+        android:layout_width="@dimen/ic_album_overflow_width"
+        android:layout_height="@dimen/ic_album_overflow_height"
+        android:layout_alignParentRight="true"
+        android:layout_marginTop="@dimen/ic_album_overflow_margin_top"
+        android:scaleType="centerCrop"
+        android:visibility="invisible"
+        android:src="@drawable/ic_add_box_black_24dp"/>
+</LinearLayout>
+
 
     <ImageView
         android:id="@+id/row_arrow"
         android:layout_width="50dp"
         android:layout_height="50dp"
-        android:layout_marginTop="25dp"
         android:layout_marginLeft="60dp"
         android:src="@drawable/ic_arrow_grey"/>
+
+
+</LinearLayout>
+
+
 
 
 </LinearLayout>

@@ -20,6 +20,7 @@ import okhttp3.MultipartBody;
 import okhttp3.RequestBody;
 import retrofit2.Call;
 import retrofit2.http.Body;
+import retrofit2.http.DELETE;
 import retrofit2.http.GET;
 import retrofit2.http.Multipart;
 import retrofit2.http.POST;
@@ -57,7 +58,8 @@ public interface ApiMethods {
 
         String GET_ALL_PROJECTS = "project/findAll";
        String GET_ALL_USERS="user/findAll";
-
+        String UPDATE_EXPIRY_DATE="project/extend";
+        String DELETE_PROJECT="project/{id}";
 
     }//End of Methods interface
 
@@ -107,6 +109,10 @@ public interface ApiMethods {
     @POST(Methods.CREATE_MILESTONE)
     Call<Milestone> createMilestoneRequest(@Body Milestone milestone);
 
+
+    @PUT(Methods.UPDATE_EXPIRY_DATE)
+    Call<ApiResponse>updateExpiryDate(@Body Project project);
+
     /**
      * GET METHODS
      */
@@ -142,6 +148,11 @@ public interface ApiMethods {
 
     @GET(Methods.GET_ALL_USERS)
     Call<List<User>> getAllUsers();
+
+
+
+    @DELETE(Methods.DELETE_PROJECT)
+    Call<ApiResponse> deleteProject(@Path( "id") Long id);
 
 //    @PUT(Methods.ACCEPT_BID)
 //    Call<ApiResponse> acceptBid(@Path("id") long id);

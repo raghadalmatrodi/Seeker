@@ -28,4 +28,6 @@
     <string name="contact_support">Contact Support</string>
     <string name="save">Save</string>
     <string name="trust_points">Trust Points</string>
+    <string name="delete">Delete Project</string>
+    <string name="Extend">Extend Project</string>
 </resources>

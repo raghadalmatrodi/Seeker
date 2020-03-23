@@ -87,6 +87,16 @@ public class Emp_MyProjects_Completed_Fragment extends Fragment implements Proje
 
     }
 
+    @Override
+    public void onProjectExtendsSelectedAdapter(Project project) {
+
+    }
+
+    @Override
+    public void onProjectDeleteSelectedAdapter(Project project) {
+
+    }
+
     public void setListener ( ProjectListener projectListener)
     {
         this.projectListener = projectListener;
@@ -151,7 +161,7 @@ public class Emp_MyProjects_Completed_Fragment extends Fragment implements Proje
     public void setTheAdapter(){
         recyclerView = (RecyclerView) view.findViewById(R.id.recycler_view);
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
-        adapter = new ProjectAdapter(projectList);
+        adapter = new ProjectAdapter(getContext(), projectList,2);
         recyclerView.setItemAnimator(new DefaultItemAnimator());
         recyclerView.setAdapter(adapter);
         adapter.setListener(this);

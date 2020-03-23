@@ -94,6 +94,16 @@ public class Emp_MyProjects_In_Progress_Fragment extends Fragment  implements Pr
 
     }
 
+    @Override
+    public void onProjectExtendsSelectedAdapter(Project project) {
+
+    }
+
+    @Override
+    public void onProjectDeleteSelectedAdapter(Project project) {
+
+    }
+
     public void setListener (ProjectListener projectListener)
     {
         this.projectListener = projectListener;
@@ -159,7 +169,7 @@ public void setTheAdapter(){
 
     recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
     if(!projectList.isEmpty()) {
-        adapter = new ProjectAdapter(projectList);
+        adapter = new ProjectAdapter(getContext(),projectList,1);
         recyclerView.setItemAnimator(new DefaultItemAnimator());
         recyclerView.setAdapter(adapter);
         adapter.setListener(this);

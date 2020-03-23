@@ -1,8 +1,6 @@
 package com.example.seeker.EmployerMainPages.MyProjectsTab_Emp.ProjectsStatusFragments;
 
-import android.app.ProgressDialog;
 import android.content.DialogInterface;
-import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -20,37 +18,37 @@ import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.seeker.Activities.LoginActivity;
 import com.example.seeker.Database.ApiClients;
-import com.example.seeker.EmployerMainPages.Emp_PostFragment;
-import com.example.seeker.EmployerMainPages.EmployerMainActivity;
+
 import com.example.seeker.EmployerMainPages.MyProjectsTab_Emp.Emp_viewProjectFragment;
-import com.example.seeker.Model.Category;
 import com.example.seeker.Model.Employer;
-import com.example.seeker.Model.Login;
 import com.example.seeker.Model.Project;
 import com.example.seeker.Model.Responses.ApiResponse;
-import com.example.seeker.Model.Responses.ProjectResponse;
-import com.example.seeker.PostBid.ViewBid;
-import com.example.seeker.PostProject.CategoryAdapter;
-import com.example.seeker.PostProject.ProjectCategoryFragment;
+
 import com.example.seeker.R;
 import com.example.seeker.SharedPref.Constants;
 import com.example.seeker.SharedPref.MySharedPreference;
 
 import java.io.Serializable;
+import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
-import okhttp3.MediaType;
-import okhttp3.RequestBody;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
 //todo 6 hind implemented serializable
-public class Emp_MyProjects_Pending_Fragment extends Fragment implements Serializable ,ProjectAdapter.ProjectAdapterListener{
+public class Emp_MyProjects_Pending_Fragment extends Fragment implements Serializable, ProjectAdapter.ProjectAdapterListener {
 
+
+    String expiryDate;
+    private String timeString;
+    private LocalDateTime expiryLocalDateTime;
     private View view;
     private RecyclerView recyclerView;
     private ProjectAdapter adapter;
@@ -59,32 +57,30 @@ public class Emp_MyProjects_Pending_Fragment extends Fragment implements Seriali
     private TextView pendingText;
     private Employer employer;
 
+
     private ProgressBar mProgressBar;
 
     private static final String LOG = Emp_MyProjects_Pending_Fragment.class.getSimpleName();
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
 
 
-
         // Inflate the layout for this fragment
-        view =  inflater.inflate(R.layout.fragment_pending_projects, container, false);
+        view = inflater.inflate(R.layout.fragment_pending_projects, container, false);
 
         mProgressBar = view.findViewById(R.id.myDataLoaderProgressBar);
         mProgressBar.setVisibility(View.VISIBLE);
-
         long employer_id = MySharedPreference.getLong(getContext(), Constants.Keys.EMPLOYER_ID, -1);
         employer = new Employer(employer_id);
 
         pendingText = view.findViewById(R.id.emp_pending_text);
 
-
-
         return view;
     }
 
-    public interface ProjectListener{
+    public interface ProjectListener {
 
         void onProjectItemSelected(Project project);
 
@@ -95,8 +91,8 @@ public class Emp_MyProjects_Pending_Fragment extends Fragment implements Seriali
 
         Fragment fragment = new Emp_viewProjectFragment();
         Bundle bundle = new Bundle();
-        bundle.putSerializable("project",project);
-        bundle.putInt("pending",1);
+        bundle.putSerializable("project", project);
+        bundle.putInt("pending", 1);
         fragment.setArguments(bundle);
         FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
@@ -104,10 +100,29 @@ public class Emp_MyProjects_Pending_Fragment extends Fragment implements Seriali
         fragmentTransaction.addToBackStack(null);
         fragmentTransaction.commit();
 
+
     }
 
-    public void setListener (ProjectListener projectListener)
-    {
+    @Override
+    public void onProjectExtendsSelectedAdapter(Project project) {
+
+        expiryDate = project.getExpiry_date();
+
+        showDialog("Are you sure you want to extend this project by five days more?", 1, project);
+
+    }
+
+    @Override
+    public void onProjectDeleteSelectedAdapter(Project project) {
+
+        showDialog("Are you sure you want to delete this project?", 0, project);
+
+
+
+    }
+
+
+    public void setListener(ProjectListener projectListener) {
         this.projectListener = projectListener;
 
     }
@@ -135,19 +150,18 @@ public class Emp_MyProjects_Pending_Fragment extends Fragment implements Seriali
         super.onResume();
 
 
-        ApiClients.getAPIs().getProjectByStatus("0", employer ).enqueue(new Callback<List<Project>>() {
+        ApiClients.getAPIs().getProjectByStatus("0", employer).enqueue(new Callback<List<Project>>() {
             @Override
             public void onResponse(Call<List<Project>> call, Response<List<Project>> response) {
                 mProgressBar.setVisibility(View.GONE);
-                if(response.isSuccessful()){
+                if (response.isSuccessful()) {
 
-                    projectList =  response.body();
+                    projectList = response.body();
                     pendingText.setVisibility(View.GONE);
-                   // adapter.notifyDataSetChanged();
+                    // adapter.notifyDataSetChanged();
                     setTheAdapter();
 
-                }
-                else{
+                } else {
 
                     pendingText.setText("No Projects");
                     Log.i(LOG, "onResponse not suc: " + response.toString());
@@ -162,24 +176,138 @@ public class Emp_MyProjects_Pending_Fragment extends Fragment implements Seriali
             }
         });
 
+
     }
 
 
-public void setTheAdapter(){
-    recyclerView = (RecyclerView) view.findViewById(R.id.recycler_view);
+    public void setTheAdapter() {
+        recyclerView = (RecyclerView) view.findViewById(R.id.recycler_view);
 
-    recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
-    if(!projectList.isEmpty())
-        adapter = new ProjectAdapter(projectList);
-    recyclerView.setItemAnimator(new DefaultItemAnimator());
-    recyclerView.setAdapter(adapter);
-    if(!projectList.isEmpty())
-   adapter.setListener(this);
-    recyclerView.setNestedScrollingEnabled(true);
-    DividerItemDecoration dividerItemDecoration = new DividerItemDecoration(recyclerView.getContext(), DividerItemDecoration.VERTICAL);
-    recyclerView.addItemDecoration(dividerItemDecoration);
+        recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
+        if (!projectList.isEmpty())
+            adapter = new ProjectAdapter(getContext(), projectList, 0);
+        recyclerView.setItemAnimator(new DefaultItemAnimator());
+        recyclerView.setAdapter(adapter);
+        if (!projectList.isEmpty())
+            adapter.setListener(this);
+        recyclerView.setNestedScrollingEnabled(true);
+        DividerItemDecoration dividerItemDecoration = new DividerItemDecoration(recyclerView.getContext(), DividerItemDecoration.VERTICAL);
+        recyclerView.addItemDecoration(dividerItemDecoration);
 
-}
+
+    }
+
+
+    private void deleteProject(Project project) {
+        ApiClients.getAPIs().deleteProject(project.getId()).enqueue(new Callback<ApiResponse>() {
+            @Override
+            public void onResponse(Call<ApiResponse> call, Response<ApiResponse> response) {
+                if (response.isSuccessful()){
+                    adapter.notifyDataSetChanged();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<ApiResponse> call, Throwable t) {
+
+            }
+        });
+//to refresh the list
+        getFragmentManager().beginTransaction().detach(this).attach(this).commit();
+
+    }
+
+
+    private void updateProject(Project project) {
+        expiryDate = setExpiryDate();
+        expiryLocalDateTime = convertStringToLocalDateTime(expiryDate);
+        project.setExpiry_date(expiryLocalDateTime.toString());
+
+
+        ApiClients.getAPIs().updateExpiryDate(project).enqueue(new Callback<ApiResponse>() {
+            @Override
+            public void onResponse(Call<ApiResponse> call, Response<ApiResponse> response) {
+                if (response.isSuccessful()){
+                    adapter.notifyDataSetChanged();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<ApiResponse> call, Throwable t) {
+
+            }
+        });
+        getFragmentManager().beginTransaction().detach(this).attach(this).commit();
+
+    }
+
+
+    private String setExpiryDate() {
+
+        expiryDate = expiryDate.substring(0, 10);
+        LocalDate today = LocalDate.parse(expiryDate);
+        // increment days by 5
+        System.out.println("Current Date: " + today);
+        today = today.plusDays(5);
+        System.out.println("New Date: " + today);
+        String formattedDate = today.toString();
+        today.format(DateTimeFormatter.ofPattern("dd-MM-yyyy"));
+        System.out.println("Formatted Date: " + formattedDate);
+
+
+        Date date = new Date();
+        SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy HH:mm:ss");
+        String dateString = formatter.format(date);
+        timeString = dateString.substring(10);
+        formattedDate = formattedDate + timeString;
+        return formattedDate;
+
+
+    }
+
+
+    private LocalDateTime convertStringToLocalDateTime(String dateString) {
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+        return LocalDateTime.parse(dateString, formatter);
+    }
+
+
+    public void showDialog(final String msg, int action, Project project) {
+        final android.app.AlertDialog alertDialog = new android.app.AlertDialog.Builder(getContext()).create();
+        alertDialog.setMessage(msg);
+        alertDialog.setIcon(R.mipmap.ic_launcher);
+
+        alertDialog.setButton(android.app.AlertDialog.BUTTON_POSITIVE, "Yes",
+                new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        if (action == 0) {
+                            deleteProject(project);
+
+                        } else {
+                            updateProject(project);
+                        }
+
+
+                    }//End onClick()
+
+
+                });//End BUTTON_POSITIVE
+
+
+        alertDialog.setButton(android.app.AlertDialog.BUTTON_NEGATIVE, "No",
+                new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        alertDialog.dismiss();
+
+                    }//End onClick()
+                });//End BUTTON_POSITIVE
+
+
+        alertDialog.show();
+
+    }//end showDialog
 
 
 }

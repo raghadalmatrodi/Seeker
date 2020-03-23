@@ -23,7 +23,17 @@ public class Project implements Serializable {
     private Employer employer;
     private Set<Skill> skills = new HashSet<>();
     private String status;
-  //  private List<Bid> bids = new ArrayList<>();
+    private String created_at;
+
+    public String getCreated_at() {
+        return created_at;
+    }
+
+    public void setCreated_at(String created_at) {
+        this.created_at = created_at;
+    }
+
+//  private List<Bid> bids = new ArrayList<>();
 
 // 0 -> pending
     //1 -> inProgress
