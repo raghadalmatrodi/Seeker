@@ -22,62 +22,24 @@ public class Project implements Serializable {
     private List<Milestone> milestones = new ArrayList<>();
     private Employer employer;
     private Set<Skill> skills = new HashSet<>();
-    private String status;
-    private String created_at;
-
-    public String getCreated_at() {
-        return created_at;
-    }
-
-    public void setCreated_at(String created_at) {
-        this.created_at = created_at;
-    }
-
-//  private List<Bid> bids = new ArrayList<>();
+    private String createdAt;
+    private Category category;
 
 // 0 -> pending
     //1 -> inProgress
     //2 -> completed
+    private String status;
+
 
     //todo hind 1 + added setter and getters + project id and its setters and getters
     private List<Bid> bids = new ArrayList<>();
     private long id;
 
-    private Category category;
 
-    //todo hind 2 added bid list to project constructor
-    public Project(String title, String description, double budget,String type, String payment_type, String expiry_date, String deadline, Employer employer , String status, List<Bid> bids){
-        this.title = title;
-        this.description = description;
-        this.budget = budget;
-        this.type = type;
-        this.payment_type = payment_type;
-        this.expiry_date = expiry_date;
-        this.deadline = deadline;
-        this.employer = employer;
-        this.status = status;
-        this.bids = bids;
-    }
-    public Project(long id){
-        this.id = id;
-    }
-
-//    public Project(String title, String description, double budget, String type, String payment_type, String expiry_date, String deadline, List<Milestone> milestones, Employer employer, Set<Skill> skills, String status, Category category) {
-//        this.title = title;
-//        this.description = description;
-//        this.budget = budget;
-//        this.type = type;
-//        this.payment_type = payment_type;
-//        this.expiry_date = expiry_date;
-//        this.deadline = deadline;
-//        this.employer = employer;
-//        this.status = status;
-//    }
-//
 
     //TODO: HIND ADDED BIDS LIST TO BE ABLE TO ADD BIDS TO THE PROJECT! (SAT MAR.7 - 1:00AM)
 
-    public Project(String title, String description, double budget, String type, String payment_type, String expiry_date, String deadline,  Employer employer, Set<Skill> skills, String status, Category category, List<Bid> bids) {
+    public Project(String title, String description, double budget, String type, String payment_type, String expiry_date, String deadline,  Employer employer, Set<Skill> skills, String status, Category category, List<Bid> bid, String createdAts) {
         this.title = title;
         this.description = description;
         this.budget = budget;
@@ -90,7 +52,15 @@ public class Project implements Serializable {
         this.status = status;
         this.category = category;
         this.bids = bids;
+        this.createdAt = createdAts;
     }
+
+
+    public Project(long id){
+        this.id = id;
+    }
+
+
 
 
     public String getTitle() {
@@ -213,6 +183,14 @@ public class Project implements Serializable {
         this.id = id;
     }
 
+    public String getCreatedAt() {
+        return createdAt;
+    }
+
+    public void setCreatedAt(String createdAt) {
+        this.createdAt = createdAt;
+    }
+
     @Override
     public String toString() {
         return "Project{" +
@@ -227,6 +205,9 @@ public class Project implements Serializable {
                 ", employer=" + employer +
                 ", skills=" + skills +
                 ", status='" + status + '\'' +
+                ", createdAt='" + createdAt + '\'' +
+                ", bids=" + bids +
+                ", id=" + id +
                 ", category=" + category +
                 '}';
     }
