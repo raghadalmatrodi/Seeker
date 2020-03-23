@@ -191,40 +191,40 @@ public class Emp_PostFragment extends Fragment implements ProjectTypeFragment.Pr
 
             AlertDialog.Builder alertDialog = new AlertDialog.Builder(getContext());
             // Setting Dialog Message
-            alertDialog.setTitle("Project details Review");
+            alertDialog.setTitle("Are you sure you want to post this project?");
 
-            String type ;
-            if(project.getType().equals("0")){
-                type = "Online";
-            }else
-            {
-                type = "On-field";
-            }
-
-
-
-
-            String skill ="";
-
-            if( project.getSkills() !=null){
-
-                if (!project.getSkills().isEmpty()) {
-                    for (Skill s : project.getSkills()) {
-                        skill += s.getName() + " \n";
-                    }
-                }
-
-            }
-            String info =
-                    "Title: " + project.getTitle() + "\n" +
-                            " Description: " + project.getDescription() + "\n" +
-                            "Budget: " + project.getBudget() +"\n"+
-                            "Type: " + type + "\n" +
-                            "Payment: " + project.getPayment_type() + "\n" +
-                            "Deadline: " + project.getDeadline().substring(0,10) + "\n" +
-                            "Skills: \n" + skill +
-                            "Category: " + project.getCategory().getTitle();
-            alertDialog.setMessage(info);
+//            String type ;
+//            if(project.getType().equals("0")){
+//                type = "Online";
+//            }else
+//            {
+//                type = "On-field";
+//            }
+//
+//
+//
+//
+//            String skill ="";
+//
+//            if( project.getSkills() !=null){
+//
+//                if (!project.getSkills().isEmpty()) {
+//                    for (Skill s : project.getSkills()) {
+//                        skill += s.getName() + " \n";
+//                    }
+//                }
+//
+//            }
+//            String info =
+//                    "Title: " + project.getTitle() + "\n" +
+//                            " Description: " + project.getDescription() + "\n" +
+//                            "Budget: " + project.getBudget() +"\n"+
+//                            "Type: " + type + "\n" +
+//                            "Payment: " + project.getPayment_type() + "\n" +
+//                            "Deadline: " + project.getDeadline().substring(0,10) + "\n" +
+//                            "Skills: \n" + skill +
+//                            "Category: " + project.getCategory().getTitle();
+//            alertDialog.setMessage(info);
 
             //Setting positive "ok" Button
             alertDialog.setPositiveButton("POST", new DialogInterface.OnClickListener() {
@@ -327,40 +327,40 @@ public class Emp_PostFragment extends Fragment implements ProjectTypeFragment.Pr
 
         AlertDialog.Builder alertDialog = new AlertDialog.Builder(getContext());
         // Setting Dialog Message
-        alertDialog.setTitle("Project details Review");
+        alertDialog.setTitle("Are you sure you want to post this project?");
 
-        String type ;
-        if(project.getType().equals("0")){
-            type = "Online";
-        }else
-        {
-            type = "On-field";
-        }
-
-
-
-
-        String skill ="";
-
-        if( project.getSkills() !=null){
-
-            if (!project.getSkills().isEmpty()) {
-                for (Skill s : project.getSkills()) {
-                    skill += s.getName() + " \n";
-                }
-            }
-
-        }
-        String info =
-                "Title: " + project.getTitle() + "\n" +
-                " Description: " + project.getDescription() + "\n" +
-                "Budget: " + project.getBudget() +"\n"+
-                "Type: " + type + "\n" +
-                "Payment: " + project.getPayment_type() + "\n" +
-                "Deadline: " + project.getDeadline().substring(0,10) + "\n" +
-                "Skills: \n" + skill +
-                "Category: " + project.getCategory().getTitle();
-        alertDialog.setMessage(info);
+//        String type ;
+//        if(project.getType().equals("0")){
+//            type = "Online";
+//        }else
+//        {
+//            type = "On-field";
+//        }
+//
+//
+//
+//
+//        String skill ="";
+//
+//        if( project.getSkills() !=null){
+//
+//            if (!project.getSkills().isEmpty()) {
+//                for (Skill s : project.getSkills()) {
+//                    skill += s.getName() + " \n";
+//                }
+//            }
+//
+//        }
+//        String info =
+//                "Title: " + project.getTitle() + "\n" +
+//                " Description: " + project.getDescription() + "\n" +
+//                "Budget: " + project.getBudget() +"\n"+
+//                "Type: " + type + "\n" +
+//                "Payment: " + project.getPayment_type() + "\n" +
+//                "Deadline: " + project.getDeadline().substring(0,10) + "\n" +
+//                "Skills: \n" + skill +
+//                "Category: " + project.getCategory().getTitle();
+//        alertDialog.setMessage(info);
 
         //Setting positive "ok" Button
         alertDialog.setPositiveButton("POST", new DialogInterface.OnClickListener() {

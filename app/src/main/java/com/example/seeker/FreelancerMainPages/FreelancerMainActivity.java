@@ -10,7 +10,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 
-import com.example.seeker.EmployerMainPages.Emp_MessagesFragment;
+import com.example.seeker.EmployerMainPages.Chat_Emp.Emp_MessagesFragment;
 import com.example.seeker.FreelancerMainPages.MyProjectsTab_Freelancer.Freelancer_MyProjectsFragment;
 import com.example.seeker.FreelancerMainPages.SearchTab_Freelancer.Freelancer_SearchFragment;
 import com.example.seeker.R;

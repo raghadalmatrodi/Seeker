@@ -6,10 +6,13 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.DefaultItemAnimator;
 import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -18,6 +21,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.seeker.Database.ApiClients;
 import com.example.seeker.Model.Contract;
 import com.example.seeker.Model.Milestone;
+import com.example.seeker.Model.Project;
 import com.example.seeker.PostProject.CategoryAdapter;
 import com.example.seeker.R;
 
@@ -39,8 +43,11 @@ public class ContractFragment extends Fragment {
     private TextView projectName;
     private ImageView backBtn;
     private Contract contract;
+    private Project project;
     private RecyclerView recyclerView;
     private MilestoneAdapter adapter;
+    private ProgressBar mProgressBar;
+    private LinearLayout linearLayout;
 
 
 
@@ -49,18 +56,36 @@ public class ContractFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         view = inflater.inflate(R.layout.fragment_contract, container, false);
 
+        mProgressBar = view.findViewById(R.id.myDataLoaderProgressBar);
+        mProgressBar.setVisibility(View.VISIBLE);
+
         init();
 
+        //will change to project
         Bundle bundle = this.getArguments();
         if (bundle != null) {
-           contract =(Contract)bundle.getSerializable("contract");
-            setContractInformation();
+           project =(Project)bundle.getSerializable("project");
+           performAPIRequest(project.getId());
+
         }
 
         createMilestone.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                //we will move it to milestone fragment
+
+                Fragment fragment = new MilestoneFragment();
+                Bundle bundle = new Bundle();
+                bundle.putSerializable("contract",contract);
+                fragment.setArguments(bundle);
+                FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
+                FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+                fragmentTransaction.replace(R.id.frame_container_emp, fragment);
+                fragmentTransaction.addToBackStack(null);
+                fragmentTransaction.commit();
+
+
+                performAPIRequest(project.getId());
+
             }
         });
 
@@ -93,6 +118,7 @@ public class ContractFragment extends Fragment {
         projectName = view.findViewById(R.id.contract_project_name);
         recyclerView = view.findViewById(R.id.contract_recycler_view);
         backBtn = view.findViewById(R.id.contract_back);
+        linearLayout = view.findViewById(R.id.info_contract);
 
 
 
@@ -101,6 +127,7 @@ public class ContractFragment extends Fragment {
 
     private void setContractInformation() {
 
+        linearLayout.setVisibility(View.VISIBLE);
         projectName.setText(contract.getProject().getTitle());
 
         if(contract.getType().equals("0")){
@@ -117,6 +144,8 @@ public class ContractFragment extends Fragment {
 
 
         setRecyclerView(contract.getProject().getMilestones());
+
+        checkVisibility();
     }
 
     private void setRecyclerView(List<Milestone> milestoneList) {
@@ -128,6 +157,46 @@ public class ContractFragment extends Fragment {
         recyclerView.setNestedScrollingEnabled(true);
         DividerItemDecoration dividerItemDecoration = new DividerItemDecoration(recyclerView.getContext(), DividerItemDecoration.VERTICAL);
         recyclerView.addItemDecoration(dividerItemDecoration);
+    }
+    public void performAPIRequest(long project_id){
+
+
+        ApiClients.getAPIs().getContractByProjectIdRequest(project_id).enqueue(new Callback<Contract>() {
+
+            @Override
+            public void onResponse(Call<Contract> call, Response<Contract> response) {
+                mProgressBar.setVisibility(View.GONE);
+
+                if (response.isSuccessful()){
+
+                    contract = response.body();
+                    project = contract.getProject();
+
+                    setContractInformation();
+
+                    Log.i("on Response: contract suc", response.message());
+
+                }
+                Log.i("on Response: contract Notsuc", response.message());
+            }
+
+            @Override
+            public void onFailure(Call<Contract> call, Throwable t) {
+                Log.i("on Response: contract fail", t.getMessage());
+            }
+        });
+
+    }
+    public void checkVisibility(){
+
+
+        if(project.getMilestones().isEmpty()){
+            createMilestone.setVisibility(View.VISIBLE);
+        }else{
+            createMilestone.setVisibility(View.INVISIBLE);
+
+
+        }
     }
 
 

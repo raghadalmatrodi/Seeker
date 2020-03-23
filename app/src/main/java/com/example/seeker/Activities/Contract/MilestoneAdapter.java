@@ -68,13 +68,17 @@ public class MilestoneAdapter  extends RecyclerView.Adapter<MilestoneAdapter.MyV
         Milestone milestone = milestoneList.get(position);
         holder.description.setText(milestone.getDescription());
         holder.deadline.setText(milestone.getDeadline().toString().substring(0,10));
-        holder.price.setText(""+milestone.getAmount()+" SAR");
+
+        String stringPrice = String.valueOf(milestone.getAmount());
+        int index = stringPrice.indexOf(".");
+        stringPrice = stringPrice.substring(0,index);
+        holder.price.setText(stringPrice+" SAR");
 
         holder.payment.setText(milestone.getStatus());
         if(milestone.getStatus().equals("0")){
 
             holder.payment.setTextColor(Color.parseColor("#9e1c08"));
-            holder.payment.setText("Not Paid");
+            holder.payment.setText("Unpaid");
         }else{
 
             holder.payment.setTextColor(Color.parseColor("#237a23"));
