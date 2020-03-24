@@ -22,7 +22,7 @@ public class Project implements Serializable {
     private List<Milestone> milestones = new ArrayList<>();
     private Employer employer;
     private Set<Skill> skills = new HashSet<>();
-    private String createdAt;
+    private String created_at;
     private Category category;
 
 // 0 -> pending
@@ -52,7 +52,7 @@ public class Project implements Serializable {
         this.status = status;
         this.category = category;
         this.bids = bids;
-        this.createdAt = createdAts;
+        this.created_at = createdAts;
     }
 
 
@@ -184,11 +184,11 @@ public class Project implements Serializable {
     }
 
     public String getCreatedAt() {
-        return createdAt;
+        return created_at;
     }
 
     public void setCreatedAt(String createdAt) {
-        this.createdAt = createdAt;
+        this.created_at = createdAt;
     }
 
     @Override
@@ -205,7 +205,7 @@ public class Project implements Serializable {
                 ", employer=" + employer +
                 ", skills=" + skills +
                 ", status='" + status + '\'' +
-                ", createdAt='" + createdAt + '\'' +
+                ", createdAt='" + created_at + '\'' +
                 ", bids=" + bids +
                 ", id=" + id +
                 ", category=" + category +

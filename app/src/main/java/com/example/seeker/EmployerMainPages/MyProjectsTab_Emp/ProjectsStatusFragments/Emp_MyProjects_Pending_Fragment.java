@@ -31,6 +31,7 @@ import com.example.seeker.SharedPref.MySharedPreference;
 
 import java.io.Serializable;
 import java.text.SimpleDateFormat;
+import java.time.Duration;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
@@ -118,7 +119,6 @@ public class Emp_MyProjects_Pending_Fragment extends Fragment implements Seriali
         showDialog("Are you sure you want to delete this project?", 0, project);
 
 
-
     }
 
 
@@ -127,16 +127,18 @@ public class Emp_MyProjects_Pending_Fragment extends Fragment implements Seriali
 
     }
 
-    private void wrongInfoDialog(String msg) {
+    private void infoDialog(String title, String msg) {
         AlertDialog.Builder alertDialog = new AlertDialog.Builder(getContext());
         // Setting Dialog Title
-        alertDialog.setTitle("Warning");
+        alertDialog.setTitle(title);
 
         // Setting Dialog Message
         alertDialog.setMessage(msg);
 
         alertDialog.setPositiveButton("OK", new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int which) {
+
+                dialog.dismiss();
 
             }//end onClick
         });//end setPositiveButton
@@ -202,7 +204,7 @@ public class Emp_MyProjects_Pending_Fragment extends Fragment implements Seriali
         ApiClients.getAPIs().deleteProject(project.getId()).enqueue(new Callback<ApiResponse>() {
             @Override
             public void onResponse(Call<ApiResponse> call, Response<ApiResponse> response) {
-                if (response.isSuccessful()){
+                if (response.isSuccessful()) {
                     adapter.notifyDataSetChanged();
                 }
             }
@@ -227,7 +229,7 @@ public class Emp_MyProjects_Pending_Fragment extends Fragment implements Seriali
         ApiClients.getAPIs().updateExpiryDate(project).enqueue(new Callback<ApiResponse>() {
             @Override
             public void onResponse(Call<ApiResponse> call, Response<ApiResponse> response) {
-                if (response.isSuccessful()){
+                if (response.isSuccessful()) {
                     adapter.notifyDataSetChanged();
                 }
             }
@@ -283,9 +285,16 @@ public class Emp_MyProjects_Pending_Fragment extends Fragment implements Seriali
                     public void onClick(DialogInterface dialogInterface, int i) {
                         if (action == 0) {
                             deleteProject(project);
+                            infoDialog("Successful", "Your project has been deleted successfully.");
+                        }
 
-                        } else {
-                            updateProject(project);
+
+                        if (action == 1) {
+                            if (checkExpiryDate(project.getExpiry_date(), project.getCreatedAt())) {
+                                updateProject(project);
+                                infoDialog("Successful", "Your project has been extended successfully.");
+                            } else
+                                infoDialog("Wrong", "You cannot extend the project before 10 days of its posted date.");
                         }
 
 
@@ -308,6 +317,27 @@ public class Emp_MyProjects_Pending_Fragment extends Fragment implements Seriali
         alertDialog.show();
 
     }//end showDialog
+
+
+    public boolean checkExpiryDate(String expiryDate, String createdAt) {
+
+        expiryDate = expiryDate.substring(0, 10);
+        createdAt = createdAt.substring(0, 10);
+
+        LocalDate dateExpiry = LocalDate.parse(expiryDate, DateTimeFormatter.ISO_LOCAL_DATE);
+        LocalDate dateCreated = LocalDate.parse(createdAt, DateTimeFormatter.ISO_LOCAL_DATE);
+        Duration diff = Duration.between(dateCreated.atStartOfDay(), dateExpiry.atStartOfDay());
+        long diffDays = diff.toDays();
+
+        Date date = new Date();
+        SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy HH:mm:ss");
+        String dateString = formatter.format(date);
+        dateString = dateString.substring(0, 10);
+        if (diffDays == 10 && dateString.equals(expiryDate))
+            return true;
+
+        return false;
+    }
 
 
 }
