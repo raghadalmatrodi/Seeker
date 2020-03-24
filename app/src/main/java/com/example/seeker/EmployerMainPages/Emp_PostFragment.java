@@ -188,8 +188,9 @@ public class Emp_PostFragment extends Fragment implements ProjectTypeFragment.Pr
             //TODO: HIND ADDED BIDS LIST TO BE ABLE TO ADD BIDS TO THE PROJECT! (SAT MAR.7 - 1:00AM)
             List<Bid> bidlist = new ArrayList<>();
 
-            createdAt = getCreatedAt();
+//            createdAt = getCreatedAt();
 
+            createdAt = getCreatedAt();
 
             Project project = new Project(title, description, budgetValue, projectType, paymentType, expiryLocalDateTime, deadlineLocalDateTime, employer, skillList, "0", category, bidlist, createdAt);
 
