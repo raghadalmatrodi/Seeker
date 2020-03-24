@@ -22,24 +22,35 @@ public class Project implements Serializable {
     private List<Milestone> milestones = new ArrayList<>();
     private Employer employer;
     private Set<Skill> skills = new HashSet<>();
+    private String status;
     private String createdAt;
-    private Category category;
+
+    public String getCreated_at() {
+        return createdAt;
+    }
+
+    public void setCreated_at(String createdAt) {
+        this.createdAt = createdAt;
+    }
+
+//  private List<Bid> bids = new ArrayList<>();
 
 // 0 -> pending
     //1 -> inProgress
     //2 -> completed
-    private String status;
-
 
     //todo hind 1 + added setter and getters + project id and its setters and getters
     private List<Bid> bids = new ArrayList<>();
     private long id;
+
+    private Category category;
 
 
 
     //TODO: HIND ADDED BIDS LIST TO BE ABLE TO ADD BIDS TO THE PROJECT! (SAT MAR.7 - 1:00AM)
 
     public Project(String title, String description, double budget, String type, String payment_type, String expiry_date, String deadline,  Employer employer, Set<Skill> skills, String status, Category category, List<Bid> bid, String createdAt) {
+
         this.title = title;
         this.description = description;
         this.budget = budget;
@@ -48,17 +59,28 @@ public class Project implements Serializable {
         this.expiry_date = expiry_date;
         this.deadline = deadline;
         this.employer = employer;
-        this.skills = skills;
         this.status = status;
-        this.category = category;
+        this.skills = skills;
         this.bids = bids;
         this.createdAt = createdAt;
+
     }
-
-
     public Project(long id){
         this.id = id;
     }
+
+//    public Project(String title, String description, double budget, String type, String payment_type, String expiry_date, String deadline, List<Milestone> milestones, Employer employer, Set<Skill> skills, String status, Category category) {
+//        this.title = title;
+//        this.description = description;
+//        this.budget = budget;
+//        this.type = type;
+//        this.payment_type = payment_type;
+//        this.expiry_date = expiry_date;
+//        this.deadline = deadline;
+//        this.employer = employer;
+//        this.status = status;
+//    }
+//
 
 
 
@@ -183,14 +205,6 @@ public class Project implements Serializable {
         this.id = id;
     }
 
-    public String getCreatedAt() {
-        return createdAt;
-    }
-
-    public void setCreatedAt(String createdAt) {
-        this.createdAt = createdAt;
-    }
-
     @Override
     public String toString() {
         return "Project{" +
@@ -211,6 +225,4 @@ public class Project implements Serializable {
                 ", category=" + category +
                 '}';
     }
-
-
 }//End of project
