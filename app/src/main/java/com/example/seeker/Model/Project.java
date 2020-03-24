@@ -22,7 +22,7 @@ public class Project implements Serializable {
     private List<Milestone> milestones = new ArrayList<>();
     private Employer employer;
     private Set<Skill> skills = new HashSet<>();
-    private String created_at;
+    private String createdAt;
     private Category category;
 
 // 0 -> pending
@@ -39,7 +39,7 @@ public class Project implements Serializable {
 
     //TODO: HIND ADDED BIDS LIST TO BE ABLE TO ADD BIDS TO THE PROJECT! (SAT MAR.7 - 1:00AM)
 
-    public Project(String title, String description, double budget, String type, String payment_type, String expiry_date, String deadline,  Employer employer, Set<Skill> skills, String status, Category category, List<Bid> bid, String createdAts) {
+    public Project(String title, String description, double budget, String type, String payment_type, String expiry_date, String deadline,  Employer employer, Set<Skill> skills, String status, Category category, List<Bid> bid, String createdAt) {
         this.title = title;
         this.description = description;
         this.budget = budget;
@@ -52,7 +52,7 @@ public class Project implements Serializable {
         this.status = status;
         this.category = category;
         this.bids = bids;
-        this.created_at = createdAts;
+        this.createdAt = createdAt;
     }
 
 
@@ -184,11 +184,11 @@ public class Project implements Serializable {
     }
 
     public String getCreatedAt() {
-        return created_at;
+        return createdAt;
     }
 
     public void setCreatedAt(String createdAt) {
-        this.created_at = createdAt;
+        this.createdAt = createdAt;
     }
 
     @Override
@@ -205,7 +205,7 @@ public class Project implements Serializable {
                 ", employer=" + employer +
                 ", skills=" + skills +
                 ", status='" + status + '\'' +
-                ", createdAt='" + created_at + '\'' +
+                ", createdAt='" + createdAt + '\'' +
                 ", bids=" + bids +
                 ", id=" + id +
                 ", category=" + category +
