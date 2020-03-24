@@ -10,6 +10,7 @@ import android.widget.TextView;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.seeker.Model.Chat;
+import com.example.seeker.Model.ChatMessage;
 import com.example.seeker.R;
 import com.example.seeker.SharedPref.Constants;
 import com.example.seeker.SharedPref.MySharedPreference;
@@ -22,6 +23,7 @@ public class ChatAdapter extends RecyclerView.Adapter<ChatAdapter.MyViewHolder> 
     private List<Chat> chats;
 
     private OnItemClickListener mListener;
+    private TextView textView;
 
 
     public class MyViewHolder extends RecyclerView.ViewHolder {
@@ -35,7 +37,7 @@ public class ChatAdapter extends RecyclerView.Adapter<ChatAdapter.MyViewHolder> 
         public MyViewHolder(View view , final OnItemClickListener listener) {
             super(view);
             name =  view.findViewById(R.id.user_name);
-           email =  view.findViewById(R.id.user_email);
+           email =  view.findViewById(R.id.user_last_chat);
 
             thumbnail = view.findViewById(R.id.student_image);
             recyclerView =  view.findViewById(R.id.chats_recyclerview);
@@ -89,17 +91,28 @@ public class ChatAdapter extends RecyclerView.Adapter<ChatAdapter.MyViewHolder> 
     @Override
     public void onBindViewHolder(final MyViewHolder holder, int position) {
         Chat album = chats.get(position);
+        List<ChatMessage> chatMessages = chats.get(position).getChatMessages();
 
 
-        if(MySharedPreference.getLong(mContext, Constants.Keys.USER_ID,-1) == chats.get(position).getFirstUser().getId()){
+        Long chatsId = new Long(chats.get(position).getFirstUser().getId());
+        if(MySharedPreference.getLong(mContext, Constants.Keys.USER_ID,-1) == chatsId){
 
             holder.name.setText(chats.get(position).getSecondUser().getUsername());
-            holder.email.setText(chats.get(position).getSecondUser().getEmail());
         }else{
             holder.name.setText(chats.get(position).getFirstUser().getUsername());
-            holder.email.setText(chats.get(position).getFirstUser().getEmail());
         }
 
+       if(chatMessages!=null){
+           if(!chatMessages.isEmpty()){
+               ChatMessage message = chatMessages.get(chatMessages.size()-1);
+               long userId = new Long(message.getSender().getId());
+               if(MySharedPreference.getLong(mContext, Constants.Keys.USER_ID,-1) == userId ) {
+                   holder.email.setText("You: " + message.getMessage());
+               }else{
+                   holder.email.setText(message.getMessage());
+               }
+
+       }}
 
     } //  end onBindViewHolder
 

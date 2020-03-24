@@ -225,7 +225,8 @@ public class LoginActivity extends Activity {
     private void addCurrentUser(User user) {
 
         MySharedPreference.putBoolean(this,Constants.Keys.IS_LOGIN, true);
-        MySharedPreference.putLong(this, Constants.Keys.USER_ID, user.getId());
+        Long userId = new Long(user.getId());
+        MySharedPreference.putLong(this, Constants.Keys.USER_ID, userId);
         MySharedPreference.putString(this, Constants.Keys.USER_NAME, user.getUsername());
         MySharedPreference.putString(this, Constants.Keys.USER_EMAIL,  user.getEmail());
 //        MySharedPreference.putString(this, Constants.Keys.USER_IMG, user.getImage());

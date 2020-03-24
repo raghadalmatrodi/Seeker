@@ -5,6 +5,7 @@ import com.example.seeker.Model.Bid;
 import com.example.seeker.Model.Category;
 import com.example.seeker.Model.Certificate;
 import com.example.seeker.Model.Chat;
+import com.example.seeker.Model.ChatMessage;
 import com.example.seeker.Model.Contract;
 import com.example.seeker.Model.Employer;
 import com.example.seeker.Model.Freelancer;
@@ -56,12 +57,14 @@ public interface ApiMethods {
         String GET_PROJECTS_BY_CATEGORY = "project/category";
         String GET_CONTRACT_BY_PROJECT_ID = "contract/project_id/{project_id}";
         String CREATE_MILESTONE = "milestone/create";
-
         String GET_ALL_PROJECTS = "project/findAll";
+        String GET_ALL_USERS="user/findAll";
+        String DELETE_PROJECT="project/{id}";
        String GET_ALL_USERS="user/findAll";
         String DELETE_PROJECT="project/{project_id}";
         String EXTEND_PROJECT="project/extend";
         String FIND_CHAT_BY_USER ="chat/user/{user_id}";
+        String CREATE_CHAT_MESSAGE = "chatMessage";
 
 
     }//End of Methods interface
@@ -166,5 +169,8 @@ public interface ApiMethods {
 
     @GET(Methods.FIND_CHAT_BY_USER)
     Call<List<Chat>> findChatsByUser(@Path("user_id") Long user_id);
+
+    @POST(Methods.CREATE_CHAT_MESSAGE)
+    Call<ChatMessage> createChatMessage(@Body ChatMessage chatMessage);
 
 }//End of ApiMethods interface

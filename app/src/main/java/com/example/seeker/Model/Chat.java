@@ -1,5 +1,7 @@
 package com.example.seeker.Model;
 
+import com.stfalcon.chatkit.commons.models.IMessage;
+
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;

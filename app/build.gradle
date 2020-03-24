@@ -72,5 +72,8 @@ dependencies {
     implementation 'com.squareup.retrofit2:converter-gson:2.3.0'
     implementation 'com.github.hedzr:android-file-chooser:master-SNAPSHOT'
 
+    implementation 'com.github.stfalcon:chatkit:0.3.3'
+
+
 
 }

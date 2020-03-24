@@ -38,6 +38,7 @@ public class Emp_MessagesFragment extends Fragment  implements ChatAdapter.OnIte
 
     private RecyclerView recyclerView;
     private ChatAdapter adapter;
+
     private List<Chat> chatList;
     private static final String LOG = Emp_MessagesFragment.class.getSimpleName();
     View view;
@@ -47,6 +48,10 @@ public class Emp_MessagesFragment extends Fragment  implements ChatAdapter.OnIte
                              Bundle savedInstanceState) {
       view = inflater.inflate(R.layout.fragment_emp_messages, container, false);
         chatList = new ArrayList<>();
+
+        Log.i(LOG,"The user id:" + MySharedPreference.getLong(getContext(),Constants.Keys.USER_ID,-1) );
+
+
 
 
         prepareChats();
@@ -67,7 +72,9 @@ public class Emp_MessagesFragment extends Fragment  implements ChatAdapter.OnIte
     }
 
     private void prepareChats() {
-      ApiClients.getAPIs().findChatsByUser(MySharedPreference.getLong(getContext(),Constants.Keys.USER_ID,-1))
+        Log.i(LOG,"The user id:" + MySharedPreference.getLong(getContext(),Constants.Keys.USER_ID,-1) );
+
+        ApiClients.getAPIs().findChatsByUser(MySharedPreference.getLong(getContext(),Constants.Keys.USER_ID,-1))
               .enqueue(new Callback<List<Chat>>() {
           @Override
           public void onResponse(Call<List<Chat>> call, Response<List<Chat>> response) {
@@ -87,7 +94,7 @@ public class Emp_MessagesFragment extends Fragment  implements ChatAdapter.OnIte
 
           @Override
           public void onFailure(Call<List<Chat>> call, Throwable t) {
-              Log.i(LOG, "onFailure : " + t.toString());
+              Log.i(LOG, "onFailure : " + call.toString() + t.getMessage() + t.getLocalizedMessage() + "  "+ t.toString());
 
           }
       });

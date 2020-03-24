@@ -1,10 +1,12 @@
 package com.example.seeker.Model;
 
+import com.stfalcon.chatkit.commons.models.IUser;
+
 import java.io.Serializable;
 import java.util.Set;
 
 //todo 8 hind implemented serializable
-public class User implements Serializable {
+public class User implements Serializable,IUser {
     private long id;
     private String username;
     private String password;
@@ -23,9 +25,20 @@ public class User implements Serializable {
 
     }
 
-    public long getId() {
-        return id;
+    public String getId() {
+        return id +"";
     }
+
+    @Override
+    public String getName() {
+        return username;
+    }
+
+    @Override
+    public String getAvatar() {
+        return null;
+    }
+
 
     public Set<Role> getRoles() {
         return roles;
