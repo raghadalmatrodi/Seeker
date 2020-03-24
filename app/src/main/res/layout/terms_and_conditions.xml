@@ -14,26 +14,33 @@
         android:layout_height="match_parent">
 
 <LinearLayout
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
     android:orientation="vertical">
         <TextView
+            android:padding="20dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginEnd="5dp"
+            android:layout_marginStart="5dp"
+            android:layout_marginBottom="10dp"
             android:id="@+id/txt_dia"
-            android:layout_width="wrap_content"
+            android:layout_width="380dp"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:layout_margin="10dp"
             android:text="@string/terms_and_conditions"
             android:textColor="@android:color/black"
             android:textSize="15dp"
-            android:textStyle="bold"
+            android:textStyle="normal"
             android:scrollbarStyle="insideOverlay"
             />
         <Button
             android:id="@+id/okayBtn"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Okay">
+            android:text="FINISH"
+            android:gravity="center"
+            android:layout_gravity="center">
 
         </Button>
 </LinearLayout>

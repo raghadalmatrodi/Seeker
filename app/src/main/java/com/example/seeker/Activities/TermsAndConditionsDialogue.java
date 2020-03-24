@@ -29,7 +29,7 @@ public class TermsAndConditionsDialogue  extends Dialog implements android.view.
         requestWindowFeature(Window.FEATURE_NO_TITLE);
         setContentView(R.layout.terms_and_conditions);
         textView=(TextView)findViewById(R.id.txt_dia);
-        textView.setText("Term & Conditions");
+        textView.setText(R.string.terms_and_conditions_content);
 
 
 
