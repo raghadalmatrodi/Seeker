@@ -20,7 +20,7 @@ import static android.view.View.VISIBLE;
 
 public class ProjectAdapter extends RecyclerView.Adapter<ProjectAdapter.MyViewHolder>  {
     int position_tab;
-    private Context mContext;
+   // private Context mContext;
     private List<Project> projectList;
     private ProjectAdapterListener listener;
 
@@ -90,8 +90,8 @@ public class ProjectAdapter extends RecyclerView.Adapter<ProjectAdapter.MyViewHo
 
     }
 
-    public ProjectAdapter(Context mContext, List<Project> projectList, int position) {
-        this.mContext = mContext;
+    public ProjectAdapter(List<Project> projectList, int position) {
+       // this.mContext = mContext;
         this.projectList = projectList;
         position_tab = position;
     }//End of CategorySearchAdapter()
@@ -118,7 +118,7 @@ public class ProjectAdapter extends RecyclerView.Adapter<ProjectAdapter.MyViewHo
                 holder.trashIcon.setVisibility(VISIBLE);
              //   if(expiryDate-createdat==0)
                 //it will be visible when the project lifetime is 10
-                holder.extendIcon.setVisibility(VISIBLE);
+               holder.extendIcon.setVisibility(VISIBLE);
 
                 //todo raghad
 //else if(expirydate== today) we will do delete without asking

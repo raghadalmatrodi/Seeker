@@ -161,7 +161,7 @@ public class Emp_MyProjects_Completed_Fragment extends Fragment implements Proje
     public void setTheAdapter(){
         recyclerView = (RecyclerView) view.findViewById(R.id.recycler_view);
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
-        adapter = new ProjectAdapter(getContext(), projectList,2);
+        adapter = new ProjectAdapter( projectList,2);
         recyclerView.setItemAnimator(new DefaultItemAnimator());
         recyclerView.setAdapter(adapter);
         adapter.setListener(this);

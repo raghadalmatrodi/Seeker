@@ -61,6 +61,7 @@ public class Project implements Serializable {
         this.employer = employer;
         this.status = status;
         this.skills = skills;
+        this.category=category;
         this.bids = bids;
         this.createdAt = createdAt;
 

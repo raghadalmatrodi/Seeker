@@ -169,7 +169,7 @@ public void setTheAdapter(){
 
     recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
     if(!projectList.isEmpty()) {
-        adapter = new ProjectAdapter(getContext(),projectList,1);
+        adapter = new ProjectAdapter(projectList,1);
         recyclerView.setItemAnimator(new DefaultItemAnimator());
         recyclerView.setAdapter(adapter);
         adapter.setListener(this);
