@@ -25,11 +25,11 @@ public class Project implements Serializable {
     private String status;
     private String createdAt;
 
-    public String getCreated_at() {
+    public String getCreatedAt() {
         return createdAt;
     }
 
-    public void setCreated_at(String createdAt) {
+    public void setCreatedAt(String createdAt) {
         this.createdAt = createdAt;
     }
 
