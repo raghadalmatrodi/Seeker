@@ -76,33 +76,32 @@ public class Emp_PostFragment extends Fragment implements ProjectTypeFragment.Pr
     private static final String LOG = Emp_PostFragment.class.getSimpleName();
 
 
-    private String projectType, paymentType, title,description, budget;
+    private String projectType, paymentType, title, description, budget;
     private Category category;
     private Set<Skill> skillList = new HashSet<>();
     private List<SkillRecyclerView> skillRecyclerViews = new ArrayList<>();
     private String deadlineLocalDateTime, expiryLocalDateTime;
 
-    private String createdAt ;
+    private String createdAt;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-         view = inflater.inflate(R.layout.fragment_post_project, container, false);
+        view = inflater.inflate(R.layout.fragment_post_project, container, false);
 
         projectTypeFragment = new ProjectTypeFragment();
-        projectCategoryFragment= new ProjectCategoryFragment();
+        projectCategoryFragment = new ProjectCategoryFragment();
         paymentTypeFragment = new PaymentTypeFragment();
         projectInformationFragment = new ProjectInformationFragment();
         projectSkillsFragment = new ProjectSkillsFragment();
 
 
         projectTypeFragment.setListener(this);
-        projectCategoryFragment.setListener(this,this);
-        paymentTypeFragment.setListener(this,this);
-        projectInformationFragment.setListener(this,this);
+        projectCategoryFragment.setListener(this, this);
+        paymentTypeFragment.setListener(this, this);
+        projectInformationFragment.setListener(this, this);
         projectSkillsFragment.setListener(this, this);
-
 
 
         adapter = new FragmentAdapter(getFragmentManager());
@@ -118,7 +117,7 @@ public class Emp_PostFragment extends Fragment implements ProjectTypeFragment.Pr
 
         viewPager.setAdapter(adapter);
 
-         return view;
+        return view;
 
     }
 
@@ -128,6 +127,7 @@ public class Emp_PostFragment extends Fragment implements ProjectTypeFragment.Pr
         projectCategoryFragment.setData(projectType);
         viewPager.setCurrentItem(1);
     }
+
     @Override
     public void onCategoryTypeItemSelected(Category category) {
         this.category = category;
@@ -143,16 +143,18 @@ public class Emp_PostFragment extends Fragment implements ProjectTypeFragment.Pr
 
         skillList = new HashSet<>();
 
-        for(SkillRecyclerView s: skillRecyclerViews){
+        for (SkillRecyclerView s : skillRecyclerViews) {
             Skill skill = new Skill(s.getId(), s.getName());
             skillList.add(skill);
         }
         viewPager.setCurrentItem(3);
 
     }
+
     @Override
     public void onPaymentTypeItemSelected(String paymentType) {
         this.paymentType = paymentType;
+        projectInformationFragment.setData(paymentType);
         viewPager.setCurrentItem(4);
 
     }
@@ -174,14 +176,13 @@ public class Emp_PostFragment extends Fragment implements ProjectTypeFragment.Pr
 
     @Override
     public void onPostProjectItemSelectedWithAttachments(String title, String description, String budget, String deadlineLocalDateTime, String expiryLocalDateTime, List<File> files) {
-        if(projectType.isEmpty() || (category == null) || paymentType.isEmpty() || title.isEmpty() || budget.isEmpty()){
+        if (projectType.isEmpty() || (category == null) || paymentType.isEmpty() || title.isEmpty() || budget.isEmpty()) {
 
             wrongInfoDialog("Missing Information");
-        }
-        else{
+        } else {
 
             double budgetValue = Double.parseDouble(budget);
-            long empID = MySharedPreference.getLong(getContext(), Constants.Keys.EMPLOYER_ID,-1);
+            long empID = MySharedPreference.getLong(getContext(), Constants.Keys.EMPLOYER_ID, -1);
 
             Employer employer = new Employer(empID);
 
@@ -189,56 +190,22 @@ public class Emp_PostFragment extends Fragment implements ProjectTypeFragment.Pr
             List<Bid> bidlist = new ArrayList<>();
 
 
-
             createdAt = getCreatedAt();
 
             Project project = new Project(title, description, budgetValue, projectType, paymentType, expiryLocalDateTime, deadlineLocalDateTime, employer, skillList, "0", category, bidlist, createdAt);
-
 
 
             AlertDialog.Builder alertDialog = new AlertDialog.Builder(getContext());
             // Setting Dialog Message
             alertDialog.setTitle("Are you sure you want to post this project?");
 
-//            String type ;
-//            if(project.getType().equals("0")){
-//                type = "Online";
-//            }else
-//            {
-//                type = "On-field";
-//            }
-//
-//
-//
-//
-//            String skill ="";
-//
-//            if( project.getSkills() !=null){
-//
-//                if (!project.getSkills().isEmpty()) {
-//                    for (Skill s : project.getSkills()) {
-//                        skill += s.getName() + " \n";
-//                    }
-//                }
-//
-//            }
-//            String info =
-//                    "Title: " + project.getTitle() + "\n" +
-//                            " Description: " + project.getDescription() + "\n" +
-//                            "Budget: " + project.getBudget() +"\n"+
-//                            "Type: " + type + "\n" +
-//                            "Payment: " + project.getPayment_type() + "\n" +
-//                            "Deadline: " + project.getDeadline().substring(0,10) + "\n" +
-//                            "Skills: \n" + skill +
-//                            "Category: " + project.getCategory().getTitle();
-//            alertDialog.setMessage(info);
 
             //Setting positive "ok" Button
             alertDialog.setPositiveButton("POST", new DialogInterface.OnClickListener() {
                 public void onClick(DialogInterface dialog, int which) {
 
 
-                    createProjectWithAttachments(files,project);
+                    createProjectWithAttachments(files, project);
 
                     dialog.dismiss();
 
@@ -258,6 +225,7 @@ public class Emp_PostFragment extends Fragment implements ProjectTypeFragment.Pr
 
         }
     }
+
     private String getCreatedAt() {
 
         LocalDateTime localDateTime = LocalDateTime.now();
@@ -265,15 +233,14 @@ public class Emp_PostFragment extends Fragment implements ProjectTypeFragment.Pr
 
     }
 
-
-    private void createProjectWithAttachments(List<File> file ,Project project)  {
+    private void createProjectWithAttachments(List<File> file, Project project) {
 
         List<MultipartBody.Part> attachments = new ArrayList<>();
 
         file.stream().forEach(file1 -> {
             try {
-                attachments.add(MultipartBody.Part.createFormData("attachments",file1.getName() , RequestBody
-                        .create(MediaType.parse(Files.probeContentType(file1.toPath()).toString()) , file1)));
+                attachments.add(MultipartBody.Part.createFormData("attachments", file1.getName(), RequestBody
+                        .create(MediaType.parse(Files.probeContentType(file1.toPath()).toString()), file1)));
             } catch (IOException e) {
                 e.printStackTrace();
             }
@@ -283,8 +250,8 @@ public class Emp_PostFragment extends Fragment implements ProjectTypeFragment.Pr
         Gson gson = new Gson();
         RequestBody projectRequestBody = RequestBody.create(MediaType.parse("application/json; charset=utf-8"), gson.toJson(project));
 
-        ApiClients.getAPIs().getPostProjectWithAttachmentsRequest(projectRequestBody,attachments).enqueue(new Callback<ApiResponse>() {
-            private  final String LOG = ProjectInformationFragment.class.getSimpleName() ;
+        ApiClients.getAPIs().getPostProjectWithAttachmentsRequest(projectRequestBody, attachments).enqueue(new Callback<ApiResponse>() {
+            private final String LOG = ProjectInformationFragment.class.getSimpleName();
 
             @Override
             public void onResponse(Call<ApiResponse> call, Response<ApiResponse> response) {
@@ -293,7 +260,7 @@ public class Emp_PostFragment extends Fragment implements ProjectTypeFragment.Pr
                     Log.i(LOG, "onResponse : Success");
                     SuccesDialog("Your project has been posted successfully.");
 
-                }else{
+                } else {
                     Log.i(LOG, "onResponse : fail");
 
                 }
@@ -309,16 +276,15 @@ public class Emp_PostFragment extends Fragment implements ProjectTypeFragment.Pr
 
     private void postProjectValidation() {
 
-        if(projectType.isEmpty() || (category == null) || paymentType.isEmpty() || title.isEmpty() || budget.isEmpty()){
+        if (projectType.isEmpty() || (category == null) || paymentType.isEmpty() || title.isEmpty() || budget.isEmpty()) {
 
             wrongInfoDialog("Missing Information");
-        }
-        else{
+        } else {
 
             double budgetValue = Double.parseDouble(budget);
 
 
-            long empID = MySharedPreference.getLong(getContext(), Constants.Keys.EMPLOYER_ID,-1);
+            long empID = MySharedPreference.getLong(getContext(), Constants.Keys.EMPLOYER_ID, -1);
 
             Employer employer = new Employer(empID);
 
@@ -344,50 +310,15 @@ public class Emp_PostFragment extends Fragment implements ProjectTypeFragment.Pr
         // Setting Dialog Message
         alertDialog.setTitle("Are you sure you want to post this project?");
 
-//        String type ;
-//        if(project.getType().equals("0")){
-//            type = "Online";
-//        }else
-//        {
-//            type = "On-field";
-//        }
-//
-//
-//
-//
-//        String skill ="";
-//
-//        if( project.getSkills() !=null){
-//
-//            if (!project.getSkills().isEmpty()) {
-//                for (Skill s : project.getSkills()) {
-//                    skill += s.getName() + " \n";
-//                }
-//            }
-//
-//        }
-//        String info =
-//                "Title: " + project.getTitle() + "\n" +
-//                " Description: " + project.getDescription() + "\n" +
-//                "Budget: " + project.getBudget() +"\n"+
-//                "Type: " + type + "\n" +
-//                "Payment: " + project.getPayment_type() + "\n" +
-//                "Deadline: " + project.getDeadline().substring(0,10) + "\n" +
-//                "Skills: \n" + skill +
-//                "Category: " + project.getCategory().getTitle();
-//        alertDialog.setMessage(info);
 
         //Setting positive "ok" Button
         alertDialog.setPositiveButton("POST", new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int which) {
 
 
-
                 excutePostProjectRequest(project);
 
-
                 dialog.dismiss();
-
 
             }//end onClick
         });//end setPositiveButton
@@ -468,7 +399,6 @@ public class Emp_PostFragment extends Fragment implements ProjectTypeFragment.Pr
         alertDialog.setMessage(msg);
 
         // Setting Icon to Dialog
-//        alertDialog.setIcon(R.drawable.exclamation);
 
         //Setting Negative "ok" Button
         alertDialog.setPositiveButton("OK", new DialogInterface.OnClickListener() {
@@ -480,7 +410,6 @@ public class Emp_PostFragment extends Fragment implements ProjectTypeFragment.Pr
         alertDialog.show();
 
     }//End wrongInfoDialog()
-
 
     private void SuccesDialog(String msg) {
 
@@ -517,6 +446,7 @@ public class Emp_PostFragment extends Fragment implements ProjectTypeFragment.Pr
         viewPager.setCurrentItem(0);
 
     }
+
     @Override
     public void onBacSkillSelected() {
         projectCategoryFragment.setData(projectType);
@@ -527,7 +457,7 @@ public class Emp_PostFragment extends Fragment implements ProjectTypeFragment.Pr
 
     @Override
     public void onBackPaymentClick() {
-        projectSkillsFragment.setBackData(category,skillRecyclerViews);
+        projectSkillsFragment.setBackData(category, skillRecyclerViews);
         viewPager.setCurrentItem(2);
 
 
@@ -540,8 +470,6 @@ public class Emp_PostFragment extends Fragment implements ProjectTypeFragment.Pr
 
 
     }
-
-
 
 
 }

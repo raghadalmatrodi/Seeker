@@ -56,7 +56,7 @@ public class Emp_viewProjectFragment extends Fragment implements  Emp_MyProjects
     TextView employerName;
     LinearLayout EmployerView;
     ImageView chat;
-    Contract contract;
+
 
     ImageView contractImg;
 

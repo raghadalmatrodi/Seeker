@@ -41,6 +41,7 @@ public class ContractFragment extends Fragment {
     private TextView totalPrice;
     private TextView createMilestone;
     private TextView projectName;
+    private TextView priceText;
     private ImageView backBtn;
     private Contract contract;
     private Project project;
@@ -48,8 +49,6 @@ public class ContractFragment extends Fragment {
     private MilestoneAdapter adapter;
     private ProgressBar mProgressBar;
     private LinearLayout linearLayout;
-
-
 
 
 
@@ -119,11 +118,11 @@ public class ContractFragment extends Fragment {
         recyclerView = view.findViewById(R.id.contract_recycler_view);
         backBtn = view.findViewById(R.id.contract_back);
         linearLayout = view.findViewById(R.id.info_contract);
+        priceText = view.findViewById(R.id.contract_price);
 
 
 
     }
-
 
     private void setContractInformation() {
 
@@ -139,6 +138,9 @@ public class ContractFragment extends Fragment {
         employerName.setText(contract.getProject().getEmployer().getUser().getUsername());
         freelancerName.setText(contract.getFreelancer().getUser().getUsername());
         deliveryDate.setText(contract.getDeadline().toString().substring(0,10));
+        if(project.getPayment_type().equals("Hourly")){
+            priceText.setText("Price per hour");
+        }
         String price = String.valueOf(contract.getPrice());
         totalPrice.setText(price+" SAR");
 
@@ -148,7 +150,7 @@ public class ContractFragment extends Fragment {
         checkVisibility();
     }
 
-    private void setRecyclerView(List<Milestone> milestoneList) {
+    private void setRecyclerView(List<Milestone>milestoneList) {
 
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
         adapter = new MilestoneAdapter(milestoneList);
@@ -158,6 +160,7 @@ public class ContractFragment extends Fragment {
         DividerItemDecoration dividerItemDecoration = new DividerItemDecoration(recyclerView.getContext(), DividerItemDecoration.VERTICAL);
         recyclerView.addItemDecoration(dividerItemDecoration);
     }
+
     public void performAPIRequest(long project_id){
 
 
@@ -187,11 +190,28 @@ public class ContractFragment extends Fragment {
         });
 
     }
+
     public void checkVisibility(){
 
 
-        if(project.getMilestones().isEmpty()){
-            createMilestone.setVisibility(View.VISIBLE);
+        if(project.getType().equals("0")){
+
+            if(project.getMilestones().size() == 1 ){
+
+                createMilestone.setVisibility(View.VISIBLE);
+
+                if(project.getPayment_type().equals("FixedPrice")){
+
+                    createMilestone.setText("Break your Project to Milestones?");
+
+
+                }
+            }else
+            {
+                createMilestone.setVisibility(View.INVISIBLE);
+
+            }
+
         }else{
             createMilestone.setVisibility(View.INVISIBLE);
 
@@ -200,4 +220,8 @@ public class ContractFragment extends Fragment {
     }
 
 
+
 }
+
+
+

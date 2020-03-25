@@ -102,7 +102,7 @@ public class ProjectInformationFragment extends Fragment {
 
         init();
 
-      files = new ArrayList<>(3);
+        files = new ArrayList<>(3);
         recyclerView =  view.findViewById(R.id.attachment_recycle_view);
         adapter = new AttachmentAdapter(getContext(), files);
 
@@ -235,17 +235,7 @@ public class ProjectInformationFragment extends Fragment {
     }//End of onCreateView()
 
 
-    private String setExpiryDate() {
 
-        LocalDate today = LocalDate.now();
-
-        // increment days by 7
-
-        System.out.println("Current Date: " + today);
-        today = today.plusDays(10);
-        String formattedDate = today.format(DateTimeFormatter.ofPattern("dd-MM-yyyy"));
-       return formattedDate;
-    }
 
     //TODO reema remove comment
 //
@@ -289,6 +279,15 @@ public class ProjectInformationFragment extends Fragment {
 //            }
 //        });
 //    }
+    public void setData(String paymentType) {
+
+       if(paymentType.equals("Hourly")){
+
+           budgeText.setHint("Price per hour");
+       }else {
+           budgeText.setHint("Total budget");
+       }
+    }
 
     private LocalDateTime convertStringToLocalDateTime(String dateString) {
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm:ss");
@@ -304,6 +303,17 @@ public class ProjectInformationFragment extends Fragment {
         timeString=  dateString.substring(10);
     }
 
+    private String setExpiryDate() {
+
+        LocalDate today = LocalDate.now();
+
+        // increment days by 7
+
+        System.out.println("Current Date: " + today);
+        today = today.plusDays(10);
+        String formattedDate = today.format(DateTimeFormatter.ofPattern("dd-MM-yyyy"));
+        return formattedDate;
+    }
     private void calendarDialog() {
 
         final Calendar cldr = Calendar.getInstance();
@@ -432,8 +442,6 @@ public class ProjectInformationFragment extends Fragment {
         alertDialog.show();
 
     }//end showDialog
-
-
 
 
     public class GridSpacingItemDecoration extends RecyclerView.ItemDecoration {

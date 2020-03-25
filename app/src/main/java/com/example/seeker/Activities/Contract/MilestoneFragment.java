@@ -28,6 +28,7 @@ import com.example.seeker.Model.Bid;
 import com.example.seeker.Model.Contract;
 import com.example.seeker.Model.Milestone;
 import com.example.seeker.Model.Project;
+import com.example.seeker.Model.Responses.ApiResponse;
 import com.example.seeker.R;
 
 import java.text.SimpleDateFormat;
@@ -58,9 +59,11 @@ public class MilestoneFragment extends Fragment {
     private MilestoneSecondAdapter adapter;
     private List<Milestone> milestoneList  = new ArrayList<>();
     private double totalBudget = 0;
+    private Project project;
 
 
-    //dialog attribute
+
+    //dialog fixedPrice attribute
     private String expiryDate;
     private TextView deadline;
     private DatePickerDialog picker;
@@ -89,15 +92,25 @@ public class MilestoneFragment extends Fragment {
         addBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                getTotalBudget();
 
-                if(totalBudget == contract.getPrice()){
-                    showDialog("you can't add more milestones");
+                if (project.getPayment_type().equals("Hourly")) {
 
-                }else{
-                    milestoneDialog();
+                     milestoneHourlyDialog();
+
+
+                } else {
+
+                    getTotalBudget();
+
+                    if (totalBudget == contract.getPrice()) {
+                        showDialog("you can't add more milestones");
+
+                    } else {
+
+                        milestoneFixedPriceDialog();
+                    }
+
                 }
-
             }
         });
 
@@ -121,8 +134,23 @@ public class MilestoneFragment extends Fragment {
             @Override
             public void onClick(View view) {
 
+                if(project.getPayment_type().equals("FixedPrice")){
+                    getTotalBudget();
 
-                finalDialog();
+                    if(totalBudget < contract.getPrice()){
+                        showDialog("you have to complete all budget");
+                    }else{
+
+                        finalDialog();
+
+                    }
+
+                }else{
+
+                    finalDialog();
+                }
+
+
 
             }
         });
@@ -138,10 +166,12 @@ public class MilestoneFragment extends Fragment {
 
 
         //Setting positive "ok" Button
-        alertDialog.setPositiveButton("POST", new DialogInterface.OnClickListener() {
+        alertDialog.setPositiveButton("SAVE", new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int which) {
 
 
+
+                deleteMilestone();
 
                 for(int i = 0; i < milestoneList.size(); i++){
 
@@ -169,6 +199,25 @@ public class MilestoneFragment extends Fragment {
         alertDialog.show();
 
     }//End of Dialog()
+
+    private void deleteMilestone() {
+        ApiClients.getAPIs().deleteMilestone(project.getMilestones().get(0).getId()).enqueue(new Callback<ApiResponse>() {
+            @Override
+            public void onResponse(Call<ApiResponse> call, Response<ApiResponse> response) {
+
+                if (response.isSuccessful()){
+                    Log.i("onResponse successful milestone delete ",response.message());
+                }
+
+            }
+
+            @Override
+            public void onFailure(Call<ApiResponse> call, Throwable t) {
+
+            }
+        });
+
+    }
 
     private void leaveFragment() {
 
@@ -218,6 +267,8 @@ public class MilestoneFragment extends Fragment {
     private void setInformation() {
         amount.setText(String.valueOf(contract.getPrice()));
 
+        project = contract.getProject();
+
     }
 
     private void init() {
@@ -230,7 +281,7 @@ public class MilestoneFragment extends Fragment {
         recyclerView = view.findViewById(R.id.milestoneM_recycler_view);
     }
 
-    private void milestoneDialog() {
+    private void milestoneFixedPriceDialog() {
 
         AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(getContext());
         LayoutInflater inflater = this.getLayoutInflater();
@@ -321,6 +372,89 @@ public class MilestoneFragment extends Fragment {
         AlertDialog b = dialogBuilder.create();
         b.show();
     }
+
+    private void milestoneHourlyDialog(){
+        AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(getContext());
+        LayoutInflater inflater = this.getLayoutInflater();
+        final View dialogView = inflater.inflate(R.layout.milestone_hourly_dialog, null);
+        dialogBuilder.setView(dialogView);
+
+        final EditText titleTextView = (EditText) dialogView.findViewById(R.id.dialog_hourly_title);
+        deadline = (TextView) dialogView.findViewById(R.id.dialog_hourly_deadline);
+        final TextView visibleText  = (TextView) dialogView.findViewById(R.id.milestone_date_text);
+
+
+        dialogBuilder.setTitle("Create Milestone");
+        dialogBuilder.setMessage(" please fill all information");
+        dialogBuilder.setCancelable(false);
+
+        deadline.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                visibleText.setVisibility(TextView.VISIBLE);
+                calendarDialog();
+
+            }
+        });
+        dialogBuilder.setPositiveButton("Save", new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int whichButton) {
+
+                title = titleTextView.getText().toString();
+
+                if(validate()){
+
+                    // compare date
+                    if(changeToLocalDate())
+                    {
+
+                        doubleBudget = contract.getPrice();
+
+
+
+                            setTime();
+                            Milestone milestone = new Milestone(doubleBudget,"0", finalLDT.toString(), title,contract.getProject());
+
+                            milestoneList.add(milestone);
+                            adapter.notifyDataSetChanged();
+
+
+
+
+
+                    }else{
+
+
+                        showDialog("Please Enter a valid date");
+                    }
+
+
+
+
+                }else{
+
+                    showDialog("Missing Information");
+
+                }
+
+
+
+
+
+
+
+            }
+        });
+        dialogBuilder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int whichButton) {
+                //pass
+            }
+        });
+
+        AlertDialog b = dialogBuilder.create();
+        b.show();
+    }
+
     private void setTime() {
 
         Date date = new Date();
@@ -337,10 +471,12 @@ public class MilestoneFragment extends Fragment {
 
 
     }
+
     private LocalDateTime convertStringToLocalDateTime(String dateString) {
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm:ss");
         return LocalDateTime.parse(dateString, formatter);
     }
+
     private void getTotalBudget() {
 
         totalBudget = 0;
@@ -377,7 +513,7 @@ public class MilestoneFragment extends Fragment {
 
     private boolean validate() {
 
-        if(title.isEmpty() || expiryDate.isEmpty() || budget.isEmpty()){
+        if(title.isEmpty() || expiryDate.isEmpty()){
 
             return false;
         }

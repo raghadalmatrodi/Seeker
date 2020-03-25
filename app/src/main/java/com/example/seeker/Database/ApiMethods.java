@@ -59,13 +59,14 @@ public interface ApiMethods {
         String CREATE_MILESTONE = "milestone/create";
         String GET_ALL_PROJECTS = "project/findAll";
         String GET_ALL_USERS="user/findAll";
-        String DELETE_PROJECT="project/{id}";
+        String DELETE_PROJECT="project/{project_id}";
 //       String GET_ALL_USERS="user/findAll";
 //        String DELETE_PROJECT="project/{project_id}";
         String EXTEND_PROJECT="project/extend";
         String FIND_CHAT_BY_USER ="chat/user/{user_id}";
         String CREATE_CHAT_MESSAGE = "chatMessage";
         String FIND_CHAT = "chat/user/{user1_id}/{user2_id}";
+        String DELETE_MILESTONE ="milestone/delete/{id}";
 
 
     }//End of Methods interface
@@ -176,5 +177,8 @@ public interface ApiMethods {
 
     @GET(Methods.FIND_CHAT)
     Call<Chat> findChat(@Path("user1_id") Long user1_id , @Path("user2_id") Long user2_id);
+
+    @DELETE(Methods.DELETE_MILESTONE)
+    Call<ApiResponse> deleteMilestone(@Path("id") long id);
 
 }//End of ApiMethods interface
