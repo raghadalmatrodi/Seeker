@@ -7,6 +7,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import androidx.fragment.app.Fragment;
@@ -20,15 +21,20 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.seeker.Activities.Contract.ContractFragment;
 import com.example.seeker.Database.ApiClients;
 import com.example.seeker.EmployerMainPages.AcceptBidConfirmation;
+import com.example.seeker.EmployerMainPages.Chat_Emp.Emp_ChatMessages;
 import com.example.seeker.EmployerMainPages.MyProjectsTab_Emp.ProjectsStatusFragments.Emp_MyProjects_Pending_Fragment;
 import com.example.seeker.Model.Bid;
+import com.example.seeker.Model.Chat;
 import com.example.seeker.Model.Contract;
 import com.example.seeker.Model.Project;
 import com.example.seeker.Model.Responses.ApiResponse;
 import com.example.seeker.Model.Skill;
 import com.example.seeker.PostBid.BidsAdapter;
 import com.example.seeker.R;
+import com.example.seeker.SharedPref.Constants;
+import com.example.seeker.SharedPref.MySharedPreference;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import retrofit2.Call;
@@ -37,6 +43,7 @@ import retrofit2.Response;
 
 public class Emp_viewProjectFragment extends Fragment implements  Emp_MyProjects_Pending_Fragment.ProjectListener ,BidsAdapter.BidsAdapterListener {
 
+    private static final String LOG = Emp_viewProjectFragment.class.getSimpleName();
 
     Project project ;
     TextView title;
@@ -47,6 +54,8 @@ public class Emp_viewProjectFragment extends Fragment implements  Emp_MyProjects
     TextView deadline;
     ImageView backButton;
     TextView employerName;
+    LinearLayout EmployerView;
+    ImageView chat;
     Contract contract;
 
     ImageView contractImg;
@@ -54,6 +63,8 @@ public class Emp_viewProjectFragment extends Fragment implements  Emp_MyProjects
     Emp_MyProjects_Pending_Fragment emp_myProjects_pending_fragment;
     private RecyclerView recyclerView;
     private BidsAdapter adapter;
+    private List<Chat> chatList;
+
     View view;
     List<Bid> bids;
     int isPending=0;
@@ -61,6 +72,7 @@ public class Emp_viewProjectFragment extends Fragment implements  Emp_MyProjects
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
          view = inflater.inflate(R.layout.fragment_view_project, container, false);
+        chatList = new ArrayList<>();
 
          init();
 
@@ -93,8 +105,7 @@ public class Emp_viewProjectFragment extends Fragment implements  Emp_MyProjects
         bids = project.getBids();
         TextView number_of_bids = view.findViewById(R.id.numberOfBids);
         number_of_bids.setText("("+ (bids.size() )+ ")");
-//        Bid bid = new Bid(0, "hll", "kkkk"xd, 999, "25/2/4 5945495945454", "pending", 7979);
-       // bids.add(bid);
+
 
         emp_myProjects_pending_fragment.setListener(this);
           backButton.setOnClickListener(new View.OnClickListener() {
@@ -111,12 +122,57 @@ public class Emp_viewProjectFragment extends Fragment implements  Emp_MyProjects
               }
           });
 
+          chat.setOnClickListener(new View.OnClickListener() {
+              @Override
+              public void onClick(View v) {
+                  if(project.getEmployer() != null)
+                excecuteChatRequest();
+              }
+          });
+
         setTheAdapter();
 
 
         return view;
 
     }
+
+    private void excecuteChatRequest() {
+        Long user1_id = MySharedPreference.getLong(getContext(),Constants.Keys.USER_ID,-1);
+        Long user2_id = new Long(project.getEmployer().getUser().getId());
+        ApiClients.getAPIs().findChat(user1_id,user2_id).enqueue(new Callback<Chat>() {
+            @Override
+            public void onResponse(Call<Chat> call, Response<Chat> response) {
+                if(response.isSuccessful()) {
+                    Log.i(LOG, "onResponse  suc: " + response.body().toString());
+
+                    Chat chat = response.body();
+                    executeIntent(chat);
+
+
+                }else {
+                    Log.i(LOG, "onResponse not suc: " + response.toString());
+
+                }
+            }
+
+            @Override
+            public void onFailure(Call<Chat> call, Throwable t) {
+                Log.i(LOG, "onFailure not suc: " + t.getMessage());
+
+            }
+        });
+
+    }
+
+    private void executeIntent(Chat chat) {
+        Log.i(LOG, "onClick : " );
+
+        Intent intent = new Intent(getActivity(),Emp_ChatMessages.class);
+        intent.putExtra("chat" , chat);
+        startActivity(intent);
+    }
+
 
     private void init() {
         backButton = view.findViewById(R.id.project_view_back);
@@ -128,6 +184,8 @@ public class Emp_viewProjectFragment extends Fragment implements  Emp_MyProjects
         skills = view.findViewById(R.id.project_skills);
         employerName = view.findViewById(R.id.employer_name);
         contractImg = view.findViewById(R.id.contract_img);
+        EmployerView = view.findViewById(R.id.employer_row);
+        chat = view.findViewById(R.id.chat);
 
 
     }
@@ -138,6 +196,11 @@ public class Emp_viewProjectFragment extends Fragment implements  Emp_MyProjects
 
     }
     public void setProjectInformation(){
+
+        if(project.getEmployer()!=null)
+        if(project.getEmployer().getId() == MySharedPreference.getLong(getContext(),Constants.Keys.EMPLOYER_ID,-1)){
+            EmployerView.setVisibility(View.GONE);
+        }
 
 
         if( (project.getTitle() != null))
@@ -184,6 +247,7 @@ public class Emp_viewProjectFragment extends Fragment implements  Emp_MyProjects
             deadline.setText(project.getDeadline().substring(0,10));
         }
 
+        if(project.getStatus() != null)
         if(project.getStatus().equals("0")){
             contractImg.setVisibility(View.INVISIBLE);
         }else{

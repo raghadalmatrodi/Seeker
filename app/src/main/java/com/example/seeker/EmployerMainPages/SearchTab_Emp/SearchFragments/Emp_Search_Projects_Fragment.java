@@ -22,6 +22,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.seeker.Database.ApiClients;
+import com.example.seeker.EmployerMainPages.MyProjectsTab_Emp.Emp_viewProjectFragment;
 import com.example.seeker.EmployerMainPages.SearchTab_Emp.ProjectSearchAdapter;
 import com.example.seeker.Model.Category;
 import com.example.seeker.Model.Project;
@@ -100,6 +101,16 @@ public class Emp_Search_Projects_Fragment extends Fragment
     //no need
     @Override
     public void onProjectItemSelectedAdapter(Project project) {
+        Fragment fragment = new Emp_viewProjectFragment();
+        Bundle bundle = new Bundle();
+        bundle.putSerializable("project", project);
+        bundle.putInt("pending", 1);
+        fragment.setArguments(bundle);
+        FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
+        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+        fragmentTransaction.replace(R.id.frame_container_emp, fragment);
+        fragmentTransaction.addToBackStack(null);
+        fragmentTransaction.commit();
 
     }
 

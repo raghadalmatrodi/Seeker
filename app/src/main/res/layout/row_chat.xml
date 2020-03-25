@@ -55,7 +55,7 @@
             android:layout_marginBottom="9dp"
             android:layout_below="@+id/user_name"
             android:gravity="center_horizontal"
-            android:text="hello"
+            android:text=" "
             android:textSize="16dp"
             android:paddingStart="@dimen/album_title_padding"
             android:paddingTop="@dimen/album_title_padding"
