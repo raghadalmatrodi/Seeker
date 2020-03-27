@@ -85,13 +85,17 @@ public class Emp_Search_Projects_Fragment extends Fragment
             public boolean onQueryTextChange(String queryString) {
 
                 recyclerView.setVisibility(View.GONE);
+                setProjectRecyclerView();
                 recyclerViewProject.setVisibility(View.VISIBLE);
+
                 projectSearchAdapter.getFilter().filter(queryString);
 
 
                 return false;
             }
         });
+
+
 
         // Inflate the layout for this fragment
         return view;
