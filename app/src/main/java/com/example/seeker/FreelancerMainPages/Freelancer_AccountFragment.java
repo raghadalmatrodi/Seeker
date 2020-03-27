@@ -7,6 +7,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import androidx.appcompat.app.AlertDialog;
@@ -23,7 +24,7 @@ public class Freelancer_AccountFragment extends Fragment implements View.OnClick
     View view;
     Button switch_btn;
     TextView logoutBtn;
-
+    LinearLayout edit_profile;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -43,6 +44,9 @@ public class Freelancer_AccountFragment extends Fragment implements View.OnClick
         switch_btn = (Button) view.findViewById(R.id.switch_to_e_btn);
         logoutBtn = view.findViewById(R.id.profile_logout_btn);
 
+        edit_profile = view.findViewById(R.id.fr_edit_profile_ll);
+        edit_profile.setOnClickListener(this);
+
     }
 
 
@@ -61,6 +65,9 @@ public class Freelancer_AccountFragment extends Fragment implements View.OnClick
                 //todo: logout api
                 logoutDialog();
                 break;
+
+            case R.id.fr_edit_profile_ll:
+                startActivity(new Intent(Freelancer_AccountFragment.this.getActivity(), FreelancerEditProfile.class));
 
 
         }

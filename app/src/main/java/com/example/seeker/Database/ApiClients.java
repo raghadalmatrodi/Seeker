@@ -15,6 +15,13 @@ public class ApiClients {
     //if you are using a real phone
 //    public static final String BASE_URL = "http://192.168.8.199:8080/api/";
 
+
+    //todo: hind's phone
+    //for real phone
+    //اللي فوق ما يضبط مدري ليه.
+//    public static final String BASE_URL = "http://172.20.10.6:8080/api/";
+
+
     //if you are using emulator
     public static final String BASE_URL = "http://10.0.2.2:8080/api/";
 

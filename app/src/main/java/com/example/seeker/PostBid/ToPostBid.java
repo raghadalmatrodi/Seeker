@@ -1,4 +1,4 @@
-package com.example.seeker.FreelancerMainPages;
+package com.example.seeker.PostBid;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -14,14 +14,8 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.seeker.Database.ApiClients;
 import com.example.seeker.FreelancerMainPages.MyProjectsTab_Freelancer.ProjectsStatusFragments.FRProjectAdapter;
-import com.example.seeker.FreelancerMainPages.MyProjectsTab_Freelancer.ProjectsStatusFragments.Freelancer_MyProjects_Pending_Fragment;
-import com.example.seeker.Model.Bid;
-import com.example.seeker.Model.Freelancer;
 import com.example.seeker.Model.Project;
-import com.example.seeker.PostBid.ViewBid;
 import com.example.seeker.R;
-import com.example.seeker.SharedPref.Constants;
-import com.example.seeker.SharedPref.MySharedPreference;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -31,14 +25,17 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
+public class ToPostBid extends Fragment implements Serializable, FRProjectAdapter.ProjectAdapterListener {
 
-public class Freelancer_MessagesFragment extends Fragment implements Serializable, FRProjectAdapter.ProjectAdapterListener {
+    /**
+     * DO NOT TOUCH THIS CLASS, I'LL ADD POST BID TO VIEW PROJECT IN SEARCH LATER
+     */
 
     private View view;
     private RecyclerView recyclerView;
     private FRProjectAdapter adapter;
     private List<Project> projectList = new ArrayList<>();
-    private Freelancer_MessagesFragment.ProjectListener projectListener;
+    private com.example.seeker.FreelancerMainPages.Freelancer_MessagesFragment.ProjectListener projectListener;
 
 
     @Override
@@ -70,9 +67,10 @@ public class Freelancer_MessagesFragment extends Fragment implements Serializabl
         startActivity(i);
 
 
+
     }
 
-    public void setListener (Freelancer_MessagesFragment.ProjectListener projectListener)
+    public void setListener (com.example.seeker.FreelancerMainPages.Freelancer_MessagesFragment.ProjectListener projectListener)
     {
         this.projectListener = projectListener;
 
@@ -141,7 +139,7 @@ public class Freelancer_MessagesFragment extends Fragment implements Serializabl
                     projectList = new ArrayList<>();
                     recyclerView.setItemAnimator(new DefaultItemAnimator());
                     recyclerView.setAdapter(adapter);
-                    adapter.setListener(Freelancer_MessagesFragment.this);
+                    adapter.setListener(ToPostBid.this);
                     recyclerView.setNestedScrollingEnabled(true);
                     DividerItemDecoration dividerItemDecoration = new DividerItemDecoration(recyclerView.getContext(), DividerItemDecoration.VERTICAL);
                     recyclerView.addItemDecoration(dividerItemDecoration);
@@ -161,5 +159,7 @@ public class Freelancer_MessagesFragment extends Fragment implements Serializabl
 
 
     }
+
+
 
 }

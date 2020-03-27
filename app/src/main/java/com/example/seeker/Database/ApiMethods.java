@@ -13,10 +13,12 @@ import com.example.seeker.Model.Login;
 import com.example.seeker.Model.Milestone;
 import com.example.seeker.Model.Project;
 import com.example.seeker.Model.Responses.ApiResponse;
+import com.example.seeker.Model.Skill;
 import com.example.seeker.Model.User;
 import com.example.seeker.Model.UserSocialMedia;
 
 import java.util.List;
+import java.util.Set;
 
 import okhttp3.MultipartBody;
 import okhttp3.RequestBody;
@@ -43,6 +45,7 @@ public interface ApiMethods {
         String POST_BID = "bid/post";
         String GET_PROJECT = "project/status/{status}";
         String GET_BIDS = "bid/find-all";
+        //todo: hind delete them if the others worked. :)
         String POST_SOCIAL_MEDIA = "userSocialMedia/add-accounts";
         String GET_SOCIAL_MEDIA = "userSocialMedia/find-all";
         String GET_USER_BY_EMAIL = "user/email/{email}";
@@ -67,6 +70,45 @@ public interface ApiMethods {
         String CREATE_CHAT_MESSAGE = "chatMessage";
         String FIND_CHAT = "chat/user/{user1_id}/{user2_id}";
         String DELETE_MILESTONE ="milestone/delete/{id}";
+
+
+
+        String GET_ALL_SKILLS = "skill/find-all";
+
+        String POST_PHONE_NUMBER = "user/phone_number/{id}/{phone_number}";
+        String POST_MAROOF_ACC = "freelancer/maarof_account/{id}/{maarof_account}";
+        String POST_NATIONAL_ID = "user/national_id/{id}/{national_id}";
+
+        String POST_LINKEDIN = "user/linkedin/{id}/{linkedIn}";
+        String POST_TWITTER = "user/twitter/{id}/{twitter}";
+        String POST_FACEBOOK = "user/facebook/{id}/{facebook}";
+
+        String GET_LINKEDIN = "user/get_linkedin/{id}";
+        String GET_TWITTER = "user/get_twitter/{id}";
+        String GET_FACEBOOK = "user/get_fb/{id}";
+
+        String GET_NID = "user/get_nid/{id}";
+        String GET_PHONE = "user/get_phone/{id}";
+        String GET_MAROOF = "freelancer/get_maarof/{id}";
+
+        String POST_EDUCATION = "user/education/{id}/{education}";
+        String GET_EDUCATION = "user/get_education/{id}";
+
+
+        String POST_IMG = "user/img/{id}/{img}";
+
+        String avat = "user//avatar";
+
+
+        String GET_ALL_TP = "user/get_all_vals/{id}";
+
+        String POST_EMPLOYER_TRUST_POINTS = "user/total_emp_tp/{id}";
+        String POST_FREELANCER_TRUST_POINTS = "user/total_fr_tp/{id}";
+
+        //EMPLOYER RATING METHODS
+        String GET_EMPLOYER_RATING_VALUES = "employer/get_rating_values/{id}";
+        String GET_EMPLOYER_TOTAL_RATINGS_VALUE = "employer/get_total_emp_rating/{id}";
+        String SET_ALL_EMPLOYER_RATING_VALUES = "employer/set_rating_values/{id}";
 
 
     }//End of Methods interface
@@ -116,6 +158,50 @@ public interface ApiMethods {
 
     @POST(Methods.CREATE_MILESTONE)
     Call<Milestone> createMilestoneRequest(@Body Milestone milestone);
+
+
+    //
+    @POST(Methods.POST_PHONE_NUMBER)
+    Call<Void> getPostPhoneNumberRequest(@Path("id") long id, @Path("phone_number") String phone_number);
+
+    @POST(Methods.POST_MAROOF_ACC)
+    Call<Void> getPostMaroofAccountRequest(@Path("id") long id, @Path("maarof_account") String maarof_account);
+
+    @POST(Methods.POST_NATIONAL_ID)
+    Call<Void> getPostNationalIdRequest(@Path("id") long id, @Path("national_id") String national_id);
+
+
+
+    @POST(Methods.POST_LINKEDIN)
+    Call<Void> getPostLinkedInRequest(@Path("id") long id, @Path("linkedIn") String linkedIn);
+
+    @POST(Methods.POST_TWITTER)
+    Call<Void> getPostTwitterRequest(@Path("id") long id, @Path("twitter") String twitter);
+
+    @POST(Methods.POST_FACEBOOK)
+    Call<Void> getPostFacebookRequest(@Path("id") long id, @Path("facebook") String facebook);
+
+    @POST(Methods.POST_EDUCATION)
+    Call<Void> getPostEducation(@Path("id") long id, @Path("education") String education);
+
+    @POST(Methods.POST_IMG)
+    Call<Void> getPostImgRequest(@Path("id") long id, @Path("img") byte[] img);
+
+    @POST(Methods.avat)
+    Call<Void> postAvat(@Part("avatar") MultipartBody file);
+
+
+    //NEW WORKING ONES
+
+    @POST(Methods.POST_EMPLOYER_TRUST_POINTS)
+    Call<Integer> calculateEmployerTrustPoints(@Path("id") long id);
+
+    @POST(Methods.POST_FREELANCER_TRUST_POINTS)
+    Call<Integer> calculateFreelancerTrustPoints(@Path("id") long id);
+
+
+
+
 
     /**
      * GET METHODS
@@ -175,10 +261,51 @@ public interface ApiMethods {
     @POST(Methods.CREATE_CHAT_MESSAGE)
     Call<ChatMessage> createChatMessage(@Body ChatMessage chatMessage);
 
+
+    @GET(Methods.GET_ALL_SKILLS)
+    Call<Set<Skill>> getAllSkills();
+
+
+    @GET(Methods.GET_LINKEDIN)
+    Call<String> getLinkedin(@Path("id") long id);
+
+    @GET(Methods.GET_TWITTER)
+    Call<String> getTwitter(@Path("id") long id);
+
+    @GET(Methods.GET_FACEBOOK)
+    Call<String> getFacebook(@Path("id") long id);
+
+    @GET(Methods.GET_EDUCATION)
+    Call<String> getEducation(@Path("id") long id);
+
+    @GET(Methods.GET_NID)
+    Call<String> getNationalId(@Path("id") long id);
+
+    @GET(Methods.GET_PHONE)
+    Call<String> getPhoneNumber(@Path("id") long id);
+
+    @GET(Methods.GET_MAROOF)
+    Call<String> getMaroofAcc(@Path("id") long id);
+
+    @GET(Methods.GET_ALL_TP)
+    Call<List<String>> getAllTPVals(@Path("id") long id);
+
+    @GET(Methods.GET_EMPLOYER_RATING_VALUES)
+    Call<List<Integer>> getEmployerRatingValues(@Path("id") long id);
+
+    @GET(Methods.GET_EMPLOYER_TOTAL_RATINGS_VALUE)
+    Call<Float> getEmployerTotalRating(@Path("id") long id);
+
+
+
     @GET(Methods.FIND_CHAT)
     Call<Chat> findChat(@Path("user1_id") Long user1_id , @Path("user2_id") Long user2_id);
 
     @DELETE(Methods.DELETE_MILESTONE)
     Call<ApiResponse> deleteMilestone(@Path("id") long id);
+
+
+    //
+
 
 }//End of ApiMethods interface

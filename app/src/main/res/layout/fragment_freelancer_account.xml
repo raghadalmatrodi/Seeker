@@ -11,7 +11,7 @@
 
 
             <LinearLayout
-                android:id="@+id/edit_profile_ll"
+                android:id="@+id/fr_edit_profile_ll"
                 android:layout_width="match_parent"
                 android:layout_height="141dp"
                 android:orientation="horizontal"
@@ -23,7 +23,7 @@
                     android:layout_width="105dp"
                     android:layout_height="108dp"
                     android:layout_margin="20dp"
-                    android:src="@drawable/meeting" />
+                    android:src="@drawable/user" />
 
                 <LinearLayout
                     android:layout_width="wrap_content"

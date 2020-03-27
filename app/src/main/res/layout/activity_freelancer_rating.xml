@@ -1,0 +1,139 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView android:layout_height="match_parent"
+    android:layout_width="match_parent"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+<LinearLayout
+    android:id="@+id/dialog_info"
+    android:orientation="vertical"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".Rating.FreelancerRatesEmployer">
+
+<!--    <androidx.appcompat.widget.AppCompatRatingBar-->
+<!--    android:layout_gravity="center"-->
+<!--        android:layout_marginTop="50dp"-->
+<!--        android:id="@+id/emp_total_rate"-->
+<!--        android:layout_width="wrap_content"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        android:numStars="5"-->
+<!--        android:stepSize="0.1"-->
+<!--        tools:layout_editor_absoluteX="85dp"-->
+<!--        tools:layout_editor_absoluteY="44dp" />-->
+
+<!--    <Button-->
+<!--        android:id="@+id/fr_to_rate_emp_btn"-->
+<!--        android:layout_width="wrap_content"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        android:background="#fff"-->
+<!--        android:text="Rate"-->
+<!--        android:layout_marginTop="30dp"-->
+<!--        android:layout_gravity="center"-->
+<!--        android:textColor="@color/colorPrimary"-->
+<!--        tools:layout_editor_absoluteX="161dp"-->
+<!--        tools:layout_editor_absoluteY="127dp" />-->
+
+
+<!--    <androidx.viewpager.widget.ViewPager-->
+<!--        android:id="@+id/fr_vp"-->
+<!--        android:layout_width="333dp"-->
+<!--        android:layout_height="212dp"-->
+<!--        android:layout_gravity="center"-->
+<!--        android:layout_marginTop="30dp"-->
+<!--        android:background="#64A9CD"></androidx.viewpager.widget.ViewPager>-->
+
+    <TextView
+    android:id="@+id/fr_rq_one"
+    android:text="QUESTION 1"
+    android:layout_gravity="center_horizontal"
+    android:layout_marginTop="70dp"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"/>
+
+    <RatingBar
+        android:id="@+id/fr_rbq_one"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:numStars="5"
+        android:stepSize="1"
+        android:layout_margin="20dp"
+        />
+
+
+    <TextView
+        android:id="@+id/fr_rq_two"
+        android:text="QUESTION 2"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="30dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"/>
+
+    <RatingBar
+        android:id="@+id/fr_rbq_two"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:numStars="5"
+        android:stepSize="1"
+        android:layout_margin="20dp"
+        />
+
+    <TextView
+        android:id="@+id/fr_rq_three"
+        android:text="QUESTION 3"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="30dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"/>
+
+    <RatingBar
+        android:id="@+id/fr_rbq_three"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:numStars="5"
+        android:stepSize="1"
+        android:layout_margin="20dp"
+        />
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center_horizontal"
+        android:text="Thank You!\n Your opinion makes a difference."/>
+    <Button
+        android:id="@+id/next_rq_btn"
+        android:layout_width="335dp"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_marginTop="10dp"
+        android:background="@drawable/rounded_edges"
+        android:text="Finish"
+        android:textAllCaps="false"
+        android:textColor="#fff"
+        tools:layout_editor_absoluteX="161dp"
+        tools:layout_editor_absoluteY="127dp" />
+
+
+
+    <TextView
+        android:id="@+id/fr_all_ratings_total_tv"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="50dp"
+        android:gravity="center"
+        android:text="all ratings" />
+    <RatingBar
+        android:id="@+id/fr_total_rbq"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:numStars="5"
+        android:stepSize="0.1"
+        android:layout_margin="20dp"
+        />
+
+</LinearLayout></ScrollView>

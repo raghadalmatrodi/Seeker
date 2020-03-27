@@ -2,7 +2,9 @@ package com.example.seeker.Model;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 public class Freelancer implements Serializable {
 
@@ -14,6 +16,19 @@ public class Freelancer implements Serializable {
     private int total_quality_of_work;
     private int num_of_hired_projects;
     private List<Bid> bids = new ArrayList<>();
+    private Set<Skill> skills = new HashSet<>();
+
+    public Freelancer(long id, User user, String maarof_account, int num_of_ratings, int total_response_time, int total_quality_of_work, int num_of_hired_projects, List<Bid> bids, Set<Skill> skills) {
+        this.id = id;
+        this.user = user;
+        this.maarof_account = maarof_account;
+        this.num_of_ratings = num_of_ratings;
+        this.total_response_time = total_response_time;
+        this.total_quality_of_work = total_quality_of_work;
+        this.num_of_hired_projects = num_of_hired_projects;
+        this.bids = bids;
+        this.skills = skills;
+    }
 
     public Freelancer(long id, User user, String maarof_account, int num_of_ratings, int total_response_time, int total_quality_of_work, int num_of_hired_projects, List<Bid> bids) {
         this.id = id;
@@ -25,6 +40,12 @@ public class Freelancer implements Serializable {
         this.num_of_hired_projects = num_of_hired_projects;
         this.bids = bids;
     }
+
+    public Freelancer(long id, Set<Skill> skills) {
+        this.id = id;
+        this.skills = skills;
+    }
+
 
     public long getId() {
         return id;
@@ -88,6 +109,14 @@ public class Freelancer implements Serializable {
 
     public void setBids(List<Bid> bids) {
         this.bids = bids;
+    }
+
+    public Set<Skill> getSkills() {
+        return skills;
+    }
+
+    public void setSkills(Set<Skill> skills) {
+        this.skills = skills;
     }
 
     public Freelancer(long id) {
