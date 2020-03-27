@@ -17,7 +17,8 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".EmployerMainPages.Chat_Emp.Emp_ChatMessages"></activity>
+        <activity android:name=".Activities.BaseActivity"></activity>
+        <activity android:name=".EmployerMainPages.Chat_Emp.Emp_ChatMessages" />
         <activity android:name=".EmployerMainPages.AcceptBidConfirmation" />
         <activity android:name=".FreelancerMainPages.FreelancerEditProfile" />
         <activity android:name=".PostBid.ViewFullBid" />
