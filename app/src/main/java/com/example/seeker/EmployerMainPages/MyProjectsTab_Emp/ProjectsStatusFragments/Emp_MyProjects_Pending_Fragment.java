@@ -117,7 +117,7 @@ public class Emp_MyProjects_Pending_Fragment extends Fragment implements Seriali
 
         expiryDate = project.getExpiry_date();
 
-        showDialog("Are you sure you want to extend this project by five days more?", 1, project);
+        showDialog("Are you sure you want to extend this project for five days more?", 1, project);
 
     }
 
