@@ -78,9 +78,12 @@ public class ProjectSearchAdapter extends RecyclerView.Adapter<ProjectSearchAdap
 
     @Override
     public void onBindViewHolder(final ProjectSearchAdapter.MyViewHolder holder, int position) {
+        if(projectList.size()!=0){
         Project project = projectList.get(position);
         holder.title.setText(project.getTitle());
        holder.description.setText(project.getCategory().getTitle());
+
+        }
 
 
     }//End of onBindViewHolder
@@ -106,7 +109,8 @@ public class ProjectSearchAdapter extends RecyclerView.Adapter<ProjectSearchAdap
             protected FilterResults performFiltering(CharSequence constraint) {
                 String charSequenceString = constraint.toString();
                 if (charSequenceString.isEmpty()) {
-                   projectList=projecSearchtList;
+
+                  // projectList=projecSearchtList;
                     filteredProjectSearchList = projectList;
                 } else {
                    // filteredProjectSearchList.clear();
