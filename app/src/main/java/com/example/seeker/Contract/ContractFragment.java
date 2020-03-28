@@ -1,4 +1,4 @@
-package com.example.seeker.Activities.Contract;
+package com.example.seeker.Contract;
 
 import android.os.Bundle;
 import android.util.Log;
@@ -22,7 +22,6 @@ import com.example.seeker.Database.ApiClients;
 import com.example.seeker.Model.Contract;
 import com.example.seeker.Model.Milestone;
 import com.example.seeker.Model.Project;
-import com.example.seeker.PostProject.CategoryAdapter;
 import com.example.seeker.R;
 
 import java.util.List;
@@ -82,7 +81,7 @@ public class ContractFragment extends Fragment {
                 fragmentTransaction.addToBackStack(null);
                 fragmentTransaction.commit();
 
-
+                mProgressBar.setVisibility(View.VISIBLE);
                 performAPIRequest(project.getId());
 
             }
@@ -133,6 +132,7 @@ public class ContractFragment extends Fragment {
             status.setText("In Progress");
         }else{
             status.setText("Completed");
+
 
         }
         employerName.setText(contract.getProject().getEmployer().getUser().getUsername());
@@ -194,7 +194,6 @@ public class ContractFragment extends Fragment {
     public void checkVisibility(){
 
 
-        if(project.getType().equals("0")){
 
             if(project.getMilestones().size() == 1 ){
 
@@ -212,11 +211,7 @@ public class ContractFragment extends Fragment {
 
             }
 
-        }else{
-            createMilestone.setVisibility(View.INVISIBLE);
 
-
-        }
     }
 
 

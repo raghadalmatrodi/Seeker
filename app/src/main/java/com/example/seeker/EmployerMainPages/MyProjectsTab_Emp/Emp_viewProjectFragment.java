@@ -18,16 +18,14 @@ import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.seeker.Activities.Contract.ContractFragment;
+import com.example.seeker.Contract.ContractFragment;
 import com.example.seeker.Database.ApiClients;
 import com.example.seeker.EmployerMainPages.AcceptBidConfirmation;
 import com.example.seeker.EmployerMainPages.Chat_Emp.Emp_ChatMessages;
 import com.example.seeker.EmployerMainPages.MyProjectsTab_Emp.ProjectsStatusFragments.Emp_MyProjects_Pending_Fragment;
 import com.example.seeker.Model.Bid;
 import com.example.seeker.Model.Chat;
-import com.example.seeker.Model.Contract;
 import com.example.seeker.Model.Project;
-import com.example.seeker.Model.Responses.ApiResponse;
 import com.example.seeker.Model.Skill;
 import com.example.seeker.PostBid.BidsAdapter;
 import com.example.seeker.R;

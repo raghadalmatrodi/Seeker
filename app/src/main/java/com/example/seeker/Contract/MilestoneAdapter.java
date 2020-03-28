@@ -1,18 +1,14 @@
-package com.example.seeker.Activities.Contract;
+package com.example.seeker.Contract;
 
 import android.graphics.Color;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
 import android.widget.TextView;
 
-import androidx.annotation.ColorInt;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.seeker.Model.Category;
 import com.example.seeker.Model.Milestone;
-import com.example.seeker.PostProject.CategoryAdapter;
 import com.example.seeker.R;
 
 import java.util.List;

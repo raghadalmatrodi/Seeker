@@ -1,6 +1,5 @@
 package com.example.seeker.Database;
 
-import com.example.seeker.Activities.Contract.ContractFragment;
 import com.example.seeker.Model.Bid;
 import com.example.seeker.Model.Category;
 import com.example.seeker.Model.Certificate;
