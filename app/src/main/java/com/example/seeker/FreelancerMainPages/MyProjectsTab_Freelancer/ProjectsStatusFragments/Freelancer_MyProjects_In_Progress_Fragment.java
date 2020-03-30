@@ -103,19 +103,22 @@ public class Freelancer_MyProjects_In_Progress_Fragment extends Fragment impleme
                         for (int h = 0; h < bidSize; h++ ){
 
                             if (response.body().get(k).getBids().get(h).getFreelancer() != null)
+                                if (response.body().get(k).getBids().get(h).getStatus().equals("accepted"))
                                 if (response.body().get(k).getBids().get(h).getFreelancer().getId() == currentFreelancer)
                                     projectList.add(response.body().get(k));
 
                         }//Bids loop
                     }//Projects loop.
 
+                    if (!projectList.isEmpty())
                     inProgressText.setText("");
+                    else inProgressText.setText("There are no projects in progress");
                     setUpRecyclerView();
 
 
                 }else{
                     Toast.makeText(getContext(),"not success",Toast.LENGTH_LONG).show();
-                    inProgressText.setText("There are no projects in progress");
+                    inProgressText.setText("Something went wrong, please try again in a few moments");
                 }
             }
 

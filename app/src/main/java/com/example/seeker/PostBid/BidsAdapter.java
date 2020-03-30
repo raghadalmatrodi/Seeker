@@ -16,6 +16,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.seeker.Database.ApiClients;
 import com.example.seeker.Model.Bid;
 import com.example.seeker.Model.Category;
+import com.example.seeker.Model.Freelancer;
 import com.example.seeker.Model.Milestone;
 import com.example.seeker.Model.Project;
 import com.example.seeker.Model.Responses.ApiResponse;
@@ -34,6 +35,7 @@ public class BidsAdapter extends RecyclerView.Adapter<BidsAdapter.MyViewHolder> 
     boolean isEmployer =false;
     boolean isPending=false;
     Project project;
+    Freelancer freelancer;
 
     public void setListener(BidsAdapterListener listener) {
         this.listener = listener;
@@ -142,6 +144,28 @@ public class BidsAdapter extends RecyclerView.Adapter<BidsAdapter.MyViewHolder> 
 //            holder.username.setText("NO NAME FOUND!");
 //        }
 
+        if (bid.getFreelancer() != null )
+//            findFreelancerById(bid.getFreelancer().getId());
+
+        ApiClients.getAPIs().findFreelancerById(bid.getFreelancer().getId()).enqueue(new Callback<Freelancer>() {
+            @Override
+            public void onResponse(Call<Freelancer> call, Response<Freelancer> response) {
+                if (response.isSuccessful()){
+//                    freelancer = response.body();
+                    holder.username.setText(response.body().getUser().getName());
+                }
+            }
+
+            @Override
+            public void onFailure(Call<Freelancer> call, Throwable t) {
+
+            }
+        });
+
+
+
+//        holder.username.setText(freelancer.getUser().getName());
+
 
         String shortDescription, longDescription;
         longDescription = bid.getDescription();
@@ -233,6 +257,21 @@ public class BidsAdapter extends RecyclerView.Adapter<BidsAdapter.MyViewHolder> 
 
     }
 
+    private void findFreelancerById(long id){
+//        ApiClients.getAPIs().findFreelancerById(id).enqueue(new Callback<Freelancer>() {
+//            @Override
+//            public void onResponse(Call<Freelancer> call, Response<Freelancer> response) {
+//                if (response.isSuccessful()){
+//                    freelancer = response.body();
+//                }
+//            }
+//
+//            @Override
+//            public void onFailure(Call<Freelancer> call, Throwable t) {
+//
+//            }
+//        });
+    }
 
     @Override
     public int getItemCount() {

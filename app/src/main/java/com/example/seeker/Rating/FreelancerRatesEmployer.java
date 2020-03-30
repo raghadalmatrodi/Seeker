@@ -7,10 +7,22 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.RatingBar;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import com.example.seeker.Database.ApiClients;
+import com.example.seeker.Model.Employer;
+import com.example.seeker.Model.EmployerRating;
+import com.example.seeker.Model.Freelancer;
+import com.example.seeker.Model.Responses.ApiResponse;
 import com.example.seeker.R;
 
 import org.w3c.dom.Text;
+
+import java.util.List;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class FreelancerRatesEmployer extends AppCompatActivity {
 
@@ -22,9 +34,21 @@ public class FreelancerRatesEmployer extends AppCompatActivity {
 
     Button nextBtn;
 
-    private float professionalismE , onTimePaymentE , responseTimeE ;
+    private int professionalismE , onTimePaymentE , responseTimeE ;
 
 
+
+
+    float empTotalRates;
+
+    List<Integer> allEmpRatingVals;
+    //Values will be returned in this order
+    private int  num_of_ratings;
+    private int  response_time;
+    private int  total_on_time_payment;
+
+    //TODO: GIVE REAL ID FOR EMP AND FR BASED ON THE TRIGGER
+    long empId = 752, frId = 252;
     /**
      * FR.26. The freelancer shall be able to rate the employer after full payment.
      * The freelancer shall be able to rate the employer’s professionalism.
@@ -65,14 +89,14 @@ public class FreelancerRatesEmployer extends AppCompatActivity {
         q1Rating.setOnRatingBarChangeListener(new RatingBar.OnRatingBarChangeListener() {
             @Override
             public void onRatingChanged(RatingBar ratingBar, float rating, boolean fromUser) {
-                professionalismE = ratingBar.getRating();
+                professionalismE = (int)ratingBar.getRating();
             }
         });
 
         q2Rating.setOnRatingBarChangeListener(new RatingBar.OnRatingBarChangeListener() {
             @Override
             public void onRatingChanged(RatingBar ratingBar, float rating, boolean fromUser) {
-                onTimePaymentE = ratingBar.getRating();
+                onTimePaymentE = (int)ratingBar.getRating();
             }
         });
 
@@ -80,7 +104,7 @@ public class FreelancerRatesEmployer extends AppCompatActivity {
         q3Rating.setOnRatingBarChangeListener(new RatingBar.OnRatingBarChangeListener() {
             @Override
             public void onRatingChanged(RatingBar ratingBar, float rating, boolean fromUser) {
-               responseTimeE = ratingBar.getRating();
+               responseTimeE = (int)ratingBar.getRating();
             }
         });
 
@@ -90,12 +114,30 @@ public class FreelancerRatesEmployer extends AppCompatActivity {
 //        onTimePaymentE = q2Rating.getRating();
 //        responseTimeE =  q3Rating.getRating();
 
+
+        Employer employer = new Employer(empId);
+        Freelancer freelancer = new Freelancer(frId);
+
+        getEmployerTotalRatingVal(empId);
+        getRatingValues(empId);
+
+
+
+
         nextBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 
-//                totalRatingTv.setText("prof= "+professionalismE+" , otp= "+ onTimePaymentE+" , res time= "+responseTimeE);
+                totalRatingTv.setText("prof= "+professionalismE+" , otp= "+ onTimePaymentE+" , res time= "+responseTimeE);
                 RateTheEmp(professionalismE , onTimePaymentE , responseTimeE);
+
+
+//                perfomRateEmployerRequest(new EmployerRating(responseTimeE, professionalismE, onTimePaymentE, freelancer, employer));
+//                Toast.makeText(FreelancerRatesEmployer.this,"emp total = "+empTotalRates,Toast.LENGTH_LONG).show();
+
+//                Toast.makeText(FreelancerRatesEmployer.this,"number of rating = "+num_of_ratings+"\n response time = "+response_time+"\n total otp = "+total_on_time_payment,Toast.LENGTH_LONG).show();
+
+
             }
         });
 
@@ -169,28 +211,123 @@ public class FreelancerRatesEmployer extends AppCompatActivity {
 //    private float ratingEmp =0, totalRatingEmp =0, numOfEmpRating=0;
 //    private float avg=0;
 
-    public void RateTheEmp(float professionalismE , float onTimePaymentE, float responseTimeE){
+
+    private void getEmployerTotalRatingVal(long id){
+        ApiClients.getAPIs().getEmployerTotalRating(id).enqueue(new Callback<Float>() {
+            @Override
+            public void onResponse(Call<Float> call, Response<Float> response) {
+                if (response.isSuccessful()) {
+                    empTotalRates = response.body();
+//                    Toast.makeText(FreelancerRatesEmployer.this,"success",Toast.LENGTH_LONG).show();
+
+                } else {
+//                    Toast.makeText(FreelancerRatesEmployer.this,"not success: "+response.errorBody().toString(),Toast.LENGTH_LONG).show();
+
+                }
+            }
+
+            @Override
+            public void onFailure(Call<Float> call, Throwable t) {
+//                Toast.makeText(FreelancerRatesEmployer.this,"failure: "+t.getLocalizedMessage(),Toast.LENGTH_LONG).show();
+
+            }
+        });
+    }
+
+    private void getRatingValues(long id){
+
+        //Values will be returned in this order
+        //  private int  num_of_ratings;
+        //  private int  response_time;
+        //  private int  total_on_time_payment;
+
+        ApiClients.getAPIs().getEmployerRatingValues(id).enqueue(new Callback<List<Integer>>() {
+            @Override
+            public void onResponse(Call<List<Integer>> call, Response<List<Integer>> response) {
+                if (response.isSuccessful()) {
+//                    allEmpRatingVals = response.body();
+                    num_of_ratings =  response.body().get(0);
+                    response_time = response.body().get(1);
+                    total_on_time_payment = response.body().get(2);
+
+//                    Toast.makeText(FreelancerRatesEmployer.this,"success",Toast.LENGTH_LONG).show();
+
+                } else {
+//                    Toast.makeText(FreelancerRatesEmployer.this,"not success: "+response.errorBody().toString(),Toast.LENGTH_LONG).show();
+
+                }
+
+            }
+
+            @Override
+            public void onFailure(Call<List<Integer>> call, Throwable t) {
+//                Toast.makeText(FreelancerRatesEmployer.this,"failure: "+t.getLocalizedMessage(),Toast.LENGTH_LONG).show();
+
+            }
+        });
+    }
+
+
+    /**
+     *    float empTotalRates;
+
+     *     //Values will be returned in this order
+     *     private int  num_of_ratings;
+     *     private int  response_time;
+     *     private int  total_on_time_payment;
+     *
+     */
+
+
+    public void RateTheEmp(int professionalismE , int onTimePaymentE, int responseTimeE){
          float ratingEmp, totalRatingEmp =0, numOfEmpRating=0;
          float avg;
         //Q1 -> professionalism
         //Q2 -> on time payment
         //Q3 -> response time
 
-        ratingEmp = (professionalismE + onTimePaymentE + responseTimeE)/3;
-        totalRatingEmp+= ratingEmp;
-        numOfEmpRating+= 1;
+        ratingEmp = ((float)professionalismE + (float)onTimePaymentE + (float)responseTimeE)/3;
+        empTotalRates+= ratingEmp;
+        num_of_ratings+= 1;
 
-        avg = totalRatingEmp/numOfEmpRating;
+        response_time+= responseTimeE;
+        total_on_time_payment+= onTimePaymentE;
+
+        avg = empTotalRates/ ((float)num_of_ratings);
 
         totalRatingTv.setText("total rating"+ avg);
         tot.setRating(avg);
 
+//        long id, int num_of_ratings, int response_time, int total_on_time_payment, float total_emp_ratings
+        setRatingValues(new Employer(empId, num_of_ratings, response_time, total_on_time_payment, empTotalRates));
 
         /**for statistics i need to:
          *  1- get total response time and increase it by new res time then set the total to te summation of them
          *  2- get on time payment and increase it by new otp  then set the total to te summation of them
          */
 
+    }
+
+
+
+
+    private void setRatingValues(Employer employer){
+        ApiClients.getAPIs().setAllEmployerRatingValues(employer).enqueue(new Callback<Void>() {
+            @Override
+            public void onResponse(Call<Void> call, Response<Void> response) {
+                if (response.isSuccessful())
+                    Toast.makeText(FreelancerRatesEmployer.this,"success",Toast.LENGTH_LONG).show();
+                    else
+                        Toast.makeText(FreelancerRatesEmployer.this,"not success: "+response.errorBody().toString(),Toast.LENGTH_LONG).show();
+
+            }
+
+            @Override
+            public void onFailure(Call<Void> call, Throwable t) {
+                Toast.makeText(FreelancerRatesEmployer.this,"set values failure: "+t.getLocalizedMessage(),Toast.LENGTH_LONG).show();
+
+            }
+        });
     }
 
 
@@ -250,6 +387,27 @@ public class FreelancerRatesEmployer extends AppCompatActivity {
 //
 //
 
+
+    private void perfomRateEmployerRequest(EmployerRating employerRating){
+
+        ApiClients.getAPIs().getRateEmployerRequest(employerRating).enqueue(new Callback<ApiResponse>() {
+            @Override
+            public void onResponse(Call<ApiResponse> call, Response<ApiResponse> response) {
+                if (response.isSuccessful())
+                    Toast.makeText(FreelancerRatesEmployer.this, "Successful", Toast.LENGTH_LONG).show();
+                else
+                    Toast.makeText(FreelancerRatesEmployer.this, "Not Successful: "+ response.errorBody().toString(), Toast.LENGTH_LONG).show();
+
+            }
+
+            @Override
+            public void onFailure(Call<ApiResponse> call, Throwable t) {
+                Toast.makeText(FreelancerRatesEmployer.this, t.getLocalizedMessage(), Toast.LENGTH_LONG).show();
+
+            }
+        });
+
+    }
 
 
 

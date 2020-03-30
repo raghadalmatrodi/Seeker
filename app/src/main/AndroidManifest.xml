@@ -21,7 +21,7 @@
         <activity android:name=".Activities.BaseActivity"></activity>
         <activity android:name=".EmployerMainPages.Chat_Emp.Emp_ChatMessages" />
         <activity android:name=".EmployerMainPages.AcceptBidConfirmation" />
-        <activity android:name=".Rating.EmployerRating"></activity>
+        <activity android:name=".Rating.EmployerRatesFreelancer"></activity>
         <activity android:name=".FreelancerMainPages.FreelancerEditProfile" />
         <activity android:name=".FreelancerMainPages.SearchTab_Freelancer.AddSkillActivity" />
         <activity android:name=".Rating.FreelancerRatesEmployer" />

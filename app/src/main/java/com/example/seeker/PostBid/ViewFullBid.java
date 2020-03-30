@@ -9,11 +9,17 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.example.seeker.Database.ApiClients;
 import com.example.seeker.EmployerMainPages.AccountRelatedActivities.EditProfileActivity;
 import com.example.seeker.Model.Bid;
+import com.example.seeker.Model.Freelancer;
 import com.example.seeker.R;
 import com.example.seeker.SharedPref.Constants;
 import com.example.seeker.SharedPref.MySharedPreference;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class ViewFullBid extends AppCompatActivity {
 
@@ -79,8 +85,30 @@ public class ViewFullBid extends AppCompatActivity {
         desc.setText(bid.getDescription());
         title.setText(bid.getTitle());
 //        username.setText(String.valueOf(bid.getFreelancer().getId()));
-        if (bid.getFreelancer().getUser() != null)
-        username.setText(bid.getFreelancer().getUser().getUsername());
+
+        if (bid.getFreelancer() != null )
+//            findFreelancerById(bid.getFreelancer().getId());
+
+            ApiClients.getAPIs().findFreelancerById(bid.getFreelancer().getId()).enqueue(new Callback<Freelancer>() {
+                @Override
+                public void onResponse(Call<Freelancer> call, Response<Freelancer> response) {
+                    if (response.isSuccessful()){
+//                    freelancer = response.body();
+//                        holder.username.setText(response.body().getUser().getName());
+                        username.setText(response.body().getUser().getName());
+                    }
+                }
+
+                @Override
+                public void onFailure(Call<Freelancer> call, Throwable t) {
+
+                }
+            });
+
+
+
+//        if (bid.getFreelancer().getUser() != null)
+//        username.setText(bid.getFreelancer().getUser().getUsername());
 //        else
 //            username.setText(String.valueOf(bid.getFreelancer().getId()));
 
