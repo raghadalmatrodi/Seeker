@@ -47,7 +47,7 @@ public class ViewFullBid extends AppCompatActivity {
         username = findViewById(R.id.viewfullbidfreelancername);
 
     }
-
+    String capitalizedName;
     private void initToolbar(Bid bid){
 
         //init toolbar
@@ -64,6 +64,7 @@ public class ViewFullBid extends AppCompatActivity {
 
     }//End initToolBar()
     private void fillData() {
+
 
         init();
 
@@ -95,7 +96,8 @@ public class ViewFullBid extends AppCompatActivity {
                     if (response.isSuccessful()){
 //                    freelancer = response.body();
 //                        holder.username.setText(response.body().getUser().getName());
-                        username.setText(response.body().getUser().getName());
+                        capitalizedName = response.body().getUser().getName().substring(0,1).toUpperCase() + response.body().getUser().getName().substring(1,response.body().getUser().getName().length());
+                        username.setText(capitalizedName);
                     }
                 }
 

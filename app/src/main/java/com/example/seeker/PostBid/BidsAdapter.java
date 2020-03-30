@@ -36,6 +36,7 @@ public class BidsAdapter extends RecyclerView.Adapter<BidsAdapter.MyViewHolder> 
     boolean isPending=false;
     Project project;
     Freelancer freelancer;
+    String capitalizedName;
 
     public void setListener(BidsAdapterListener listener) {
         this.listener = listener;
@@ -50,6 +51,7 @@ public class BidsAdapter extends RecyclerView.Adapter<BidsAdapter.MyViewHolder> 
         public TextView price;
         public TextView deadline;
         public Button acceptBid;
+
 
 
         public MyViewHolder(View view) {
@@ -152,7 +154,8 @@ public class BidsAdapter extends RecyclerView.Adapter<BidsAdapter.MyViewHolder> 
             public void onResponse(Call<Freelancer> call, Response<Freelancer> response) {
                 if (response.isSuccessful()){
 //                    freelancer = response.body();
-                    holder.username.setText(response.body().getUser().getName());
+                    capitalizedName = response.body().getUser().getName().substring(0,1).toUpperCase() + response.body().getUser().getName().substring(1,response.body().getUser().getName().length());
+                    holder.username.setText(capitalizedName);
                 }
             }
 
