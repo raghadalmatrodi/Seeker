@@ -1,4 +1,4 @@
-package com.example.seeker.Activities.Contract;
+package com.example.seeker.Contract;
 
 import android.app.AlertDialog;
 import android.app.DatePickerDialog;
@@ -16,15 +16,12 @@ import android.widget.TextView;
 
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
-import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.DefaultItemAnimator;
 import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.seeker.Database.ApiClients;
-import com.example.seeker.EmployerMainPages.MyProjectsTab_Emp.Emp_MyProjectsFragment;
-import com.example.seeker.Model.Bid;
 import com.example.seeker.Model.Contract;
 import com.example.seeker.Model.Milestone;
 import com.example.seeker.Model.Project;
@@ -60,6 +57,7 @@ public class MilestoneFragment extends Fragment {
     private List<Milestone> milestoneList  = new ArrayList<>();
     private double totalBudget = 0;
     private Project project;
+    private TextView milestoneText;
 
 
 
@@ -279,6 +277,7 @@ public class MilestoneFragment extends Fragment {
         saveBtn = view.findViewById(R.id.save_btn);
         cancelBtn = view.findViewById(R.id.cancel_btn);
         recyclerView = view.findViewById(R.id.milestoneM_recycler_view);
+        milestoneText = view.findViewById(R.id.milestone_text);
     }
 
     private void milestoneFixedPriceDialog() {
@@ -329,6 +328,7 @@ public class MilestoneFragment extends Fragment {
                            Milestone milestone = new Milestone(doubleBudget,"0", finalLDT.toString(), title,contract.getProject());
 
                            milestoneList.add(milestone);
+                           milestoneText.setText("");
                            adapter.notifyDataSetChanged();
 
 
@@ -416,6 +416,7 @@ public class MilestoneFragment extends Fragment {
                             Milestone milestone = new Milestone(doubleBudget,"0", finalLDT.toString(), title,contract.getProject());
 
                             milestoneList.add(milestone);
+                             milestoneText.setText("");
                             adapter.notifyDataSetChanged();
 
 
