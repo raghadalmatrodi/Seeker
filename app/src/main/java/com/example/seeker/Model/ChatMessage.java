@@ -18,7 +18,10 @@ public class ChatMessage implements Serializable, IMessage  {
     private User sender;
     private Chat chat;
 
-        public ChatMessage(long id, String createdAt, String message, User sender, Chat chat) {
+    public ChatMessage() {
+    }
+
+    public ChatMessage(long id, String createdAt, String message, User sender, Chat chat) {
         this.id = id;
         this.createdAt = createdAt;
         this.message = message;

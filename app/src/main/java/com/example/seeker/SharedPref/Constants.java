@@ -29,6 +29,7 @@ public class Constants {
          //todo: new
          String FREELANCER_ID = "freelancer_id";
          String FREELANCER_NAME = "freelancer_name";
+         String TOKEN_ID = "token_id";
 
     }//End Keys interface
 

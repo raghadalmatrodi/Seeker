@@ -72,6 +72,7 @@ public interface ApiMethods {
         String CREATE_CHAT_MESSAGE = "chatMessage";
         String FIND_CHAT = "chat/user/{user1_id}/{user2_id}";
         String DELETE_MILESTONE ="milestone/delete/{id}";
+        String UPDATE_TOKEN = "user/updateToken/{token}/{id}";
 
 
 
@@ -325,6 +326,8 @@ public interface ApiMethods {
     @DELETE(Methods.DELETE_MILESTONE)
     Call<ApiResponse> deleteMilestone(@Path("id") long id);
 
+    @PUT(Methods.UPDATE_TOKEN)
+    Call<ApiResponse> updateToken(@Path("token") String token , @Path("id") long id);
     @GET(Methods.GET_FREELANCER_BY_ID)
     Call<Freelancer> findFreelancerById(@Path("id") long id);
 
