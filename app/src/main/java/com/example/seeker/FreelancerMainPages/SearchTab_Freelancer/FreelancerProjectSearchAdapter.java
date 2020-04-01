@@ -10,6 +10,7 @@ import android.widget.TextView;
 
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.seeker.Model.Freelancer;
 import com.example.seeker.Model.Project;
 import com.example.seeker.R;
 
@@ -22,10 +23,10 @@ public class FreelancerProjectSearchAdapter extends RecyclerView.Adapter<Freelan
     private List<Project> projecSearchtList;
     private List<Project> projectList;
 
-    ProjectSearchAdapterListener listener;
+    FreelancerProjectSearchAdapterListener listener;
     private List<Project> filteredProjectSearchList;
 
-    public void setListener(ProjectSearchAdapterListener listener) {
+    public void setListener(FreelancerProjectSearchAdapterListener listener) {
         this.listener = listener;
     }
 
@@ -39,15 +40,15 @@ public class FreelancerProjectSearchAdapter extends RecyclerView.Adapter<Freelan
         public MyViewHolder(View view) {
             super(view);
 
-            title = view.findViewById(R.id.row_search_emp_project_title);
-            description = view.findViewById(R.id.row_search_emp_project_description);
-            arrow = view.findViewById(R.id.row_arrow_search_emp);
+            title = view.findViewById(R.id.row_search_freelancer_project_title);
+            description = view.findViewById(R.id.row_search_freelancer_project_description);
+            arrow = view.findViewById(R.id.row_arrow_search_freelancer);
 
             view.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     if(listener != null)
-                    listener.onProjectItemSelectedAdapter(projectList.get(getAdapterPosition()));
+                        listener.freelancerOnProjectItemSelectedAdapter(projectList.get(getAdapterPosition()));
 
                 }
             });
@@ -69,7 +70,7 @@ public class FreelancerProjectSearchAdapter extends RecyclerView.Adapter<Freelan
     @Override
     public FreelancerProjectSearchAdapter.MyViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View itemView = LayoutInflater.from(parent.getContext())
-                .inflate(R.layout.row_emp_search_project, parent, false);
+                .inflate(R.layout.row_freelancer_search_project, parent, false);
 
         MyViewHolder evh = new MyViewHolder(itemView);
         return evh;
@@ -77,16 +78,19 @@ public class FreelancerProjectSearchAdapter extends RecyclerView.Adapter<Freelan
 
     @Override
     public void onBindViewHolder(final FreelancerProjectSearchAdapter.MyViewHolder holder, int position) {
-        Project project = projectList.get(position);
-        holder.title.setText(project.getTitle());
-       holder.description.setText(project.getCategory().getTitle());
+        if(projectList.size()!=0){
+            Project project = projectList.get(position);
+            holder.title.setText(project.getTitle());
+            holder.description.setText(project.getCategory().getTitle());
+
+        }
 
 
     }//End of onBindViewHolder
 
 
-    public interface ProjectSearchAdapterListener {
-        void onProjectItemSelectedAdapter(Project project);
+    public interface FreelancerProjectSearchAdapterListener {
+        void freelancerOnProjectItemSelectedAdapter(Project project);
     }
     @Override
     public int getItemCount() {
@@ -105,10 +109,11 @@ public class FreelancerProjectSearchAdapter extends RecyclerView.Adapter<Freelan
             protected FilterResults performFiltering(CharSequence constraint) {
                 String charSequenceString = constraint.toString();
                 if (charSequenceString.isEmpty()) {
-                   projectList=projecSearchtList;
+
+                    // projectList=projecSearchtList;
                     filteredProjectSearchList = projectList;
                 } else {
-                   // filteredProjectSearchList.clear();
+                    // filteredProjectSearchList.clear();
                     List<Project> filteredList = new ArrayList<>();
                     for (Project project : projectList) {
                         if (project.getTitle().toLowerCase().contains(charSequenceString.toLowerCase())) {

@@ -1,11 +1,11 @@
 package com.example.seeker.EmployerMainPages.MyProjectsTab_Emp.ProjectsStatusFragments;
 
-import android.content.Context;
 
 import android.view.LayoutInflater;
 
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -20,7 +20,6 @@ import static android.view.View.VISIBLE;
 
 public class ProjectAdapter extends RecyclerView.Adapter<ProjectAdapter.MyViewHolder>  {
     int position_tab;
-   // private Context mContext;
     private List<Project> projectList;
     private ProjectAdapterListener listener;
 
@@ -38,13 +37,17 @@ public class ProjectAdapter extends RecyclerView.Adapter<ProjectAdapter.MyViewHo
         public ImageView arrow;
         public TextView title;
         public TextView description;
-        public ImageView trashIcon, extendIcon;
+        public TextView createdAt;
+
+        public ImageView trashIcon;
+        public Button extendIcon;
 
         public MyViewHolder(View view) {
             super(view);
 
             title = view.findViewById(R.id.row_project_title);
             description = view.findViewById(R.id.row_project_description);
+            createdAt=view.findViewById(R.id.created_text);
             arrow = view.findViewById(R.id.row_arrow);
             trashIcon = view.findViewById(R.id.image_trash);
             extendIcon = view.findViewById(R.id.image_extend);
@@ -111,6 +114,8 @@ public class ProjectAdapter extends RecyclerView.Adapter<ProjectAdapter.MyViewHo
         if (project.getCategory() != null) {
             holder.title.setText(project.getTitle());
             holder.description.setText(project.getCategory().getTitle());
+            String createdDate=project.getCreatedAt().substring(0,10);
+            holder.createdAt.setText(createdDate);
 
 
 //trash and extend icons

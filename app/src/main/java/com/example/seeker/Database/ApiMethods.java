@@ -110,6 +110,7 @@ public interface ApiMethods {
         String SET_ALL_EMPLOYER_RATING_VALUES = "employer/set_rating_values/{id}";
 
 
+        String SWITCH_TYPE ="chanageType" ;
     }//End of Methods interface
 
 
@@ -304,7 +305,10 @@ public interface ApiMethods {
     Call<ApiResponse> deleteMilestone(@Path("id") long id);
 
 
-    //
+    //new change type user
+
+    @POST(Methods.SWITCH_TYPE)
+    Call<Void> switchType(@Body User user);
 
 
 }//End of ApiMethods interface

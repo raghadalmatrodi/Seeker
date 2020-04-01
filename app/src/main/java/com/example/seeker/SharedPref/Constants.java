@@ -30,6 +30,7 @@ public class Constants {
          String FREELANCER_ID = "freelancer_id";
          String FREELANCER_NAME = "freelancer_name";
 
+        String USER_CURRENT_TYPE = "USER_CURRENT_TYPE";
     }//End Keys interface
 
 }//End class

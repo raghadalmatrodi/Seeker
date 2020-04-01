@@ -21,9 +21,13 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.seeker.Database.ApiClients;
 import com.example.seeker.EmployerMainPages.MyProjectsTab_Emp.Emp_viewProjectFragment;
-import com.example.seeker.EmployerMainPages.SearchTab_Emp.ProjectSearchAdapter;
+import com.example.seeker.EmployerMainPages.SearchTab_Emp.SearchFragments.Emp_Search_Users_Fragment;
+import com.example.seeker.EmployerMainPages.SearchTab_Emp.UserSearchAdapter;
+import com.example.seeker.FreelancerMainPages.SearchTab_Freelancer.FreelancerUserSearchAdapter;
 import com.example.seeker.Model.Category;
+import com.example.seeker.Model.Freelancer;
 import com.example.seeker.Model.Project;
+import com.example.seeker.Model.User;
 import com.example.seeker.R;
 
 import java.util.ArrayList;
@@ -33,28 +37,28 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class Freelancer_Search_InnerProjects_Fragment extends Fragment implements Freelancer_Search_Projects_Fragment.CategoryListener, ProjectSearchAdapter.ProjectSearchAdapterListener {
+public class Freelancer_Search_InnerUsers_Fragment extends Fragment implements Freelancer_Search_Users_Fragment.CategoryListener, FreelancerUserSearchAdapter.FreelancerUserSearchAdapterListener {
 
 
     private View view;
     private RecyclerView recyclerView;
-    private ProjectSearchAdapter adapter;
-    private List<Project> projectList = new ArrayList<>();
+    private FreelancerUserSearchAdapter adapter;
+    private List<User> userList = new ArrayList<>();
     private Category category;
     ImageView backBtn;
     TextView categoryTitle, pendintTxt;
-    private Freelancer_Search_Projects_Fragment freelancer_search_projects_fragment;
+    private Freelancer_Search_Users_Fragment freelancer_search_users_fragment;
 
-    private static final String LOG = Freelancer_Search_InnerProjects_Fragment.class.getSimpleName();
+    private static final String LOG = Freelancer_Search_InnerUsers_Fragment.class.getSimpleName();
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        view = inflater.inflate(R.layout.fragment_search_freelancer_projects, container, false);
-        backBtn = view.findViewById(R.id.category_back_freelancer);
-        categoryTitle = view.findViewById(R.id.category_title_freelancer);
-        pendintTxt = view.findViewById(R.id.search_projects_inner_text_freelancer);
-        freelancer_search_projects_fragment = new Freelancer_Search_Projects_Fragment();
+        view = inflater.inflate(R.layout.fragment_search_freelancer_users, container, false);
+        backBtn = view.findViewById(R.id.category_back_users_freelancer);
+        categoryTitle = view.findViewById(R.id.category_title_users_freelancer);
+        pendintTxt = view.findViewById(R.id.freelancer_search_users_inner_text);
+        freelancer_search_users_fragment = new Freelancer_Search_Users_Fragment();
 
         Bundle bundle = this.getArguments();
         if (bundle != null) {
@@ -62,7 +66,7 @@ public class Freelancer_Search_InnerProjects_Fragment extends Fragment implement
             executeRequest(category);
             categoryTitle.setText(category.getTitle());
         }
-        freelancer_search_projects_fragment.setListener(this);
+        freelancer_search_users_fragment.setListener(this);
 
         backBtn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -98,6 +102,9 @@ public class Freelancer_Search_InnerProjects_Fragment extends Fragment implement
     }//end wrongInfoDialog()
 
 
+
+    //todo change to user
+
     public void executeRequest(Category category) {
 
         ApiClients.getAPIs().getProjectsByCategory(category).enqueue(new Callback<List<Project>>() {
@@ -108,7 +115,7 @@ public class Freelancer_Search_InnerProjects_Fragment extends Fragment implement
                     if (response.body() == null)
                         wrongInfoDialog("There is no projects in this category");
                     else {
-                        projectList = (List) response.body();
+                        userList = (List) response.body();
                         settheAdapter();
                     }
 
@@ -134,31 +141,30 @@ public class Freelancer_Search_InnerProjects_Fragment extends Fragment implement
     public void onCategoryTypeItemSelected(Category category) {
         this.category = category;
     }
-
+//todo
     @Override
-    public void onProjectItemSelectedAdapter(Project project) {
-//todo should be freelancer view
-//todo change
-        Fragment fragment = new Emp_viewProjectFragment();
-        Bundle bundle = new Bundle();
-        bundle.putSerializable("project", project);
-        fragment.setArguments(bundle);
-        FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
-        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-        fragmentTransaction.replace(R.id.frame_container_freelancer, fragment);
-        fragmentTransaction.addToBackStack(null);
-        fragmentTransaction.commit();
+    public void onUserItemSelectedAdapter(User user) {
+
+//        Fragment fragment = new Freelancer_viewProjectFragment();
+//        Bundle bundle = new Bundle();
+//        bundle.putSerializable("user", user);
+//        fragment.setArguments(bundle);
+//        FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
+//        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+      //  fragmentTransaction.replace(R.id.frame_container_freelancer, fragment);
+//        fragmentTransaction.addToBackStack(null);
+//        fragmentTransaction.commit();
 
 
     }
 
     public void settheAdapter() {
-        recyclerView = (RecyclerView) view.findViewById(R.id.recycler_search_projects_freelancer);
+        recyclerView = (RecyclerView) view.findViewById(R.id.recycler_freelancer_search_users);
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
-        adapter = new ProjectSearchAdapter(projectList);
+        adapter = new FreelancerUserSearchAdapter(userList);
         recyclerView.setItemAnimator(new DefaultItemAnimator());
         recyclerView.setAdapter(adapter);
-        if (!projectList.isEmpty())
+        if (!userList.isEmpty())
             adapter.setListener(this);
         recyclerView.setNestedScrollingEnabled(true);
         DividerItemDecoration dividerItemDecoration = new DividerItemDecoration(recyclerView.getContext(), DividerItemDecoration.VERTICAL);
@@ -166,20 +172,18 @@ public class Freelancer_Search_InnerProjects_Fragment extends Fragment implement
     }
 
 
-    public void setProjectAdapter() {
-        recyclerView = (RecyclerView) view.findViewById(R.id.recycler_search_projects_freelancer);
+    public void setUserAdapter() {
+        recyclerView = (RecyclerView) view.findViewById(R.id.recycler_freelancer_search_users);
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
-        adapter = new ProjectSearchAdapter(projectList);
+        adapter = new FreelancerUserSearchAdapter(userList);
         recyclerView.setItemAnimator(new DefaultItemAnimator());
         recyclerView.setAdapter(adapter);
-        if (!projectList.isEmpty())
+        if (!userList.isEmpty())
             adapter.setListener(this);
         recyclerView.setNestedScrollingEnabled(true);
         DividerItemDecoration dividerItemDecoration = new DividerItemDecoration(recyclerView.getContext(), DividerItemDecoration.VERTICAL);
         recyclerView.addItemDecoration(dividerItemDecoration);
     }
-
-
 
 
 }

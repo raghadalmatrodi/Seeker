@@ -13,14 +13,14 @@
         android:orientation="horizontal">
 
         <ImageView
-            android:id="@+id/category_back_users"
+            android:id="@+id/category_back_users_freelancer"
             android:layout_width="35dp"
             android:layout_height="35dp"
             android:layout_marginTop="30dp"
             android:layout_marginStart="10dp"
             android:src="@drawable/ic_arrow_back"/>
         <TextView
-            android:id="@+id/category_title_users"
+            android:id="@+id/category_title_users_freelancer"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textSize="20sp"
@@ -34,7 +34,7 @@
 
     </LinearLayout>
     <TextView
-        android:id="@+id/emp_search_users_inner_text"
+        android:id="@+id/freelancer_search_users_inner_text"
         android:layout_gravity="center"
         android:layout_marginTop="10dp"
         android:layout_width="wrap_content"
@@ -42,7 +42,7 @@
 
 
     <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/recycler_emp_search_users"
+        android:id="@+id/recycler_freelancer_search_users"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="10dp"

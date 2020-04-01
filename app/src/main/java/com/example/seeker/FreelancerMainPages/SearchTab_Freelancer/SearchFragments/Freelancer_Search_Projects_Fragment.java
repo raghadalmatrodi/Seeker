@@ -25,7 +25,9 @@ import com.example.seeker.Database.ApiClients;
 import com.example.seeker.EmployerMainPages.SearchTab_Emp.ProjectSearchAdapter;
 import com.example.seeker.EmployerMainPages.SearchTab_Emp.SearchFragments.Emp_Search_InnerProjects_Fragment;
 import com.example.seeker.EmployerMainPages.SearchTab_Emp.SearchFragments.Emp_Search_Projects_Fragment;
+import com.example.seeker.FreelancerMainPages.SearchTab_Freelancer.FreelancerProjectSearchAdapter;
 import com.example.seeker.Model.Category;
+import com.example.seeker.Model.Freelancer;
 import com.example.seeker.Model.Project;
 import com.example.seeker.R;
 import com.example.seeker.Search.CategorySearchAdapter;
@@ -37,7 +39,7 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 public class Freelancer_Search_Projects_Fragment extends Fragment
-        implements CategorySearchAdapter.CategoryAdapterListener, ProjectSearchAdapter.ProjectSearchAdapterListener {
+        implements CategorySearchAdapter.CategoryAdapterListener, FreelancerProjectSearchAdapter.FreelancerProjectSearchAdapterListener {
 
 
 
@@ -49,12 +51,9 @@ public class Freelancer_Search_Projects_Fragment extends Fragment
     private List<Category> categorySearchSearchList;
     private List<Project> projectList;
 
-    private static final String LOG = Emp_Search_Projects_Fragment.class.getSimpleName();
+    private static final String LOG = Freelancer_Search_Projects_Fragment.class.getSimpleName();
     private Freelancer_Search_Projects_Fragment.CategoryListener categoryListener;
-    private ProjectSearchAdapter projectSearchAdapter;
-
-
-
+    private FreelancerProjectSearchAdapter FreelancerProjectSearchAdapter;
 
 
     @Override
@@ -63,18 +62,13 @@ public class Freelancer_Search_Projects_Fragment extends Fragment
 
         view = inflater.inflate(R.layout.fragment_freelancer_by_category_search, container, false);
         searchView= view.findViewById(R.id.SearchView_freelancer_bycategory_search);
-
-
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
-
-
             @Override
             public boolean onQueryTextSubmit(String queryString) {
-
                 recyclerView.setVisibility(View.GONE);
                 recyclerViewProject.setVisibility(View.VISIBLE);
 
-                projectSearchAdapter.getFilter().filter(queryString);
+                FreelancerProjectSearchAdapter.getFilter().filter(queryString);
 
                 return false;
             }
@@ -83,8 +77,10 @@ public class Freelancer_Search_Projects_Fragment extends Fragment
             public boolean onQueryTextChange(String queryString) {
 
                 recyclerView.setVisibility(View.GONE);
+            setProjectRecyclerView();
+
                 recyclerViewProject.setVisibility(View.VISIBLE);
-                projectSearchAdapter.getFilter().filter(queryString);
+                FreelancerProjectSearchAdapter.getFilter().filter(queryString);
 
 
                 return false;
@@ -96,9 +92,19 @@ public class Freelancer_Search_Projects_Fragment extends Fragment
     }
 
 
-    //no need
+    //not yet implemented
     @Override
-    public void onProjectItemSelectedAdapter(Project project) {
+    public void freelancerOnProjectItemSelectedAdapter(Project project) {
+//        Fragment fragment = new Freelancer_viewProjectFragment();
+//        Bundle bundle = new Bundle();
+//        bundle.putSerializable("project", project);
+//        bundle.putInt("pending", 1);
+//        fragment.setArguments(bundle);
+//        FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
+//        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+//        fragmentTransaction.replace(R.id.frame_container_freelancer, fragment);
+//        fragmentTransaction.addToBackStack(null);
+//        fragmentTransaction.commit();
 
     }
 
@@ -226,11 +232,11 @@ public class Freelancer_Search_Projects_Fragment extends Fragment
 
         recyclerViewProject = (RecyclerView) view.findViewById(R.id.recycler_view_freelancer_by_category_search_project);
         recyclerViewProject.setLayoutManager(new LinearLayoutManager(getActivity()));
-        projectSearchAdapter = new ProjectSearchAdapter(projectList);
+        FreelancerProjectSearchAdapter= new FreelancerProjectSearchAdapter(projectList);
         recyclerViewProject.setItemAnimator(new DefaultItemAnimator());
-        recyclerViewProject.setAdapter(projectSearchAdapter);
+        recyclerViewProject.setAdapter(FreelancerProjectSearchAdapter);
         if (!projectList.isEmpty())
-            projectSearchAdapter.setListener(this);
+            FreelancerProjectSearchAdapter.setListener(this);
         recyclerViewProject.setNestedScrollingEnabled(true);
         DividerItemDecoration dividerItemDecoration = new DividerItemDecoration(recyclerViewProject.getContext(), DividerItemDecoration.VERTICAL);
         recyclerViewProject.addItemDecoration(dividerItemDecoration);
