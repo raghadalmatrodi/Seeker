@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "47657755934",
+    "firebase_url": "https://seeker-5c45a.firebaseio.com",
+    "project_id": "seeker-5c45a",
+    "storage_bucket": "seeker-5c45a.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:47657755934:android:346d9a6e8551f72678550f",
+        "android_client_info": {
+          "package_name": "com.example.seeker"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "47657755934-4phfapnhqt7k2takr4dduo2n4dpnfuiv.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.seeker",
+            "certificate_hash": "1acec49be93ab28252e120fe6ab983e3c3809a16"
+          }
+        },
+        {
+          "client_id": "47657755934-9t53d2te5i072k07sh1h6l9qpuqs9vd2.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCBx12pr8QaVVIcJBornYTsKLy_iZr1PsE"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "47657755934-9t53d2te5i072k07sh1h6l9qpuqs9vd2.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
