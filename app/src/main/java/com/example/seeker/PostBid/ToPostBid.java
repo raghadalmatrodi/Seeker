@@ -35,7 +35,7 @@ public class ToPostBid extends Fragment implements Serializable, FRProjectAdapte
     private RecyclerView recyclerView;
     private FRProjectAdapter adapter;
     private List<Project> projectList = new ArrayList<>();
-    private com.example.seeker.FreelancerMainPages.Freelancer_MessagesFragment.ProjectListener projectListener;
+    private ProjectListener projectListener;
 
 
     @Override
@@ -70,7 +70,7 @@ public class ToPostBid extends Fragment implements Serializable, FRProjectAdapte
 
     }
 
-    public void setListener (com.example.seeker.FreelancerMainPages.Freelancer_MessagesFragment.ProjectListener projectListener)
+    public void setListener (ProjectListener projectListener)
     {
         this.projectListener = projectListener;
 

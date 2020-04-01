@@ -25,6 +25,8 @@ import com.example.seeker.Model.Project;
 import com.example.seeker.Model.Responses.ApiResponse;
 import com.example.seeker.Model.User;
 import com.example.seeker.R;
+import com.example.seeker.SharedPref.Constants;
+import com.example.seeker.SharedPref.MySharedPreference;
 
 import java.io.IOException;
 import java.io.Serializable;
@@ -52,6 +54,8 @@ public class ViewBid extends AppCompatActivity implements Serializable,BidsAdapt
     private Button placebid;
     private TextView projtitle;
 
+    long currFree = MySharedPreference.getLong(ViewBid.this, Constants.Keys.FREELANCER_ID, -1);
+    boolean bade = false;
 
 
 
@@ -114,14 +118,21 @@ public class ViewBid extends AppCompatActivity implements Serializable,BidsAdapt
             @Override
             public void onClick(View v) {
 
-                /**
-                 * INTENT TO POST BID WITH CURRENT PROJECT
-                 */
-                Intent i = new Intent(ViewBid.this, PostBidActivity.class);
+                //check whether current freelancer already has a bid on this project
+                if (bade)
+                    wrongInfoDialog("Sorry, you already have placed a bid on this project..\nDelete the current bid to bid again. ");
+                else {
+                    /**
+                     * INTENT TO POST BID WITH CURRENT PROJECT
+                     */
+                    Intent i = new Intent(ViewBid.this, PostBidActivity.class);
 
-                //casting to serializable didn't work, so i let class bid implements the serializable and it worked :)
-                i.putExtra("currentProjObj", mainProject);
-                startActivity(i);
+                    //casting to serializable didn't work, so i let class bid implements the serializable and it worked :)
+                    i.putExtra("currentProjObj", mainProject);
+                    startActivity(i);
+                }
+
+
             }
         });
 
@@ -210,6 +221,16 @@ public class ViewBid extends AppCompatActivity implements Serializable,BidsAdapt
 
                     }//end for loop
 
+                    //Loop to check whether current freelancer has bade on this project or not
+                    for (int i = 0; i< bidList.size(); i++){
+                        if (bidList.get(i).getFreelancer() != null )
+                            if (bidList.get(i).getFreelancer().getId() == currFree) {
+                                Toast.makeText(ViewBid.this,"BID FOUND!",Toast.LENGTH_SHORT).show();
+                                bade = true;
+                            }
+
+                    }
+
                     recyclerView = (RecyclerView) findViewById(R.id.recycler_view_b);
                     recyclerView.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
                     adapter = new BidsAdapter(bidList, mainProject);
@@ -226,6 +247,7 @@ public class ViewBid extends AppCompatActivity implements Serializable,BidsAdapt
                     DividerItemDecoration dividerItemDecoration = new DividerItemDecoration(recyclerView.getContext(), DividerItemDecoration.VERTICAL);
                     recyclerView.addItemDecoration(dividerItemDecoration);
 //                    adapter.notifyDataSetChanged();
+
 
 
 

@@ -122,4 +122,19 @@ public class Freelancer implements Serializable {
     public Freelancer(long id) {
         this.id = id;
     }
+
+    @Override
+    public String toString() {
+        return "Freelancer{" +
+                "id=" + id +
+                ", user=" + user +
+                ", maarof_account='" + maarof_account + '\'' +
+                ", num_of_ratings=" + num_of_ratings +
+                ", total_response_time=" + total_response_time +
+                ", total_quality_of_work=" + total_quality_of_work +
+                ", num_of_hired_projects=" + num_of_hired_projects +
+                ", bids=" + bids +
+                ", skills=" + skills +
+                '}';
+    }
 }//End class

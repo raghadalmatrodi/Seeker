@@ -18,12 +18,15 @@
         android:networkSecurityConfig="@xml/network_security_config"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".Activities.BaseActivity"></activity>
+
+
         <activity android:name=".EmployerMainPages.Chat_Emp.Emp_ChatMessages" />
+        <activity android:name=".Activities.BaseActivity"></activity>
         <activity android:name=".EmployerMainPages.AcceptBidConfirmation" />
-        <activity android:name=".Rating.EmployerRating"></activity>
+        <activity android:name=".Rating.EmployerRatesFreelancer"></activity>
         <activity android:name=".FreelancerMainPages.FreelancerEditProfile" />
-        <activity android:name=".FreelancerMainPages.SearchTab_Freelancer.AddSkillActivity" />
+        <activity android:name=".FreelancerMainPages.SearchTab_Freelancer.AddSkillActivity"
+            android:theme="@style/AppTheme.AppBarOverlay"/>
         <activity android:name=".Rating.FreelancerRatesEmployer" />
         <activity android:name=".PostBid.ViewFullBid" />
         <activity android:name=".PostBid.PostBidActivity" />
@@ -41,8 +44,21 @@
         <activity android:name=".Activities.LoginActivity" />
         <activity android:name=".EmployerMainPages.EmployerMainActivity" />
         <activity android:name=".FreelancerMainPages.FreelancerMainActivity" />
-        <activity android:name=".PostProject.PostProjectActivity" />
+<!--        <activity android:name=".PostProject.PostProjectActivity" />-->
         <activity android:name=".EmployerMainPages.AccountRelatedActivities.ContactSupportActivity" />
+        <service android:name=".SeekerNotiService">
+            <intent-filter>
+                <action android:name="com.google.firebase.MESSAGING_EVENT" />
+            </intent-filter>
+        </service>
+
+        <receiver android:name=".ChatMessageBroadcast">
+            <intent-filter>
+                <action android:name="NewChatMessage" />
+            </intent-filter>
+        </receiver>
+
     </application>
+
 
 </manifest>

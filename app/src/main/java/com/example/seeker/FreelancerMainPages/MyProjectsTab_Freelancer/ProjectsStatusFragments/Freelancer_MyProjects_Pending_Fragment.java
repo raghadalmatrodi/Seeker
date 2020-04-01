@@ -186,6 +186,7 @@ public class Freelancer_MyProjects_Pending_Fragment extends Fragment implements 
 
                 }else{
                     Toast.makeText(getContext(),"not success",Toast.LENGTH_LONG).show();
+                    //todo: fix the message, should be when there are no projects [when projects list is empty]
                     pendingText.setText("There are no pending projects");
                 }
             }

@@ -16,6 +16,20 @@ public class Employer implements Serializable {
     // حطيت بيسك مو البروجكت العادية عشان مايسوي لوب ومب لازم دايم احط كذا
     private List<Project> projects = new ArrayList<>();
 
+    private float total_emp_ratings;
+
+
+    //Employer object for rating
+
+
+    public Employer(long id, int num_of_ratings, int response_time, int total_on_time_payment, float total_emp_ratings) {
+        this.id = id;
+        this.num_of_ratings = num_of_ratings;
+        this.response_time = response_time;
+        this.total_on_time_payment = total_on_time_payment;
+        this.total_emp_ratings = total_emp_ratings;
+    }
+
     public Employer(long id){
         this.id = id;
     }
@@ -84,6 +98,14 @@ public class Employer implements Serializable {
 
     public void setProjects(List<Project> projects) {
         this.projects = projects;
+    }
+
+    public float getTotal_emp_ratings() {
+        return total_emp_ratings;
+    }
+
+    public void setTotal_emp_ratings(float total_emp_ratings) {
+        this.total_emp_ratings = total_emp_ratings;
     }
 
     @Override

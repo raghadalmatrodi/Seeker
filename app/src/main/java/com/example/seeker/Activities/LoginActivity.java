@@ -13,6 +13,7 @@ import android.widget.TextView;
 import androidx.appcompat.app.AlertDialog;
 
 import com.example.seeker.Database.ApiClients;
+import com.example.seeker.Database.PublicKeyDatabase;
 import com.example.seeker.EmployerMainPages.EmployerMainActivity;
 import com.example.seeker.FreelancerMainPages.FreelancerMainActivity;
 import com.example.seeker.Model.Employer;
@@ -20,6 +21,7 @@ import com.example.seeker.Model.Exception.ApiError;
 import com.example.seeker.Model.Exception.ApiException;
 import com.example.seeker.Model.Freelancer;
 import com.example.seeker.Model.Login;
+import com.example.seeker.Model.Responses.ApiResponse;
 import com.example.seeker.Model.User;
 import com.example.seeker.R;
 import com.example.seeker.SharedPref.Constants;
@@ -42,6 +44,7 @@ public class LoginActivity extends Activity {
     private Button login;
     private TextView forgotPass, createAccount;
     private String userEmail, userPassword;
+    private String encryptedPassword;
 
 
     @Override
@@ -59,8 +62,17 @@ public class LoginActivity extends Activity {
                 userEmail = email.getText().toString().toLowerCase().trim();
                 userPassword = password.getText().toString().toLowerCase();
 
+
+
                 if(validate(userEmail, userPassword))
                 {
+                    try {
+                        encryptedPassword = PublicKeyDatabase.encryptMessage(userPassword);
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+
+                    Log.d("testLog", encryptedPassword);
                     LoginApiRequest();
 
                 }
@@ -86,7 +98,7 @@ public class LoginActivity extends Activity {
 
     private void LoginApiRequest() {
 
-        ApiClients.getAPIs().getLoginRequest(new Login(userEmail,userPassword)).enqueue(new Callback<String>() {
+        ApiClients.getAPIs().getLoginRequest(new Login(userEmail,encryptedPassword)).enqueue(new Callback<String>() {
             @Override
             public void onResponse(Call<String> call, Response<String> response) {
 
@@ -248,6 +260,28 @@ if(MySharedPreference.getString(LoginActivity.this,Constants.Keys.USER_CURRENT_T
 //        MySharedPreference.putString(this, Constants.Keys.ENABLE_NOTI, user.getEnable_noti());
 
 
+        String token = MySharedPreference.getString(getApplicationContext(),Constants.Keys.TOKEN_ID,"");
+
+        if(!(token == null || token.equals("")) ){
+            ApiClients.getAPIs().updateToken(token ,userId ).enqueue(new Callback<ApiResponse>() {
+                @Override
+                public void onResponse(Call<ApiResponse> call, Response<ApiResponse> response) {
+                    if(response.isSuccessful()){
+                        Log.d(LOG, "successful token: " + response.message());
+
+                    }else{
+                        Log.d(LOG, "Not suc: " + response.message());
+
+                    }
+                }
+
+                @Override
+                public void onFailure(Call<ApiResponse> call, Throwable t) {
+                    Log.d(LOG, "Failure : " + t.getMessage());
+
+                }
+            });
+        }
 
         getEmployerByUserId(MySharedPreference.getLong(this,Constants.Keys.USER_ID,-1));
         //todo: hind added to test get freelancer by use id -> remove later if didn't work :)

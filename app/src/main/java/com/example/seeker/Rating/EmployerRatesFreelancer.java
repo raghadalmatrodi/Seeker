@@ -20,7 +20,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 
-public class EmployerRating extends AppCompatActivity {
+public class EmployerRatesFreelancer extends AppCompatActivity {
 
     //what appears to the employer to RATE HIS FREELANCER
 
@@ -97,7 +97,7 @@ public class EmployerRating extends AppCompatActivity {
 //               if (pager.getCurrentItem() < position)
 
                 pageIndicatorView.setSelection(position);
-                Toast.makeText(EmployerRating.this,"CHANGED "+ position,Toast.LENGTH_LONG).show();
+                Toast.makeText(EmployerRatesFreelancer.this,"CHANGED "+ position,Toast.LENGTH_LONG).show();
 
 //                switch (position){
 //
@@ -107,7 +107,7 @@ public class EmployerRating extends AppCompatActivity {
 //
 //                            ratingAtZero = pagerArr.get(position).getRatingBar().getRating();
 //                        else ratingAtZero = 0;
-//                        Toast.makeText(EmployerRating.this,"rater "+ ratingAtZero,Toast.LENGTH_LONG).show();
+//                        Toast.makeText(EmployerRatesFreelancer.this,"rater "+ ratingAtZero,Toast.LENGTH_LONG).show();
 //                        break;
 //
 //                    case 1:
@@ -115,10 +115,10 @@ public class EmployerRating extends AppCompatActivity {
 //                        if (pagerArr.get(position).getRatingBar().getRating() > 0)
 //                            ratingAtOne = pagerArr.get(position).getRatingBar().getRating();
 //                        else ratingAtOne = 0;
-//                        Toast.makeText(EmployerRating.this,"rater "+ ratingAtOne,Toast.LENGTH_LONG).show();
+//                        Toast.makeText(EmployerRatesFreelancer.this,"rater "+ ratingAtOne,Toast.LENGTH_LONG).show();
 //                        break;
 //                    case 3:
-//                        Toast.makeText(EmployerRating.this,"rater "+ adapter.getR(pagerArr.get(position).getRatingBar()),Toast.LENGTH_LONG).show();
+//                        Toast.makeText(EmployerRatesFreelancer.this,"rater "+ adapter.getR(pagerArr.get(position).getRatingBar()),Toast.LENGTH_LONG).show();
 //
 //                        default:
 //                            break;
@@ -140,7 +140,7 @@ public class EmployerRating extends AppCompatActivity {
 //                for (int i = 0; i<pagerArr.size(); i++ ){
 //                    if (i == position)
 //                        x = pagerArr.get(i).getRatingBar().getRating();
-//                    Toast.makeText(EmployerRating.this,"rate "+ x,Toast.LENGTH_LONG).show();
+//                    Toast.makeText(EmployerRatesFreelancer.this,"rate "+ x,Toast.LENGTH_LONG).show();
 //
 //                }
 
@@ -149,7 +149,7 @@ public class EmployerRating extends AppCompatActivity {
 
             @Override
             public void onPageScrollStateChanged(int state) {
-//                Toast.makeText(EmployerRating.this,"CHANGED "+ state,Toast.LENGTH_LONG).show();
+//                Toast.makeText(EmployerRatesFreelancer.this,"CHANGED "+ state,Toast.LENGTH_LONG).show();
                 /*empty*/}
         });
 

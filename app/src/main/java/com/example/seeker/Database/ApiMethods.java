@@ -7,7 +7,9 @@ import com.example.seeker.Model.Chat;
 import com.example.seeker.Model.ChatMessage;
 import com.example.seeker.Model.Contract;
 import com.example.seeker.Model.Employer;
+import com.example.seeker.Model.EmployerRating;
 import com.example.seeker.Model.Freelancer;
+import com.example.seeker.Model.FreelancerRating;
 import com.example.seeker.Model.Login;
 import com.example.seeker.Model.Milestone;
 import com.example.seeker.Model.Project;
@@ -15,6 +17,7 @@ import com.example.seeker.Model.Responses.ApiResponse;
 import com.example.seeker.Model.Skill;
 import com.example.seeker.Model.User;
 import com.example.seeker.Model.UserSocialMedia;
+import com.example.seeker.Rating.EmployerRatesFreelancer;
 
 import java.util.List;
 import java.util.Set;
@@ -69,6 +72,7 @@ public interface ApiMethods {
         String CREATE_CHAT_MESSAGE = "chatMessage";
         String FIND_CHAT = "chat/user/{user1_id}/{user2_id}";
         String DELETE_MILESTONE ="milestone/delete/{id}";
+        String UPDATE_TOKEN = "user/updateToken/{token}/{id}";
 
 
 
@@ -107,7 +111,18 @@ public interface ApiMethods {
         //EMPLOYER RATING METHODS
         String GET_EMPLOYER_RATING_VALUES = "employer/get_rating_values/{id}";
         String GET_EMPLOYER_TOTAL_RATINGS_VALUE = "employer/get_total_emp_rating/{id}";
-        String SET_ALL_EMPLOYER_RATING_VALUES = "employer/set_rating_values/{id}";
+        String SET_ALL_EMPLOYER_RATING_VALUES = "employer/rating_values";
+
+        //employer uses it to rate the freelancer
+        String ADD_NEW_FREELANCER_RATING = "freelancerRating/add";
+        //freelancer uses it to rate the employer
+        String ADD_NEW_EMPLOYER_RATING = "employerRating/add";
+
+        String GET_FREELANCER_BY_ID = "freelancer/{id}";
+
+        String UPDATE_FREELANCER_SKILLS="freelancer/skills/{id}";
+
+
 
 
         String SWITCH_TYPE ="chanageType" ;
@@ -193,11 +208,21 @@ public interface ApiMethods {
 
     //NEW WORKING ONES
 
+    //TODO: CALCULATE TRUST POINTS USING THIS API :) DELETE OLDER ONES :)
     @POST(Methods.POST_EMPLOYER_TRUST_POINTS)
     Call<Integer> calculateEmployerTrustPoints(@Path("id") long id);
 
     @POST(Methods.POST_FREELANCER_TRUST_POINTS)
     Call<Integer> calculateFreelancerTrustPoints(@Path("id") long id);
+
+    @POST(Methods.ADD_NEW_FREELANCER_RATING)
+    Call<ApiResponse> getRateFreelancerRequest(@Body FreelancerRating freelancerRating);
+
+    @POST(Methods.ADD_NEW_EMPLOYER_RATING)
+    Call<ApiResponse> getRateEmployerRequest (@Body EmployerRating employerRating);
+
+    @PUT(Methods.SET_ALL_EMPLOYER_RATING_VALUES)
+    Call<Void> setAllEmployerRatingValues(@Body Employer employer);
 
 
 
@@ -304,11 +329,19 @@ public interface ApiMethods {
     @DELETE(Methods.DELETE_MILESTONE)
     Call<ApiResponse> deleteMilestone(@Path("id") long id);
 
+    @PUT(Methods.UPDATE_TOKEN)
+    Call<ApiResponse> updateToken(@Path("token") String token , @Path("id") long id);
+    @GET(Methods.GET_FREELANCER_BY_ID)
+    Call<Freelancer> findFreelancerById(@Path("id") long id);
 
     //new change type user
 
     @POST(Methods.SWITCH_TYPE)
     Call<Void> switchType(@Body User user);
+
+    @POST(Methods.UPDATE_FREELANCER_SKILLS)
+    Call<ApiResponse> updateFreelancerSkill(@Path("id") long id , @Body Set<Skill> skills);
+    //
 
 
 }//End of ApiMethods interface

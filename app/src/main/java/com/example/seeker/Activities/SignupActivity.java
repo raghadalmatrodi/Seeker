@@ -16,6 +16,7 @@ import android.widget.TextView;
 import androidx.appcompat.app.AlertDialog;
 
 import com.example.seeker.Database.ApiClients;
+import com.example.seeker.Database.PublicKeyDatabase;
 import com.example.seeker.Model.Exception.ApiError;
 import com.example.seeker.Model.Exception.ApiException;
 import com.example.seeker.Model.Responses.ApiResponse;
@@ -41,7 +42,7 @@ import retrofit2.Response;
 public class SignupActivity extends Activity {
 
     private EditText userName, email, password, confirmPassword;
-    private String name, pass, confirmpass, mail;
+    private String name, pass, confirmpass, mail, encryptedPassword;
     private TextView haveAccount;
     private Button signUp;
     private AlertDialog dialog;
@@ -67,6 +68,12 @@ private static final String LOG= SignupActivity.class.getSimpleName();
                 //validate method
 
                 if (validate()) {
+
+                    try {
+                        encryptedPassword = PublicKeyDatabase.encryptMessage(pass);
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
 
                     executeSignUpApiRequest();
                     //Progress Dialog
@@ -111,10 +118,13 @@ private static final String LOG= SignupActivity.class.getSimpleName();
 
     private void executeSignUpApiRequest() {
 
-       // showProgressDialog(false);
+
+
+
+        // showProgressDialog(false);
       User userToSignup = new User();
       userToSignup.setEmail(mail);
-      userToSignup.setPassword(pass);
+      userToSignup.setPassword(encryptedPassword);
       userToSignup.setUsername(name);
 
       Role role = new Role(1,null);
@@ -229,6 +239,7 @@ private static final String LOG= SignupActivity.class.getSimpleName();
                     } else {
                         if(checkTerms.isChecked())
                         {
+
                             return true;
                         }else{
                             wrongInfoDialog("you have to accept terms and condition before signing up ");

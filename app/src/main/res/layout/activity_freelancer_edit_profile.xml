@@ -694,6 +694,7 @@
             android:background="@drawable/divider"
             android:layout_width="match_parent"
             android:layout_marginTop="10dp"
+            android:layout_marginBottom="10dp"
             android:layout_height="2dp"></LinearLayout>
 
 <!--        <LinearLayout-->
@@ -903,6 +904,64 @@
 <!--            android:layout_height="2dp"></LinearLayout>-->
 
         <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="18dp"
+                android:text="Skills:"
+                android:textColor="#000"
+                android:textSize="17sp"
+               />
+            <ImageButton
+                android:id="@+id/add_skill_fr"
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:src="@drawable/edit"
+                android:layout_marginStart="10dp"
+                app:layout_constraintHorizontal_bias="0.792"
+                app:layout_constraintStart_toEndOf="@id/education_text"
+                app:layout_constraintTop_toTopOf="@id/education_text" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="18dp"
+                android:text=""
+                android:textColor="#000"
+                android:textSize="20sp"
+                android:textStyle="bold"/>
+
+
+
+        </LinearLayout>
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+
+            <TextView
+                android:id="@+id/list_skills"
+
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="18dp"
+                android:text=""
+                android:layout_marginBottom="20dp"
+                android:textColor="#000"
+                android:textSize="17sp"
+                />
+
+        </LinearLayout>
+        <LinearLayout
+            android:background="@drawable/divider"
+            android:layout_width="match_parent"
+            android:layout_height="2dp"
+            android:layout_marginBottom="10dp"
+            android:layout_marginTop="10dp"
+            ></LinearLayout>
+
+        <LinearLayout
             android:layout_width="401dp"
             android:layout_height="match_parent"
             android:layout_marginRight="102dp"
@@ -916,24 +975,6 @@
                 android:textColor="#000"
                 android:textSize="20sp"
                 android:textStyle="bold"/>
-
-
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content">
-
-            <ImageButton
-                android:id="@+id/add_skill_fr"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:src="@drawable/close_x"
-                android:background="@drawable/close_x_rounded_edges_bg"/>
-
-
-
-
 
 
         </LinearLayout>
