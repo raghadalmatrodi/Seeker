@@ -120,6 +120,8 @@ public interface ApiMethods {
 
         String GET_FREELANCER_BY_ID = "freelancer/{id}";
 
+        String UPDATE_FREELANCER_SKILLS="freelancer/skills/{id}";
+
 
 
 
@@ -332,6 +334,8 @@ public interface ApiMethods {
     Call<Freelancer> findFreelancerById(@Path("id") long id);
 
 
+    @POST(Methods.UPDATE_FREELANCER_SKILLS)
+    Call<ApiResponse> updateFreelancerSkill(@Path("id") long id , @Body Set<Skill> skills);
     //
 
 

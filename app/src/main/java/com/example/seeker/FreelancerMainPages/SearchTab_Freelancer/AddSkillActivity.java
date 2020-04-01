@@ -9,6 +9,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
@@ -16,10 +17,12 @@ import android.widget.Toast;
 
 import com.example.seeker.Database.ApiClients;
 import com.example.seeker.FreelancerMainPages.AddSkillsAdapter;
+import com.example.seeker.FreelancerMainPages.FreelancerEditProfile;
 import com.example.seeker.Model.Bid;
 import com.example.seeker.Model.Exception.ApiError;
 import com.example.seeker.Model.Exception.ApiException;
 import com.example.seeker.Model.Freelancer;
+import com.example.seeker.Model.Responses.ApiResponse;
 import com.example.seeker.Model.Skill;
 import com.example.seeker.Model.SkillRecyclerView;
 import com.example.seeker.PostBid.PostBidActivity;
@@ -45,16 +48,13 @@ public class AddSkillActivity extends AppCompatActivity {
     private RecyclerView recyclerView;
     private AddSkillsAdapter adapter;
 
-//
-//    private SkillsListener skillsListener;
-//    private BackSkillListener backSkillListener;
 
     private ImageView backBtn;
     private Button saveBtn;
 
     private List<SkillRecyclerView> projectSkillList = new ArrayList<>();
     private List<SkillRecyclerView> skillArrayList = new ArrayList<>();
-
+    private String LOG = AddSkillActivity.class.getName();
     private Set<Skill> skillsList = new HashSet<>();
 
 
@@ -64,20 +64,26 @@ public class AddSkillActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_skill);
 
+
+        this.getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        this.getSupportActionBar().setHomeButtonEnabled(true);
+        this.getSupportActionBar().setTitle("Add skills");
+
+
         //init
-        backBtn = findViewById(R.id.add_skills_back);
+//        backBtn = findViewById(R.id.add_skills_back);
         saveBtn = findViewById(R.id.save_skill);
 
-
-        //Back Button ToolBar listener
-        backBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-
-
-//                backSkillListener.onBacSkillSelected();
-            }
-        });
+//
+//        //Back Button ToolBar listener
+//        backBtn.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//
+//
+//                getFragmentManager().popBackStackImmediate();
+//            }
+//        });
 
         getSkills();
 
@@ -95,7 +101,8 @@ public class AddSkillActivity extends AppCompatActivity {
 //
 //                    skillsListener.onNextSelected(projectSkillList);
 //                }
-            executeFindFreelancerByUserIdRequest(MySharedPreference.getLong(AddSkillActivity.this, Constants.Keys.USER_ID, -1));
+//            executeFindFreelancerByUserIdRequest(MySharedPreference.getLong(AddSkillActivity.this, Constants.Keys.USER_ID, -1));
+                executeAddSkillsRequest();
 
 
             }
@@ -219,12 +226,8 @@ public class AddSkillActivity extends AppCompatActivity {
     }
 
 
-
     private void executeFindFreelancerByUserIdRequest(Long id){
 
-
-//        if (MySharedPreference.getLong(PostBidActivity.this, Constants.Keys.USER_ID, -1) != -1)
-//          long curren_user_id = MySharedPreference.getLong(PostBidActivity.this, Constants.Keys.USER_ID, -1);
 
         ApiClients.getAPIs().getFreelancerByUserIdRequest(id).enqueue(new Callback<Freelancer>() {
             @Override
@@ -233,62 +236,22 @@ public class AddSkillActivity extends AppCompatActivity {
 
 
                     Freelancer freelancer = response.body();
-//                    freelancer.setMaarof_account("maroofAcc");
-//                    Toast.makeText(PostBidActivity.this, "fr name = "+freelancer.getUser().getUsername(), Toast.LENGTH_LONG ).show();
 
                     /**
                      * hind just added mar. 7, moved from post bid btn to here
                      */
 
-
-                    projectSkillList = adapter.getProjectSkills();
-                    for(SkillRecyclerView s: projectSkillList){
-                        Skill skill = new Skill(s.getId(), s.getName());
-                        skillsList.add(skill);
-                        freelancer.getSkills().add(skill);
-                    }
-
-//                    Set<Skill> foo = new HashSet<Skill>(adapter.getProjectSkills());
-//                    Freelancer fr = new Freelancer(freelancer, skillsList);
-//                    freelancer.getSkills().addAll(skillList);
-//                    freelancer.setSkills(skillsList);
-//                    freelancer.ski
-
-//                    Bid bid = new Bid(bidTitleStr,bidDescriptionStr,priceDouble,localDateTimet.toString() ,"pending", freelancer, project);
-
-//                    String checkStr = bidTitleStr+" -- "+bidDescriptionStr+ " -- "+ priceStr + " -- "+" -- " + dateStr;
-//                    Toast.makeText(getApplicationContext(),checkStr,Toast.LENGTH_LONG).show();
-
-
-//                    freelancer.getUser().getUsername()
-//                    freelancer = Freelancer(response.body().getId());
-//                    freelancer.setId(response.body().getId());
-
-
                 }else {
-//                    Converter<ResponseBody, ApiException> converter = ApiClients.getInstant().responseBodyConverter(ApiException.class, new Annotation[0]);
-//                    ApiException exception = null;
-//                    try {
-//
-//                        exception = converter.convert(response.errorBody());
-//
-//                        List<ApiError> errors = exception.getErrors();
-//
-//                        if (errors != null)
-//                            if (!errors.isEmpty())
-////                                wrongInfoDialog(errors.get(0).getMessage());
-////                        wrongInfoDialog(exception.getMessage());
-//
-//                    } catch (IOException e) {
-//                        e.printStackTrace();
-//                    }
+                    Log.i(LOG,"onResponse: notSuc" + response.toString());
+
                 }//end else block
             }//End onResponse()
 
             @Override
             public void onFailure(Call<Freelancer> call, Throwable t) {
-//                Log.i();
-//                wrongInfoDialog("Error!");
+                Log.i(LOG,"onFailure :" + t.toString());
+
+
             }//end onFailure()
         });
 
@@ -296,9 +259,62 @@ public class AddSkillActivity extends AppCompatActivity {
 
     }//End executeFindFreelancerByUserIdRequest()
 
+public void executeAddSkillsRequest(){
+
+        List<Skill> skillsToSave = new ArrayList<>();
+    projectSkillList = adapter.getProjectSkills();
+    for(SkillRecyclerView s: projectSkillList){
+        Skill skill = new Skill(s.getId(), s.getName());
+        skillsList.add(skill);
+    }
+
+    Long freelancerId =  MySharedPreference.getLong(getApplicationContext(),Constants.Keys.FREELANCER_ID,-1);
+
+    ApiClients.getAPIs().updateFreelancerSkill(freelancerId, skillsList).enqueue(new Callback<ApiResponse>() {
+        @Override
+        public void onResponse(Call<ApiResponse> call, Response<ApiResponse> response) {
+            if(response.isSuccessful()) {
+
+                Log.i(LOG, "onResponse: suc" + response.toString());
+                Intent i = new Intent(getApplicationContext(), FreelancerEditProfile.class);
+                startActivity(i);
+            }else{
+                Log.i(LOG,"onResponse: notSuc" + response.toString());
+
+            }
+
+
+        }
+
+        @Override
+        public void onFailure(Call<ApiResponse> call, Throwable t) {
+            Log.i(LOG,"onFailure: notSuc" +t.getLocalizedMessage()+ t.getMessage() +t.toString());
+
+        }
+    });
+
+}
+
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()){
+            case android.R.id.home:
+                onBackPressed();
+                return true;
+        }
+        return super.onOptionsItemSelected(item);
+    }
 
 
 
-
+    @Override
+    public void onBackPressed() {
+        if (getFragmentManager().getBackStackEntryCount() == 0) {
+            this.finish();
+        } else {
+            super.onBackPressed(); //replaced
+        }
+    }
 
 }
