@@ -105,20 +105,6 @@ public class Emp_AccountFragment extends Fragment implements View.OnClickListene
     }
     //not yet
 public void changeUserType(){
-        System.out.println("raghad");
-        System.out.println(MySharedPreference.getString(getContext(),Constants.Keys.USER_CURRENT_TYPE,"0"));
-//        ApiClients.getAPIs().findUSerByEmailRequest(MySharedPreference.getString(getContext(),Constants.Keys.USER_EMAIL,"0"))
-//                .enqueue(new Callback<User>() {
-//                    @Override
-//                    public void onResponse(Call<User> call, Response<User> response) {
-//                      user= (User) response.body();
-//                    }
-//
-//                    @Override
-//                    public void onFailure(Call<User> call, Throwable t) {
-//
-//                    }
-//                });
 
 
     ApiClients.getAPIs().switchType(MySharedPreference.getLong(getContext(),Constants.Keys.USER_ID,0)).enqueue(new Callback<Void>() {
