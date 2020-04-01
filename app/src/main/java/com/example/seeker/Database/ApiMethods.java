@@ -125,7 +125,7 @@ public interface ApiMethods {
 
 
 
-        String SWITCH_TYPE ="user/changeType{user_id}" ;
+        String SWITCH_TYPE ="user/changeType/{id}" ;
     }//End of Methods interface
 
 
@@ -337,7 +337,7 @@ public interface ApiMethods {
     //new change type user
 
     @PUT(Methods.SWITCH_TYPE)
-    Call<Void> switchType(@Path("user_id") long id);
+    Call<Void> switchType(@Path("id") long id);
 
     @POST(Methods.UPDATE_FREELANCER_SKILLS)
     Call<ApiResponse> updateFreelancerSkill(@Path("id") long id , @Body Set<Skill> skills);

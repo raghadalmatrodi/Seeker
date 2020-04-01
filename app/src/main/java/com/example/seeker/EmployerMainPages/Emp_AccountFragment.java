@@ -124,11 +124,19 @@ public void changeUserType(){
     ApiClients.getAPIs().switchType(MySharedPreference.getLong(getContext(),Constants.Keys.USER_ID,0)).enqueue(new Callback<Void>() {
         @Override
         public void onResponse(Call<Void> call, Response<Void> response) {
+            if(response.isSuccessful()){
+                Log.i("onResponse successful  switchType ", response.message());
+
+            }else{
+                Log.i("onResponse Notsuccessful  switchType ", response.message());
+
+            }
 
         }
 
         @Override
         public void onFailure(Call<Void> call, Throwable t) {
+            Log.i("onResponse failure  switchType ", t.getLocalizedMessage());
 
         }
     });
