@@ -20,6 +20,7 @@ import com.example.seeker.Database.ApiClients;
 import com.example.seeker.EmployerMainPages.MyProjectsTab_Emp.Emp_viewProjectFragment;
 import com.example.seeker.EmployerMainPages.MyProjectsTab_Emp.ProjectsStatusFragments.Emp_MyProjects_Pending_Fragment;
 import com.example.seeker.EmployerMainPages.MyProjectsTab_Emp.ProjectsStatusFragments.ProjectAdapter;
+import com.example.seeker.FreelancerMainPages.MyProjectsTab_Freelancer.Freelancer_viewProjectFragment;
 import com.example.seeker.Model.Bid;
 import com.example.seeker.Model.Freelancer;
 import com.example.seeker.Model.Project;
@@ -76,7 +77,7 @@ public class Freelancer_MyProjects_Pending_Fragment extends Fragment implements 
 //        i.putExtra("projectObj", project);
 //        startActivity(i);
 
-        Fragment fragment = new Emp_viewProjectFragment();
+        Fragment fragment = new Freelancer_viewProjectFragment();
         Bundle bundle = new Bundle();
         bundle.putSerializable("project",project);
         fragment.setArguments(bundle);

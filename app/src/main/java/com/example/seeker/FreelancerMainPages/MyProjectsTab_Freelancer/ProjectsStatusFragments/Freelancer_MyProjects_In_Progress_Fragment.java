@@ -17,6 +17,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.seeker.Database.ApiClients;
 import com.example.seeker.EmployerMainPages.MyProjectsTab_Emp.Emp_viewProjectFragment;
+import com.example.seeker.FreelancerMainPages.MyProjectsTab_Freelancer.Freelancer_viewProjectFragment;
 import com.example.seeker.Model.Project;
 import com.example.seeker.R;
 import com.example.seeker.SharedPref.Constants;
@@ -61,7 +62,7 @@ public class Freelancer_MyProjects_In_Progress_Fragment extends Fragment impleme
 //        i.putExtra("projectObj", project);
 //        startActivity(i);
 
-        Fragment fragment = new Emp_viewProjectFragment();
+        Fragment fragment = new Freelancer_viewProjectFragment();
         Bundle bundle = new Bundle();
         bundle.putSerializable("project",project);
         fragment.setArguments(bundle);
