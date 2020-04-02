@@ -21,13 +21,17 @@ import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
+import android.widget.RatingBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.seeker.Database.ApiClients;
 import com.example.seeker.Model.Certificate;
+import com.example.seeker.Model.Employer;
 import com.example.seeker.Model.Exception.ApiError;
 import com.example.seeker.Model.Exception.ApiException;
+import com.example.seeker.Model.Freelancer;
 import com.example.seeker.Model.Responses.ApiResponse;
 import com.example.seeker.Model.UserSocialMedia;
 import com.example.seeker.R;
@@ -72,7 +76,7 @@ public class EditProfileActivity extends AppCompatActivity {
 
     private File imageFile;
     long current_user_id = MySharedPreference.getLong(EditProfileActivity.this, Constants.Keys.USER_ID, -1);
-
+    long current_emp_id = MySharedPreference.getLong(EditProfileActivity.this, Constants.Keys.EMPLOYER_ID, -1);
 
 
     private Intent cameraIntent, photoPickerIntent;
@@ -80,11 +84,18 @@ public class EditProfileActivity extends AppCompatActivity {
     TextView totalTrustPoints_TV;
     static int totalTrustPoints = 0;
 
+    RatingBar empTotalRates;
+    TextView numberOfRatings;
 
 //    todo: ADD THEM
 //    TextView circlers;
+      TextView FrWorkedOnProjects, FrAvgResponseTime, FrAvgQualityOfWork,
+               EmpNumOfProjects, EmpAvgResponseTime, EmpAvgOTP;
+
+      ProgressBar trustPointsPB;
 //    previous samples
 
+    Employer getEmp;
 
     @Override
     public void onBackPressed() {
@@ -101,63 +112,8 @@ public class EditProfileActivity extends AppCompatActivity {
 
         init();
         fillCurrentUSerData();
-        initToolbar();
 
 
-//        editLinks.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//               //Enable links
-//                linkedinET.setEnabled(true);
-//                twitterET.setEnabled(true);
-//                facebookET.setEnabled(true);
-//
-//
-//
-//                if(linkedinET.getText().toString() == "N/A"){
-//                    //todo create linkedin api
-//                    LinkedinFlag = true;
-//                }
-//                if (twitterET.getText().toString() == "N/A"){
-//                    TwitteFlag = true;
-//
-//                }  if(facebookET.getText().toString() == "N/A"){
-//                    FacebookFlag = true;
-//                }
-//
-//                //Show Save
-//                saveSocialEditing.setVisibility(View.VISIBLE);
-//
-//                saveSocialEditing.setOnClickListener(new View.OnClickListener() {
-//                    @Override
-//                    public void onClick(View v) {
-//
-////                        if(LinkedinFlag && TwitteFlag && FacebookFlag) {
-////
-//////                            executePostSocialMediaRequest();
-////                        }
-//                        executeAddLinkedInRequest(current_user_id, linkedinET.getText().toString());
-//
-//
-////                        UserSocialMedia userSocialMedia = new UserSocialMedia(twitterET.getText().toString(),facebookET.getText().toString(),linkedinET.getText().toString());
-////                        executePostSocialMediaRequest(userSocialMedia);
-//                        //Disable links
-//                        linkedinET.setEnabled(false);
-//                        twitterET.setEnabled(false);
-//                        facebookET.setEnabled(false);
-//
-//
-//                        //Hiding Save
-//                        saveSocialEditing.setVisibility(View.INVISIBLE);
-//
-//
-//
-//
-//                    }//end save
-//                });//end save
-//
-//            }//end edit links
-//        });//End edit links
 
         cameraChooser.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -173,6 +129,7 @@ public class EditProfileActivity extends AppCompatActivity {
 
 
         totalTrustPoints_TV = findViewById(R.id.emp_total_trust_points);
+        trustPointsPB = findViewById(R.id.TPprogressBar);
 //        totalTrustPoints_TV.setText(CalculateEmployerTrustPoints()+"%");
 //        totalTrustPoints_TV.setText(totalTrustPoints+"%");
 
@@ -185,12 +142,12 @@ public class EditProfileActivity extends AppCompatActivity {
     }//End onCreate
 
 
-    private void initToolbar(){
+    private void initToolbar(String username){
 
             //init toolbar
 
             Toolbar toolbar = findViewById(R.id.editprofile_toolbar);
-            toolbar.setTitle(MySharedPreference.getString(EditProfileActivity.this, Constants.Keys.USER_NAME, ""));
+            toolbar.setTitle(username);
             toolbar.setNavigationIcon(R.drawable.back_arrow_24dp);
             toolbar.setNavigationOnClickListener(new View.OnClickListener() {
                 @Override
@@ -288,13 +245,14 @@ public class EditProfileActivity extends AppCompatActivity {
         });
     }
     String res;
+    //todo: new fix it if u'll update in get employer
     private void getEducation(){
         ApiClients.getAPIs().getEducation(current_user_id).enqueue(new Callback<String>() {
             @Override
             public void onResponse(Call<String> call, Response<String> response) {
                 if (response.isSuccessful()){
                     res = response.body().toString();
-                    educationET.setText(res);
+                    //educationET.setText(res);
                 }
 
             }
@@ -431,9 +389,32 @@ public class EditProfileActivity extends AppCompatActivity {
         });
 
 
+        empTotalRates = findViewById(R.id.employer_total_rating_in_profile);
+        Employer emp = new Employer(current_emp_id);
+        executeCalculateEmployerTotalRating(emp);
+
+//        getEmployer(current_emp_id);
+        getEmployerByUserId(current_user_id);
+        getFreelancerByUserIDRequest(current_user_id);
+        numberOfRatings = findViewById(R.id.numOfRatings_EmployerProfile);
+
+        initStats();
 
 
     }//End init()
+
+    private void initStats() {
+        FrWorkedOnProjects = findViewById(R.id.emp_AsFreelancer_numOfWorkedOnProjects);
+        FrAvgResponseTime = findViewById(R.id.emp_AsFreelancer_AvgResponseTime);
+        FrAvgQualityOfWork = findViewById(R.id.emp_AsFreelancer_avgQuality);
+
+        EmpNumOfProjects = findViewById(R.id.emp_AsEmployer_NumOfProjects);
+        EmpAvgResponseTime = findViewById(R.id.emp_AsEmployerr_AvgResponseTime);
+        EmpAvgOTP = findViewById(R.id.emp_AsEmployer_AvgOtp);
+
+//        test = findViewById(R.id.progressBar);
+//        test.setProgress(87);
+    }
 
     private void LinkedIn() {
 
@@ -588,89 +569,6 @@ public class EditProfileActivity extends AppCompatActivity {
         });
     }
 
-    private void executePostSocialMediaRequest(UserSocialMedia userSocialMedia){
-        ApiClients.getAPIs().getPostSocialMediaRequest(userSocialMedia).enqueue(new Callback<ApiResponse>() {
-            @Override
-            public void onResponse(Call<ApiResponse> call, Response<ApiResponse> response) {
-
-
-                if(response.isSuccessful()){
-
-                    Log.i(LOG, "onResponse: " + response.body().toString());
-                    facebookET.setText(facebookET.getText().toString());
-                    twitterET.setText(twitterET.getText().toString());
-                    linkedinET.setText(linkedinET.getText().toString());
-                    //todo: change msg
-                    Dialog("Information updated!");
-                }else {
-
-                    Converter<ResponseBody, ApiException> converter = ApiClients.getInstant().responseBodyConverter(ApiException.class, new Annotation[0]);
-                    ApiException exception = null;
-                    try {
-
-                        exception = converter.convert(response.errorBody());
-
-                        List<ApiError> errors = exception.getErrors();
-
-                        if (errors != null)
-                            if (!errors.isEmpty())
-                                wrongInfoDialog(errors.get(0).getMessage());
-                        wrongInfoDialog(exception.getMessage());
-
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                    }
-
-                }
-
-
-            }//End onResponse
-
-            @Override
-            public void onFailure(Call<ApiResponse> call, Throwable t) {
-
-            }
-        });
-    }
-
-    private void executeGetSocialMedia(){
-        ApiClients.getAPIs().getAllSocialMedia().enqueue(new Callback<List<UserSocialMedia>>() {
-            @Override
-            public void onResponse(Call<List<UserSocialMedia>> call, Response<List<UserSocialMedia>> response) {
-                if(response.isSuccessful()){
-                    int responseSize = response.body().size()-1;
-                    UserSocialMedia user = response.body().get(responseSize);
-
-                    linkedinET.setText(user.getLinkedIn());
-                    twitterET.setText(user.getTwitter());
-                    facebookET.setText(user.getFacebook());
-                }
-            }
-
-            @Override
-            public void onFailure(Call<List<UserSocialMedia>> call, Throwable t) {
-
-            }
-        });
-    }
-
-    private void Dialog(String msg) {
-
-        AlertDialog.Builder alertDialog = new AlertDialog.Builder(this);
-
-        // Setting Dialog Message
-        alertDialog.setMessage(msg);
-
-        //Setting Negative "ok" Button
-        alertDialog.setPositiveButton("OK", new DialogInterface.OnClickListener() {
-            public void onClick(DialogInterface dialog, int which) {
-                dialog.dismiss();
-            }//end onClick
-        });//end setPositiveButton
-
-        alertDialog.show();
-    }//End of Dialog()
-
     private void wrongInfoDialog(String msg) {
         final AlertDialog.Builder alertDialog = new AlertDialog.Builder(this);
 
@@ -695,44 +593,24 @@ public class EditProfileActivity extends AppCompatActivity {
 
     private void fillCurrentUSerData(){
 
-        name.setText(MySharedPreference.getString(EditProfileActivity.this, Constants.Keys.USER_NAME, ""));
+        String username = MySharedPreference.getString(EditProfileActivity.this, Constants.Keys.USER_NAME, "");
+        String capitalizedName = username.substring(0,1).toUpperCase() + username.substring(1,username.length());
+
+        name.setText(capitalizedName);
 
 //        String current = MySharedPreference.getString(EditProfileActivity.this, Constants.Keys.USER_NAME, "");
 //        String CapCurrent = current.substring(0,1).toUpperCase();
 //
 //        current = CapCurrent+current+" as Freelancer:";
 
-        nameAsFreelancer.setText(MySharedPreference.getString(EditProfileActivity.this, Constants.Keys.USER_NAME, "")+" as Freelancer:");
+        nameAsFreelancer.setText(capitalizedName+" as Freelancer:");
 
-        nameAsEmployer.setText(MySharedPreference.getString(EditProfileActivity.this, Constants.Keys.USER_NAME, "")+ " as Employer:");
+        nameAsEmployer.setText(capitalizedName+ " as Employer:");
 
-
-
-    }
-
-    private void executePostCertificatesRequest(Certificate certificate){
-
-        ApiClients.getAPIs().getPostCertificatesRequest(certificate).enqueue(new Callback<ApiResponse>() {
-            @Override
-            public void onResponse(Call<ApiResponse> call, Response<ApiResponse> response) {
-                if (response.isSuccessful()){
-                    Toast.makeText(EditProfileActivity.this,"success",Toast.LENGTH_LONG).show();
-                    getAllValsAndCalcTPForEmp();
-                } else {
-                    Toast.makeText(EditProfileActivity.this,"not success",Toast.LENGTH_LONG).show();
-
-                }
-            }
-
-            @Override
-            public void onFailure(Call<ApiResponse> call, Throwable t) {
-                Toast.makeText(EditProfileActivity.this,"failure",Toast.LENGTH_LONG).show();
-
-
-            }
-        });
+        initToolbar(capitalizedName);
 
     }
+
 
     private void executeAddLinkedInRequest(long id, String linkedin) {
 
@@ -825,49 +703,12 @@ public class EditProfileActivity extends AppCompatActivity {
 
     }
 
-    private void executeGetAllCertiicates(){
-
-        ApiClients.getAPIs().getAllCertificates().enqueue(new Callback<List<Certificate>>() {
-            @Override
-            public void onResponse(Call<List<Certificate>> call, Response<List<Certificate>> response) {
-                if (response.isSuccessful()){
-                    int responseSize = response.body().size() -1;
-                    Certificate certificate = response.body().get(responseSize);
-                    educationET.setText(certificate.getCertificates());
-//                    name.setText(certificate.getCertificates());
-
-                }
-            }
-
-            @Override
-            public void onFailure(Call<List<Certificate>> call, Throwable t) {
-
-            }
-        });
-    }
 
 
     /**
      * FOR CHOOSING IMAGE
      */
 
-//    private RequestBody createPartFromString(String field){
-//
-//        if(field != null){
-//            return RequestBody.create(MediaType.parse("text/plain"), field);
-//        }//End if block
-//        else {
-//            return RequestBody.create(MediaType.parse("text/plain"),"");
-//        }//End else block
-//
-//    }//End createPartFromString()
-//
-//    private RequestBody createPartFromFileImg(File imgFile){
-//        if(imgFile != null)
-//            return  RequestBody.create(MediaType.parse("image/png"), imgFile);
-//        else
-//            return null;
-//    }//End createPartFromFileImg()
 
     private void showPhotoOptionsDialog(){
         final CharSequence[] items = {"Camera","Gallery"};
@@ -1076,14 +917,6 @@ public class EditProfileActivity extends AppCompatActivity {
      if email != null then trustPoints+=5 for each item in socialMediaAccounts,do
      if item != null, then trustPoints+=5
      if phoneNumber!= null then trustPoints+=20 if nationalID!= null then trustPoints+=40 if maarofAccount!= null then trustPoints+=20 return trustPoints
-     */
-
-    /**
-     *
-     *
-
-     *
-     *
      *
      * Email * 5%
      * Phone Number    * 20%
@@ -1092,46 +925,6 @@ public class EditProfileActivity extends AppCompatActivity {
      * Maarof Account   * 20%
      * Total * 100%
      */
-
-
-
-//    int totalTrustPoints = 0;
-//    public void CalculateEmployerTrustPoints(){
-//        //email is always there since all users are registered by their emails.
-////        totalTrustPoints+= 5;
-//
-////        if(N)
-////            totalTrustPoints+= 40;
-//
-////        if (!linkedin_TP.equals(""))
-////            totalTrustPoints+= 5;
-////        else{
-////            if (!twitter_TP.equals(""))
-////                totalTrustPoints+= 5;
-////            else {
-////                if (!facebook_TP.equals(""))
-////                    totalTrustPoints+= 5;
-////                else{
-////                    if (!phone_TP.equals(""))
-////                        totalTrustPoints+= 20;
-////                    else{
-////                        if (!nid_TP.equals(""))
-////                            totalTrustPoints+= 40;
-////                    }
-////
-////
-////                }
-////
-////
-////            }
-////
-////
-////        }
-//
-//
-//
-////        return totalTrustPoints;
-//    }
 
 
     /**
@@ -1173,6 +966,7 @@ public class EditProfileActivity extends AppCompatActivity {
                         totalTrustPoints+=5;
 
                     totalTrustPoints_TV.setText(totalTrustPoints+"%");
+                    trustPointsPB.setProgress(totalTrustPoints);
 
                 }
             }
@@ -1303,40 +1097,105 @@ public class EditProfileActivity extends AppCompatActivity {
 
     }
 
+    private void executeCalculateEmployerTotalRating(Employer employer_id){
+        ApiClients.getAPIs().CalculateEmployerTotalRating(employer_id).enqueue(new Callback<Double>() {
+            @Override
+            public void onResponse(Call<Double> call, Response<Double> response) {
+                if (response.isSuccessful()){
+                    //None worked in presenting the value as double
+                    // يقرب العدد بعدين يحطه :)
+                    empTotalRates.setRating(Float.valueOf(String.valueOf(response.body())));
+//                    empTotalRates.setRating(response.body().floatValue());
+                }
+
+            }
+
+            @Override
+            public void onFailure(Call<Double> call, Throwable t) {
+
+            }
+        });
+    }
+
+
+    private void getEmployerByUserId(long user_id) {
+
+        ApiClients.getAPIs().getEmployerByUserIdRequest(user_id).enqueue(new Callback<Employer>() {
+            @Override
+            public void onResponse(Call<Employer> call, Response<Employer> response) {
+                if (response.isSuccessful()){
+                    //didn't work :)
+                    getEmp = response.body();
+
+                    numberOfRatings.setText("("+response.body().getNum_of_ratings()+")");
+                    educationET.setText(response.body().getUser().getEducation());
+
+                    //Filling As employer statistics
+
+                    EmpNumOfProjects.setText(response.body().getNum_of_posted_Projects()+"");
+
+                    double response_time = response.body().getResponse_time();
+                    double num_of_ratings = response.body().getNum_of_ratings();
+                    double avgRT =( ((response_time/num_of_ratings) /5) *100);
+                    double total_otp = response.body().getTotal_on_time_payment();
+                    double avgOTP = ((total_otp/num_of_ratings)/5) *100;
+                    EmpAvgResponseTime.setText((int)avgRT+"%");
+                    EmpAvgOTP.setText((int)avgOTP+"%");
+
+
+                }
+            }
+
+            @Override
+            public void onFailure(Call<Employer> call, Throwable t) {
+
+            }
+        });
+
+    }
+
+    private void getFreelancerByUserIDRequest(long user_id ){
+
+        ApiClients.getAPIs().getFreelancerByUserIdRequest(user_id).enqueue(new Callback<Freelancer>() {
+            @Override
+            public void onResponse(Call<Freelancer> call, Response<Freelancer> response) {
+                if (response.isSuccessful()){
+
+                    /**
+                     *  FREELANCER
+                     * Number of times the user was hired | number of times the user was hired = number of times the user was hired
+                     * Average response time | (totalResponceTime + newResponceTimeRating)/ numOfFreeRating)*100 (totalQualityOfWork+newQualityOfWorkRating)/ numOfFreeRating)*100 "INCORRECT"
+                     * Average Quality of Work | (totalQualityOfWork+newQualityOfWorkRating)/ numOfFreeRating)*100
+                     */
+                    FrWorkedOnProjects.setText(response.body().getNum_of_hired_projects()+"");
+                    double response_time = response.body().getTotal_response_time();
+                    double num_of_ratings = response.body().getNum_of_ratings();
+                    double avgRT =( ((response_time/num_of_ratings) /5) *100);
+
+                    double quality = response.body().getTotal_quality_of_work();
+                    double avgQ =( (quality/num_of_ratings)/5 )*100;
+
+                    FrAvgResponseTime.setText((int)avgRT+"%");
+                    FrAvgQualityOfWork.setText((int)avgQ+"%");
+                }
+
+                else{
+
+                }
+            }
+
+            @Override
+            public void onFailure(Call<Freelancer> call, Throwable t) {
+
+            }
+        });
 
 
 
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+    }//End getFreelancerByUserIdRequest()
 
 
 

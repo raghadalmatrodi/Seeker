@@ -107,19 +107,50 @@
             app:layout_constraintStart_toEndOf="@id/emp_nid_icon"
             android:src="@drawable/phone_num"/>
 
-        <TextView
-            android:id="@+id/emp_total_trust_points"
-            android:layout_width="40dp"
-            android:layout_height="40dp"
-            android:layout_marginTop="20dp"
-            android:layout_marginEnd="28dp"
-            android:background="@drawable/circle_shape"
-            android:gravity="center"
-            android:text="100%"
-            android:textColor="#000"
-            android:textSize="14sp"
+<!--        <TextView-->
+<!--            android:id="@+id/emp_total_trust_points"-->
+<!--            android:layout_width="40dp"-->
+<!--            android:layout_height="40dp"-->
+<!--            android:layout_marginTop="20dp"-->
+<!--            android:layout_marginEnd="28dp"-->
+<!--            android:background="@drawable/circle_shape"-->
+<!--            android:gravity="center"-->
+<!--            android:text="100%"-->
+<!--            android:textColor="#000"-->
+<!--            android:textSize="14sp"-->
+<!--            app:layout_constraintEnd_toEndOf="@id/first_ll"-->
+<!--            app:layout_constraintTop_toTopOf="@id/first_ll"/>-->
+                    <ProgressBar
+                        android:id="@+id/TPprogressBar"
+                        android:layout_width="50dp"
+        android:layout_marginTop="20dp"
+        android:layout_marginEnd="28dp"
+                        android:layout_height="50dp"
+                        android:indeterminate="false"
+                        android:progressDrawable="@drawable/circular_progress_bar"
+                        android:background="@drawable/pdialog_circle_shape"
+                        style="?android:attr/progressBarStyleHorizontal"
             app:layout_constraintEnd_toEndOf="@id/first_ll"
-            app:layout_constraintTop_toTopOf="@id/first_ll"/>
+                        app:layout_constraintTop_toTopOf="@id/first_ll"
+                        android:max="100"
+                        />
+
+                    <TextView
+                        android:id="@+id/emp_total_trust_points"
+                        android:layout_width="40dp"
+                        android:layout_height="wrap_content"
+                        app:layout_constraintStart_toStartOf="@+id/TPprogressBar"
+                        app:layout_constraintTop_toTopOf="@+id/TPprogressBar"
+                        app:layout_constraintEnd_toEndOf="@+id/TPprogressBar"
+                        app:layout_constraintBottom_toBottomOf="@+id/TPprogressBar"
+                        android:gravity="center_horizontal"
+                        android:text="%"
+                        android:textColor="@color/black"
+                        android:layout_marginEnd="10dp"
+                        android:textSize="14sp"
+                        android:layout_marginTop="-27dp"
+                        android:layout_marginStart="10dp"
+                        />
 
         <TextView
             android:layout_width="wrap_content"
@@ -130,7 +161,7 @@
             android:textSize="12sp"
             android:layout_marginTop="5dp"
             app:layout_constraintEnd_toEndOf="@id/first_ll"
-            app:layout_constraintTop_toBottomOf="@id/emp_total_trust_points" />
+            app:layout_constraintTop_toBottomOf="@id/TPprogressBar" />
 
         <RatingBar
             android:id="@+id/employer_total_rating_in_profile"
@@ -140,15 +171,26 @@
             app:layout_constraintStart_toEndOf="@id/photo_ll"
             android:isIndicator="true"
             android:layout_marginStart="20dp"
-            android:transformPivotX="0dp"
+            android:transformPivotX="1dp"
             android:transformPivotY="0dp"
             android:numStars="5"
             android:scaleX=".5"
             android:scaleY=".5"
+            android:stepSize="0.1"
+            android:theme="@style/RatingBar"
             android:layout_marginTop="18dp"
             />
-
-
+        <TextView
+            android:id="@+id/numOfRatings_EmployerProfile"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toTopOf="@id/employer_total_rating_in_profile"
+            android:text="(0)"
+            app:layout_constraintStart_toStartOf="@id/employer_total_rating_in_profile"
+            android:layout_marginStart="130dp"
+            android:textColor="@color/black"
+            android:layout_marginTop="2dp"
+            />
     </androidx.constraintlayout.widget.ConstraintLayout>
 
 
@@ -179,8 +221,27 @@
             android:layout_gravity="center_horizontal"
             android:orientation="vertical">
 
+<!--            <ProgressBar-->
+<!--                android:id="@+id/progressBar"-->
+<!--                android:layout_width="40dp"-->
+<!--                android:layout_height="40dp"-->
+<!--                android:indeterminate="false"-->
+<!--                android:progressDrawable="@drawable/circular_progress_bar"-->
+<!--                android:background="@drawable/pdialog_circle_shape"-->
+<!--                style="?android:attr/progressBarStyleHorizontal"-->
+<!--                android:max="100"-->
+<!--                />-->
+
+<!--            <TextView-->
+<!--                android:layout_width="wrap_content"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:text="87"-->
+<!--                android:layout_marginTop="-27dp"-->
+<!--                android:layout_marginStart="10dp"-->
+<!--                />-->
 
             <TextView
+                android:id="@+id/emp_AsFreelancer_numOfWorkedOnProjects"
                 android:layout_width="40dp"
                 android:layout_height="40dp"
                 android:layout_marginLeft="43dp"
@@ -197,7 +258,7 @@
                 android:layout_height="37dp"
                 android:layout_marginLeft="12dp"
                 android:gravity="center"
-                android:text="Number of      worked on projects"
+                android:text="Number of\nworked on projects"
                 android:textColor="#000"
                 android:textSize="12sp" />
 
@@ -214,9 +275,9 @@
 
 
             <TextView
+                android:id="@+id/emp_AsFreelancer_AvgResponseTime"
                 android:layout_width="40dp"
                 android:layout_height="40dp"
-
                 android:layout_marginTop="20dp"
                 android:layout_marginRight="500dp"
                 android:layout_marginLeft="43dp"
@@ -231,7 +292,7 @@
                 android:layout_height="37dp"
                 android:layout_marginLeft="12dp"
                 android:gravity="center"
-                android:text="Average           response time"
+                android:text="Average\nresponse time"
                 android:textColor="#000"
                 android:textSize="12sp" />
 
@@ -248,6 +309,7 @@
 
 
             <TextView
+                android:id="@+id/emp_AsFreelancer_avgQuality"
                 android:layout_width="40dp"
                 android:layout_height="40dp"
 
@@ -265,7 +327,7 @@
                 android:layout_height="37dp"
                 android:layout_marginLeft="12dp"
                 android:gravity="center"
-                android:text="Average                quality of time"
+                android:text="Average\nquality of work"
                 android:textColor="#000"
                 android:textSize="12sp" />
 
@@ -301,6 +363,7 @@
 
 
             <TextView
+                android:id="@+id/emp_AsEmployer_NumOfProjects"
                 android:layout_width="40dp"
                 android:layout_height="40dp"
 
@@ -318,7 +381,7 @@
                 android:layout_height="37dp"
                 android:layout_marginLeft="12dp"
                 android:gravity="center"
-                android:text="Number of       posted projects"
+                android:text="Number of\n posted projects"
                 android:textColor="#000"
                 android:textSize="12sp" />
 
@@ -334,6 +397,7 @@
 
 
             <TextView
+                android:id="@+id/emp_AsEmployerr_AvgResponseTime"
                 android:layout_width="40dp"
                 android:layout_height="40dp"
 
@@ -351,7 +415,7 @@
                 android:layout_height="37dp"
                 android:layout_marginLeft="12dp"
                 android:gravity="center"
-                android:text="Average           response time"
+                android:text="Average\n response time"
                 android:textColor="#000"
                 android:textSize="12sp" />
 
@@ -367,6 +431,7 @@
 
 
             <TextView
+                android:id="@+id/emp_AsEmployer_AvgOtp"
                 android:layout_width="40dp"
                 android:layout_height="40dp"
 
@@ -384,7 +449,7 @@
                 android:layout_height="37dp"
                 android:layout_marginLeft="12dp"
                 android:gravity="center"
-                android:text="Average                  on-time payments"
+                android:text="Average\non-time payments"
                 android:textColor="#000"
                 android:textSize="12sp" />
 

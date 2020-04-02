@@ -15,6 +15,15 @@ public class User implements Serializable,IUser {
     private String phone_number;
     private String national_id;
     private String rating;
+    String education;
+
+    public String getEducation() {
+        return education;
+    }
+
+    public void setEducation(String education) {
+        this.education = education;
+    }
 
     public User(long id, String username) {
         this.id = id;

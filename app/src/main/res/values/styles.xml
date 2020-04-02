@@ -13,4 +13,9 @@
         <item name="android:textStyle">bold</item>
     </style>
 
+    <style name="RatingBar" parent="Theme.AppCompat">
+        <item name="colorControlNormal">#979797</item>
+        <item name="colorControlActivated">#FCC41D</item>
+    </style>
+
 </resources>

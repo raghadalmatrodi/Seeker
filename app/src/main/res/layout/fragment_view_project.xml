@@ -1,21 +1,24 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical" android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    >
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
 
-    <LinearLayout
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/parent"
         android:layout_width="match_parent"
         android:layout_height="70dp"
-
-        android:background="#48E0DDDD"
-        android:orientation="horizontal">
+        android:background="#48E0DDDD">
 
         <ImageView
             android:id="@+id/project_view_back"
             android:layout_width="35dp"
             android:layout_height="35dp"
             android:layout_marginStart="10dp"
+            app:layout_constraintStart_toStartOf="@id/parent"
+            app:layout_constraintTop_toTopOf="@id/parent"
+            android:layout_marginTop="15dp"
             android:layout_gravity="center_vertical"
             android:src="@drawable/ic_arrow_back"/>
 
@@ -24,16 +27,31 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="10dp"
+            app:layout_constraintStart_toEndOf="@id/project_view_back"
+            app:layout_constraintTop_toTopOf="@id/project_view_back"
             android:text="Project title"
+            android:layout_marginTop="3dp"
             android:textColor="#198A7A"
             android:layout_gravity="center_vertical"
 
             android:textSize="20sp"
             android:textStyle="bold" />
 
+        <ImageView
+            android:id="@+id/contract_img"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:layout_marginStart="190dp"
+            android:layout_gravity="center_vertical"
+            android:layout_marginEnd="30dp"
+            android:layout_marginTop="20dp"
+            app:layout_constraintTop_toTopOf="@id/parent"
+            app:layout_constraintEnd_toEndOf="@id/parent"
+            android:src="@drawable/contract" />
 
 
-    </LinearLayout>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
     <ScrollView
         android:layout_width="fill_parent"
         android:layout_height="wrap_content">
@@ -74,13 +92,6 @@
 
                 </TextView>
 
-                <ImageView
-                    android:id="@+id/contract_img2"
-                    android:layout_width="30dp"
-                    android:layout_height="30dp"
-                    android:layout_gravity="center_vertical"
-                    android:layout_marginLeft="20dp"
-                    android:src="@drawable/ic_contract_test" />
 
                 <LinearLayout
                     android:layout_width="30dp"
@@ -112,14 +123,7 @@
 
             </LinearLayout>
 
-            <ImageView
-                android:id="@+id/contract_img"
-                android:layout_width="30dp"
-                android:layout_height="30dp"
-                android:layout_gravity="end"
-            android:layout_marginEnd="20dp"
 
-                android:src="@drawable/ic_contract_test" />
 
 
 
