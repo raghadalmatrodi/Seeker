@@ -22,7 +22,7 @@ public class ProjectAdapter extends RecyclerView.Adapter<ProjectAdapter.MyViewHo
     int position_tab;
     private List<Project> projectList;
     private ProjectAdapterListener listener;
-
+    private String createdDate;
 
 
     public void setListener(ProjectAdapterListener listener) {
@@ -41,6 +41,7 @@ public class ProjectAdapter extends RecyclerView.Adapter<ProjectAdapter.MyViewHo
 
         public ImageView trashIcon;
         public Button extendIcon;
+
 
         public MyViewHolder(View view) {
             super(view);
@@ -114,7 +115,8 @@ public class ProjectAdapter extends RecyclerView.Adapter<ProjectAdapter.MyViewHo
         if (project.getCategory() != null) {
             holder.title.setText(project.getTitle());
             holder.description.setText(project.getCategory().getTitle());
-            String createdDate=project.getCreatedAt().substring(0,10);
+            if (project.getCreatedAt() != null)
+                createdDate =project.getCreatedAt().substring(0,10);
             holder.createdAt.setText(createdDate);
 
 
