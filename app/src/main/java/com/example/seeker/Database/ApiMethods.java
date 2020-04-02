@@ -72,6 +72,7 @@ public interface ApiMethods {
         String CREATE_CHAT_MESSAGE = "chatMessage";
         String FIND_CHAT = "chat/user/{user1_id}/{user2_id}";
         String DELETE_MILESTONE ="milestone/delete/{id}";
+        String UPDATE_TOKEN = "user/updateToken/{token}/{id}";
 
 
 
@@ -119,6 +120,8 @@ public interface ApiMethods {
 
         String GET_FREELANCER_BY_ID = "freelancer/{id}";
 
+        String UPDATE_FREELANCER_SKILLS="freelancer/skills/{id}";
+
         String POST_CALC_EMP_TOTAL_RATINGS = "employerRating/emp";
         String GET_EMPLOYER_BY_ID = "employer/{id}";
 
@@ -126,6 +129,8 @@ public interface ApiMethods {
 
 
 
+
+        String SWITCH_TYPE ="user/changeType/{id}" ;
     }//End of Methods interface
 
 
@@ -333,11 +338,20 @@ public interface ApiMethods {
     @DELETE(Methods.DELETE_MILESTONE)
     Call<ApiResponse> deleteMilestone(@Path("id") long id);
 
+    @PUT(Methods.UPDATE_TOKEN)
+    Call<ApiResponse> updateToken(@Path("token") String token , @Path("id") long id);
     @GET(Methods.GET_FREELANCER_BY_ID)
     Call<Freelancer> findFreelancerById(@Path("id") long id);
 
     @GET(Methods.GET_EMPLOYER_BY_ID)
     Call<Employer> getEmployer(@Path("id") long id);
+    //new change type user
+
+    @PUT(Methods.SWITCH_TYPE)
+    Call<Void> switchType(@Path("id") long id);
+
+    @POST(Methods.UPDATE_FREELANCER_SKILLS)
+    Call<ApiResponse> updateFreelancerSkill(@Path("id") long id , @Body Set<Skill> skills);
     //
 
 

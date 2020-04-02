@@ -5,6 +5,7 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 
 
+import com.example.seeker.ChatMessageBroadcast;
 import com.example.seeker.Database.ApiClients;
 import com.example.seeker.EmployerMainPages.EmployerMainActivity;
 import com.example.seeker.Model.Chat;
@@ -19,13 +20,17 @@ import com.stfalcon.chatkit.messages.MessagesList;
 import com.stfalcon.chatkit.messages.MessagesListAdapter;
 
 import android.app.FragmentManager;
+import android.content.BroadcastReceiver;
+import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.nio.channels.Channel;
 import java.text.SimpleDateFormat;
@@ -48,7 +53,31 @@ public class Emp_ChatMessages extends AppCompatActivity {
     MessageInput inputView;
     MessagesListAdapter<ChatMessage> adapter;
     User sender;
+    // Broadcast
+    private BroadcastReceiver broadcastReceiver = new ChatMessageBroadcast() {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            super.onReceive(context, intent);
+            ChatMessage message = (ChatMessage) intent.getSerializableExtra("message");
+//            Alerter.create(Emp_ChatMessages.this)
+//                    .setTitle("New Message")
+//                    .setText(message.getMessage())
+//                    .setBackgroundColorRes(R.color.colorPrimary)
+//                    .setDuration(3000)
+//                    .show();
 
+//            Toast.makeText(Emp_ChatMessages.this, message.getMessage(), Toast.LENGTH_LONG).show();
+            if(message.getChat().getId() == chat.getId()){
+                adapter.addToStart(message,true);
+            }
+        }
+    };
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        this.unregisterReceiver(broadcastReceiver);
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -89,6 +118,9 @@ public class Emp_ChatMessages extends AppCompatActivity {
             }
         });
 
+
+        IntentFilter intentFilter = new IntentFilter("NewChatMessage");
+        this.registerReceiver(broadcastReceiver, intentFilter);
     }
 
 

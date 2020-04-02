@@ -15,6 +15,7 @@ public class User implements Serializable,IUser {
     private String phone_number;
     private String national_id;
     private String rating;
+    private String current_type;
     String education;
 
     public String getEducation() {
@@ -107,5 +108,13 @@ public class User implements Serializable,IUser {
 
     public void setRating(String rating) {
         this.rating = rating;
+    }
+
+    public String getCurrent_type() {
+        return current_type;
+    }
+
+    public void setCurrent_type(String current_type) {
+        this.current_type = current_type;
     }
 }

@@ -3,6 +3,7 @@ package com.example.seeker.EmployerMainPages;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,19 +16,27 @@ import androidx.appcompat.app.AlertDialog;
 import androidx.fragment.app.Fragment;
 
 import com.example.seeker.Activities.LoginActivity;
+import com.example.seeker.Database.ApiClients;
 import com.example.seeker.EmployerMainPages.AccountRelatedActivities.ContactSupportActivity;
 import com.example.seeker.EmployerMainPages.AccountRelatedActivities.EditProfileActivity;
 import com.example.seeker.EmployerMainPages.AccountRelatedActivities.NotificationsActivity;
 import com.example.seeker.FreelancerMainPages.FreelancerMainActivity;
 import com.example.seeker.LogOut;
+import com.example.seeker.Model.Responses.ApiResponse;
+import com.example.seeker.Model.User;
 import com.example.seeker.R;
 import com.example.seeker.SharedPref.Constants;
 import com.example.seeker.SharedPref.MySharedPreference;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class Emp_AccountFragment extends Fragment implements View.OnClickListener {
 
     View view;
     Button switch_btn;
+    User user;
 
     //profile
     private LinearLayout edit_profileLL;
@@ -94,7 +103,32 @@ public class Emp_AccountFragment extends Fragment implements View.OnClickListene
 
 
     }
+    //not yet
+public void changeUserType(){
 
+
+    ApiClients.getAPIs().switchType(MySharedPreference.getLong(getContext(),Constants.Keys.USER_ID,0)).enqueue(new Callback<Void>() {
+        @Override
+        public void onResponse(Call<Void> call, Response<Void> response) {
+            if(response.isSuccessful()){
+                Log.i("onResponse successful  switchType ", response.message());
+
+            }else{
+                Log.i("onResponse Notsuccessful  switchType ", response.message());
+
+            }
+
+        }
+
+        @Override
+        public void onFailure(Call<Void> call, Throwable t) {
+            Log.i("onResponse failure  switchType ", t.getLocalizedMessage());
+
+        }
+    });
+
+
+    }
 
     @Override
     public void onClick(View view) {
@@ -102,9 +136,13 @@ public class Emp_AccountFragment extends Fragment implements View.OnClickListene
         switch (view.getId()){
 
             case R.id.switch_to_f_btn:
-                Intent intent;
+                {
+
+                    MySharedPreference.putString(getContext(),Constants.Keys.USER_CURRENT_TYPE,"FREELANCER" );
+changeUserType();
+                    Intent intent;
                 intent = new Intent(Emp_AccountFragment.this.getActivity(), FreelancerMainActivity.class);
-                startActivity(intent);
+                startActivity(intent);}
                 break;
 
 

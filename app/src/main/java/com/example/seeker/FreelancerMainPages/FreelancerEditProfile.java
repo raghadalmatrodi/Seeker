@@ -7,6 +7,7 @@ import androidx.appcompat.widget.Toolbar;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.WindowManager;
@@ -18,9 +19,17 @@ import android.widget.Toast;
 
 import com.example.seeker.Database.ApiClients;
 import com.example.seeker.FreelancerMainPages.SearchTab_Freelancer.AddSkillActivity;
+import com.example.seeker.Model.Freelancer;
+import com.example.seeker.Model.Skill;
 import com.example.seeker.R;
 import com.example.seeker.SharedPref.Constants;
 import com.example.seeker.SharedPref.MySharedPreference;
+
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Set;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -31,8 +40,10 @@ public class FreelancerEditProfile extends AppCompatActivity {
     ImageButton add_skill;
     ImageView maroof, phoneNumber, nationalId;
 
-    TextView name, nameAsFreelancer, nameAsEmployer;
-
+    TextView name, nameAsFreelancer, nameAsEmployer,skillText;
+    private String LOG = FreelancerEditProfile.class.getName();
+    private Set<Skill> skillsList = new HashSet<>();
+    private Freelancer freelancer;
 
 
     @Override
@@ -43,19 +54,56 @@ public class FreelancerEditProfile extends AppCompatActivity {
         getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN);
         getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN);
 
-
         init();
         fillCurrentUSerData();
         initToolbar();
+        ExcecuteGetFreelancerAPIRequest();
+
+        fillSkills();
 
 
-        add_skill.setOnClickListener(new View.OnClickListener() {
+
+    }
+
+    private void ExcecuteGetFreelancerAPIRequest() {
+        ApiClients.getAPIs().getFreelancerByUserIdRequest(MySharedPreference.getLong(FreelancerEditProfile.this, Constants.Keys.USER_ID, -1)).enqueue(new Callback<Freelancer>() {
             @Override
-            public void onClick(View v) {
-                startActivity(new Intent(FreelancerEditProfile.this, AddSkillActivity.class));
-            }
+            public void onResponse(Call<Freelancer> call, Response<Freelancer> response) {
+                if (response.isSuccessful()){
+
+
+                     freelancer = response.body();
+                    Log.i(LOG,"onResponse: suc" + freelancer.toString());
+                    skillsList = freelancer.getSkills();
+                    Log.i(LOG,"onResponse: suc" + freelancer.getSkills());
+                    Log.i(LOG,"onResponse: suc" + skillsList.toString());
+
+                    skillText = findViewById(R.id.list_skills);
+                    String skillToDisplay ="";
+
+                    for (Skill subset : skillsList) {
+                        skillToDisplay += " - " +subset.getName() ;
+                    }
+
+                    skillText.setText(skillToDisplay );
+
+                }else {
+                    Log.i(LOG,"onResponse: notSuc" + response.toString());
+
+                }//end else block
+            }//End onResponse()
+
+            @Override
+            public void onFailure(Call<Freelancer> call, Throwable t) {
+                Log.i(LOG,"onFailure :" + t.toString());
+
+
+            }//end onFailure()
         });
 
+    }
+
+    private void fillSkills() {
 
 
     }
@@ -91,6 +139,14 @@ public class FreelancerEditProfile extends AppCompatActivity {
                 AddInfoDialog(2);
             }
         });
+
+        add_skill.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(FreelancerEditProfile.this, AddSkillActivity.class));
+            }
+        });
+
 
 
     }//init()

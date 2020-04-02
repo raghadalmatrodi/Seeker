@@ -15,11 +15,13 @@ import androidx.appcompat.app.AlertDialog;
 import com.example.seeker.Database.ApiClients;
 import com.example.seeker.Database.PublicKeyDatabase;
 import com.example.seeker.EmployerMainPages.EmployerMainActivity;
+import com.example.seeker.FreelancerMainPages.FreelancerMainActivity;
 import com.example.seeker.Model.Employer;
 import com.example.seeker.Model.Exception.ApiError;
 import com.example.seeker.Model.Exception.ApiException;
 import com.example.seeker.Model.Freelancer;
 import com.example.seeker.Model.Login;
+import com.example.seeker.Model.Responses.ApiResponse;
 import com.example.seeker.Model.User;
 import com.example.seeker.R;
 import com.example.seeker.SharedPref.Constants;
@@ -106,11 +108,24 @@ public class LoginActivity extends Activity {
                     executeGetUserByEmailRequest(userEmail);
 
 
+if(MySharedPreference.getString(LoginActivity.this,Constants.Keys.USER_CURRENT_TYPE,"0").equals("EMPLOYER"))
+{
                      Intent intent = new Intent(LoginActivity.this, EmployerMainActivity.class);
                     intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
                     intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                     startActivity(intent);
-                    finish();
+                    finish();}
+
+    if(MySharedPreference.getString(LoginActivity.this,Constants.Keys.USER_CURRENT_TYPE,"0").equals("FREELANCER")){
+
+
+
+        Intent intent = new Intent(LoginActivity.this, FreelancerMainActivity.class);
+    intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
+    intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+    startActivity(intent);
+    finish();
+}
 
 
                 }//End of if
@@ -240,10 +255,33 @@ public class LoginActivity extends Activity {
         MySharedPreference.putLong(this, Constants.Keys.USER_ID, userId);
         MySharedPreference.putString(this, Constants.Keys.USER_NAME, user.getUsername());
         MySharedPreference.putString(this, Constants.Keys.USER_EMAIL,  user.getEmail());
+        MySharedPreference.putString(this,Constants.Keys.USER_CURRENT_TYPE,user.getCurrent_type() );
 //        MySharedPreference.putString(this, Constants.Keys.USER_IMG, user.getImage());
 //        MySharedPreference.putString(this, Constants.Keys.ENABLE_NOTI, user.getEnable_noti());
 
 
+        String token = MySharedPreference.getString(getApplicationContext(),Constants.Keys.TOKEN_ID,"");
+
+        if(!(token == null || token.equals("")) ){
+            ApiClients.getAPIs().updateToken(token ,userId ).enqueue(new Callback<ApiResponse>() {
+                @Override
+                public void onResponse(Call<ApiResponse> call, Response<ApiResponse> response) {
+                    if(response.isSuccessful()){
+                        Log.d(LOG, "successful token: " + response.message());
+
+                    }else{
+                        Log.d(LOG, "Not suc: " + response.message());
+
+                    }
+                }
+
+                @Override
+                public void onFailure(Call<ApiResponse> call, Throwable t) {
+                    Log.d(LOG, "Failure : " + t.getMessage());
+
+                }
+            });
+        }
 
         getEmployerByUserId(MySharedPreference.getLong(this,Constants.Keys.USER_ID,-1));
         //todo: hind added to test get freelancer by use id -> remove later if didn't work :)

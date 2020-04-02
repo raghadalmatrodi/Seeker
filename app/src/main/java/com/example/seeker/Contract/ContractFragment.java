@@ -135,8 +135,14 @@ public class ContractFragment extends Fragment {
 
 
         }
-        employerName.setText(contract.getProject().getEmployer().getUser().getUsername());
-        freelancerName.setText(contract.getFreelancer().getUser().getUsername());
+
+        if(contract.getProject()!=null)
+            employerName.setText(contract.getProject().getEmployer().getUser().getUsername());
+
+        if(contract.getFreelancer()!=null)
+            freelancerName.setText(contract.getFreelancer().getUser().getUsername());
+
+        if(contract.getDeadline()!=null)
         deliveryDate.setText(contract.getDeadline().toString().substring(0,10));
         if(project.getPayment_type().equals("Hourly")){
             priceText.setText("Price per hour");

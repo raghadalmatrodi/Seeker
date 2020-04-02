@@ -10,6 +10,8 @@ import android.widget.TextView;
 import androidx.appcompat.app.AlertDialog;
 
 import com.example.seeker.Activities.LoginActivity;
+import com.example.seeker.SharedPref.Constants;
+import com.example.seeker.SharedPref.MySharedPreference;
 
 public class LogOut extends LoginActivity {
 
@@ -33,6 +35,7 @@ public class LogOut extends LoginActivity {
                     builder.setPositiveButton("Yes",
                             new DialogInterface.OnClickListener() {
                                 public void onClick(DialogInterface dialog, int id) {
+                                    MySharedPreference.putBoolean(getApplicationContext(), Constants.Keys.IS_LOGIN,false);
                                     Intent i = new Intent(getApplicationContext(),
                                             LoginActivity.class);
                                     startActivity(i);
