@@ -51,6 +51,7 @@ public class BidsAdapter extends RecyclerView.Adapter<BidsAdapter.MyViewHolder> 
         public TextView price;
         public TextView deadline;
         public Button acceptBid;
+        private TextView status;
 
 
 
@@ -63,9 +64,11 @@ public class BidsAdapter extends RecyclerView.Adapter<BidsAdapter.MyViewHolder> 
             price = view.findViewById(R.id.bid_proposed_price);
             deadline = view.findViewById(R.id.bid_deliverydate);
             acceptBid = view.findViewById(R.id.accept_bid);
+            status = view.findViewById(R.id.status);
 
             if(isEmployer && isPending){
                 acceptBid.setVisibility(View.VISIBLE);
+                status.setVisibility(View.GONE);
             }
 
 
@@ -181,6 +184,7 @@ public class BidsAdapter extends RecyclerView.Adapter<BidsAdapter.MyViewHolder> 
         }
         String priceStr = Double.toString(bid.getPrice());
         holder.price.setText(priceStr);
+
         if (bid.getDeliver_date() == null ){
             holder.deadline.setText(bid.getDeliver_date());
 
@@ -188,6 +192,13 @@ public class BidsAdapter extends RecyclerView.Adapter<BidsAdapter.MyViewHolder> 
             //TODO CHECK IF THE LENGTH IS MORE THAN 9
             String noTimeDeadline = bid.getDeliver_date().substring(0,10);
             holder.deadline.setText(noTimeDeadline);
+        }
+        if(bid.getStatus() != null){
+            if(bid.getStatus().equalsIgnoreCase("accepted")) {
+                holder.status.setText("Accepted");
+            }else{
+                holder.status.setText("");
+            }
         }
 
         holder.acceptBid.setOnClickListener(new View.OnClickListener() {
