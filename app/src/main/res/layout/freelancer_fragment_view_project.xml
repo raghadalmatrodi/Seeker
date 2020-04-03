@@ -45,6 +45,7 @@
             android:layout_gravity="center_vertical"
             android:layout_marginEnd="30dp"
             android:layout_marginTop="20dp"
+            android:visibility="invisible"
             app:layout_constraintTop_toTopOf="@id/parent"
             app:layout_constraintEnd_toEndOf="@id/parent"
             android:src="@drawable/contract" />
@@ -213,11 +214,26 @@
             android:layout_height="wrap_content"
             android:textSize="18dp"
             android:text="No date provided"></TextView>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Created At"
+            android:textColor="@android:color/black"
+            android:textSize="19dp"
+            android:layout_marginTop="20dp"
+            android:textStyle="bold"></TextView>
+        <TextView
+            android:id="@+id/createdAt_project"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="18dp"
+            android:text="No date provided"></TextView>
 
 
 
 
-</LinearLayout>
+
+    </LinearLayout>
 <LinearLayout
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"

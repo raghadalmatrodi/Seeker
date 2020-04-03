@@ -37,7 +37,6 @@ public class ProjectAdapter extends RecyclerView.Adapter<ProjectAdapter.MyViewHo
         public ImageView arrow;
         public TextView title;
         public TextView description;
-        public TextView createdAt;
 
         public ImageView trashIcon;
         public Button extendIcon;
@@ -48,7 +47,6 @@ public class ProjectAdapter extends RecyclerView.Adapter<ProjectAdapter.MyViewHo
 
             title = view.findViewById(R.id.row_project_title);
             description = view.findViewById(R.id.row_project_description);
-            createdAt=view.findViewById(R.id.created_text);
             arrow = view.findViewById(R.id.row_arrow);
             trashIcon = view.findViewById(R.id.image_trash);
             extendIcon = view.findViewById(R.id.image_extend);
@@ -115,9 +113,7 @@ public class ProjectAdapter extends RecyclerView.Adapter<ProjectAdapter.MyViewHo
         if (project.getCategory() != null) {
             holder.title.setText(project.getTitle());
             holder.description.setText(project.getCategory().getTitle());
-            if (project.getCreatedAt() != null)
-                createdDate =project.getCreatedAt().substring(0,10);
-            holder.createdAt.setText(createdDate);
+
 
 
 //trash and extend icons

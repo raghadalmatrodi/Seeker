@@ -25,6 +25,7 @@ import com.example.seeker.EmployerMainPages.Chat_Emp.Emp_ChatMessages;
 import com.example.seeker.EmployerMainPages.MyProjectsTab_Emp.ProjectsStatusFragments.Emp_MyProjects_Pending_Fragment;
 import com.example.seeker.Model.Bid;
 import com.example.seeker.Model.Chat;
+import com.example.seeker.Model.Contract;
 import com.example.seeker.Model.Project;
 import com.example.seeker.Model.Skill;
 import com.example.seeker.PostBid.BidsAdapter;
@@ -52,8 +53,10 @@ public class Emp_viewProjectFragment extends Fragment implements  Emp_MyProjects
     TextView deadline;
     ImageView backButton;
     TextView employerName;
+    TextView createdAt;
     LinearLayout EmployerView;
     ImageView chat;
+    Contract contract;
 
 
     ImageView contractImg;
@@ -88,6 +91,9 @@ public class Emp_viewProjectFragment extends Fragment implements  Emp_MyProjects
             @Override
             public void onClick(View view) {
 
+                if(contract.getProject().getEmployer().getId() == MySharedPreference.getLong(getContext(),Constants.Keys.EMPLOYER_ID, -1)){
+
+
                 Fragment fragment = new ContractFragment();
                 Bundle bundle = new Bundle();
                 bundle.putSerializable("project",project);
@@ -97,6 +103,20 @@ public class Emp_viewProjectFragment extends Fragment implements  Emp_MyProjects
                 fragmentTransaction.replace(R.id.frame_container_emp, fragment);
                 fragmentTransaction.addToBackStack(null);
                 fragmentTransaction.commit();
+                }else{
+
+                    Fragment fragment = new ContractFragment();
+                    Bundle bundle = new Bundle();
+                    bundle.putSerializable("project",project);
+                    fragment.setArguments(bundle);
+                    FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
+                    FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+                    fragmentTransaction.replace(R.id.frame_container_freelancer, fragment);
+                    fragmentTransaction.addToBackStack(null);
+                    fragmentTransaction.commit();
+
+                }
+
             }
         });
 
@@ -184,6 +204,7 @@ public class Emp_viewProjectFragment extends Fragment implements  Emp_MyProjects
         contractImg = view.findViewById(R.id.contract_img);
         EmployerView = view.findViewById(R.id.employer_row);
         chat = view.findViewById(R.id.chat);
+        createdAt = view.findViewById(R.id.createdAt_project);
 
 
     }
@@ -244,12 +265,19 @@ public class Emp_viewProjectFragment extends Fragment implements  Emp_MyProjects
         if(project.getDeadline() != null){
             deadline.setText(project.getDeadline().substring(0,10));
         }
+        if(project.getCreatedAt() != null){
+            createdAt.setText(project.getCreatedAt().substring(0,10));
+        }
 
         if(project.getStatus() != null)
         if(project.getStatus().equals("0")){
             contractImg.setVisibility(View.INVISIBLE);
         }else{
-            contractImg.setVisibility(View.VISIBLE);
+
+            performContractAPIRequest(project.getId());
+
+
+
 
 
         }
@@ -290,6 +318,42 @@ public class Emp_viewProjectFragment extends Fragment implements  Emp_MyProjects
         fragmentTransaction.replace(R.id.frame_container_emp, fragment);
         fragmentTransaction.addToBackStack(null);
         fragmentTransaction.commit();
+
+    }
+
+    public void performContractAPIRequest(long project_id){
+
+
+        ApiClients.getAPIs().getContractByProjectIdRequest(project_id).enqueue(new Callback<Contract>() {
+
+            @Override
+            public void onResponse(Call<Contract> call, Response<Contract> response) {
+
+
+                if (response.isSuccessful()){
+
+                    contract = response.body();
+
+                    if(contract != null){
+
+                        if((contract.getProject().getEmployer().getId() == MySharedPreference.getLong(getContext(),Constants.Keys.EMPLOYER_ID,-1)) || (contract.getFreelancer().getId() == MySharedPreference.getLong(getContext(), Constants.Keys.FREELANCER_ID,-1))){
+                            contractImg.setVisibility(View.VISIBLE);
+                        }
+                    }
+
+
+
+                    Log.i("on Response: contract suc", response.message());
+
+                }
+                Log.i("on Response: contract Notsuc", response.message());
+            }
+
+            @Override
+            public void onFailure(Call<Contract> call, Throwable t) {
+                Log.i("on Response: contract fail", t.getMessage());
+            }
+        });
 
     }
 

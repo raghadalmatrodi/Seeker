@@ -34,12 +34,7 @@
             android:text="Reema test to test"
             android:textColor="#747171"
             android:textSize="17dp" />
-        <TextView
-            android:id="@+id/created_text"
-            android:layout_gravity="center"
-android:text="Created At:"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
+
 
     </LinearLayout>
 <LinearLayout
