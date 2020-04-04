@@ -122,6 +122,11 @@ public interface ApiMethods {
         String UPDATE_FREELANCER_SKILLS="freelancer/skills/{id}";
         String GET_ALL_FREELANCERS="freelancer/findAll";
 
+        String POST_CALC_EMP_TOTAL_RATINGS = "employerRating/emp";
+        String GET_EMPLOYER_BY_ID = "employer/{id}";
+
+        String POST_NUM_OF_POSTED_PROJECTS = "employer/posted_projs/{id}/{num_of_posted_Projects}";
+
 
 
         String DELETE_BID="bid/{bid_id}";
@@ -225,7 +230,11 @@ public interface ApiMethods {
     @PUT(Methods.SET_ALL_EMPLOYER_RATING_VALUES)
     Call<Void> setAllEmployerRatingValues(@Body Employer employer);
 
+    @POST(Methods.POST_CALC_EMP_TOTAL_RATINGS)
+    Call<Double> CalculateEmployerTotalRating(@Body Employer employer_id);
 
+    @POST(Methods.POST_NUM_OF_POSTED_PROJECTS)
+    Call<Void> setNumberOfPostedProjects(@Path("id") long id, @Path("num_of_posted_Projects") int num_of_posted_projects);
 
 
 
@@ -335,6 +344,8 @@ public interface ApiMethods {
     @GET(Methods.GET_FREELANCER_BY_ID)
     Call<Freelancer> findFreelancerById(@Path("id") long id);
 
+    @GET(Methods.GET_EMPLOYER_BY_ID)
+    Call<Employer> getEmployer(@Path("id") long id);
     //new change type user
 
     @PUT(Methods.SWITCH_TYPE)

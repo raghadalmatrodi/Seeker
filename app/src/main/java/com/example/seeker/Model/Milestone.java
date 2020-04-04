@@ -1,8 +1,9 @@
 package com.example.seeker.Model;
 
+import java.io.Serializable;
 import java.time.LocalDateTime;
 
-public class Milestone {
+public class Milestone implements Serializable {
     private long id;
     private double amount;
     private String status;

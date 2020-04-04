@@ -175,24 +175,28 @@ prepareProjects();
             public void onResponse(Call<List<Project>> call, Response<List<Project>> response) {
                 mProgressBar.setVisibility(View.GONE);
                 if (response.isSuccessful()) {
-                    projectList = new ArrayList<>();
-                    projectList = response.body();
-                    for (int i=0;i<projectList.size();i++){
+
+                        projectList = response.body();
+                    if(projectList != null) {
+                        for (int i = 0; i < projectList.size(); i++) {
 
 
+                            if (checkToDelete(projectList.get(i).getExpiry_date())) {
+                                deleteProject(projectList.get(i));
+                                projectList.remove(i);
+                            }
 
 
-                        if (checkToDelete(projectList.get(i).getExpiry_date())){
-                            deleteProject(projectList.get(i));
-                            projectList.remove(i);
                         }
+                        pendingText.setVisibility(View.GONE);
+                        setTheAdapter();
+                        // adapter.notifyDataSetChanged();
+                    }else{
 
-
+                        pendingText.setText("No Projects");
+                        Log.i(LOG, "onResponse not suc: " + response.toString());
 
                     }
-                    pendingText.setVisibility(View.GONE);
-                    setTheAdapter();
-                    // adapter.notifyDataSetChanged();
 
                 } else {
 
@@ -224,6 +228,7 @@ prepareProjects();
         recyclerView.setNestedScrollingEnabled(true);
         DividerItemDecoration dividerItemDecoration = new DividerItemDecoration(recyclerView.getContext(), DividerItemDecoration.VERTICAL);
         recyclerView.addItemDecoration(dividerItemDecoration);
+        if (!projectList.isEmpty())
         adapter.notifyDataSetChanged();
 
 

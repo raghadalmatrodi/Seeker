@@ -1,4 +1,4 @@
-package com.example.seeker.EmployerMainPages.MyProjectsTab_Emp;
+package com.example.seeker.FreelancerMainPages.MyProjectsTab_Freelancer;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -19,6 +19,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.seeker.Contract.ContractFragment;
+import com.example.seeker.Contract.MilestoneFragment;
 import com.example.seeker.Database.ApiClients;
 import com.example.seeker.EmployerMainPages.AcceptBidConfirmation;
 import com.example.seeker.EmployerMainPages.Chat_Emp.Emp_ChatMessages;
@@ -40,9 +41,9 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class Emp_viewProjectFragment extends Fragment implements  Emp_MyProjects_Pending_Fragment.ProjectListener ,BidsAdapter.BidsAdapterListener {
+public class Freelancer_viewProjectFragment extends Fragment implements  Emp_MyProjects_Pending_Fragment.ProjectListener ,BidsAdapter.BidsAdapterListener {
 
-    private static final String LOG = Emp_viewProjectFragment.class.getSimpleName();
+    private static final String LOG = Freelancer_viewProjectFragment.class.getSimpleName();
 
     Project project ;
     TextView title;
@@ -53,10 +54,10 @@ public class Emp_viewProjectFragment extends Fragment implements  Emp_MyProjects
     TextView deadline;
     ImageView backButton;
     TextView employerName;
-    TextView createdAt;
     LinearLayout EmployerView;
     ImageView chat;
     Contract contract;
+    TextView createdAt;
 
 
     ImageView contractImg;
@@ -72,7 +73,7 @@ public class Emp_viewProjectFragment extends Fragment implements  Emp_MyProjects
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
-         view = inflater.inflate(R.layout.fragment_view_project, container, false);
+         view = inflater.inflate(R.layout.freelancer_fragment_view_project, container, false);
         chatList = new ArrayList<>();
 
          init();
@@ -91,32 +92,15 @@ public class Emp_viewProjectFragment extends Fragment implements  Emp_MyProjects
             @Override
             public void onClick(View view) {
 
-                if(contract.getProject().getEmployer().getId() == MySharedPreference.getLong(getContext(),Constants.Keys.EMPLOYER_ID, -1)){
-
-
                 Fragment fragment = new ContractFragment();
                 Bundle bundle = new Bundle();
                 bundle.putSerializable("project",project);
                 fragment.setArguments(bundle);
                 FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
                 FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-                fragmentTransaction.replace(R.id.frame_container_emp, fragment);
+                fragmentTransaction.replace(R.id.frame_container_freelancer, fragment);
                 fragmentTransaction.addToBackStack(null);
                 fragmentTransaction.commit();
-                }else{
-
-                    Fragment fragment = new ContractFragment();
-                    Bundle bundle = new Bundle();
-                    bundle.putSerializable("project",project);
-                    fragment.setArguments(bundle);
-                    FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
-                    FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-                    fragmentTransaction.replace(R.id.frame_container_freelancer, fragment);
-                    fragmentTransaction.addToBackStack(null);
-                    fragmentTransaction.commit();
-
-                }
-
             }
         });
 
@@ -207,6 +191,7 @@ public class Emp_viewProjectFragment extends Fragment implements  Emp_MyProjects
         createdAt = view.findViewById(R.id.createdAt_project);
 
 
+
     }
 
     @Override
@@ -269,15 +254,12 @@ public class Emp_viewProjectFragment extends Fragment implements  Emp_MyProjects
             createdAt.setText(project.getCreatedAt().substring(0,10));
         }
 
+
         if(project.getStatus() != null)
         if(project.getStatus().equals("0")){
             contractImg.setVisibility(View.INVISIBLE);
         }else{
-
             performContractAPIRequest(project.getId());
-
-
-
 
 
         }
@@ -320,7 +302,6 @@ public class Emp_viewProjectFragment extends Fragment implements  Emp_MyProjects
         fragmentTransaction.commit();
 
     }
-
     public void performContractAPIRequest(long project_id){
 
 

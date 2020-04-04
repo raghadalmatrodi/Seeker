@@ -7,6 +7,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AlertDialog;
 import androidx.fragment.app.Fragment;
@@ -84,11 +85,17 @@ public class Emp_PostFragment extends Fragment implements ProjectTypeFragment.Pr
 
     private String createdAt;
 
+
+    long current_emp_id = MySharedPreference.getLong(getContext(), Constants.Keys.EMPLOYER_ID, -1);
+    private int numberOfPostedProjects;
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         view = inflater.inflate(R.layout.fragment_post_project, container, false);
+
+        getEmployerByUserId(current_emp_id);
 
         projectTypeFragment = new ProjectTypeFragment();
         projectCategoryFragment = new ProjectCategoryFragment();
@@ -117,8 +124,9 @@ public class Emp_PostFragment extends Fragment implements ProjectTypeFragment.Pr
 
         viewPager.setAdapter(adapter);
 
-        return view;
 
+
+        return view;
     }
 
     @Override
@@ -206,7 +214,8 @@ public class Emp_PostFragment extends Fragment implements ProjectTypeFragment.Pr
 
 
                     createProjectWithAttachments(files, project);
-
+                    numberOfPostedProjects+= 1;
+                    setNumberOfPostedProjects(current_emp_id, numberOfPostedProjects);
                     dialog.dismiss();
 
 
@@ -259,6 +268,8 @@ public class Emp_PostFragment extends Fragment implements ProjectTypeFragment.Pr
 
                     Log.i(LOG, "onResponse : Success");
                     SuccesDialog("Your project has been posted successfully.");
+//                    numberOfPostedProjects+= 1;
+//                    setNumberOfPostedProjects(current_emp_id, numberOfPostedProjects);
 
                 } else {
                     Log.i(LOG, "onResponse : fail");
@@ -354,6 +365,8 @@ public class Emp_PostFragment extends Fragment implements ProjectTypeFragment.Pr
 
 
                     SuccesDialog("Your project has been posted successfully.");
+                    numberOfPostedProjects+= 1;
+                    setNumberOfPostedProjects(current_emp_id, numberOfPostedProjects);
 
                 } else {
                     Converter<ResponseBody, ApiException> converter = ApiClients.getInstant().responseBodyConverter(ApiException.class, new Annotation[0]);
@@ -471,5 +484,42 @@ public class Emp_PostFragment extends Fragment implements ProjectTypeFragment.Pr
 
     }
 
+
+    private void getEmployerByUserId(long user_id) {
+
+        ApiClients.getAPIs().getEmployerByUserIdRequest(user_id).enqueue(new Callback<Employer>() {
+            @Override
+            public void onResponse(Call<Employer> call, Response<Employer> response) {
+                if (response.isSuccessful()){
+                    numberOfPostedProjects = response.body().getNum_of_posted_Projects();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<Employer> call, Throwable t) {
+
+            }
+        });
+
+    }
+
+    private void setNumberOfPostedProjects(long id, int numOfPostedProjs){
+        ApiClients.getAPIs().setNumberOfPostedProjects(id, numberOfPostedProjects).enqueue(new Callback<Void>() {
+            @Override
+            public void onResponse(Call<Void> call, Response<Void> response) {
+                if (response.isSuccessful())
+                    Toast.makeText(getContext(),"success",Toast.LENGTH_LONG).show();
+                else
+                    Toast.makeText(getContext(),"not success: "+response.errorBody().toString(),Toast.LENGTH_LONG).show();
+            }
+
+            @Override
+            public void onFailure(Call<Void> call, Throwable t) {
+                Toast.makeText(getContext(),t.getLocalizedMessage(),Toast.LENGTH_LONG).show();
+
+            }
+        });
+
+    }
 
 }

@@ -13,6 +13,11 @@
         <item name="android:textStyle">bold</item>
     </style>
 
+    <style name="RatingBar" parent="Theme.AppCompat">
+        <item name="colorControlNormal">#979797</item>
+        <item name="colorControlActivated">#FCC41D</item>
+    </style>
+
 <!--    <style name=-->
 <!--        "AppTheme.AppBarOverlay"  parent="Theme.AppCompat.Light.DarkActionBar" >-->
 <!--        <item name="colorPrimary">#48E0DDDD</item>-->

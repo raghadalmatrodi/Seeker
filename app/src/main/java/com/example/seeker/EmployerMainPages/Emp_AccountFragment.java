@@ -20,6 +20,8 @@ import com.example.seeker.Database.ApiClients;
 import com.example.seeker.EmployerMainPages.AccountRelatedActivities.ContactSupportActivity;
 import com.example.seeker.EmployerMainPages.AccountRelatedActivities.EditProfileActivity;
 import com.example.seeker.EmployerMainPages.AccountRelatedActivities.NotificationsActivity;
+import com.example.seeker.EmployerMainPages.AccountRelatedActivities.Payment.PaymentActivity;
+import com.example.seeker.EmployerMainPages.AccountRelatedActivities.Payment.PaymentAdapter;
 import com.example.seeker.FreelancerMainPages.FreelancerMainActivity;
 import com.example.seeker.LogOut;
 import com.example.seeker.Model.Responses.ApiResponse;
@@ -161,9 +163,9 @@ changeUserType();
 
             case R.id.payments_ll:
 
-//                Intent intent3;
-//                intent3 = new Intent(Emp_AccountFragment.this.getActivity(), ...);
-//                startActivity(intent3);
+                Intent intent3;
+                intent3 = new Intent(Emp_AccountFragment.this.getActivity(), PaymentActivity.class);
+                startActivity(intent3);
                 break;
 
             case R.id.settings_ll:

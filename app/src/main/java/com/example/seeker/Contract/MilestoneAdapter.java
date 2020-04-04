@@ -62,7 +62,11 @@ public class MilestoneAdapter  extends RecyclerView.Adapter<MilestoneAdapter.MyV
     @Override
     public void onBindViewHolder(final MilestoneAdapter.MyViewHolder holder, int position) {
         Milestone milestone = milestoneList.get(position);
+
+        if(milestone.getDescription() != null)
         holder.description.setText(milestone.getDescription());
+
+        if(milestone.getDeadline() != null)
         holder.deadline.setText(milestone.getDeadline().toString().substring(0,10));
 
         String stringPrice = String.valueOf(milestone.getAmount());

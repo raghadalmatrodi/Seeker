@@ -1,5 +1,6 @@
 package com.example.seeker.Contract;
 
+import android.graphics.Color;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -23,6 +24,8 @@ import com.example.seeker.Model.Contract;
 import com.example.seeker.Model.Milestone;
 import com.example.seeker.Model.Project;
 import com.example.seeker.R;
+import com.example.seeker.SharedPref.Constants;
+import com.example.seeker.SharedPref.MySharedPreference;
 
 import java.util.List;
 
@@ -71,15 +74,30 @@ public class ContractFragment extends Fragment {
             @Override
             public void onClick(View view) {
 
-                Fragment fragment = new MilestoneFragment();
-                Bundle bundle = new Bundle();
-                bundle.putSerializable("contract",contract);
-                fragment.setArguments(bundle);
-                FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
-                FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-                fragmentTransaction.replace(R.id.frame_container_emp, fragment);
-                fragmentTransaction.addToBackStack(null);
-                fragmentTransaction.commit();
+                if(contract.getProject().getEmployer().getId() == MySharedPreference.getLong(getContext(),Constants.Keys.EMPLOYER_ID, -1)){
+
+                    Fragment fragment = new MilestoneFragment();
+                    Bundle bundle = new Bundle();
+                    bundle.putSerializable("contract",contract);
+                    fragment.setArguments(bundle);
+                    FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
+                    FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+                    fragmentTransaction.replace(R.id.frame_container_emp, fragment);
+                    fragmentTransaction.addToBackStack(null);
+                    fragmentTransaction.commit();
+                }else{
+                    Fragment fragment = new MilestoneFragment();
+                    Bundle bundle = new Bundle();
+                    bundle.putSerializable("contract",contract);
+                    fragment.setArguments(bundle);
+                    FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
+                    FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+                    fragmentTransaction.replace(R.id.frame_container_freelancer, fragment);
+                    fragmentTransaction.addToBackStack(null);
+                    fragmentTransaction.commit();
+
+                }
+
 
                 mProgressBar.setVisibility(View.VISIBLE);
                 performAPIRequest(project.getId());
@@ -132,11 +150,18 @@ public class ContractFragment extends Fragment {
             status.setText("In Progress");
         }else{
             status.setText("Completed");
+            status.setBackgroundColor(Color.parseColor("#4CAF50"));
 
 
         }
-        employerName.setText(contract.getProject().getEmployer().getUser().getUsername());
-        freelancerName.setText(contract.getFreelancer().getUser().getUsername());
+
+        if(contract.getProject()!=null)
+            employerName.setText(contract.getProject().getEmployer().getUser().getUsername());
+
+        if(contract.getFreelancer()!=null)
+            freelancerName.setText(contract.getFreelancer().getUser().getUsername());
+
+        if(contract.getDeadline()!=null)
         deliveryDate.setText(contract.getDeadline().toString().substring(0,10));
         if(project.getPayment_type().equals("Hourly")){
             priceText.setText("Price per hour");
@@ -194,22 +219,23 @@ public class ContractFragment extends Fragment {
     public void checkVisibility(){
 
 
+        if(contract.getProject().getEmployer().getId() == MySharedPreference.getLong(getContext(),Constants.Keys.EMPLOYER_ID, -1)) {
 
-            if(project.getMilestones().size() == 1 ){
+            if (project.getMilestones().size() == 1) {
 
                 createMilestone.setVisibility(View.VISIBLE);
 
-                if(project.getPayment_type().equals("FixedPrice")){
+                if (project.getPayment_type().equals("FixedPrice")) {
 
                     createMilestone.setText("Break your Project to Milestones?");
 
 
                 }
-            }else
-            {
+            } else {
                 createMilestone.setVisibility(View.INVISIBLE);
 
             }
+        }
 
 
     }
