@@ -66,7 +66,6 @@ public interface ApiMethods {
         String GET_ALL_USERS="user/findAll";
         String DELETE_PROJECT="project/{project_id}";
 //       String GET_ALL_USERS="user/findAll";
-//        String DELETE_PROJECT="project/{project_id}";
         String EXTEND_PROJECT="project/extend";
         String FIND_CHAT_BY_USER ="chat/user/{user_id}";
         String CREATE_CHAT_MESSAGE = "chatMessage";
@@ -121,9 +120,11 @@ public interface ApiMethods {
         String GET_FREELANCER_BY_ID = "freelancer/{id}";
 
         String UPDATE_FREELANCER_SKILLS="freelancer/skills/{id}";
+        String GET_ALL_FREELANCERS="freelancer/findAll";
 
 
 
+        String DELETE_BID="bid/{bid_id}";
 
         String SWITCH_TYPE ="user/changeType/{id}" ;
     }//End of Methods interface
@@ -341,7 +342,11 @@ public interface ApiMethods {
 
     @POST(Methods.UPDATE_FREELANCER_SKILLS)
     Call<ApiResponse> updateFreelancerSkill(@Path("id") long id , @Body Set<Skill> skills);
-    //
 
+    @GET(Methods.GET_ALL_FREELANCERS)
+    Call<List<Freelancer>> getALLFreelancersRequest();
+
+    @DELETE(Methods.DELETE_BID)
+    Call<ApiResponse> deleteBid(@Path("bid_id") long bid_id);
 
 }//End of ApiMethods interface

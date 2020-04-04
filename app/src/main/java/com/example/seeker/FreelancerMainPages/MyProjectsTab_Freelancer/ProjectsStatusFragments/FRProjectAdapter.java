@@ -26,7 +26,7 @@ public class FRProjectAdapter extends RecyclerView.Adapter<FRProjectAdapter.MyVi
     public class MyViewHolder extends RecyclerView.ViewHolder {
 
 
-        public ImageView arrow;
+        public ImageView arrow ;
         public TextView title;
         public TextView description;
 
@@ -48,6 +48,9 @@ public class FRProjectAdapter extends RecyclerView.Adapter<FRProjectAdapter.MyVi
 
                 }
             });
+
+
+
 
         }//End of MyViewHolder()
 

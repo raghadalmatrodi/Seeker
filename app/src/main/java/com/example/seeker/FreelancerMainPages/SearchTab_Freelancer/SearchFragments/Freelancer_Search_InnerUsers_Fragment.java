@@ -27,11 +27,14 @@ import com.example.seeker.FreelancerMainPages.SearchTab_Freelancer.FreelancerUse
 import com.example.seeker.Model.Category;
 import com.example.seeker.Model.Freelancer;
 import com.example.seeker.Model.Project;
+import com.example.seeker.Model.Skill;
 import com.example.seeker.Model.User;
 import com.example.seeker.R;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
+import java.util.Set;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -44,6 +47,8 @@ public class Freelancer_Search_InnerUsers_Fragment extends Fragment implements F
     private RecyclerView recyclerView;
     private FreelancerUserSearchAdapter adapter;
     private List<User> userList = new ArrayList<>();
+    private List<Freelancer> freelancersList = new ArrayList<>();
+    private List<Freelancer> freelancers=new ArrayList<>();
     private Category category;
     ImageView backBtn;
     TextView categoryTitle, pendintTxt;
@@ -106,32 +111,99 @@ public class Freelancer_Search_InnerUsers_Fragment extends Fragment implements F
     //todo change to user
 
     public void executeRequest(Category category) {
+        Set<Skill> skillSet= category.getSkills();
 
-        ApiClients.getAPIs().getProjectsByCategory(category).enqueue(new Callback<List<Project>>() {
+        ApiClients.getAPIs().getALLFreelancersRequest().enqueue(new Callback<List<Freelancer>>() {
             @Override
-            public void onResponse(Call<List<Project>> call, Response<List<Project>> response) {
+            public void onResponse(Call<List<Freelancer>> call, Response<List<Freelancer>> response) {
                 if (response.isSuccessful()) {
 
                     if (response.body() == null)
-                        wrongInfoDialog("There is no projects in this category");
+                        wrongInfoDialog("There is no freelancers");
                     else {
-                        userList = (List) response.body();
-                        settheAdapter();
+                        freelancers = (List) response.body();
+                        checkSkills(skillSet,freelancers);
+                        //settheAdapter();
                     }
 
 
                 } else {
-                    pendintTxt.setText("No projects yet");
+
                     Log.i(LOG, "onResponse not suc: " + response.toString());
                 }
             }
 
             @Override
-            public void onFailure(Call<List<Project>> call, Throwable t) {
+            public void onFailure(Call<List<Freelancer>> call, Throwable t) {
 
 
             }
         });
+
+    }
+
+
+
+
+
+
+    private void checkSkills(Set<Skill> skillSet, List<Freelancer> freelancers) {
+
+        if (!freelancers.isEmpty()){
+            // pendintTxt.setText("adding not empty.");
+
+        }
+
+        for (Iterator<Skill> it = skillSet.iterator(); it.hasNext(); ) {
+            Skill skill = it.next();
+
+            for (int j = 0; j < freelancers.size(); j++) {
+                Set<Skill> skillSetToCheck = freelancers.get(j).getSkills();
+
+
+                for (Iterator<Skill> itToCheck = skillSetToCheck.iterator(); itToCheck.hasNext(); ) {
+                    Skill skillNew = itToCheck.next();
+                    if (skill.getId()==skillNew.getId()) {
+
+                        freelancersList.add(freelancers.get(j));
+                        break;
+                        // pendintTxt.setText("adding.");
+
+                    }
+                }
+            }
+        }
+
+
+
+
+
+        if (freelancersList.isEmpty()){
+            // pendintTxt.setText("No freelancers in this category.");
+        }
+        else
+            findUserList();
+
+
+
+
+    }
+
+
+
+
+    private void findUserList() {
+        userList=new ArrayList<>();
+        //give list of freelancers and get list of users
+        for(int i=0;i<freelancersList.size();i++)
+
+            if(!userList.contains(freelancersList.get(i).getUser()))
+            { userList.add(freelancersList.get(i).getUser());
+            }
+
+//on success
+        if(!userList.isEmpty())
+            setUserAdapter();
 
 
     }

@@ -49,8 +49,8 @@ public class Freelancer_MyProjectsFragment extends Fragment {
 
 
         Adapter adapter = new Adapter(getChildFragmentManager());
-        adapter.addFragment(new Freelancer_MyProjects_In_Progress_Fragment(), "In Progress");
         adapter.addFragment(new Freelancer_MyProjects_Pending_Fragment(), "Pending");
+        adapter.addFragment(new Freelancer_MyProjects_In_Progress_Fragment(), "In Progress");
 
 
         viewPager.setAdapter(adapter);
