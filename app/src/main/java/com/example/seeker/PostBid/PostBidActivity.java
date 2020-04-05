@@ -70,8 +70,6 @@ public class PostBidActivity extends AppCompatActivity {
 
 
 
-    //TODO: YOU HAVE TO PASS THE PROJECT TITLE!!
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

@@ -236,7 +236,18 @@
 
 
     </LinearLayout>
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/with_btn_ll"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+
+
+
 <LinearLayout
+    app:layout_constraintTop_toTopOf="@id/with_btn_ll"
+    app:layout_constraintStart_toStartOf="@id/with_btn_ll"
+    app:layout_constraintEnd_toEndOf="@id/with_btn_ll"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
     android:layout_marginTop="20dp"
@@ -262,6 +273,20 @@
 
 </LinearLayout>
 
+                <Button
+                    android:id="@+id/place_bid_btn"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="10dp"
+                    android:layout_marginEnd="36dp"
+                    android:background="@color/colorPrimary"
+                    android:text="PLACE BID"
+                    android:textColor="#fff"
+                    app:layout_constraintBottom_toBottomOf="@id/with_btn_ll"
+                    app:layout_constraintEnd_toEndOf="@id/with_btn_ll"
+                    app:layout_constraintTop_toTopOf="@id/with_btn_ll" />
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:id="@+id/cl_parent"
                 android:layout_width="match_parent"
@@ -280,20 +305,7 @@
         android:clipToPadding="false"
         android:isScrollContainer="false" />
 
-                <LinearLayout
-                    app:layout_constraintTop_toBottomOf="@id/recycler_view_b"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content">
 
-                <Button
-                    android:id="@+id/place_bid"
-                    android:layout_width="208dp"
-                    android:layout_height="wrap_content"
-                    android:layout_margin="10dp"
-                    android:background="@color/colorPrimary"
-
-                    android:textColor="#fff"
-                    android:text="PLACE BID" /></LinearLayout>
 
             </androidx.constraintlayout.widget.ConstraintLayout>
 
