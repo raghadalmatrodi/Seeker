@@ -1,7 +1,6 @@
 package com.example.seeker.EmployerMainPages.AccountRelatedActivities;
 
 import androidx.appcompat.app.AlertDialog;
-import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
@@ -26,14 +25,11 @@ import android.widget.RatingBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.seeker.Activities.ParentEditProfileActivity;
 import com.example.seeker.Database.ApiClients;
-import com.example.seeker.Model.Certificate;
 import com.example.seeker.Model.Employer;
-import com.example.seeker.Model.Exception.ApiError;
-import com.example.seeker.Model.Exception.ApiException;
 import com.example.seeker.Model.Freelancer;
-import com.example.seeker.Model.Responses.ApiResponse;
-import com.example.seeker.Model.UserSocialMedia;
+import com.example.seeker.Model.User;
 import com.example.seeker.R;
 import com.example.seeker.SharedPref.Constants;
 import com.example.seeker.SharedPref.MySharedPreference;
@@ -45,17 +41,14 @@ import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
-import java.lang.annotation.Annotation;
 import java.util.List;
 
-import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.Callback;
-import retrofit2.Converter;
 import retrofit2.Response;
 
 
-public class EditProfileActivity extends AppCompatActivity {
+public class EditProfileActivity extends ParentEditProfileActivity {
 
 
 
@@ -63,43 +56,70 @@ public class EditProfileActivity extends AppCompatActivity {
     private static final int INTENT_GALLERY = 301;
     private static final int INTENT_CAMERA = 401;
 
-    ImageView exclamation_icon;
-    ImageView userImg, cameraChooser;
-    ImageView phoneNumber, nationalId;
-    ImageView linkedinImg, twitterImg, facebookImg;
-    Button saveLinkedin, saveTwitter, saveFb, saveEdu;
-    Button cancelLinkedin, cancelTwitter, cancelFb, cancelEdu;
-    ImageView editEducationIcon;
-    EditText linkedinET, twitterET, facebookET;
-    TextView name, nameAsFreelancer, nameAsEmployer;
-    EditText educationET;
+    private long current_user_id = MySharedPreference.getLong(EditProfileActivity.this, Constants.Keys.USER_ID, -1);
+    private long current_emp_id = MySharedPreference.getLong(EditProfileActivity.this, Constants.Keys.EMPLOYER_ID, -1);
+    private long current_freelancer_id = MySharedPreference.getLong(EditProfileActivity.this, Constants.Keys.FREELANCER_ID, -1);
+
+
+    private ImageView exclamation_icon;
+    private ImageView userImg, cameraChooser;
+    private ImageView phoneNumber, nationalId;
+    private ImageView linkedinImg, twitterImg, facebookImg;
+    private Button saveLinkedin, saveTwitter, saveFb, saveEdu;
+    private Button cancelLinkedin, cancelTwitter, cancelFb, cancelEdu;
+    private ImageView editEducationIcon;
+    private EditText linkedinET, twitterET, facebookET;
+    private TextView name, nameAsFreelancer, nameAsEmployer;
+    private EditText educationET;
 
     private File imageFile;
-    long current_user_id = MySharedPreference.getLong(EditProfileActivity.this, Constants.Keys.USER_ID, -1);
-    long current_emp_id = MySharedPreference.getLong(EditProfileActivity.this, Constants.Keys.EMPLOYER_ID, -1);
 
 
     private Intent cameraIntent, photoPickerIntent;
 
-    TextView totalTrustPoints_TV;
+    private TextView totalTrustPoints_TV;
     static int totalTrustPoints = 0;
 
-    RatingBar empTotalRates;
-    TextView numberOfRatings;
+    private RatingBar empTotalRates;
+    private TextView numberOfRatings;
 
-//    todo: ADD THEM
-//    TextView circlers;
-      TextView FrWorkedOnProjects, FrAvgResponseTime, FrAvgQualityOfWork,
+//    todo: MAKE THEM PROGRESS BAR
+      private TextView FrWorkedOnProjects, FrAvgResponseTime, FrAvgQualityOfWork,
                EmpNumOfProjects, EmpAvgResponseTime, EmpAvgOTP;
 
-      ProgressBar trustPointsPB;
+      private ProgressBar trustPointsPB;
+
+
 //    previous samples
 
     Employer getEmp;
 
+    //#1
+    User user;
+
+    /**
+     *
+     *
+     *
+     * Freelancer required declarations
+     *
+     *
+     *
+     */
+
+    private ImageView maroofImg;
+//    skill related stuff :/
+
+
     @Override
     public void onBackPressed() {
         super.onBackPressed();
+    }
+    @Override
+    protected void onResume() {
+
+        super.onResume();
+//        this.onCreate(null);
     }
 
     @Override
@@ -109,6 +129,11 @@ public class EditProfileActivity extends AppCompatActivity {
 
         getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN);
         getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN);
+
+        /**
+         * get it by user
+         */
+        //getEmployerByUserId(current_user_id);
 
         init();
         fillCurrentUSerData();
@@ -133,6 +158,14 @@ public class EditProfileActivity extends AppCompatActivity {
 //        totalTrustPoints_TV.setText(CalculateEmployerTrustPoints()+"%");
 //        totalTrustPoints_TV.setText(totalTrustPoints+"%");
 
+        if(MySharedPreference.getString(EditProfileActivity.this,Constants.Keys.USER_CURRENT_TYPE,"0").equals("EMPLOYER")){
+            CalculateEmpTP(current_user_id);
+        } else if(MySharedPreference.getString(EditProfileActivity.this,Constants.Keys.USER_CURRENT_TYPE,"0").equals("FREELANCER")){
+            CalculateFrTP(current_user_id);
+        }
+
+
+//        CalculateEmpTP(current_user_id);
         getAllValsAndCalcTPForEmp();
 
 
@@ -305,13 +338,10 @@ public class EditProfileActivity extends AppCompatActivity {
     }
 
     private void init() {
+
         name = findViewById(R.id.employer_edit_profile_name);
         nameAsEmployer = findViewById(R.id.edit_profile_name_as_emp);
         nameAsFreelancer = findViewById(R.id.edit_profile_name_as_fr);
-
-
-//        editLinks = findViewById(R.id.edit_social_media);
-
 
         linkedinImg = findViewById(R.id.linkedin);
         saveLinkedin = findViewById(R.id.save_linkedin);
@@ -373,7 +403,36 @@ public class EditProfileActivity extends AppCompatActivity {
 
         phoneNumber = findViewById(R.id.emp_phone_num);
         nationalId = findViewById(R.id.emp_nid_icon);
+        maroofImg = findViewById(R.id.edit_maroof_icon);
 
+        if(MySharedPreference.getString(EditProfileActivity.this,Constants.Keys.USER_CURRENT_TYPE,"0").equals("EMPLOYER"))
+        maroofImg.setVisibility(View.GONE);
+
+        onIconsClicked();
+
+
+
+        empTotalRates = findViewById(R.id.employer_total_rating_in_profile);
+        Employer emp = new Employer(current_emp_id);
+
+        if(MySharedPreference.getString(EditProfileActivity.this,Constants.Keys.USER_CURRENT_TYPE,"0").equals("EMPLOYER"))
+        executeCalculateEmployerTotalRating(emp);
+        else if(MySharedPreference.getString(EditProfileActivity.this,Constants.Keys.USER_CURRENT_TYPE,"0").equals("FREELANCER"))
+        calculateFreelancerTotalRates(new Freelancer(current_freelancer_id));
+
+//        getEmployer(current_emp_id);
+        getEmployerByUserId(current_user_id);
+        getFreelancerByUserIDRequest(current_user_id);
+        numberOfRatings = findViewById(R.id.numOfRatings_EmployerProfile);
+
+
+
+        initStats();
+
+
+    }//End init()
+
+    private void onIconsClicked() {
         phoneNumber.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -388,20 +447,15 @@ public class EditProfileActivity extends AppCompatActivity {
             }
         });
 
-
-        empTotalRates = findViewById(R.id.employer_total_rating_in_profile);
-        Employer emp = new Employer(current_emp_id);
-        executeCalculateEmployerTotalRating(emp);
-
-//        getEmployer(current_emp_id);
-        getEmployerByUserId(current_user_id);
-        getFreelancerByUserIDRequest(current_user_id);
-        numberOfRatings = findViewById(R.id.numOfRatings_EmployerProfile);
-
-        initStats();
+        maroofImg.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                AddInfoDialog(0);
+            }
+        });
 
 
-    }//End init()
+    }
 
     private void initStats() {
         FrWorkedOnProjects = findViewById(R.id.emp_AsFreelancer_numOfWorkedOnProjects);
@@ -432,7 +486,8 @@ public class EditProfileActivity extends AppCompatActivity {
                         linkedinET.setEnabled(false);
                         saveLinkedin.setVisibility(View.INVISIBLE);
                         cancelLinkedin.setVisibility(View.INVISIBLE);
-                        //todo: add editing completed dialog ?
+                        //todo:
+                        // add editing completed dialog ??
 
                     }
                 });
@@ -443,7 +498,7 @@ public class EditProfileActivity extends AppCompatActivity {
                         linkedinET.setEnabled(false);
                         saveLinkedin.setVisibility(View.INVISIBLE);
                         cancelLinkedin.setVisibility(View.INVISIBLE);
-                        getLinkedIn();
+//                        getLinkedIn();
                     }
                 });
 
@@ -480,7 +535,7 @@ public class EditProfileActivity extends AppCompatActivity {
                         twitterET.setEnabled(false);
                         saveTwitter.setVisibility(View.INVISIBLE);
                         cancelTwitter.setVisibility(View.INVISIBLE);
-                        getTwitter();
+//                        getTwitter();
                     }
                 });
 
@@ -518,7 +573,14 @@ public class EditProfileActivity extends AppCompatActivity {
                         facebookET.setEnabled(false);
                         saveFb.setVisibility(View.INVISIBLE);
                         cancelFb.setVisibility(View.INVISIBLE);
-                        getFacebook();
+                        /**
+                         *THIS IS GOOOD.
+                         */
+//                        finish();
+//                        overridePendingTransition(0, 0);
+//                        startActivity(getIntent());
+//                        overridePendingTransition(0, 0);
+//                        getFacebook();
                     }
                 });
 
@@ -555,10 +617,13 @@ public class EditProfileActivity extends AppCompatActivity {
                 cancelEdu.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        getEducation();
+//                        getEducation();
                         educationET.setEnabled(false);
                         saveEdu.setVisibility(View.INVISIBLE);
                         cancelEdu.setVisibility(View.INVISIBLE);
+                        if (user.getEducation() != null)
+                        educationET.setText(user.getEducation());
+                        else educationET.setText("No education added.");
 
                     }
                 });
@@ -614,92 +679,162 @@ public class EditProfileActivity extends AppCompatActivity {
 
     private void executeAddLinkedInRequest(long id, String linkedin) {
 
-        ApiClients.getAPIs().getPostLinkedInRequest(id, linkedin).enqueue(new Callback<Void>() {
-            @Override
-            public void onResponse(Call<Void> call, Response<Void> response) {
-                if (response.isSuccessful()){
-                    Toast.makeText(EditProfileActivity.this, "Success", Toast.LENGTH_LONG).show();
-              }
 
-                else
+        ApiClients.getAPIs().getPostLinkedInRequest(id, linkedin).enqueue(new Callback<User>() {
+            @Override
+            public void onResponse(Call<User> call, Response<User> response) {
+                if (response.isSuccessful()){
+                    user = response.body();
+                } else {
                     Toast.makeText(EditProfileActivity.this, response.errorBody().toString(), Toast.LENGTH_LONG).show();
+                }
             }
 
-
             @Override
-            public void onFailure(Call<Void> call, Throwable t) {
+            public void onFailure(Call<User> call, Throwable t) {
                 Toast.makeText(EditProfileActivity.this, t.getLocalizedMessage(), Toast.LENGTH_LONG).show();
-
             }
         });
+
+//        ApiClients.getAPIs().getPostLinkedInRequest(id, linkedin).enqueue(new Callback<Void>() {
+//            @Override
+//            public void onResponse(Call<Void> call, Response<Void> response) {
+//                if (response.isSuccessful()){
+//                    Toast.makeText(EditProfileActivity.this, "Success", Toast.LENGTH_LONG).show();
+//              }
+//
+//                else
+//                    Toast.makeText(EditProfileActivity.this, response.errorBody().toString(), Toast.LENGTH_LONG).show();
+//            }
+//
+//
+//            @Override
+//            public void onFailure(Call<Void> call, Throwable t) {
+//                Toast.makeText(EditProfileActivity.this, t.getLocalizedMessage(), Toast.LENGTH_LONG).show();
+//
+//            }
+//        });
 
 
     }//end add linkedin
 
     private void executeAddTwitterRequest(long id, String twitter){
 
-        ApiClients.getAPIs().getPostTwitterRequest(id, twitter).enqueue(new Callback<Void>() {
+        ApiClients.getAPIs().getPostTwitterRequest(id, twitter).enqueue(new Callback<User>() {
             @Override
-            public void onResponse(Call<Void> call, Response<Void> response) {
+            public void onResponse(Call<User> call, Response<User> response) {
                 if (response.isSuccessful()){
-                    Toast.makeText(EditProfileActivity.this, "Success", Toast.LENGTH_LONG).show();
-                    getAllValsAndCalcTPForEmp();
-                   }
-                else
+                    user = response.body();
+                    //todo either call calc tp or refresh activity.
+                } else {
                     Toast.makeText(EditProfileActivity.this, response.errorBody().toString(), Toast.LENGTH_LONG).show();
+                }
             }
 
-
             @Override
-            public void onFailure(Call<Void> call, Throwable t) {
+            public void onFailure(Call<User> call, Throwable t) {
                 Toast.makeText(EditProfileActivity.this, t.getLocalizedMessage(), Toast.LENGTH_LONG).show();
-
             }
         });
+
+//        ApiClients.getAPIs().getPostTwitterRequest(id, twitter).enqueue(new Callback<Void>() {
+//            @Override
+//            public void onResponse(Call<Void> call, Response<Void> response) {
+//                if (response.isSuccessful()){
+//                    Toast.makeText(EditProfileActivity.this, "Success", Toast.LENGTH_LONG).show();
+//                    getAllValsAndCalcTPForEmp();
+//                   }
+//                else
+//                    Toast.makeText(EditProfileActivity.this, response.errorBody().toString(), Toast.LENGTH_LONG).show();
+//            }
+//
+//
+//            @Override
+//            public void onFailure(Call<Void> call, Throwable t) {
+//                Toast.makeText(EditProfileActivity.this, t.getLocalizedMessage(), Toast.LENGTH_LONG).show();
+//
+//            }
+//        });
 
     }//end add twitter
 
     private void executeAddFacebookRequest(long id, String facebook){
-        ApiClients.getAPIs().getPostFacebookRequest(id, facebook).enqueue(new Callback<Void>() {
-            @Override
-            public void onResponse(Call<Void> call, Response<Void> response) {
-                if (response.isSuccessful()) {
 
-                    Toast.makeText(EditProfileActivity.this, "Success", Toast.LENGTH_LONG).show();
-                    getAllValsAndCalcTPForEmp();
-                }
-                else
+        ApiClients.getAPIs().getPostFacebookRequest(id, facebook).enqueue(new Callback<User>() {
+            @Override
+            public void onResponse(Call<User> call, Response<User> response) {
+                if (response.isSuccessful()){
+                    user = response.body();
+                } else {
                     Toast.makeText(EditProfileActivity.this, response.errorBody().toString(), Toast.LENGTH_LONG).show();
+                }
             }
 
-
             @Override
-            public void onFailure(Call<Void> call, Throwable t) {
+            public void onFailure(Call<User> call, Throwable t) {
                 Toast.makeText(EditProfileActivity.this, t.getLocalizedMessage(), Toast.LENGTH_LONG).show();
-
             }
         });
+
+
+//        ApiClients.getAPIs().getPostFacebookRequest(id, facebook).enqueue(new Callback<Void>() {
+//            @Override
+//            public void onResponse(Call<Void> call, Response<Void> response) {
+//                if (response.isSuccessful()) {
+//
+//                    Toast.makeText(EditProfileActivity.this, "Success", Toast.LENGTH_LONG).show();
+//                    getAllValsAndCalcTPForEmp();
+//                }
+//                else
+//                    Toast.makeText(EditProfileActivity.this, response.errorBody().toString(), Toast.LENGTH_LONG).show();
+//            }
+//
+//
+//            @Override
+//            public void onFailure(Call<Void> call, Throwable t) {
+//                Toast.makeText(EditProfileActivity.this, t.getLocalizedMessage(), Toast.LENGTH_LONG).show();
+//
+//            }
+//        });
     }//end add facebook
 
     private void executeAddEducationRequest(long id, String education) {
-        ApiClients.getAPIs().getPostEducation(id, education).enqueue(new Callback<Void>() {
-            @Override
-            public void onResponse(Call<Void> call, Response<Void> response) {
-                if (response.isSuccessful()){
-                    Toast.makeText(EditProfileActivity.this, "Success", Toast.LENGTH_LONG).show();
-                }
 
-                else
+        ApiClients.getAPIs().getPostEducation(id, education).enqueue(new Callback<User>() {
+            @Override
+            public void onResponse(Call<User> call, Response<User> response) {
+                if (response.isSuccessful()){
+                    user = response.body();
+                } else {
                     Toast.makeText(EditProfileActivity.this, response.errorBody().toString(), Toast.LENGTH_LONG).show();
+                }
             }
 
-
             @Override
-            public void onFailure(Call<Void> call, Throwable t) {
+            public void onFailure(Call<User> call, Throwable t) {
                 Toast.makeText(EditProfileActivity.this, t.getLocalizedMessage(), Toast.LENGTH_LONG).show();
-
             }
         });
+
+
+//        ApiClients.getAPIs().getPostEducation(id, education).enqueue(new Callback<Void>() {
+//            @Override
+//            public void onResponse(Call<Void> call, Response<Void> response) {
+//                if (response.isSuccessful()){
+//                    Toast.makeText(EditProfileActivity.this, "Success", Toast.LENGTH_LONG).show();
+//                }
+//
+//                else
+//                    Toast.makeText(EditProfileActivity.this, response.errorBody().toString(), Toast.LENGTH_LONG).show();
+//            }
+//
+//
+//            @Override
+//            public void onFailure(Call<Void> call, Throwable t) {
+//                Toast.makeText(EditProfileActivity.this, t.getLocalizedMessage(), Toast.LENGTH_LONG).show();
+//
+//            }
+//        });
 
     }
 
@@ -965,8 +1100,8 @@ public class EditProfileActivity extends AppCompatActivity {
                     if (!response.body().get(4).equals(null))
                         totalTrustPoints+=5;
 
-                    totalTrustPoints_TV.setText(totalTrustPoints+"%");
-                    trustPointsPB.setProgress(totalTrustPoints);
+//                    totalTrustPoints_TV.setText(totalTrustPoints+"%");
+//                    trustPointsPB.setProgress(totalTrustPoints);
 
                 }
             }
@@ -1003,6 +1138,10 @@ public class EditProfileActivity extends AppCompatActivity {
         TextView cancel =  dialogView.findViewById(R.id.btn_cancel);
 
         switch (type){
+            case 0:
+                title.setText("Please enter your maarof account");
+                infoET.setHint("Maarof account");
+                break;
 
             case 1:
                 title.setText("Please enter your phone number");
@@ -1029,6 +1168,12 @@ public class EditProfileActivity extends AppCompatActivity {
                     wrongInfoDialog("Field is empty, please fill it with required information");
                 else {
                     switch (type){
+                        case 0:
+                            executeAddMaroofAccRequest(MySharedPreference.getLong(EditProfileActivity.this, Constants.Keys.FREELANCER_ID, -1), infoET.getText().toString());
+                            dialogBuilder.dismiss();
+
+                            break;
+
                         case 1:
                             executeAddPhoneNumberRequest(MySharedPreference.getLong(EditProfileActivity.this, Constants.Keys.USER_ID, -1), infoET.getText().toString());
                             dialogBuilder.dismiss();
@@ -1051,49 +1196,74 @@ public class EditProfileActivity extends AppCompatActivity {
         dialogBuilder.show();
     }//End info dialog
 
+    //ZERO
+    private void executeAddMaroofAccRequest(long id, String maroofAcc) {
+        ApiClients.getAPIs().getPostMaroofAccountRequest(id, maroofAcc).enqueue(new Callback<Void>() {
+            @Override
+            public void onResponse(Call<Void> call, Response<Void> response) {
+                if (response.isSuccessful())
+                    Toast.makeText(EditProfileActivity.this, "Success", Toast.LENGTH_LONG).show();
+                else
+                    Toast.makeText(EditProfileActivity.this, response.errorBody().toString(), Toast.LENGTH_LONG).show();
+            }
+
+            @Override
+            public void onFailure(Call<Void> call, Throwable t) {
+                Toast.makeText(EditProfileActivity.this, t.getLocalizedMessage(), Toast.LENGTH_LONG).show();
+
+            }
+        });
+
+    }//end add maroof
 
 
     //ONE
     private void executeAddPhoneNumberRequest(long id, String phone) {
-        ApiClients.getAPIs().getPostPhoneNumberRequest(id, phone).enqueue(new Callback<Void>() {
-            @Override
-            public void onResponse(Call<Void> call, Response<Void> response) {
-                if (response.isSuccessful()) {
-                    Toast.makeText(EditProfileActivity.this, "Success", Toast.LENGTH_LONG).show();
-                    getAllValsAndCalcTPForEmp();
-                }
-                else
-                    Toast.makeText(EditProfileActivity.this, "Not Success", Toast.LENGTH_LONG).show();
 
-            }
 
-            @Override
-            public void onFailure(Call<Void> call, Throwable t) {
-                Toast.makeText(EditProfileActivity.this, t.getLocalizedMessage(), Toast.LENGTH_LONG).show();
 
-            }
-        });
+//        ApiClients.getAPIs().getPostPhoneNumberRequest(id, phone).enqueue(new Callback<Void>() {
+//
+//
+//
+//            @Override
+//            public void onResponse(Call<Void> call, Response<Void> response) {
+//                if (response.isSuccessful()) {
+//                    Toast.makeText(EditProfileActivity.this, "Success", Toast.LENGTH_LONG).show();
+//                    getAllValsAndCalcTPForEmp();
+//                }
+//                else
+//                    Toast.makeText(EditProfileActivity.this, "Not Success", Toast.LENGTH_LONG).show();
+//
+//            }
+//
+//            @Override
+//            public void onFailure(Call<Void> call, Throwable t) {
+//                Toast.makeText(EditProfileActivity.this, t.getLocalizedMessage(), Toast.LENGTH_LONG).show();
+//
+//            }
+//        });
     }//end add phone
 
     //TWO
     private void executeAddNationalIdRequest(long id, String NationalId){
-        ApiClients.getAPIs().getPostNationalIdRequest(id, NationalId).enqueue(new Callback<Void>() {
-            @Override
-            public void onResponse(Call<Void> call, Response<Void> response) {
-                if (response.isSuccessful()) {
-                    Toast.makeText(EditProfileActivity.this, "Success", Toast.LENGTH_LONG).show();
-                    getAllValsAndCalcTPForEmp();
-                }
-                else
-                    Toast.makeText(EditProfileActivity.this, "Not Success", Toast.LENGTH_LONG).show();
-            }
-
-            @Override
-            public void onFailure(Call<Void> call, Throwable t) {
-                Toast.makeText(EditProfileActivity.this, t.getLocalizedMessage(), Toast.LENGTH_LONG).show();
-
-            }
-        });
+//        ApiClients.getAPIs().getPostNationalIdRequest(id, NationalId).enqueue(new Callback<Void>() {
+//            @Override
+//            public void onResponse(Call<Void> call, Response<Void> response) {
+//                if (response.isSuccessful()) {
+//                    Toast.makeText(EditProfileActivity.this, "Success", Toast.LENGTH_LONG).show();
+//                    getAllValsAndCalcTPForEmp();
+//                }
+//                else
+//                    Toast.makeText(EditProfileActivity.this, "Not Success", Toast.LENGTH_LONG).show();
+//            }
+//
+//            @Override
+//            public void onFailure(Call<Void> call, Throwable t) {
+//                Toast.makeText(EditProfileActivity.this, t.getLocalizedMessage(), Toast.LENGTH_LONG).show();
+//
+//            }
+//        });
 
     }
 
@@ -1117,6 +1287,22 @@ public class EditProfileActivity extends AppCompatActivity {
         });
     }
 
+    private void calculateFreelancerTotalRates(Freelancer freelancer_id) {
+        ApiClients.getAPIs().CalculateFreelancerTotalRating(freelancer_id).enqueue(new Callback<Double>() {
+            @Override
+            public void onResponse(Call<Double> call, Response<Double> response) {
+                if (response.isSuccessful())
+                    empTotalRates.setRating(Float.valueOf(String.valueOf(response.body())));
+
+            }
+
+            @Override
+            public void onFailure(Call<Double> call, Throwable t) {
+
+            }
+        });
+    }
+
 
     private void getEmployerByUserId(long user_id) {
 
@@ -1125,10 +1311,13 @@ public class EditProfileActivity extends AppCompatActivity {
             public void onResponse(Call<Employer> call, Response<Employer> response) {
                 if (response.isSuccessful()){
                     //didn't work :)
-                    getEmp = response.body();
-
-                    numberOfRatings.setText("("+response.body().getNum_of_ratings()+")");
-                    educationET.setText(response.body().getUser().getEducation());
+//                    getEmp = response.body();
+                    user = response.body().getUser();
+                    if(MySharedPreference.getString(EditProfileActivity.this,Constants.Keys.USER_CURRENT_TYPE,"0").equals("EMPLOYER")){
+                        numberOfRatings.setText("("+response.body().getNum_of_ratings()+")");
+                    }
+//                    numberOfRatings.setText("("+response.body().getNum_of_ratings()+")");
+//                    educationET.setText(response.body().getUser().getEducation());
 
                     //Filling As employer statistics
 
@@ -1160,6 +1349,9 @@ public class EditProfileActivity extends AppCompatActivity {
             @Override
             public void onResponse(Call<Freelancer> call, Response<Freelancer> response) {
                 if (response.isSuccessful()){
+                    if(MySharedPreference.getString(EditProfileActivity.this,Constants.Keys.USER_CURRENT_TYPE,"0").equals("FREELANCER")){
+                        numberOfRatings.setText("("+response.body().getNum_of_ratings()+")");
+                    }
 
                     /**
                      *  FREELANCER
@@ -1196,6 +1388,42 @@ public class EditProfileActivity extends AppCompatActivity {
 
 
     }//End getFreelancerByUserIdRequest()
+
+
+    private void CalculateEmpTP(long id){
+        ApiClients.getAPIs().CalculateEmployerTrustPoints(id).enqueue(new Callback<Integer>() {
+            @Override
+            public void onResponse(Call<Integer> call, Response<Integer> response) {
+                if (response.isSuccessful()){
+                    totalTrustPoints_TV.setText(response.body()+"%");
+                    trustPointsPB.setProgress(response.body());
+                }
+
+            }
+
+            @Override
+            public void onFailure(Call<Integer> call, Throwable t) {
+
+            }
+        });
+    }//End CalculateEmpTP()
+
+    private void CalculateFrTP(long id){
+        ApiClients.getAPIs().CalculateFreelancerTrustPoints(id).enqueue(new Callback<Integer>() {
+            @Override
+            public void onResponse(Call<Integer> call, Response<Integer> response) {
+                if (response.isSuccessful()){
+                    totalTrustPoints_TV.setText(response.body()+"%");
+                    trustPointsPB.setProgress(response.body());
+                }
+            }
+
+            @Override
+            public void onFailure(Call<Integer> call, Throwable t) {
+
+            }
+        });
+    }
 
 
 

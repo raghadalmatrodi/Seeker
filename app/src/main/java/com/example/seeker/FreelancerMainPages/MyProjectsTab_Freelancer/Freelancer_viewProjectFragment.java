@@ -1,15 +1,19 @@
 package com.example.seeker.FreelancerMainPages.MyProjectsTab_Freelancer;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import androidx.appcompat.app.AlertDialog;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
@@ -19,7 +23,6 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.seeker.Contract.ContractFragment;
-import com.example.seeker.Contract.MilestoneFragment;
 import com.example.seeker.Database.ApiClients;
 import com.example.seeker.EmployerMainPages.AcceptBidConfirmation;
 import com.example.seeker.EmployerMainPages.Chat_Emp.Emp_ChatMessages;
@@ -30,6 +33,8 @@ import com.example.seeker.Model.Contract;
 import com.example.seeker.Model.Project;
 import com.example.seeker.Model.Skill;
 import com.example.seeker.PostBid.BidsAdapter;
+import com.example.seeker.PostBid.PostBidActivity;
+import com.example.seeker.PostBid.ViewFullBid;
 import com.example.seeker.R;
 import com.example.seeker.SharedPref.Constants;
 import com.example.seeker.SharedPref.MySharedPreference;
@@ -59,6 +64,10 @@ public class Freelancer_viewProjectFragment extends Fragment implements  Emp_MyP
     Contract contract;
     TextView createdAt;
 
+    Button placeBidBtn;
+//    boolean hasBid = false;
+    long currentFreelancer = MySharedPreference.getLong(getContext(), Constants.Keys.FREELANCER_ID, -1);
+
 
     ImageView contractImg;
 
@@ -85,6 +94,7 @@ public class Freelancer_viewProjectFragment extends Fragment implements  Emp_MyP
             project = (Project) bundle.getSerializable("project");
              isPending = bundle.getInt("pending" ,0);
         }
+
 
         setProjectInformation();
 
@@ -134,10 +144,60 @@ public class Freelancer_viewProjectFragment extends Fragment implements  Emp_MyP
 
         setTheAdapter();
 
+        HidingPlaceBidBtn();
+
+        onPostBidClicked(project);
+
 
         return view;
 
     }
+
+    private boolean HasBid(List<Bid> bidList) {
+        boolean hasBid = false;
+        //Loop to check whether current freelancer has bade on this project or not
+        for (int i = 0; i< bidList.size(); i++){
+            if (bidList.get(i).getFreelancer() != null )
+                if (bidList.get(i).getFreelancer().getId() == currentFreelancer) {
+                    Toast.makeText(getContext(),"BID FOUND!",Toast.LENGTH_SHORT).show();
+                    hasBid =  true;
+//                    hasBid = true;
+                }
+        }
+
+        return hasBid;
+    }
+
+    private void onPostBidClicked(Project project) {
+
+        placeBidBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                if (HasBid(bids))
+                        wrongInfoDialog("Sorry, you already have placed a bid on this project..\nDelete the current bid to bid again. ");
+                    else {
+                        /**
+                         * INTENT TO POST BID WITH CURRENT PROJECT
+                         */
+                    Intent intent = new Intent(getActivity(), PostBidActivity.class);
+                    intent.putExtra("currentProjObj" , project);
+                    startActivity(intent);
+
+
+                }
+
+
+
+            }
+        });
+
+    }
+
+    private void HidingPlaceBidBtn() {
+        if (project.getStatus().equals("1") || project.getStatus().equals("2"))
+            placeBidBtn.setVisibility(View.GONE);
+    }//End HidingPlaceBidBtn()
 
     private void excecuteChatRequest() {
         Long user1_id = MySharedPreference.getLong(getContext(),Constants.Keys.USER_ID,-1);
@@ -189,6 +249,7 @@ public class Freelancer_viewProjectFragment extends Fragment implements  Emp_MyP
         EmployerView = view.findViewById(R.id.employer_row);
         chat = view.findViewById(R.id.chat);
         createdAt = view.findViewById(R.id.createdAt_project);
+        placeBidBtn = view.findViewById(R.id.place_bid_btn);
 
 
 
@@ -284,6 +345,9 @@ public class Freelancer_viewProjectFragment extends Fragment implements  Emp_MyP
     @Override
     public void onBidItemClick(Bid bid) {
 
+        Intent i = new Intent(getContext(), ViewFullBid.class);
+        i.putExtra("bidObj", bid);
+        startActivity(i);
     }
 
 
@@ -337,5 +401,24 @@ public class Freelancer_viewProjectFragment extends Fragment implements  Emp_MyP
         });
 
     }
+
+
+    private void wrongInfoDialog(String msg) {
+        final AlertDialog.Builder alertDialog = new AlertDialog.Builder(getContext());
+
+        // Setting Dialog Message
+        alertDialog.setMessage(msg);
+
+        //Setting Negative "ok" Button
+        alertDialog.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.dismiss();
+            }//end onClick
+        });//end setPositiveButton
+
+        alertDialog.show();
+
+    }//End wrongInfoDialog()
+
 
 }

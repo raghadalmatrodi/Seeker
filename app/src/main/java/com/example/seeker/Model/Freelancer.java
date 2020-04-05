@@ -18,6 +18,15 @@ public class Freelancer implements Serializable {
     private List<Bid> bids = new ArrayList<>();
     private Set<Skill> skills = new HashSet<>();
 
+    //Freelancer Constructor for Rating
+
+    public Freelancer(long id, int num_of_ratings, int total_quality_of_work, int total_response_time ) {
+        this.id = id;
+        this.num_of_ratings = num_of_ratings;
+        this.total_quality_of_work = total_quality_of_work;
+        this.total_response_time = total_response_time;
+    }
+
     public Freelancer(long id, User user, String maarof_account, int num_of_ratings, int total_response_time, int total_quality_of_work, int num_of_hired_projects, List<Bid> bids, Set<Skill> skills) {
         this.id = id;
         this.user = user;

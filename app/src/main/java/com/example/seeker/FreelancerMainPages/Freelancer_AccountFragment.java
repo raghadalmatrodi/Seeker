@@ -16,6 +16,7 @@ import androidx.fragment.app.Fragment;
 
 import com.example.seeker.Activities.LoginActivity;
 import com.example.seeker.Database.ApiClients;
+import com.example.seeker.EmployerMainPages.AccountRelatedActivities.EditProfileActivity;
 import com.example.seeker.EmployerMainPages.Emp_AccountFragment;
 import com.example.seeker.EmployerMainPages.EmployerMainActivity;
 import com.example.seeker.R;
@@ -30,7 +31,7 @@ public class Freelancer_AccountFragment extends Fragment implements View.OnClick
 
     View view;
     Button switch_btn;
-    TextView logoutBtn;
+    TextView logoutBtn, name;
     LinearLayout edit_profile;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -40,6 +41,8 @@ public class Freelancer_AccountFragment extends Fragment implements View.OnClick
         view = inflater.inflate(R.layout.fragment_freelancer_account, container, false);
 
             init();
+
+            fillCurrentUserData();
         switch_btn.setOnClickListener(this);
         logoutBtn.setOnClickListener(this);
 
@@ -54,6 +57,7 @@ public class Freelancer_AccountFragment extends Fragment implements View.OnClick
         edit_profile = view.findViewById(R.id.fr_edit_profile_ll);
         edit_profile.setOnClickListener(this);
 
+        name = view.findViewById(R.id.freelancer_profile_name);
     }
 
 
@@ -77,12 +81,21 @@ public class Freelancer_AccountFragment extends Fragment implements View.OnClick
                 break;
 
             case R.id.fr_edit_profile_ll:
-                startActivity(new Intent(Freelancer_AccountFragment.this.getActivity(), FreelancerEditProfile.class));
+                startActivity(new Intent(Freelancer_AccountFragment.this.getActivity(), EditProfileActivity.class));
 
 
         }
     }
 
+    private void fillCurrentUserData() {
+        String capitalizedName = "";
+        String currentUSerName = MySharedPreference.getString(getContext(), Constants.Keys.USER_NAME, "");
+        capitalizedName = currentUSerName.substring(0,1).toUpperCase() + currentUSerName.substring(1,currentUSerName.length());
+
+        name.setText(capitalizedName);
+
+
+    }
 
     public void changeUserType(){
 

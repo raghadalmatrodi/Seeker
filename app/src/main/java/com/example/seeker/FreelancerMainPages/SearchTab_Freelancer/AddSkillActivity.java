@@ -276,8 +276,12 @@ public void executeAddSkillsRequest(){
             if(response.isSuccessful()) {
 
                 Log.i(LOG, "onResponse: suc" + response.toString());
-                Intent i = new Intent(getApplicationContext(), FreelancerEditProfile.class);
-                startActivity(i);
+                finish();
+                overridePendingTransition(0, 0);
+                startActivity(new Intent(getApplicationContext(), FreelancerEditProfile.class));
+                overridePendingTransition(0, 0);
+//                Intent i = new Intent(getApplicationContext(), FreelancerEditProfile.class);
+//                startActivity(i);
             }else{
                 Log.i(LOG,"onResponse: notSuc" + response.toString());
 

@@ -14,11 +14,13 @@ import android.view.WindowManager;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.RatingBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.seeker.Database.ApiClients;
 import com.example.seeker.FreelancerMainPages.SearchTab_Freelancer.AddSkillActivity;
+import com.example.seeker.Model.Employer;
 import com.example.seeker.Model.Freelancer;
 import com.example.seeker.Model.Skill;
 import com.example.seeker.R;
@@ -44,8 +46,11 @@ public class FreelancerEditProfile extends AppCompatActivity {
     private String LOG = FreelancerEditProfile.class.getName();
     private Set<Skill> skillsList = new HashSet<>();
     private Freelancer freelancer;
+    long current_freelancer_id = MySharedPreference.getLong(FreelancerEditProfile.this, Constants.Keys.FREELANCER_ID, -1);
 
 
+    private RatingBar totalRates;
+    private TextView numberOfRatings;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -71,6 +76,7 @@ public class FreelancerEditProfile extends AppCompatActivity {
             public void onResponse(Call<Freelancer> call, Response<Freelancer> response) {
                 if (response.isSuccessful()){
 
+                    numberOfRatings.setText("("+response.body().getNum_of_ratings()+")");
 
                      freelancer = response.body();
                     Log.i(LOG,"onResponse: suc" + freelancer.toString());
@@ -118,8 +124,10 @@ public class FreelancerEditProfile extends AppCompatActivity {
         name = findViewById(R.id.freelancer_edit_profile_name);
         nameAsEmployer = findViewById(R.id.edit_profile_name_as_fr);
         nameAsFreelancer = findViewById(R.id.edit_profile_name_as_emp);
+//        if(MySharedPreference.getString(FreelancerEditProfile.this,Constants.Keys.USER_CURRENT_TYPE,"0").equals("EMPLOYER"))
 
-        maroof.setOnClickListener(new View.OnClickListener() {
+
+            maroof.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                AddInfoDialog(0);
@@ -148,8 +156,28 @@ public class FreelancerEditProfile extends AppCompatActivity {
         });
 
 
+        totalRates = findViewById(R.id.freelancer_total_rating_in_profile);
+        numberOfRatings = findViewById(R.id.numOfRatings_FreelanceProfile);
+
+        calculateTotalRates(new Freelancer(current_freelancer_id));
 
     }//init()
+
+    private void calculateTotalRates(Freelancer freelancer_id) {
+        ApiClients.getAPIs().CalculateFreelancerTotalRating(freelancer_id).enqueue(new Callback<Double>() {
+            @Override
+            public void onResponse(Call<Double> call, Response<Double> response) {
+                if (response.isSuccessful())
+                    totalRates.setRating(Float.valueOf(String.valueOf(response.body())));
+
+            }
+
+            @Override
+            public void onFailure(Call<Double> call, Throwable t) {
+
+            }
+        });
+    }
 
     private void fillCurrentUSerData(){
 
@@ -289,41 +317,41 @@ public class FreelancerEditProfile extends AppCompatActivity {
 
     //ONE
     private void executeAddPhoneNumberRequest(long id, String phone) {
-        ApiClients.getAPIs().getPostPhoneNumberRequest(id, phone).enqueue(new Callback<Void>() {
-            @Override
-            public void onResponse(Call<Void> call, Response<Void> response) {
-                if (response.isSuccessful())
-                    Toast.makeText(FreelancerEditProfile.this, "Success", Toast.LENGTH_LONG).show();
-                else
-                    Toast.makeText(FreelancerEditProfile.this, "Not Success", Toast.LENGTH_LONG).show();
-
-            }
-
-            @Override
-            public void onFailure(Call<Void> call, Throwable t) {
-                Toast.makeText(FreelancerEditProfile.this, t.getLocalizedMessage(), Toast.LENGTH_LONG).show();
-
-            }
-        });
+//        ApiClients.getAPIs().getPostPhoneNumberRequest(id, phone).enqueue(new Callback<Void>() {
+//            @Override
+//            public void onResponse(Call<Void> call, Response<Void> response) {
+//                if (response.isSuccessful())
+//                    Toast.makeText(FreelancerEditProfile.this, "Success", Toast.LENGTH_LONG).show();
+//                else
+//                    Toast.makeText(FreelancerEditProfile.this, "Not Success", Toast.LENGTH_LONG).show();
+//
+//            }
+//
+//            @Override
+//            public void onFailure(Call<Void> call, Throwable t) {
+//                Toast.makeText(FreelancerEditProfile.this, t.getLocalizedMessage(), Toast.LENGTH_LONG).show();
+//
+//            }
+//        });
     }//end add phone
 
    //TWO
    private void executeAddNationalIdRequest(long id, String NationalId){
-        ApiClients.getAPIs().getPostNationalIdRequest(id, NationalId).enqueue(new Callback<Void>() {
-            @Override
-            public void onResponse(Call<Void> call, Response<Void> response) {
-                if (response.isSuccessful())
-                    Toast.makeText(FreelancerEditProfile.this, "Success", Toast.LENGTH_LONG).show();
-                else
-                    Toast.makeText(FreelancerEditProfile.this, "Not Success", Toast.LENGTH_LONG).show();
-            }
-
-            @Override
-            public void onFailure(Call<Void> call, Throwable t) {
-                Toast.makeText(FreelancerEditProfile.this, t.getLocalizedMessage(), Toast.LENGTH_LONG).show();
-
-            }
-        });
+//        ApiClients.getAPIs().getPostNationalIdRequest(id, NationalId).enqueue(new Callback<Void>() {
+//            @Override
+//            public void onResponse(Call<Void> call, Response<Void> response) {
+//                if (response.isSuccessful())
+//                    Toast.makeText(FreelancerEditProfile.this, "Success", Toast.LENGTH_LONG).show();
+//                else
+//                    Toast.makeText(FreelancerEditProfile.this, "Not Success", Toast.LENGTH_LONG).show();
+//            }
+//
+//            @Override
+//            public void onFailure(Call<Void> call, Throwable t) {
+//                Toast.makeText(FreelancerEditProfile.this, t.getLocalizedMessage(), Toast.LENGTH_LONG).show();
+//
+//            }
+//        });
 
    }
 

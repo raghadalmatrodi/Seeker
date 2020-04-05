@@ -111,6 +111,7 @@ public interface ApiMethods {
         String GET_EMPLOYER_RATING_VALUES = "employer/get_rating_values/{id}";
         String GET_EMPLOYER_TOTAL_RATINGS_VALUE = "employer/get_total_emp_rating/{id}";
         String SET_ALL_EMPLOYER_RATING_VALUES = "employer/rating_values";
+        String SET_ALL_FREELANCER_RATING_VALUES = "freelancer/rating_values";
 
         //employer uses it to rate the freelancer
         String ADD_NEW_FREELANCER_RATING = "freelancerRating/add";
@@ -127,6 +128,10 @@ public interface ApiMethods {
 
         String POST_NUM_OF_POSTED_PROJECTS = "employer/posted_projs/{id}/{num_of_posted_Projects}";
 
+        String CALC_FR_TOTAL_RATINGS = "freelancerRating/total";
+
+        String CALC_EMP_TP = "user/total_emp_tp/{id}";
+        String CALC_FR_TP = "user/total_fr_tp/{id}";
 
 
         String DELETE_BID="bid/{bid_id}";
@@ -183,27 +188,27 @@ public interface ApiMethods {
 
     //
     @POST(Methods.POST_PHONE_NUMBER)
-    Call<Void> getPostPhoneNumberRequest(@Path("id") long id, @Path("phone_number") String phone_number);
+    Call<User> getPostPhoneNumberRequest(@Path("id") long id, @Path("phone_number") String phone_number);
 
     @POST(Methods.POST_MAROOF_ACC)
     Call<Void> getPostMaroofAccountRequest(@Path("id") long id, @Path("maarof_account") String maarof_account);
 
     @POST(Methods.POST_NATIONAL_ID)
-    Call<Void> getPostNationalIdRequest(@Path("id") long id, @Path("national_id") String national_id);
+    Call<User> getPostNationalIdRequest(@Path("id") long id, @Path("national_id") String national_id);
 
 
 
     @POST(Methods.POST_LINKEDIN)
-    Call<Void> getPostLinkedInRequest(@Path("id") long id, @Path("linkedIn") String linkedIn);
+    Call<User> getPostLinkedInRequest(@Path("id") long id, @Path("linkedIn") String linkedIn);
 
     @POST(Methods.POST_TWITTER)
-    Call<Void> getPostTwitterRequest(@Path("id") long id, @Path("twitter") String twitter);
+    Call<User> getPostTwitterRequest(@Path("id") long id, @Path("twitter") String twitter);
 
     @POST(Methods.POST_FACEBOOK)
-    Call<Void> getPostFacebookRequest(@Path("id") long id, @Path("facebook") String facebook);
+    Call<User> getPostFacebookRequest(@Path("id") long id, @Path("facebook") String facebook);
 
     @POST(Methods.POST_EDUCATION)
-    Call<Void> getPostEducation(@Path("id") long id, @Path("education") String education);
+    Call<User> getPostEducation(@Path("id") long id, @Path("education") String education);
 
     @POST(Methods.POST_IMG)
     Call<Void> getPostImgRequest(@Path("id") long id, @Path("img") byte[] img);
@@ -236,6 +241,17 @@ public interface ApiMethods {
     @POST(Methods.POST_NUM_OF_POSTED_PROJECTS)
     Call<Void> setNumberOfPostedProjects(@Path("id") long id, @Path("num_of_posted_Projects") int num_of_posted_projects);
 
+    @PUT(Methods.SET_ALL_FREELANCER_RATING_VALUES)
+    Call<Void> setAllFreelancerRatingValues(@Body Freelancer freelancer);
+
+    @POST(Methods.CALC_FR_TOTAL_RATINGS)
+    Call<Double> CalculateFreelancerTotalRating(@Body Freelancer freelancer_id);
+
+    @POST(Methods.CALC_EMP_TP)
+    Call<Integer> CalculateEmployerTrustPoints(@Path("id") long id);
+
+    @POST(Methods.CALC_FR_TP)
+    Call<Integer> CalculateFreelancerTrustPoints(@Path("id") long id);
 
 
     /**

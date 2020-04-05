@@ -16,7 +16,49 @@ public class User implements Serializable,IUser {
     private String national_id;
     private String rating;
     private String current_type;
-    String education;
+    private String twitter;
+    private String facebook;
+    private String linkedIn;
+    private String education;
+
+    public User(long id, String username, Set<Role> roles, String email, String phone_number, String national_id, String rating, String current_type, String twitter, String facebook, String linkedIn, String education) {
+        this.id = id;
+        this.username = username;
+        this.roles = roles;
+        this.email = email;
+        this.phone_number = phone_number;
+        this.national_id = national_id;
+        this.rating = rating;
+        this.current_type = current_type;
+        this.twitter = twitter;
+        this.facebook = facebook;
+        this.linkedIn = linkedIn;
+        this.education = education;
+    }
+
+    public String getTwitter() {
+        return twitter;
+    }
+
+    public void setTwitter(String twitter) {
+        this.twitter = twitter;
+    }
+
+    public String getFacebook() {
+        return facebook;
+    }
+
+    public void setFacebook(String facebook) {
+        this.facebook = facebook;
+    }
+
+    public String getLinkedIn() {
+        return linkedIn;
+    }
+
+    public void setLinkedIn(String linkedIn) {
+        this.linkedIn = linkedIn;
+    }
 
     public String getEducation() {
         return education;
