@@ -25,6 +25,7 @@ import com.example.seeker.Database.ApiClients;
 import com.example.seeker.EmployerMainPages.SearchTab_Emp.ProjectSearchAdapter;
 import com.example.seeker.EmployerMainPages.SearchTab_Emp.SearchFragments.Emp_Search_InnerProjects_Fragment;
 import com.example.seeker.EmployerMainPages.SearchTab_Emp.SearchFragments.Emp_Search_Projects_Fragment;
+import com.example.seeker.FreelancerMainPages.MyProjectsTab_Freelancer.Freelancer_viewProjectFragment;
 import com.example.seeker.FreelancerMainPages.SearchTab_Freelancer.FreelancerProjectSearchAdapter;
 import com.example.seeker.Model.Category;
 import com.example.seeker.Model.Freelancer;
@@ -95,16 +96,16 @@ public class Freelancer_Search_Projects_Fragment extends Fragment
     //not yet implemented
     @Override
     public void freelancerOnProjectItemSelectedAdapter(Project project) {
-//        Fragment fragment = new Freelancer_viewProjectFragment();
-//        Bundle bundle = new Bundle();
-//        bundle.putSerializable("project", project);
-//        bundle.putInt("pending", 1);
-//        fragment.setArguments(bundle);
-//        FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
-//        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-//        fragmentTransaction.replace(R.id.frame_container_freelancer, fragment);
-//        fragmentTransaction.addToBackStack(null);
-//        fragmentTransaction.commit();
+        Fragment fragment = new Freelancer_viewProjectFragment();
+        Bundle bundle = new Bundle();
+        bundle.putSerializable("project", project);
+        bundle.putInt("pending", 1);
+        fragment.setArguments(bundle);
+        FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
+        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+        fragmentTransaction.replace(R.id.frame_container_freelancer, fragment);
+        fragmentTransaction.addToBackStack(null);
+        fragmentTransaction.commit();
 
     }
 
