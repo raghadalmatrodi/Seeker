@@ -7,17 +7,17 @@ public class FreelancerRating {
     private int qualityOfWork;
     private int onBudget;
 
-    private long freelancerId;
-    private long employerId;
+    private Freelancer freelancer;
+    private Employer employer;
 
-    public FreelancerRating(int communication, int professionalism, int onTime, int qualityOfWork, int onBudget, long freelancerId, long employerId) {
+    public FreelancerRating(int communication, int professionalism, int onTime, int qualityOfWork, int onBudget, Freelancer freelancer, Employer employer) {
         this.communication = communication;
         this.professionalism = professionalism;
         this.onTime = onTime;
         this.qualityOfWork = qualityOfWork;
         this.onBudget = onBudget;
-        this.freelancerId = freelancerId;
-        this.employerId = employerId;
+        this.freelancer = freelancer;
+        this.employer = employer;
     }
 
     public int getCommunication() {
@@ -60,20 +60,20 @@ public class FreelancerRating {
         this.onBudget = onBudget;
     }
 
-    public long getFreelancerId() {
-        return freelancerId;
+    public Freelancer getFreelancer() {
+        return freelancer;
     }
 
-    public void setFreelancerId(long freelancerId) {
-        this.freelancerId = freelancerId;
+    public void setFreelancer(Freelancer freelancer) {
+        this.freelancer = freelancer;
     }
 
-    public long getEmployerId() {
-        return employerId;
+    public Employer getEmployer() {
+        return employer;
     }
 
-    public void setEmployerId(long employerId) {
-        this.employerId = employerId;
+    public void setEmployer(Employer employer) {
+        this.employer = employer;
     }
 
     @Override
@@ -84,8 +84,8 @@ public class FreelancerRating {
                 ", onTime=" + onTime +
                 ", qualityOfWork=" + qualityOfWork +
                 ", onBudget=" + onBudget +
-                ", freelancerId=" + freelancerId +
-                ", employerId=" + employerId +
+                ", freelancer=" + freelancer +
+                ", employer=" + employer +
                 '}';
     }
 }

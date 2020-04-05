@@ -30,6 +30,7 @@ import com.example.seeker.Model.Contract;
 import com.example.seeker.Model.Project;
 import com.example.seeker.Model.Skill;
 import com.example.seeker.PostBid.BidsAdapter;
+import com.example.seeker.PostBid.ViewFullBid;
 import com.example.seeker.R;
 import com.example.seeker.SharedPref.Constants;
 import com.example.seeker.SharedPref.MySharedPreference;
@@ -284,6 +285,9 @@ public class Freelancer_viewProjectFragment extends Fragment implements  Emp_MyP
     @Override
     public void onBidItemClick(Bid bid) {
 
+        Intent i = new Intent(getContext(), ViewFullBid.class);
+        i.putExtra("bidObj", bid);
+        startActivity(i);
     }
 
 

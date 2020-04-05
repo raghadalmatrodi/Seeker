@@ -6,10 +6,6 @@
     android:background="#fafafa">
 
 
-
-
-
-
             <LinearLayout
                 android:id="@+id/fr_edit_profile_ll"
                 android:layout_width="match_parent"
@@ -33,7 +29,7 @@
 
 
                     <TextView
-                        android:id="@+id/profile_name"
+                        android:id="@+id/freelancer_profile_name"
                         android:layout_marginTop="50dp"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"

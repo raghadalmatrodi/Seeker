@@ -100,8 +100,10 @@ public class Emp_AccountFragment extends Fragment implements View.OnClickListene
     }
 
     private void fillCurrentUserData() {
+        String capitalizedName = "";
         String currentUSerName = MySharedPreference.getString(getContext(), Constants.Keys.USER_NAME, "");
-        name.setText(currentUSerName);
+        capitalizedName = currentUSerName.substring(0,1).toUpperCase() + currentUSerName.substring(1,currentUSerName.length());
+        name.setText(capitalizedName);
 
 
     }
