@@ -136,12 +136,13 @@ public class Emp_MyProjects_Completed_Fragment extends Fragment implements Proje
                 if(response.isSuccessful()){
 
                     projectList = (List) response.body();
-                    pendingText.setText("");
+                    pendingText.setVisibility(View.GONE);
                     setTheAdapter();
 
                 }
                 else{
 
+                    pendingText.setVisibility(View.VISIBLE);
                     pendingText.setText("No Projects");
                     Log.i(LOG, "onResponse not suc: " + response.toString());
                 }
@@ -158,17 +159,22 @@ public class Emp_MyProjects_Completed_Fragment extends Fragment implements Proje
     }
 
 
-    public void setTheAdapter(){
+    public void setTheAdapter() {
         recyclerView = (RecyclerView) view.findViewById(R.id.recycler_view);
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
-        adapter = new ProjectAdapter( projectList,2);
-        recyclerView.setItemAnimator(new DefaultItemAnimator());
-        recyclerView.setAdapter(adapter);
-        adapter.setListener(this);
-        recyclerView.setNestedScrollingEnabled(true);
-        DividerItemDecoration dividerItemDecoration = new DividerItemDecoration(recyclerView.getContext(), DividerItemDecoration.VERTICAL);
-        recyclerView.addItemDecoration(dividerItemDecoration);
+        if (!projectList.isEmpty()) {
+            adapter = new ProjectAdapter(projectList, 2);
+            recyclerView.setItemAnimator(new DefaultItemAnimator());
+            recyclerView.setAdapter(adapter);
+            adapter.setListener(this);
+            recyclerView.setNestedScrollingEnabled(true);
+            DividerItemDecoration dividerItemDecoration = new DividerItemDecoration(recyclerView.getContext(), DividerItemDecoration.VERTICAL);
+            recyclerView.addItemDecoration(dividerItemDecoration);
+        }else{
+            pendingText.setVisibility(View.VISIBLE);
+            pendingText.setText("No Projects");
 
+        }
 
     }
 

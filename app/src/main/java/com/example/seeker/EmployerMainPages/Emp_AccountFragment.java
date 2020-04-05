@@ -22,6 +22,7 @@ import com.example.seeker.EmployerMainPages.AccountRelatedActivities.EditProfile
 import com.example.seeker.EmployerMainPages.AccountRelatedActivities.NotificationsActivity;
 import com.example.seeker.EmployerMainPages.AccountRelatedActivities.Payment.PaymentActivity;
 import com.example.seeker.EmployerMainPages.AccountRelatedActivities.Payment.PaymentAdapter;
+import com.example.seeker.EmployerMainPages.AccountRelatedActivities.SettingActivity;
 import com.example.seeker.FreelancerMainPages.FreelancerMainActivity;
 import com.example.seeker.LogOut;
 import com.example.seeker.Model.Responses.ApiResponse;
@@ -171,7 +172,11 @@ changeUserType();
                 break;
 
             case R.id.settings_ll:
-//                startActivity(new Intent(Emp_AccountFragment.this.getActivity(), ...));
+
+                Intent intent4;
+                intent4 = new Intent(Emp_AccountFragment.this.getActivity(), SettingActivity.class);
+                startActivity(intent4);
+
                 break;
 
             case R.id.privacy_policy_ll:

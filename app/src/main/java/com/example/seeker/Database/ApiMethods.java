@@ -135,7 +135,7 @@ public interface ApiMethods {
 
 
         String DELETE_BID="bid/{bid_id}";
-
+        String DELETE_USER="user/{user_id}";
         String SWITCH_TYPE ="user/changeType/{id}" ;
     }//End of Methods interface
 
@@ -376,4 +376,7 @@ public interface ApiMethods {
     @DELETE(Methods.DELETE_BID)
     Call<ApiResponse> deleteBid(@Path("bid_id") long bid_id);
 
+
+    @DELETE(Methods.DELETE_USER)
+    Call<ApiResponse> deleteUserById(@Path("user_id") long user_id);
 }//End of ApiMethods interface
