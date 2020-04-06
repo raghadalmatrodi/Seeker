@@ -192,10 +192,12 @@ public class Freelancer_viewProjectFragment extends Fragment implements  Emp_MyP
 
 //                }
 
-
-
             }
         });
+//        finish();
+//        overridePendingTransition(0, 0);
+//        startActivity(getIntent());
+//        overridePendingTransition(0, 0);
 //        getFragmentManager().beginTransaction().detach(this).attach(this).commit();
 
     }

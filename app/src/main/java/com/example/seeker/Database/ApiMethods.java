@@ -141,6 +141,9 @@ public interface ApiMethods {
         String FIND_PROJECT_BY_ID = "project/{id}";
         String FIND_USER_BY_ID = "user/{id}";
         String CALC_NUM_OF_POSTED_PROJECTS = "employer/posted_projects/{id}";
+        String CALC_NUM_HIRED_PROJS = "freelancer/hired_projs/{id}";
+
+
     }//End of Methods interface
 
 
@@ -259,6 +262,9 @@ public interface ApiMethods {
 
     @POST(Methods.CALC_NUM_OF_POSTED_PROJECTS)
     Call<Void> CalculateNumberOfPostedProjects(@Path("id") long id);
+
+    @POST(Methods.CALC_NUM_HIRED_PROJS)
+    Call<Void> CalculateNumberOfWorkedOnProjects(@Path("id") long id);
 
 
     /**
