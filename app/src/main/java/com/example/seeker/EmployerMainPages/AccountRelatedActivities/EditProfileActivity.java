@@ -19,7 +19,9 @@ import android.view.View;
 import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.RatingBar;
 import android.widget.TextView;
@@ -27,8 +29,11 @@ import android.widget.Toast;
 
 import com.example.seeker.Activities.ParentEditProfileActivity;
 import com.example.seeker.Database.ApiClients;
+import com.example.seeker.FreelancerMainPages.FreelancerEditProfile;
+import com.example.seeker.FreelancerMainPages.SearchTab_Freelancer.AddSkillActivity;
 import com.example.seeker.Model.Employer;
 import com.example.seeker.Model.Freelancer;
+import com.example.seeker.Model.Skill;
 import com.example.seeker.Model.User;
 import com.example.seeker.R;
 import com.example.seeker.SharedPref.Constants;
@@ -41,7 +46,9 @@ import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -78,7 +85,6 @@ public class EditProfileActivity extends ParentEditProfileActivity {
     private Intent cameraIntent, photoPickerIntent;
 
     private TextView totalTrustPoints_TV;
-    static int totalTrustPoints = 0;
 
     private RatingBar empTotalRates;
     private TextView numberOfRatings;
@@ -92,23 +98,26 @@ public class EditProfileActivity extends ParentEditProfileActivity {
 
 //    previous samples
 
-    Employer getEmp;
 
     //#1
     User user;
 
     /**
      *
-     *
-     *
      * Freelancer required declarations
-     *
      *
      *
      */
 
     private ImageView maroofImg;
-//    skill related stuff :/
+//    + skill related stuff :/
+    private LinearLayout skillsLL, divider;
+    ImageButton add_skill;
+    TextView skillText;
+    private Set<Skill> skillsList = new HashSet<>();
+//    private Freelancer freelancer;
+
+    Freelancer fr;
 
 
     @Override
@@ -130,15 +139,11 @@ public class EditProfileActivity extends ParentEditProfileActivity {
         getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN);
         getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN);
 
-        /**
-         * get it by user
-         */
-        //getEmployerByUserId(current_user_id);
+
+        getUserById(current_user_id);
 
         init();
         fillCurrentUSerData();
-
-
 
         cameraChooser.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -147,16 +152,6 @@ public class EditProfileActivity extends ParentEditProfileActivity {
             }
         });
 
-        getSocialMedia();
-        getEducation();
-        getNationalId();
-        getPhoneNumber();
-
-
-        totalTrustPoints_TV = findViewById(R.id.emp_total_trust_points);
-        trustPointsPB = findViewById(R.id.TPprogressBar);
-//        totalTrustPoints_TV.setText(CalculateEmployerTrustPoints()+"%");
-//        totalTrustPoints_TV.setText(totalTrustPoints+"%");
 
         if(MySharedPreference.getString(EditProfileActivity.this,Constants.Keys.USER_CURRENT_TYPE,"0").equals("EMPLOYER")){
             CalculateEmpTP(current_user_id);
@@ -165,20 +160,12 @@ public class EditProfileActivity extends ParentEditProfileActivity {
         }
 
 
-//        CalculateEmpTP(current_user_id);
-        getAllValsAndCalcTPForEmp();
-
-
-
-
 
     }//End onCreate
 
 
     private void initToolbar(String username){
-
             //init toolbar
-
             Toolbar toolbar = findViewById(R.id.editprofile_toolbar);
             toolbar.setTitle(username);
             toolbar.setNavigationIcon(R.drawable.back_arrow_24dp);
@@ -191,153 +178,17 @@ public class EditProfileActivity extends ParentEditProfileActivity {
 
         }//End initToolBar()
 
-    //todo: remove comment :)
-//    @Override
-//    protected void onResume() {
-//        super.onResume();
-//        getSocialMedia();
-//        getEducation();
-//        getNationalId();
-//        getPhoneNumber();
-//
-//
-////        totalTrustPoints_TV.setText(CalculateEmployerTrustPoints()+"%");
-//    }
-
-    private void getSocialMedia() {
-
-        //GET LINKED_IN
-        getLinkedIn();
-
-        //GET TWITTER
-        getTwitter();
-
-        //GET FACEBOOK
-        getFacebook();
-
-    }
-
-    private void getFacebook() {
-        ApiClients.getAPIs().getFacebook(current_user_id).enqueue(new Callback<String>() {
-            @Override
-            public void onResponse(Call<String> call, Response<String> response) {
-                if (response.isSuccessful()) {
-                    facebookET.setText(response.body());
-//                    if (!response.body().equals(null) )
-//                        totalTrustPoints+= 5;
-//                    facebook_TP = response.body();
-                }
-            }
-
-            @Override
-            public void onFailure(Call<String> call, Throwable t) {
-
-            }
-        });
-    }
-
-    private void getTwitter() {
-        ApiClients.getAPIs().getTwitter(current_user_id).enqueue(new Callback<String>() {
-            @Override
-            public void onResponse(Call<String> call, Response<String> response) {
-                if (response.isSuccessful()) {
-                    twitterET.setText(response.body());
-//                    if (!response.body().equals(null))
-//                        totalTrustPoints+= 5;
-//                        twitter_TP = response.body();
-                }
-            }
-
-            @Override
-            public void onFailure(Call<String> call, Throwable t) {
-
-            }
-        });
-    }
-
-    private void getLinkedIn() {
-        ApiClients.getAPIs().getLinkedin(current_user_id).enqueue(new Callback<String>() {
-            @Override
-            public void onResponse(Call<String> call, Response<String> response) {
-                if (response.isSuccessful()) {
-                    linkedinET.setText(response.body());
-//                    totalTrustPoints_TV.setText(response.body().equals(null));
-//                    if (!response.body().equals(null))
-//                        totalTrustPoints+= 5;
-//                        totalTrustPoints_TV.setText(5+"%");
-//                    totalTrustPoints+= 5;
-////                        linkedin_TP = response.body();
-                }
-
-            }
-
-            @Override
-            public void onFailure(Call<String> call, Throwable t) {
-
-            }
-        });
-    }
-    String res;
-    //todo: new fix it if u'll update in get employer
-    private void getEducation(){
-        ApiClients.getAPIs().getEducation(current_user_id).enqueue(new Callback<String>() {
-            @Override
-            public void onResponse(Call<String> call, Response<String> response) {
-                if (response.isSuccessful()){
-                    res = response.body().toString();
-                    //educationET.setText(res);
-                }
-
-            }
-
-            @Override
-            public void onFailure(Call<String> call, Throwable t) {
-
-            }
-        });
-    }
-
-    private void getNationalId(){
-        ApiClients.getAPIs().getNationalId(current_user_id).enqueue(new Callback<String>() {
-            @Override
-            public void onResponse(Call<String> call, Response<String> response) {
-                if (response.isSuccessful()) {
-                    if (!response.body().equals(null)) {
-//                        N = true;
-//                        calcN(N);
-//                        totalTrustPoints+= 40;
-//                        totalTrustPoints_TV.setText(totalTrustPoints+"");
-//                        nid_TP = response.body();
-                    }
-
-                }
-            }
-
-            @Override
-            public void onFailure(Call<String> call, Throwable t) {
-
-            }
-        });
-    }
-
-    private void getPhoneNumber(){
-        ApiClients.getAPIs().getPhoneNumber(current_user_id).enqueue(new Callback<String>() {
-            @Override
-            public void onResponse(Call<String> call, Response<String> response) {
-                if (response.isSuccessful()) {
-//                    if (response.body() != null)
-//                        phone_TP = response.body();
-                }
-            }
-
-            @Override
-            public void onFailure(Call<String> call, Throwable t) {
-
-            }
-        });
-    }
 
     private void init() {
+        add_skill = findViewById(R.id.add_skill_fr);
+        add_skill.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(EditProfileActivity.this, AddSkillActivity.class));
+            }
+        });
+        totalTrustPoints_TV = findViewById(R.id.emp_total_trust_points);
+        trustPointsPB = findViewById(R.id.TPprogressBar);
 
         name = findViewById(R.id.employer_edit_profile_name);
         nameAsEmployer = findViewById(R.id.edit_profile_name_as_emp);
@@ -366,23 +217,9 @@ public class EditProfileActivity extends ParentEditProfileActivity {
         facebookET = findViewById(R.id.facebook_link);
         educationET = findViewById(R.id.education);
 
+        disableLinks();
 
-        //Disable links
-        linkedinET.setEnabled(false);
-        twitterET.setEnabled(false);
-        facebookET.setEnabled(false);
-        educationET.setEnabled(false);
-
-        //Hide Save and Cancel buttons
-        saveLinkedin.setVisibility(View.INVISIBLE);
-        saveTwitter.setVisibility(View.INVISIBLE);
-        saveFb.setVisibility(View.INVISIBLE);
-        saveEdu.setVisibility(View.INVISIBLE);
-
-        cancelLinkedin.setVisibility(View.INVISIBLE);
-        cancelTwitter.setVisibility(View.INVISIBLE);
-        cancelFb.setVisibility(View.INVISIBLE);
-        cancelEdu.setVisibility(View.INVISIBLE);
+        hidingButtons();
 
 
         cameraChooser = findViewById(R.id.editProfileImageChooser);
@@ -396,20 +233,22 @@ public class EditProfileActivity extends ParentEditProfileActivity {
             }
         });
 
-        LinkedIn();
-        Twitter();
-        Facebook();
-        Education();
+        onEditAnythingClicked();
+
 
         phoneNumber = findViewById(R.id.emp_phone_num);
         nationalId = findViewById(R.id.emp_nid_icon);
         maroofImg = findViewById(R.id.edit_maroof_icon);
+        skillsLL = findViewById(R.id.skills_ll);
+        divider = findViewById(R.id.skills_divider);
 
-        if(MySharedPreference.getString(EditProfileActivity.this,Constants.Keys.USER_CURRENT_TYPE,"0").equals("EMPLOYER"))
-        maroofImg.setVisibility(View.GONE);
+        if(MySharedPreference.getString(EditProfileActivity.this,Constants.Keys.USER_CURRENT_TYPE,"0").equals("EMPLOYER")){
+            maroofImg.setVisibility(View.GONE);
+            skillsLL.setVisibility(View.GONE);
+            divider.setVisibility(View.GONE);
+        }
 
         onIconsClicked();
-
 
 
         empTotalRates = findViewById(R.id.employer_total_rating_in_profile);
@@ -431,6 +270,35 @@ public class EditProfileActivity extends ParentEditProfileActivity {
 
 
     }//End init()
+
+    private void onEditAnythingClicked() {
+        LinkedIn();
+        Twitter();
+        Facebook();
+        Education();
+    }
+
+    private void hidingButtons() {
+
+        //Hide Save and Cancel buttons
+        saveLinkedin.setVisibility(View.INVISIBLE);
+        saveTwitter.setVisibility(View.INVISIBLE);
+        saveFb.setVisibility(View.INVISIBLE);
+        saveEdu.setVisibility(View.INVISIBLE);
+
+        cancelLinkedin.setVisibility(View.INVISIBLE);
+        cancelTwitter.setVisibility(View.INVISIBLE);
+        cancelFb.setVisibility(View.INVISIBLE);
+        cancelEdu.setVisibility(View.INVISIBLE);
+    }
+
+    private void disableLinks() {
+        //Disable links
+        linkedinET.setEnabled(false);
+        twitterET.setEnabled(false);
+        facebookET.setEnabled(false);
+        educationET.setEnabled(false);
+    }//End disableLinks
 
     private void onIconsClicked() {
         phoneNumber.setOnClickListener(new View.OnClickListener() {
@@ -466,8 +334,6 @@ public class EditProfileActivity extends ParentEditProfileActivity {
         EmpAvgResponseTime = findViewById(R.id.emp_AsEmployerr_AvgResponseTime);
         EmpAvgOTP = findViewById(R.id.emp_AsEmployer_AvgOtp);
 
-//        test = findViewById(R.id.progressBar);
-//        test.setProgress(87);
     }
 
     private void LinkedIn() {
@@ -488,6 +354,10 @@ public class EditProfileActivity extends ParentEditProfileActivity {
                         cancelLinkedin.setVisibility(View.INVISIBLE);
                         //todo:
                         // add editing completed dialog ??
+                        finish();
+                        overridePendingTransition(0, 0);
+                        startActivity(getIntent());
+                        overridePendingTransition(0, 0);
 
                     }
                 });
@@ -498,7 +368,13 @@ public class EditProfileActivity extends ParentEditProfileActivity {
                         linkedinET.setEnabled(false);
                         saveLinkedin.setVisibility(View.INVISIBLE);
                         cancelLinkedin.setVisibility(View.INVISIBLE);
+                        if (user.getLinkedIn() != null)
+                        linkedinET.setText(user.getLinkedIn());
 //                        getLinkedIn();
+//                        finish();
+//                        overridePendingTransition(0, 0);
+//                        startActivity(getIntent());
+//                        overridePendingTransition(0, 0);
                     }
                 });
 
@@ -525,6 +401,10 @@ public class EditProfileActivity extends ParentEditProfileActivity {
                         saveTwitter.setVisibility(View.INVISIBLE);
                         cancelTwitter.setVisibility(View.INVISIBLE);
                         //todo: add editing completed dialog ?
+                        finish();
+                        overridePendingTransition(0, 0);
+                        startActivity(getIntent());
+                        overridePendingTransition(0, 0);
 
                     }
                 });
@@ -535,7 +415,13 @@ public class EditProfileActivity extends ParentEditProfileActivity {
                         twitterET.setEnabled(false);
                         saveTwitter.setVisibility(View.INVISIBLE);
                         cancelTwitter.setVisibility(View.INVISIBLE);
+                        if (user.getTwitter() != null)
+                            twitterET.setText(user.getTwitter());
 //                        getTwitter();
+//                        finish();
+//                        overridePendingTransition(0, 0);
+//                        startActivity(getIntent());
+//                        overridePendingTransition(0, 0);
                     }
                 });
 
@@ -563,6 +449,10 @@ public class EditProfileActivity extends ParentEditProfileActivity {
                         saveFb.setVisibility(View.INVISIBLE);
                         cancelFb.setVisibility(View.INVISIBLE);
                         //todo: add editing completed dialog ?
+                        finish();
+                        overridePendingTransition(0, 0);
+                        startActivity(getIntent());
+                        overridePendingTransition(0, 0);
 
                     }
                 });
@@ -573,9 +463,11 @@ public class EditProfileActivity extends ParentEditProfileActivity {
                         facebookET.setEnabled(false);
                         saveFb.setVisibility(View.INVISIBLE);
                         cancelFb.setVisibility(View.INVISIBLE);
+                        if (user.getFacebook() != null)
+                            facebookET.setText(user.getFacebook());
                         /**
                          *THIS IS GOOOD.
-                         */
+//                         */
 //                        finish();
 //                        overridePendingTransition(0, 0);
 //                        startActivity(getIntent());
@@ -591,6 +483,7 @@ public class EditProfileActivity extends ParentEditProfileActivity {
     }
 
     private void Education() {
+
         editEducationIcon.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 educationET.setEnabled(true);
@@ -608,7 +501,10 @@ public class EditProfileActivity extends ParentEditProfileActivity {
                         educationET.setEnabled(false);
                         saveEdu.setVisibility(View.INVISIBLE);
                         cancelEdu.setVisibility(View.INVISIBLE);
-
+                        finish();
+                        overridePendingTransition(0, 0);
+                        startActivity(getIntent());
+                        overridePendingTransition(0, 0);
 
                     }
 
@@ -623,7 +519,12 @@ public class EditProfileActivity extends ParentEditProfileActivity {
                         cancelEdu.setVisibility(View.INVISIBLE);
                         if (user.getEducation() != null)
                         educationET.setText(user.getEducation());
-                        else educationET.setText("No education added.");
+//                        else educationET.setText("No education added.");
+//
+//                        finish();
+//                        overridePendingTransition(0, 0);
+//                        startActivity(getIntent());
+//                        overridePendingTransition(0, 0);
 
                     }
                 });
@@ -635,15 +536,12 @@ public class EditProfileActivity extends ParentEditProfileActivity {
     }
 
     private void wrongInfoDialog(String msg) {
-        final AlertDialog.Builder alertDialog = new AlertDialog.Builder(this);
 
-//        alertDialog.setTitle(title);
+        final AlertDialog.Builder alertDialog = new AlertDialog.Builder(this);
 
         // Setting Dialog Message
         alertDialog.setMessage(msg);
 
-        // Setting Icon to Dialog
-//        alertDialog.setIcon(R.drawable.exclamation);
 
         //Setting Negative "ok" Button
         alertDialog.setPositiveButton("OK", new DialogInterface.OnClickListener() {
@@ -657,16 +555,10 @@ public class EditProfileActivity extends ParentEditProfileActivity {
     }//End wrongInfoDialog()
 
     private void fillCurrentUSerData(){
-
         String username = MySharedPreference.getString(EditProfileActivity.this, Constants.Keys.USER_NAME, "");
         String capitalizedName = username.substring(0,1).toUpperCase() + username.substring(1,username.length());
 
         name.setText(capitalizedName);
-
-//        String current = MySharedPreference.getString(EditProfileActivity.this, Constants.Keys.USER_NAME, "");
-//        String CapCurrent = current.substring(0,1).toUpperCase();
-//
-//        current = CapCurrent+current+" as Freelancer:";
 
         nameAsFreelancer.setText(capitalizedName+" as Freelancer:");
 
@@ -675,7 +567,6 @@ public class EditProfileActivity extends ParentEditProfileActivity {
         initToolbar(capitalizedName);
 
     }
-
 
     private void executeAddLinkedInRequest(long id, String linkedin) {
 
@@ -695,25 +586,6 @@ public class EditProfileActivity extends ParentEditProfileActivity {
                 Toast.makeText(EditProfileActivity.this, t.getLocalizedMessage(), Toast.LENGTH_LONG).show();
             }
         });
-
-//        ApiClients.getAPIs().getPostLinkedInRequest(id, linkedin).enqueue(new Callback<Void>() {
-//            @Override
-//            public void onResponse(Call<Void> call, Response<Void> response) {
-//                if (response.isSuccessful()){
-//                    Toast.makeText(EditProfileActivity.this, "Success", Toast.LENGTH_LONG).show();
-//              }
-//
-//                else
-//                    Toast.makeText(EditProfileActivity.this, response.errorBody().toString(), Toast.LENGTH_LONG).show();
-//            }
-//
-//
-//            @Override
-//            public void onFailure(Call<Void> call, Throwable t) {
-//                Toast.makeText(EditProfileActivity.this, t.getLocalizedMessage(), Toast.LENGTH_LONG).show();
-//
-//            }
-//        });
 
 
     }//end add linkedin
@@ -737,25 +609,6 @@ public class EditProfileActivity extends ParentEditProfileActivity {
             }
         });
 
-//        ApiClients.getAPIs().getPostTwitterRequest(id, twitter).enqueue(new Callback<Void>() {
-//            @Override
-//            public void onResponse(Call<Void> call, Response<Void> response) {
-//                if (response.isSuccessful()){
-//                    Toast.makeText(EditProfileActivity.this, "Success", Toast.LENGTH_LONG).show();
-//                    getAllValsAndCalcTPForEmp();
-//                   }
-//                else
-//                    Toast.makeText(EditProfileActivity.this, response.errorBody().toString(), Toast.LENGTH_LONG).show();
-//            }
-//
-//
-//            @Override
-//            public void onFailure(Call<Void> call, Throwable t) {
-//                Toast.makeText(EditProfileActivity.this, t.getLocalizedMessage(), Toast.LENGTH_LONG).show();
-//
-//            }
-//        });
-
     }//end add twitter
 
     private void executeAddFacebookRequest(long id, String facebook){
@@ -777,25 +630,6 @@ public class EditProfileActivity extends ParentEditProfileActivity {
         });
 
 
-//        ApiClients.getAPIs().getPostFacebookRequest(id, facebook).enqueue(new Callback<Void>() {
-//            @Override
-//            public void onResponse(Call<Void> call, Response<Void> response) {
-//                if (response.isSuccessful()) {
-//
-//                    Toast.makeText(EditProfileActivity.this, "Success", Toast.LENGTH_LONG).show();
-//                    getAllValsAndCalcTPForEmp();
-//                }
-//                else
-//                    Toast.makeText(EditProfileActivity.this, response.errorBody().toString(), Toast.LENGTH_LONG).show();
-//            }
-//
-//
-//            @Override
-//            public void onFailure(Call<Void> call, Throwable t) {
-//                Toast.makeText(EditProfileActivity.this, t.getLocalizedMessage(), Toast.LENGTH_LONG).show();
-//
-//            }
-//        });
     }//end add facebook
 
     private void executeAddEducationRequest(long id, String education) {
@@ -815,27 +649,6 @@ public class EditProfileActivity extends ParentEditProfileActivity {
                 Toast.makeText(EditProfileActivity.this, t.getLocalizedMessage(), Toast.LENGTH_LONG).show();
             }
         });
-
-
-//        ApiClients.getAPIs().getPostEducation(id, education).enqueue(new Callback<Void>() {
-//            @Override
-//            public void onResponse(Call<Void> call, Response<Void> response) {
-//                if (response.isSuccessful()){
-//                    Toast.makeText(EditProfileActivity.this, "Success", Toast.LENGTH_LONG).show();
-//                }
-//
-//                else
-//                    Toast.makeText(EditProfileActivity.this, response.errorBody().toString(), Toast.LENGTH_LONG).show();
-//            }
-//
-//
-//            @Override
-//            public void onFailure(Call<Void> call, Throwable t) {
-//                Toast.makeText(EditProfileActivity.this, t.getLocalizedMessage(), Toast.LENGTH_LONG).show();
-//
-//            }
-//        });
-
     }
 
 
@@ -843,7 +656,6 @@ public class EditProfileActivity extends ParentEditProfileActivity {
     /**
      * FOR CHOOSING IMAGE
      */
-
 
     private void showPhotoOptionsDialog(){
         final CharSequence[] items = {"Camera","Gallery"};
@@ -1002,6 +814,7 @@ public class EditProfileActivity extends ParentEditProfileActivity {
 
     }//End fromBitmapToFile()
 
+
     private void exclamationDialog(String msg) {
         AlertDialog.Builder alertDialog = new AlertDialog.Builder(this);
         alertDialog.setMessage(msg);
@@ -1014,7 +827,6 @@ public class EditProfileActivity extends ParentEditProfileActivity {
 
         alertDialog.show();
     }//end wrongInfoDialog()
-
 
     public static byte[] ImageToByte(File file) throws FileNotFoundException{
 
@@ -1047,84 +859,13 @@ public class EditProfileActivity extends ParentEditProfileActivity {
     }
 
 
-
-    /**Input: email, socialMediaAccounts, phoneNumber, nationalID, maarofAccount. Output: Number of Trust points “trustPoints”.
-     if email != null then trustPoints+=5 for each item in socialMediaAccounts,do
-     if item != null, then trustPoints+=5
-     if phoneNumber!= null then trustPoints+=20 if nationalID!= null then trustPoints+=40 if maarofAccount!= null then trustPoints+=20 return trustPoints
-     *
-     * Email * 5%
-     * Phone Number    * 20%
-     * Social media Accounts  * 15% Each account gets 5%
-     * National ID *  40%
-     * Maarof Account   * 20%
-     * Total * 100%
-     */
-
-
-    /**
-     *  list.add(user.getNational_id());
-     *         list.add(user.getPhone_number());
-     *         list.add(user.getLinkedIn());
-     *         list.add(user.getTwitter());
-     *         list.add(user.getFacebook());
-     */
-    private void getAllValsAndCalcTPForEmp(){
-        //email is always there since all users are registered by their emails.
-        totalTrustPoints = 0;
-        totalTrustPoints+= 5;
-
-
-        ApiClients.getAPIs().getAllTPVals(current_user_id).enqueue(new Callback<List<String>>() {
-            @Override
-            public void onResponse(Call<List<String>> call, Response<List<String>> response) {
-                if (response.isSuccessful()){
-
-                    if (response.body().get(0) != null)
-                    if (!response.body().get(0).equals(null))
-                        totalTrustPoints+=40;
-
-                    if (response.body().get(1) != null)
-                    if (!response.body().get(1).equals(null))
-                        totalTrustPoints+=20;
-
-                    if (response.body().get(2) != null)
-                    if (!response.body().get(2).equals(null))
-                        totalTrustPoints+=5;
-
-                    if (response.body().get(3) != null)
-                    if (!response.body().get(3).equals(null))
-                        totalTrustPoints+=5;
-
-                    if (response.body().get(4) != null)
-                    if (!response.body().get(4).equals(null))
-                        totalTrustPoints+=5;
-
-//                    totalTrustPoints_TV.setText(totalTrustPoints+"%");
-//                    trustPointsPB.setProgress(totalTrustPoints);
-
-                }
-            }
-
-            @Override
-            public void onFailure(Call<List<String>> call, Throwable t) {
-
-            }
-        });
-//        totalTrustPoints_TV.setText(totalTrustPoints+"%");
-    }
-
-
     //todo: check validity of phone number, maroof acc and national id.
-    //
-    private void AddInfoDialog(int type) {
 
+    private void AddInfoDialog(int type) {
         /**
-         *
          * type 0 -> maroof
          * type 1 -> phone
          * type 2 -> nid
-         *
          */
 
         final AlertDialog dialogBuilder = new AlertDialog.Builder(this).create();
@@ -1140,12 +881,19 @@ public class EditProfileActivity extends ParentEditProfileActivity {
         switch (type){
             case 0:
                 title.setText("Please enter your maarof account");
-                infoET.setHint("Maarof account");
+                if (fr.getMaarof_account() != null)
+                    infoET.setText(fr.getMaarof_account());
+                else
+                    infoET.setHint("Maarof account");
                 break;
 
             case 1:
                 title.setText("Please enter your phone number");
-                infoET.setHint("Phone Number");
+                if (user.getPhone_number() != null)
+                    //TODO: REMOVE AFTER VALIDATION
+                    infoET.setText(user.getPhone_number());
+                else
+                    infoET.setHint("Phone Number");
                 break;
 
             case 2:
@@ -1198,19 +946,20 @@ public class EditProfileActivity extends ParentEditProfileActivity {
 
     //ZERO
     private void executeAddMaroofAccRequest(long id, String maroofAcc) {
-        ApiClients.getAPIs().getPostMaroofAccountRequest(id, maroofAcc).enqueue(new Callback<Void>() {
+
+        ApiClients.getAPIs().getPostMaroofAccountRequest(id, maroofAcc).enqueue(new Callback<Freelancer>() {
             @Override
-            public void onResponse(Call<Void> call, Response<Void> response) {
-                if (response.isSuccessful())
-                    Toast.makeText(EditProfileActivity.this, "Success", Toast.LENGTH_LONG).show();
-                else
+            public void onResponse(Call<Freelancer> call, Response<Freelancer> response) {
+                if (response.isSuccessful()){
+                    fr = response.body();
+                } else {
                     Toast.makeText(EditProfileActivity.this, response.errorBody().toString(), Toast.LENGTH_LONG).show();
+                }
             }
 
             @Override
-            public void onFailure(Call<Void> call, Throwable t) {
+            public void onFailure(Call<Freelancer> call, Throwable t) {
                 Toast.makeText(EditProfileActivity.this, t.getLocalizedMessage(), Toast.LENGTH_LONG).show();
-
             }
         });
 
@@ -1221,49 +970,42 @@ public class EditProfileActivity extends ParentEditProfileActivity {
     private void executeAddPhoneNumberRequest(long id, String phone) {
 
 
+        ApiClients.getAPIs().getPostPhoneNumberRequest(id, phone).enqueue(new Callback<User>() {
+            @Override
+            public void onResponse(Call<User> call, Response<User> response) {
+                if (response.isSuccessful()){
+                    user = response.body();
+                } else {
+                    Toast.makeText(EditProfileActivity.this, response.errorBody().toString(), Toast.LENGTH_LONG).show();
+                }
+            }
 
-//        ApiClients.getAPIs().getPostPhoneNumberRequest(id, phone).enqueue(new Callback<Void>() {
-//
-//
-//
-//            @Override
-//            public void onResponse(Call<Void> call, Response<Void> response) {
-//                if (response.isSuccessful()) {
-//                    Toast.makeText(EditProfileActivity.this, "Success", Toast.LENGTH_LONG).show();
-//                    getAllValsAndCalcTPForEmp();
-//                }
-//                else
-//                    Toast.makeText(EditProfileActivity.this, "Not Success", Toast.LENGTH_LONG).show();
-//
-//            }
-//
-//            @Override
-//            public void onFailure(Call<Void> call, Throwable t) {
-//                Toast.makeText(EditProfileActivity.this, t.getLocalizedMessage(), Toast.LENGTH_LONG).show();
-//
-//            }
-//        });
+            @Override
+            public void onFailure(Call<User> call, Throwable t) {
+                Toast.makeText(EditProfileActivity.this, t.getLocalizedMessage(), Toast.LENGTH_LONG).show();
+            }
+        });
+
     }//end add phone
 
     //TWO
     private void executeAddNationalIdRequest(long id, String NationalId){
-//        ApiClients.getAPIs().getPostNationalIdRequest(id, NationalId).enqueue(new Callback<Void>() {
-//            @Override
-//            public void onResponse(Call<Void> call, Response<Void> response) {
-//                if (response.isSuccessful()) {
-//                    Toast.makeText(EditProfileActivity.this, "Success", Toast.LENGTH_LONG).show();
-//                    getAllValsAndCalcTPForEmp();
-//                }
-//                else
-//                    Toast.makeText(EditProfileActivity.this, "Not Success", Toast.LENGTH_LONG).show();
-//            }
-//
-//            @Override
-//            public void onFailure(Call<Void> call, Throwable t) {
-//                Toast.makeText(EditProfileActivity.this, t.getLocalizedMessage(), Toast.LENGTH_LONG).show();
-//
-//            }
-//        });
+
+        ApiClients.getAPIs().getPostNationalIdRequest(id, NationalId).enqueue(new Callback<User>() {
+            @Override
+            public void onResponse(Call<User> call, Response<User> response) {
+                if (response.isSuccessful()){
+                    user = response.body();
+                } else {
+                    Toast.makeText(EditProfileActivity.this, response.errorBody().toString(), Toast.LENGTH_LONG).show();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<User> call, Throwable t) {
+                Toast.makeText(EditProfileActivity.this, t.getLocalizedMessage(), Toast.LENGTH_LONG).show();
+            }
+        });
 
     }
 
@@ -1303,24 +1045,17 @@ public class EditProfileActivity extends ParentEditProfileActivity {
         });
     }
 
-
     private void getEmployerByUserId(long user_id) {
 
         ApiClients.getAPIs().getEmployerByUserIdRequest(user_id).enqueue(new Callback<Employer>() {
             @Override
             public void onResponse(Call<Employer> call, Response<Employer> response) {
                 if (response.isSuccessful()){
-                    //didn't work :)
-//                    getEmp = response.body();
-                    user = response.body().getUser();
                     if(MySharedPreference.getString(EditProfileActivity.this,Constants.Keys.USER_CURRENT_TYPE,"0").equals("EMPLOYER")){
                         numberOfRatings.setText("("+response.body().getNum_of_ratings()+")");
                     }
-//                    numberOfRatings.setText("("+response.body().getNum_of_ratings()+")");
-//                    educationET.setText(response.body().getUser().getEducation());
 
                     //Filling As employer statistics
-
                     EmpNumOfProjects.setText(response.body().getNum_of_posted_Projects()+"");
 
                     double response_time = response.body().getResponse_time();
@@ -1349,16 +1084,11 @@ public class EditProfileActivity extends ParentEditProfileActivity {
             @Override
             public void onResponse(Call<Freelancer> call, Response<Freelancer> response) {
                 if (response.isSuccessful()){
+                    fr = response.body();
                     if(MySharedPreference.getString(EditProfileActivity.this,Constants.Keys.USER_CURRENT_TYPE,"0").equals("FREELANCER")){
                         numberOfRatings.setText("("+response.body().getNum_of_ratings()+")");
                     }
 
-                    /**
-                     *  FREELANCER
-                     * Number of times the user was hired | number of times the user was hired = number of times the user was hired
-                     * Average response time | (totalResponceTime + newResponceTimeRating)/ numOfFreeRating)*100 (totalQualityOfWork+newQualityOfWorkRating)/ numOfFreeRating)*100 "INCORRECT"
-                     * Average Quality of Work | (totalQualityOfWork+newQualityOfWorkRating)/ numOfFreeRating)*100
-                     */
                     FrWorkedOnProjects.setText(response.body().getNum_of_hired_projects()+"");
                     double response_time = response.body().getTotal_response_time();
                     double num_of_ratings = response.body().getNum_of_ratings();
@@ -1369,16 +1099,33 @@ public class EditProfileActivity extends ParentEditProfileActivity {
 
                     FrAvgResponseTime.setText((int)avgRT+"%");
                     FrAvgQualityOfWork.setText((int)avgQ+"%");
-                }
 
-                else{
+                    Log.i(LOG,"onResponse: suc" + fr.toString());
+                    skillsList = fr.getSkills();
+                    Log.i(LOG,"onResponse: suc" + fr.getSkills());
+                    Log.i(LOG,"onResponse: suc" + skillsList.toString());
 
+                    skillText = findViewById(R.id.list_skills);
+                    String skillToDisplay ="";
+
+                    for (Skill subset : skillsList) {
+                        skillToDisplay += " - " +subset.getName() ;
+                    }
+
+                    skillText.setText(skillToDisplay );
+
+
+
+
+
+                } else{
+                    Log.i(LOG,"onResponse: notSuc" + response.toString());
                 }
             }
 
             @Override
             public void onFailure(Call<Freelancer> call, Throwable t) {
-
+                Log.i(LOG,"onFailure :" + t.toString());
             }
         });
 
@@ -1388,7 +1135,6 @@ public class EditProfileActivity extends ParentEditProfileActivity {
 
 
     }//End getFreelancerByUserIdRequest()
-
 
     private void CalculateEmpTP(long id){
         ApiClients.getAPIs().CalculateEmployerTrustPoints(id).enqueue(new Callback<Integer>() {
@@ -1425,7 +1171,51 @@ public class EditProfileActivity extends ParentEditProfileActivity {
         });
     }
 
+    private void getUserById(long id){
+        ApiClients.getAPIs().findUserById(id).enqueue(new Callback<User>() {
+            @Override
+            public void onResponse(Call<User> call, Response<User> response) {
+                if (response.isSuccessful()){
+                    user = response.body();
 
+
+                    //Set Education
+                    if (user.getEducation() != null)
+                        educationET.setText(user.getEducation());
+                    else
+                        educationET.setText("No education added.");
+
+                    //Set LinkedIn
+                    if (user.getLinkedIn() != null)
+                        linkedinET.setText(user.getLinkedIn());
+                    else
+                        linkedinET.setText("NA");
+
+                    //Set Twitter
+                    if (user.getTwitter() != null)
+                        twitterET.setText(user.getTwitter());
+                    else
+                        twitterET.setText("NA");
+
+                    //Set Facebook
+                    if (user.getFacebook() != null)
+                        facebookET.setText(user.getFacebook());
+                    else
+                        facebookET.setText("NA");
+
+
+
+
+                }
+//                    user = response.body();
+            }
+
+            @Override
+            public void onFailure(Call<User> call, Throwable t) {
+
+            }
+        });
+    }
 
 
 
