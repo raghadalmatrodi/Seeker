@@ -219,21 +219,24 @@ public class ContractFragment extends Fragment {
     public void checkVisibility(){
 
 
-        if(contract.getProject().getEmployer().getId() == MySharedPreference.getLong(getContext(),Constants.Keys.EMPLOYER_ID, -1)) {
+        if(contract.getType().equals("0")) {
 
-            if (project.getMilestones().size() == 1) {
+            if (contract.getProject().getEmployer().getId() == MySharedPreference.getLong(getContext(), Constants.Keys.EMPLOYER_ID, -1)) {
 
-                createMilestone.setVisibility(View.VISIBLE);
+                if (project.getMilestones().size() == 1) {
 
-                if (project.getPayment_type().equals("FixedPrice")) {
+                    createMilestone.setVisibility(View.VISIBLE);
 
-                    createMilestone.setText("Break your Project to Milestones?");
+                    if (project.getPayment_type().equals("FixedPrice")) {
 
+                        createMilestone.setText("Break your Project to Milestones?");
+
+
+                    }
+                } else {
+                    createMilestone.setVisibility(View.INVISIBLE);
 
                 }
-            } else {
-                createMilestone.setVisibility(View.INVISIBLE);
-
             }
         }
 

@@ -17,6 +17,7 @@ import androidx.fragment.app.Fragment;
 import com.example.seeker.Activities.LoginActivity;
 import com.example.seeker.Database.ApiClients;
 import com.example.seeker.EmployerMainPages.AccountRelatedActivities.EditProfileActivity;
+import com.example.seeker.EmployerMainPages.AccountRelatedActivities.SettingActivity;
 import com.example.seeker.EmployerMainPages.Emp_AccountFragment;
 import com.example.seeker.EmployerMainPages.EmployerMainActivity;
 import com.example.seeker.R;
@@ -33,6 +34,7 @@ public class Freelancer_AccountFragment extends Fragment implements View.OnClick
     Button switch_btn;
     TextView logoutBtn, name;
     LinearLayout edit_profile;
+    LinearLayout settings;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -45,6 +47,7 @@ public class Freelancer_AccountFragment extends Fragment implements View.OnClick
             fillCurrentUserData();
         switch_btn.setOnClickListener(this);
         logoutBtn.setOnClickListener(this);
+        settings.setOnClickListener(this);
 
         // Inflate the layout for this fragment
         return view;
@@ -58,6 +61,7 @@ public class Freelancer_AccountFragment extends Fragment implements View.OnClick
         edit_profile.setOnClickListener(this);
 
         name = view.findViewById(R.id.freelancer_profile_name);
+        settings = view.findViewById(R.id.settings_ll);
     }
 
 
@@ -82,6 +86,11 @@ public class Freelancer_AccountFragment extends Fragment implements View.OnClick
 
             case R.id.fr_edit_profile_ll:
                 startActivity(new Intent(Freelancer_AccountFragment.this.getActivity(), EditProfileActivity.class));
+                break;
+
+            case R.id.settings_ll:
+                startActivity(new Intent(Freelancer_AccountFragment.this.getActivity(), SettingActivity.class));
+
 
 
         }

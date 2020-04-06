@@ -17,7 +17,8 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".EmployerMainPages.AccountRelatedActivities.Payment.PaymentMethodActivity"></activity>
+        <activity android:name=".EmployerMainPages.AccountRelatedActivities.SettingActivity"></activity>
+        <activity android:name=".EmployerMainPages.AccountRelatedActivities.Payment.PaymentMethodActivity" />
         <activity android:name=".EmployerMainPages.AccountRelatedActivities.Payment.PaymentActivity" />
         <activity android:name=".EmployerMainPages.Chat_Emp.Emp_ChatMessages" />
         <activity android:name=".Activities.BaseActivity" />

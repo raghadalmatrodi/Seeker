@@ -149,10 +149,7 @@ public class Freelancer_Search_InnerUsers_Fragment extends Fragment implements F
 
     private void checkSkills(Set<Skill> skillSet, List<Freelancer> freelancers) {
 
-        if (!freelancers.isEmpty()){
-            // pendintTxt.setText("adding not empty.");
 
-        }
 
         for (Iterator<Skill> it = skillSet.iterator(); it.hasNext(); ) {
             Skill skill = it.next();
@@ -167,7 +164,6 @@ public class Freelancer_Search_InnerUsers_Fragment extends Fragment implements F
 
                         freelancersList.add(freelancers.get(j));
                         break;
-                        // pendintTxt.setText("adding.");
 
                     }
                 }
@@ -179,7 +175,7 @@ public class Freelancer_Search_InnerUsers_Fragment extends Fragment implements F
 
 
         if (freelancersList.isEmpty()){
-            // pendintTxt.setText("No freelancers in this category.");
+            pendintTxt.setText("No freelancers in this category.");
         }
         else
             findUserList();

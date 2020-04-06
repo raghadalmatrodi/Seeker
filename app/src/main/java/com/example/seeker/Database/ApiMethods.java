@@ -17,6 +17,7 @@ import com.example.seeker.Model.Responses.ApiResponse;
 import com.example.seeker.Model.Skill;
 import com.example.seeker.Model.User;
 import com.example.seeker.Model.UserSocialMedia;
+import com.example.seeker.Rating.EmployerRatesFreelancer;
 
 import java.util.List;
 import java.util.Set;
@@ -134,7 +135,7 @@ public interface ApiMethods {
 
 
         String DELETE_BID="bid/{bid_id}";
-
+        String DELETE_USER="user/{user_id}";
         String SWITCH_TYPE ="user/changeType/{id}" ;
 
         String FIND_PROJECT_BY_ID = "project/{id}";
@@ -381,6 +382,12 @@ public interface ApiMethods {
 
     @DELETE(Methods.DELETE_BID)
     Call<ApiResponse> deleteBid(@Path("bid_id") long bid_id);
+
+
+    @DELETE(Methods.DELETE_USER)
+    Call<ApiResponse> deleteUserById(@Path("user_id") long user_id);
+
+
 
     @GET(Methods.FIND_PROJECT_BY_ID)
     Call<Project> findProjectById(@Path("id") long id);
