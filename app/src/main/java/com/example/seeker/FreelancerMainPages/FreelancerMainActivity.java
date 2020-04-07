@@ -1,6 +1,7 @@
 package com.example.seeker.FreelancerMainPages;
 
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.widget.Toast;
@@ -12,7 +13,9 @@ import androidx.fragment.app.FragmentTransaction;
 
 import com.example.seeker.EmployerMainPages.Chat_Emp.Emp_MessagesFragment;
 import com.example.seeker.FreelancerMainPages.MyProjectsTab_Freelancer.Freelancer_MyProjectsFragment;
+import com.example.seeker.FreelancerMainPages.MyProjectsTab_Freelancer.Freelancer_viewProjectFragment;
 import com.example.seeker.FreelancerMainPages.SearchTab_Freelancer.Freelancer_SearchFragment;
+import com.example.seeker.Model.Project;
 import com.example.seeker.R;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
@@ -30,7 +33,32 @@ public class FreelancerMainActivity extends AppCompatActivity {
 
         BottomNavigationView navigation = (BottomNavigationView) findViewById(R.id.navigationF);
         navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
-        loadFragment(new Emp_MessagesFragment());
+        Intent intent = getIntent();
+        Project project = null;
+
+
+        if(intent.hasExtra("project")){
+         project = (Project) intent.getSerializableExtra("project");
+        }
+
+        if(intent.hasExtra("Fragment")){
+
+            if(intent.getStringExtra("Fragment").equalsIgnoreCase("project")) {
+                Fragment fragment = new Freelancer_viewProjectFragment();
+                Bundle bundle = new Bundle();
+                bundle.putSerializable("project", project);
+
+                fragment.setArguments(bundle);
+
+                loadFragment(fragment);
+        }
+        }else{
+            loadFragment(new Emp_MessagesFragment());
+
+
+        }
+
+
         // toolbar.setTitle("Home");
     }
 

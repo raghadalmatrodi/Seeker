@@ -182,8 +182,8 @@ prepareProjects();
 
 
                             if (checkToDelete(projectList.get(i).getExpiry_date())) {
-                                deleteProject(projectList.get(i));
-                                projectList.remove(i);
+//                                deleteProject(projectList.get(i));
+//                                projectList.remove(i);
                             }
 
 
