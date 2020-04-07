@@ -369,7 +369,7 @@ prepareProjects();
         SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy HH:mm:ss");
         String dateString = formatter.format(date);
         dateString = dateString.substring(0, 10);
-        if (diffDays == 0 && dateString.equals(expiryDate))
+        if (diffDays == 1 && dateString.equals(expiryDate))
             return true;
 
         return false;
@@ -391,7 +391,7 @@ prepareProjects();
 System.out.println("difference for delete is"+ diffDays);
 
 
-        if (diffDays == 1 )
+        if (diffDays == 0 )
             return true;
 
         return false;
