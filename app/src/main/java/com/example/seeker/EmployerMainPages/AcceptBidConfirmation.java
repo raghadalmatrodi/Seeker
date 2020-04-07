@@ -90,6 +90,7 @@ public class AcceptBidConfirmation extends Fragment {
                  public void onResponse(Call<ApiResponse> call, Response<ApiResponse> response) {
                      Log.i("onResponse ", response.message());
 
+                     incrementNumberOfWorkedOnPRojects(bid);
                      Fragment fragment = new Emp_MyProjectsFragment();
 
                      FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
@@ -171,4 +172,18 @@ public class AcceptBidConfirmation extends Fragment {
 //            }
 //        });
 //    }
+
+    private void incrementNumberOfWorkedOnPRojects(Bid bid){
+        ApiClients.getAPIs().CalculateNumberOfWorkedOnProjects(bid.getFreelancer().getId()).enqueue(new Callback<Void>() {
+            @Override
+            public void onResponse(Call<Void> call, Response<Void> response) {
+
+            }
+
+            @Override
+            public void onFailure(Call<Void> call, Throwable t) {
+
+            }
+        });
+    }
 }

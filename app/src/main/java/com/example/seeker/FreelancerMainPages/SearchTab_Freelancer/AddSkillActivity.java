@@ -16,6 +16,7 @@ import android.widget.ImageView;
 import android.widget.Toast;
 
 import com.example.seeker.Database.ApiClients;
+import com.example.seeker.EmployerMainPages.AccountRelatedActivities.EditProfileActivity;
 import com.example.seeker.FreelancerMainPages.AddSkillsAdapter;
 import com.example.seeker.FreelancerMainPages.FreelancerEditProfile;
 import com.example.seeker.Model.Bid;
@@ -278,7 +279,7 @@ public void executeAddSkillsRequest(){
                 Log.i(LOG, "onResponse: suc" + response.toString());
                 finish();
                 overridePendingTransition(0, 0);
-                startActivity(new Intent(getApplicationContext(), FreelancerEditProfile.class));
+                startActivity(new Intent(getApplicationContext(), EditProfileActivity.class));
                 overridePendingTransition(0, 0);
 //                Intent i = new Intent(getApplicationContext(), FreelancerEditProfile.class);
 //                startActivity(i);

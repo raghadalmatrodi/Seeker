@@ -200,18 +200,8 @@ public class ViewBid extends AppCompatActivity implements Serializable,BidsAdapt
 
 
                     int responseSize = response.body().size();
-//                    for (int i = 0; i< responseSize; i++){
-//                        if (response.body().get(i).getFreelancer() != null)
-//                        if (response.body().get(i).getFreelancer().getId() == 252){
-//                            bidList.add(response.body().get(i));
-//                        }
-//                    }
-
-
 
                     for (int i = 0; i<responseSize; i++){
-                        //todo: YOU HAVE TO GET THE FREELANCER'S INFO --> NAME, PROFILE PIC ...
-                        //TODO: CONDITION IS WRONG
                         if (response.body().get(i).getProject() != null ){
                             if (response.body().get(i).getProject().getId() == project.getId())
                                 bidList.add(response.body().get(i));
@@ -292,48 +282,6 @@ public class ViewBid extends AppCompatActivity implements Serializable,BidsAdapt
 //        adapter.notifyDataSetChanged();
     }
 
-    //    private void executeGetUserByMailRequest(){
-//        ApiClients.getAPIs().findUSerByEmailRequest("hindoo87@hotmail.com").enqueue(new Callback<Login>() {
-//            @Override
-//            public void onResponse(Call<Login> call, Response<Login> response) {
-//                if (response.isSuccessful()){
-//                    Toast.makeText(ViewBid.this,"Correct",Toast.LENGTH_SHORT).show();
-//                    tryName = response.body().getPassword()+response.body().getEmail();
-//                    t2.setText(tryName);
-//                }else{
-//                    Toast.makeText(ViewBid.this,response.errorBody().toString(),Toast.LENGTH_SHORT).show();
-//
-////                    wrongInfoDialogWithTitle(getString(R.string.something_went_wrong),response.message());
-////                    Toast.makeText(PostBidActivity.this,response.toString(),Toast.LENGTH_SHORT).show();
-//                    Converter<ResponseBody, ApiException> converter = ApiClients.getInstant().responseBodyConverter(ApiException.class, new Annotation[0]);
-//                    ApiException exception = null;
-//                    try {
-//
-//                        exception = converter.convert(response.errorBody());
-//
-//                        List<ApiError> errors = exception.getErrors();
-//
-//                        if (errors != null)
-//                            if (!errors.isEmpty())
-//                                wrongInfoDialog(errors.get(0).getMessage());
-//                        wrongInfoDialog(exception.getMessage());
-//
-//                    } catch (IOException e) {
-//                        e.printStackTrace();
-//                    }
-//
-//                }
-//
-//
-//            }
-//
-//            @Override
-//            public void onFailure(Call<Login> call, Throwable t) {
-//                Toast.makeText(ViewBid.this,t.getLocalizedMessage().toString(),Toast.LENGTH_LONG).show();
-//
-//            }
-//        });
-//    }
 
     private void wrongInfoDialog(String msg) {
         final AlertDialog.Builder alertDialog = new AlertDialog.Builder(this);

@@ -13,6 +13,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
@@ -174,9 +175,9 @@ public class Freelancer_viewProjectFragment extends Fragment implements  Emp_MyP
             @Override
             public void onClick(View v) {
 
-                if (HasBid(bids))
-                        wrongInfoDialog("Sorry, you already have placed a bid on this project..\nDelete the current bid to bid again. ");
-                    else {
+//                if (HasBid(bids))
+//                        wrongInfoDialog("Sorry, you already have placed a bid on this project..\nDelete the current bid to bid again. ");
+//                    else {
                         /**
                          * INTENT TO POST BID WITH CURRENT PROJECT
                          */
@@ -184,13 +185,20 @@ public class Freelancer_viewProjectFragment extends Fragment implements  Emp_MyP
                     intent.putExtra("currentProjObj" , project);
                     startActivity(intent);
 
+//                    findProjectById(project.getId());
+//                    setTheAdapter();
 
-                }
 
 
+//                }
 
             }
         });
+//        finish();
+//        overridePendingTransition(0, 0);
+//        startActivity(getIntent());
+//        overridePendingTransition(0, 0);
+//        getFragmentManager().beginTransaction().detach(this).attach(this).commit();
 
     }
 
@@ -340,6 +348,7 @@ public class Freelancer_viewProjectFragment extends Fragment implements  Emp_MyP
         if(isPending==1)
         adapter.showAccept();
 
+
     }
 
     @Override
@@ -420,5 +429,21 @@ public class Freelancer_viewProjectFragment extends Fragment implements  Emp_MyP
 
     }//End wrongInfoDialog()
 
+    private void findProjectById(long project_id){
+        ApiClients.getAPIs().findProjectById(project_id).enqueue(new Callback<Project>() {
+            @Override
+            public void onResponse(Call<Project> call, Response<Project> response) {
+                if (response.isSuccessful()){
+                    project = response.body();
+                    bids = response.body().getBids();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<Project> call, Throwable t) {
+
+            }
+        });
+    }
 
 }

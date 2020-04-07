@@ -135,8 +135,15 @@ public interface ApiMethods {
 
 
         String DELETE_BID="bid/{bid_id}";
-
+        String DELETE_USER="user/{user_id}";
         String SWITCH_TYPE ="user/changeType/{id}" ;
+
+        String FIND_PROJECT_BY_ID = "project/{id}";
+        String FIND_USER_BY_ID = "user/{id}";
+        String CALC_NUM_OF_POSTED_PROJECTS = "employer/posted_projects/{id}";
+        String CALC_NUM_HIRED_PROJS = "freelancer/hired_projs/{id}";
+
+
     }//End of Methods interface
 
 
@@ -191,7 +198,7 @@ public interface ApiMethods {
     Call<User> getPostPhoneNumberRequest(@Path("id") long id, @Path("phone_number") String phone_number);
 
     @POST(Methods.POST_MAROOF_ACC)
-    Call<Void> getPostMaroofAccountRequest(@Path("id") long id, @Path("maarof_account") String maarof_account);
+    Call<Freelancer> getPostMaroofAccountRequest(@Path("id") long id, @Path("maarof_account") String maarof_account);
 
     @POST(Methods.POST_NATIONAL_ID)
     Call<User> getPostNationalIdRequest(@Path("id") long id, @Path("national_id") String national_id);
@@ -252,6 +259,12 @@ public interface ApiMethods {
 
     @POST(Methods.CALC_FR_TP)
     Call<Integer> CalculateFreelancerTrustPoints(@Path("id") long id);
+
+    @POST(Methods.CALC_NUM_OF_POSTED_PROJECTS)
+    Call<Void> CalculateNumberOfPostedProjects(@Path("id") long id);
+
+    @POST(Methods.CALC_NUM_HIRED_PROJS)
+    Call<Void> CalculateNumberOfWorkedOnProjects(@Path("id") long id);
 
 
     /**
@@ -375,5 +388,17 @@ public interface ApiMethods {
 
     @DELETE(Methods.DELETE_BID)
     Call<ApiResponse> deleteBid(@Path("bid_id") long bid_id);
+
+
+    @DELETE(Methods.DELETE_USER)
+    Call<ApiResponse> deleteUserById(@Path("user_id") long user_id);
+
+
+
+    @GET(Methods.FIND_PROJECT_BY_ID)
+    Call<Project> findProjectById(@Path("id") long id);
+
+    @GET(Methods.FIND_USER_BY_ID)
+    Call<User> findUserById(@Path("id") long id);
 
 }//End of ApiMethods interface

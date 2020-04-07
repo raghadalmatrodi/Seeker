@@ -122,18 +122,8 @@ public class PaymentAdapter extends ExpandableRecyclerView.Adapter<PaymentAdapte
             stringPrice = stringPrice.substring(0, index);
             holder.price.setText(stringPrice + " SAR");
 
-            holder.payment.setText(milestone.getStatus());
-            if (milestone.getStatus().equals("0")) {
 
-//                holder.payment.setTextColor(Color.parseColor("#9e1c08"));
-                holder.payment.setText("Pay");
-            }
-            else {
 
-                holder.payment.setTextColor(Color.parseColor("#237a23"));
-                holder.payment.setText("Paid");
-
-            }
 
             holder.payment.setOnClickListener(new View.OnClickListener() {
                 @Override

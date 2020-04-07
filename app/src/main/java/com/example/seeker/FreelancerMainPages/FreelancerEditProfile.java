@@ -297,21 +297,21 @@ public class FreelancerEditProfile extends AppCompatActivity {
 
     //ZERO
     private void executeAddMaroofAccRequest(long id, String maroofAcc) {
-        ApiClients.getAPIs().getPostMaroofAccountRequest(id, maroofAcc).enqueue(new Callback<Void>() {
-            @Override
-            public void onResponse(Call<Void> call, Response<Void> response) {
-                if (response.isSuccessful())
-                    Toast.makeText(FreelancerEditProfile.this, "Success", Toast.LENGTH_LONG).show();
-                else
-                    Toast.makeText(FreelancerEditProfile.this, response.errorBody().toString(), Toast.LENGTH_LONG).show();
-            }
-
-            @Override
-            public void onFailure(Call<Void> call, Throwable t) {
-                Toast.makeText(FreelancerEditProfile.this, t.getLocalizedMessage(), Toast.LENGTH_LONG).show();
-
-            }
-        });
+//        ApiClients.getAPIs().getPostMaroofAccountRequest(id, maroofAcc).enqueue(new Callback<Void>() {
+//            @Override
+//            public void onResponse(Call<Void> call, Response<Void> response) {
+//                if (response.isSuccessful())
+//                    Toast.makeText(FreelancerEditProfile.this, "Success", Toast.LENGTH_LONG).show();
+//                else
+//                    Toast.makeText(FreelancerEditProfile.this, response.errorBody().toString(), Toast.LENGTH_LONG).show();
+//            }
+//
+//            @Override
+//            public void onFailure(Call<Void> call, Throwable t) {
+//                Toast.makeText(FreelancerEditProfile.this, t.getLocalizedMessage(), Toast.LENGTH_LONG).show();
+//
+//            }
+//        });
 
     }//end add maroof
 

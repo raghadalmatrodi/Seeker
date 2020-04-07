@@ -65,7 +65,7 @@ public class Emp_MyProjects_In_Progress_Fragment extends Fragment  implements Pr
         pendingText = view.findViewById(R.id.emp_InProgress_text);
 
 
-        pendingText.setText("No projects");
+
 
 
         return view;
@@ -176,6 +176,9 @@ public void setTheAdapter(){
         recyclerView.setNestedScrollingEnabled(true);
         DividerItemDecoration dividerItemDecoration = new DividerItemDecoration(recyclerView.getContext(), DividerItemDecoration.VERTICAL);
         recyclerView.addItemDecoration(dividerItemDecoration);
+    }else {
+        pendingText.setVisibility(View.VISIBLE);
+        pendingText.setText("No Projects");
     }
 }
 }
