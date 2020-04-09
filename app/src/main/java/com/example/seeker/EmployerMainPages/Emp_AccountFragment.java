@@ -15,6 +15,7 @@ import android.widget.TextView;
 import androidx.appcompat.app.AlertDialog;
 import androidx.fragment.app.Fragment;
 
+import com.bumptech.glide.Glide;
 import com.example.seeker.Activities.LoginActivity;
 import com.example.seeker.Database.ApiClients;
 import com.example.seeker.EmployerMainPages.AccountRelatedActivities.ContactSupportActivity;
@@ -97,6 +98,16 @@ public class Emp_AccountFragment extends Fragment implements View.OnClickListene
 
         logout = view.findViewById(R.id.profile_logout_btn);
         logout.setOnClickListener(this);
+        profile_picture= view.findViewById(R.id.profile_picture);
+
+        String userImgURL = MySharedPreference.getString(getContext(),Constants.Keys.USER_IMG,null);
+        if( userImgURL != null ){
+            Glide.with(this)
+                    .load(userImgURL)
+                    .placeholder(R.drawable.user)
+                    .into(profile_picture);
+
+        }
 
     }
 

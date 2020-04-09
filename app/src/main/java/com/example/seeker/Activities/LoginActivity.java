@@ -256,7 +256,7 @@ if(MySharedPreference.getString(LoginActivity.this,Constants.Keys.USER_CURRENT_T
         MySharedPreference.putString(this, Constants.Keys.USER_NAME, user.getUsername());
         MySharedPreference.putString(this, Constants.Keys.USER_EMAIL,  user.getEmail());
         MySharedPreference.putString(this,Constants.Keys.USER_CURRENT_TYPE,user.getCurrent_type() );
-//        MySharedPreference.putString(this, Constants.Keys.USER_IMG, user.getImage());
+        MySharedPreference.putString(this, Constants.Keys.USER_IMG, user.getAvatar());
 //        MySharedPreference.putString(this, Constants.Keys.ENABLE_NOTI, user.getEnable_noti());
 
 

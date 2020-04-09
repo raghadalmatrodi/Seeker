@@ -15,6 +15,7 @@ import com.example.seeker.Model.Milestone;
 import com.example.seeker.Model.Project;
 import com.example.seeker.Model.Responses.ApiResponse;
 import com.example.seeker.Model.Skill;
+import com.example.seeker.Model.StorageDocument;
 import com.example.seeker.Model.User;
 import com.example.seeker.Model.UserSocialMedia;
 import com.example.seeker.Rating.EmployerRatesFreelancer;
@@ -99,7 +100,8 @@ public interface ApiMethods {
 
         String POST_IMG = "user/img/{id}/{img}";
 
-        String avat = "user//avatar";
+       // String avat = "user//avatar";
+
 
 
         String GET_ALL_TP = "user/get_all_vals/{id}";
@@ -135,13 +137,18 @@ public interface ApiMethods {
 
 
         String DELETE_BID="bid/{bid_id}";
-        String DELETE_USER="user/{user_id}";
+
+        //غيرت الباث لان كان نفس فايند يوزر كذا اذا جيت ادور يوزر بيحذفه
+        String DELETE_USER="user/deleteUser/{user_id}";
+
         String SWITCH_TYPE ="user/changeType/{id}" ;
 
         String FIND_PROJECT_BY_ID = "project/{id}";
         String FIND_USER_BY_ID = "user/{id}";
         String CALC_NUM_OF_POSTED_PROJECTS = "employer/posted_projects/{id}";
         String CALC_NUM_HIRED_PROJS = "freelancer/hired_projs/{id}";
+
+        String UPLOAD_AVATAR = "user/avatar/{id}";
 
 
     }//End of Methods interface
@@ -219,9 +226,9 @@ public interface ApiMethods {
 
     @POST(Methods.POST_IMG)
     Call<Void> getPostImgRequest(@Path("id") long id, @Path("img") byte[] img);
-
-    @POST(Methods.avat)
-    Call<Void> postAvat(@Part("avatar") MultipartBody file);
+//
+//    @POST(Methods.avat)
+//    Call<Void> postAvat(@Part("avatar") MultipartBody file);
 
 
     //NEW WORKING ONES
@@ -400,5 +407,11 @@ public interface ApiMethods {
 
     @GET(Methods.FIND_USER_BY_ID)
     Call<User> findUserById(@Path("id") long id);
+
+
+    @Multipart
+    @POST(Methods.UPLOAD_AVATAR)
+    Call<StorageDocument> uploadAvatar(@Path ("id") long id, @Part MultipartBody.Part Avatar);
+
 
 }//End of ApiMethods interface

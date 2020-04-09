@@ -12,6 +12,8 @@ public class User implements Serializable,IUser {
     private String password;
     private Set<Role> roles;
     private String email;
+    private StorageDocument avatar;
+
     private String phone_number;
     private String national_id;
     private String rating;
@@ -20,6 +22,7 @@ public class User implements Serializable,IUser {
     private String facebook;
     private String linkedIn;
     private String education;
+
 
     public User(long id, String username, Set<Role> roles, String email, String phone_number, String national_id, String rating, String current_type, String twitter, String facebook, String linkedIn, String education) {
         this.id = id;
@@ -32,6 +35,7 @@ public class User implements Serializable,IUser {
         this.current_type = current_type;
         this.twitter = twitter;
         this.facebook = facebook;
+
         this.linkedIn = linkedIn;
         this.education = education;
     }
@@ -88,9 +92,15 @@ public class User implements Serializable,IUser {
 
     @Override
     public String getAvatar() {
-        return null;
+        if(avatar !=null)
+        return avatar.getUrl();
+        else
+       return null;
     }
 
+    public void setAvatar(StorageDocument avatar) {
+        this.avatar = avatar;
+    }
 
     public Set<Role> getRoles() {
         return roles;

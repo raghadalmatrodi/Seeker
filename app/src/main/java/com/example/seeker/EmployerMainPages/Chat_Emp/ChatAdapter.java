@@ -1,6 +1,7 @@
 package com.example.seeker.EmployerMainPages.Chat_Emp;
 
 import android.content.Context;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -9,6 +10,7 @@ import android.widget.TextView;
 
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.bumptech.glide.Glide;
 import com.example.seeker.Model.Chat;
 import com.example.seeker.Model.ChatMessage;
 import com.example.seeker.R;
@@ -39,7 +41,7 @@ public class ChatAdapter extends RecyclerView.Adapter<ChatAdapter.MyViewHolder> 
             name =  view.findViewById(R.id.user_name);
            email =  view.findViewById(R.id.user_last_chat);
 
-            thumbnail = view.findViewById(R.id.student_image);
+            thumbnail = view.findViewById(R.id.user_image);
             recyclerView =  view.findViewById(R.id.chats_recyclerview);
             //todo
 
@@ -98,8 +100,23 @@ public class ChatAdapter extends RecyclerView.Adapter<ChatAdapter.MyViewHolder> 
         if(MySharedPreference.getLong(mContext, Constants.Keys.USER_ID,-1) == chatsId){
 
             holder.name.setText(chats.get(position).getSecondUser().getUsername());
+
+            if( chats.get(position).getSecondUser().getAvatar() != null ){
+                Glide.with(mContext)
+                        .load(chats.get(position).getSecondUser().getAvatar())
+                        .placeholder(R.drawable.user)
+                        .into(holder.thumbnail);
+            }
+
         }else{
             holder.name.setText(chats.get(position).getFirstUser().getUsername());
+
+            if( chats.get(position).getFirstUser().getAvatar() != null ){
+                Glide.with(mContext)
+                        .load(chats.get(position).getFirstUser().getAvatar())
+                        .placeholder(R.drawable.user)
+                        .into(holder.thumbnail);
+            }
         }
 
        if(chatMessages!=null){

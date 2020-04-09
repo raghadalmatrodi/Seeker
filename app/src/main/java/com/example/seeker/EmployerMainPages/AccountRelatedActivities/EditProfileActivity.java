@@ -27,17 +27,23 @@ import android.widget.RatingBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.bumptech.glide.Glide;
 import com.example.seeker.Activities.ParentEditProfileActivity;
 import com.example.seeker.Database.ApiClients;
 import com.example.seeker.FreelancerMainPages.FreelancerEditProfile;
 import com.example.seeker.FreelancerMainPages.SearchTab_Freelancer.AddSkillActivity;
 import com.example.seeker.Model.Employer;
 import com.example.seeker.Model.Freelancer;
+import com.example.seeker.Model.Project;
+import com.example.seeker.Model.Responses.ApiResponse;
 import com.example.seeker.Model.Skill;
+import com.example.seeker.Model.StorageDocument;
 import com.example.seeker.Model.User;
+import com.example.seeker.PostProject.ProjectInformationFragment;
 import com.example.seeker.R;
 import com.example.seeker.SharedPref.Constants;
 import com.example.seeker.SharedPref.MySharedPreference;
+import com.google.gson.Gson;
 
 import java.io.ByteArrayOutputStream;
 import java.io.File;
@@ -46,13 +52,22 @@ import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
+import java.nio.file.Files;
+import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+import javax.net.ssl.HostnameVerifier;
+
+import okhttp3.MediaType;
+import okhttp3.MultipartBody;
+import okhttp3.OkHttpClient;
+import okhttp3.RequestBody;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
+import retrofit2.http.Multipart;
 
 
 public class EditProfileActivity extends ParentEditProfileActivity {
@@ -226,6 +241,19 @@ public class EditProfileActivity extends ParentEditProfileActivity {
         userImg = findViewById(R.id.edit_profile_pic);
 
         exclamation_icon = findViewById(R.id.exclamation);
+
+
+        String userImgURL = MySharedPreference.getString(getApplicationContext(),Constants.Keys.USER_IMG,null);
+        Log.i(LOG,"the user image :" + userImgURL);
+
+        if( userImgURL != null ){
+            Glide.with(this)
+                    .load(userImgURL)
+                    .placeholder(R.drawable.user)
+                    .into(userImg);
+
+        }
+
         exclamation_icon.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -735,7 +763,13 @@ public class EditProfileActivity extends ParentEditProfileActivity {
                     fromBitmapToFile(bitmap);
                     byte[] img = ImageToByte(imageFile);
 
-                    postImg(current_user_id, img);
+                    current_user_id = MySharedPreference.getLong(getApplicationContext(),Constants.Keys.USER_ID,-1);
+                    Log.i(LOG, "onResponse : notSuccessful  " + current_user_id);
+
+                    uploadAvatar(current_user_id, imageFile);
+
+
+//                    postImg(current_user_id, img);
 
 //                    MySharedPreference.putString(this, Constants.Keys.USER_IMG, bitmap.toString());
 //
@@ -753,6 +787,63 @@ public class EditProfileActivity extends ParentEditProfileActivity {
 
 
     }//End onActivityResult()
+
+    private void uploadAvatar(Long id, File imageFile) {
+        MultipartBody.Part body =null;
+        try {
+          body = MultipartBody.Part.createFormData("avatar", imageFile.getName(), RequestBody
+                            .create(MediaType.parse(Files.probeContentType(imageFile.toPath()).toString()), imageFile) );
+
+//            ApiClients.getAPIs().uploadAvatar(id,body).enqueue(new Callback<ApiResponse>() {
+//                @Override
+//                public void onResponse(Call<ApiResponse> call, Response<ApiResponse> response) {
+//                    if(response.isSuccessful()) {
+//                        Log.i(LOG, "onResponse : Success" + response.message());
+////                        StorageDocument storageDocument = (StorageDocument) response.body();
+////                        MySharedPreference.putBoolean(getApplicationContext(),Constants.Keys.USER_IMG,response.body());
+//                    }else{
+//                        Log.i(LOG, "onResponse : not Success" + response.message() + id);
+//
+//                    }
+//
+//                }
+//
+//                @Override
+//                public void onFailure(Call<ApiResponse> call, Throwable t) {
+//                    Log.i(LOG, "onResponse : not Success" + t.getMessage());
+//
+//                }
+//            });
+    ApiClients.getAPIs().uploadAvatar(id,body).enqueue(new Callback<StorageDocument>() {
+    @Override
+    public void onResponse(Call<StorageDocument> call, Response<StorageDocument> response) {
+                            if(response.isSuccessful()) {
+                        Log.i(LOG, "onResponse : Success" + response.message());
+                        StorageDocument storageDocument = response.body();
+                        MySharedPreference.putString(getApplicationContext(),Constants.Keys.USER_IMG,storageDocument.getUrl());
+                                Log.i(LOG, "onResponse : Success the picture " + storageDocument.getUrl());
+
+                            }else{
+                        Log.i(LOG, "onResponse : not Success" + response.message() + id);
+
+                    }
+    }
+
+    @Override
+    public void onFailure(Call<StorageDocument> call, Throwable t) {
+            Log.i(LOG, "onResponse : not Success" + t.getMessage());
+
+        }
+        });
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+
+    }
+
+
+
 
 //    private void post(File file){
 //        ApiClients.getAPIs().postAvat(file).enqueue(new Callback<Void>() {

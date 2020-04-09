@@ -8,12 +8,14 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import androidx.appcompat.app.AlertDialog;
 import androidx.fragment.app.Fragment;
 
+import com.bumptech.glide.Glide;
 import com.example.seeker.Activities.LoginActivity;
 import com.example.seeker.Database.ApiClients;
 import com.example.seeker.EmployerMainPages.AccountRelatedActivities.EditProfileActivity;
@@ -35,6 +37,7 @@ public class Freelancer_AccountFragment extends Fragment implements View.OnClick
     TextView logoutBtn, name;
     LinearLayout edit_profile;
     LinearLayout settings;
+    ImageView profile_picture;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -62,6 +65,16 @@ public class Freelancer_AccountFragment extends Fragment implements View.OnClick
 
         name = view.findViewById(R.id.freelancer_profile_name);
         settings = view.findViewById(R.id.settings_ll);
+        profile_picture = view.findViewById(R.id.profile_picture);
+
+        String userImgURL = MySharedPreference.getString(getContext(),Constants.Keys.USER_IMG,null);
+        if( userImgURL != null ){
+            Glide.with(this)
+                    .load(userImgURL)
+                    .placeholder(R.drawable.user)
+                    .into(profile_picture);
+
+        }
     }
 
 
