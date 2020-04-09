@@ -75,6 +75,7 @@ public class Freelancer_AccountFragment extends Fragment implements View.OnClick
                     .placeholder(R.drawable.user).apply(RequestOptions.circleCropTransform())
                     .into(profile_picture);
 
+
         }
     }
 

@@ -20,6 +20,7 @@ public class PaymentMethodActivity extends AppCompatActivity {
     public TextView price;
     public Button payment;
     Milestone milestone;
+    Button payButton;
 
 
         @Override
@@ -32,6 +33,12 @@ public class PaymentMethodActivity extends AppCompatActivity {
             Intent intent = getIntent();
              milestone = (Milestone) intent.getSerializableExtra("milestone");
             setInfo();
+            payButton.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    
+                }
+            });
 
         backBtn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -62,6 +69,7 @@ public class PaymentMethodActivity extends AppCompatActivity {
         deadline = findViewById(R.id.row_milestone_deadline);
         price = findViewById(R.id.row_milestone_price);
         payment = findViewById(R.id.row_milestone_payment);
+        payButton = findViewById(R.id.payButton);
 
     }
 

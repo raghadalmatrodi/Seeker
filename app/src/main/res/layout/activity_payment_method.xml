@@ -84,5 +84,17 @@
             android:textSize="17sp"
             app:layout_constraintStart_toEndOf="@id/row_milestone_deadline"
             app:layout_constraintTop_toTopOf="parent" />
+
+        <Button
+            android:id="@+id/payButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/rounded_background"
+            android:text="Pay"
+            tools:layout_editor_absoluteX="159dp"
+            tools:layout_editor_absoluteY="243dp"
+            tools:ignore="MissingConstraints" />
+
+
     </androidx.constraintlayout.widget.ConstraintLayout>
 </LinearLayout>
