@@ -2,6 +2,11 @@ package com.example.seeker.Rating;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.app.Dialog;
+import android.content.Context;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
+import android.icu.text.DecimalFormat;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -15,8 +20,6 @@ import com.example.seeker.Model.EmployerRating;
 import com.example.seeker.Model.Freelancer;
 import com.example.seeker.Model.Responses.ApiResponse;
 import com.example.seeker.R;
-
-import org.w3c.dom.Text;
 
 import java.util.List;
 
@@ -58,13 +61,24 @@ public class FreelancerRatesEmployer extends AppCompatActivity {
      */
 
 
+    Button showIt;
+    TextView tv, mytot;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_freelancer_rating);
+        setContentView(R.layout.activity_test);
+//        setContentView(R.layout.activity_freelancer_rating);
+        showIt = findViewById(R.id.show_d);
+        tv = findViewById(R.id.tv);
+        mytot = findViewById(R.id.mytot);
 
-        init();
-
+        showIt.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+            ShowCustomDialog(FreelancerRatesEmployer.this);
+            }
+        });
+//        init();
 
     }
 
@@ -132,7 +146,7 @@ public class FreelancerRatesEmployer extends AppCompatActivity {
                 RateTheEmp(professionalismE , onTimePaymentE , responseTimeE);
 
 
-                perfomRateEmployerRequest(new EmployerRating(responseTimeE, professionalismE, onTimePaymentE, freelancer, employer));
+                performRateEmployerRequest(new EmployerRating(responseTimeE, professionalismE, onTimePaymentE, freelancer, employer));
 //                Toast.makeText(FreelancerRatesEmployer.this,"emp total = "+empTotalRates,Toast.LENGTH_LONG).show();
 
 //                Toast.makeText(FreelancerRatesEmployer.this,"number of rating = "+num_of_ratings+"\n response time = "+response_time+"\n total otp = "+total_on_time_payment,Toast.LENGTH_LONG).show();
@@ -146,28 +160,122 @@ public class FreelancerRatesEmployer extends AppCompatActivity {
 
     }
 
+    TextView q1, q2, q3, total;
+    RatingBar r1, r2, r3, t;
+    Button finish;
+
+    public void ShowCustomDialog(Context c) {
+
+        Dialog rankDialog = new Dialog(c);
+        rankDialog.setContentView(R.layout.dialog_test);
+        rankDialog.setCancelable(false);
+        rankDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+
+
+        total = findViewById(R.id.tv);
+
+        r1 = rankDialog.findViewById(R.id.rbq_one);
+        r2 = rankDialog.findViewById(R.id.rbq_two);
+        r3  = rankDialog.findViewById(R.id.rbq_three);
+//        ratingBar.setRating(userRankValue);
+
+        q1 = rankDialog.findViewById(R.id.rq_one);
+        q2 = rankDialog.findViewById(R.id.rq_two);
+        q3 = rankDialog.findViewById(R.id.rq_three);
+
+        finish = rankDialog.findViewById(R.id.finish);
+
+        setUpQs();
+        /**
+        * everything after init
+        * */
+
+        r1.setOnRatingBarChangeListener(new RatingBar.OnRatingBarChangeListener() {
+            @Override
+            public void onRatingChanged(RatingBar ratingBar, float rating, boolean fromUser) {
+                professionalismE = (int)ratingBar.getRating();
+            }
+        });
+
+        r2.setOnRatingBarChangeListener(new RatingBar.OnRatingBarChangeListener() {
+            @Override
+            public void onRatingChanged(RatingBar ratingBar, float rating, boolean fromUser) {
+                onTimePaymentE = (int)ratingBar.getRating();
+            }
+        });
+
+
+        r3.setOnRatingBarChangeListener(new RatingBar.OnRatingBarChangeListener() {
+            @Override
+            public void onRatingChanged(RatingBar ratingBar, float rating, boolean fromUser) {
+                responseTimeE = (int)ratingBar.getRating();
+            }
+        });
+
+
+//
+//        professionalismE = q1Rating.getRating();
+//        onTimePaymentE = q2Rating.getRating();
+//        responseTimeE =  q3Rating.getRating();
+
+
+        Employer employer = new Employer(empId);
+        Freelancer freelancer = new Freelancer(frId);
+
+        getEmployerTotalRatingVal(empId);
+        getRatingValues(empId);
+
+
+
+
+        finish.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                total.setText("prof= "+professionalismE+" , otp= "+ onTimePaymentE+" , res time= "+responseTimeE);
+                RateTheEmp(professionalismE , onTimePaymentE , responseTimeE);
+
+
+                performRateEmployerRequest(new EmployerRating(responseTimeE, professionalismE, onTimePaymentE, freelancer, employer));
+//                Toast.makeText(FreelancerRatesEmployer.this,"emp total = "+empTotalRates,Toast.LENGTH_LONG).show();
+
+//                Toast.makeText(FreelancerRatesEmployer.this,"number of rating = "+num_of_ratings+"\n response time = "+response_time+"\n total otp = "+total_on_time_payment,Toast.LENGTH_LONG).show();
+
+
+                rankDialog.dismiss();
+            }
+        });
+
+
+
+//        Button updateButton = (Button) rankDialog.findViewById(R.id.finish);
+//        updateButton.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//
+//                double avg = ratingBar.getProgress();
+//                idk.setText(new DecimalFormat("##.##").format(avg) + "avg ");
+//
+//                rankDialog.dismiss();
+//            }
+//        });
+        //now that the dialog is set up, it's time to show it
+        rankDialog.show();
+
+    }
+
+
 
     private void setUpQs() {
 
-        question1.setText(R.string.emp_professionalisim_rating_q);
-        question2.setText(R.string.emp_otp_rating_q);
-        question3.setText(R.string.emp_response_time_rating_q);
+        q1.setText(R.string.emp_professionalisim_rating_q);
+        q2.setText(R.string.emp_otp_rating_q);
+        q3.setText(R.string.emp_response_time_rating_q);
 
-//        questionsTv.setText("How well do you rate the employer’s professionalism");
-//        q1 = questionsRating.getRating();
-//
-//        nextBtn.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                counter++;
-//                questionsRating.setRating(0);
-//                questionsTv.setText("How well do you rate the employer's on time payment");
-//
-//                q2 = questionsRating.getRating();
-//
-//
-//            }
-//        });
+
+//        question1.setText(R.string.emp_professionalisim_rating_q);
+//        question2.setText(R.string.emp_otp_rating_q);
+//        question3.setText(R.string.emp_response_time_rating_q);
 
     }
 
@@ -207,9 +315,7 @@ public class FreelancerRatesEmployer extends AppCompatActivity {
      *
      */
 
-//    private float professionalismE, onTimePaymentE, communicationSkillsE;
-//    private float ratingEmp =0, totalRatingEmp =0, numOfEmpRating=0;
-//    private float avg=0;
+
 
 
     private void getEmployerTotalRatingVal(long id){
@@ -268,19 +374,9 @@ public class FreelancerRatesEmployer extends AppCompatActivity {
     }
 
 
-    /**
-     *    float empTotalRates;
-
-     *     //Values will be returned in this order
-     *     private int  num_of_ratings;
-     *     private int  response_time;
-     *     private int  total_on_time_payment;
-     *
-     */
-
 
     public void RateTheEmp(int professionalismE , int onTimePaymentE, int responseTimeE){
-         float ratingEmp, totalRatingEmp =0, numOfEmpRating=0;
+         float ratingEmp;
          float avg;
         //Q1 -> professionalism
         //Q2 -> on time payment
@@ -295,16 +391,13 @@ public class FreelancerRatesEmployer extends AppCompatActivity {
 
         avg = empTotalRates/ ((float)num_of_ratings);
 
-        totalRatingTv.setText("total rating"+ avg);
-        tot.setRating(avg);
+//        totalRatingTv.setText("total rating"+ avg);
+        mytot.setText("total rating"+ avg);
+//        tot.setRating(avg);
 
 //        long id, int num_of_ratings, int response_time, int total_on_time_payment, float total_emp_ratings
         setRatingValues(new Employer(empId, num_of_ratings, response_time, total_on_time_payment, empTotalRates));
 
-        /**for statistics i need to:
-         *  1- get total response time and increase it by new res time then set the total to te summation of them
-         *  2- get on time payment and increase it by new otp  then set the total to te summation of them
-         */
 
     }
 
@@ -331,64 +424,7 @@ public class FreelancerRatesEmployer extends AppCompatActivity {
     }
 
 
-    float avgRating, userRating;
-
-//    float ratingE, totalRatingE, numOfEmployerRating;
-//    float ratingF, totalRatingF, numOfFreelancerRating;
-
-//    public float RateEmp(float professionalismE, float onTimePaymentE, float communicationSkillsE ){
-//
-//        ratingE = (professionalismE + onTimePaymentE + communicationSkillsE)/3;
-//        totalRatingE+= ratingE;
-//        numOfEmployerRating = numOfEmployerRating+1;
-//        avgRating = totalRatingE/numOfEmployerRating;
-//        userRating = avgRating;
-//
-//        return userRating;
-//
-//    }
-//
-//
-//
-//    public float RateFr(float qualityOfWorkF, float professionalismF, float coherenceAndRespectOfDeadlinesF, float selectedBudgetF, float communicationSkillsF){
-//
-//        ratingF= (qualityOfWorkF+ professionalismF+ coherenceAndRespectOfDeadlinesF+ selectedBudgetF + communicationSkillsF)/5;
-//        totalRatingF+= ratingF;
-//        numOfFreelancerRating= numOfFreelancerRating+1;
-//        avgRating= totalRatingF /numOfFreelancerRating;
-//        userRating = avgRating;
-//        return userRating;
-//
-//    }
-//
-//    public float UserRating(String ratingUser, float professionalismE, float onTimePaymentE, float communicationSkillsE, float qualityOfWorkF, float professionalismF, float coherenceAndRespectOfDeadlinesF, float selectedBudgetF, float communicationSkillsF){
-//
-//        if (ratingUser.equals("employer")){
-//            ratingE = (professionalismE + onTimePaymentE + communicationSkillsE)/3;
-//            totalRatingE+= ratingE;
-//            numOfEmployerRating = numOfEmployerRating+1;
-//            avgRating = totalRatingE/numOfEmployerRating;
-//            userRating = avgRating;
-//
-//
-//
-//        }
-//        if (ratingUser.equals("freelancer")){
-//            ratingF= (qualityOfWorkF+ professionalismF+ coherenceAndRespectOfDeadlinesF+ selectedBudgetF + communicationSkillsF)/5;
-//            totalRatingF+= ratingF;
-//            numOfFreelancerRating= numOfFreelancerRating+1;
-//            avgRating= totalRatingF /numOfFreelancerRating;
-//            userRating = avgRating;
-//        }
-//
-//        return userRating;
-//
-//    }
-//
-//
-
-
-    private void perfomRateEmployerRequest(EmployerRating employerRating){
+    private void performRateEmployerRequest(EmployerRating employerRating){
 
         ApiClients.getAPIs().getRateEmployerRequest(employerRating).enqueue(new Callback<ApiResponse>() {
             @Override

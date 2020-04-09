@@ -133,14 +133,14 @@
                     <ProgressBar
                         android:id="@+id/TPprogressBar"
                         android:layout_width="50dp"
-        android:layout_marginTop="20dp"
-        android:layout_marginEnd="28dp"
+                        android:layout_marginTop="20dp"
+                        android:layout_marginEnd="28dp"
                         android:layout_height="50dp"
                         android:indeterminate="false"
                         android:progressDrawable="@drawable/circular_progress_bar"
                         android:background="@drawable/pdialog_circle_shape"
                         style="?android:attr/progressBarStyleHorizontal"
-            app:layout_constraintEnd_toEndOf="@id/first_ll"
+                        app:layout_constraintEnd_toEndOf="@id/first_ll"
                         app:layout_constraintTop_toTopOf="@id/first_ll"
                         android:max="100"
                         />
@@ -250,10 +250,12 @@
 <!--                android:layout_marginStart="10dp"-->
 <!--                />-->
 
+
+
             <TextView
                 android:id="@+id/emp_AsFreelancer_numOfWorkedOnProjects"
-                android:layout_width="40dp"
-                android:layout_height="40dp"
+                android:layout_width="45dp"
+                android:layout_height="45dp"
                 android:layout_marginLeft="43dp"
                 android:layout_marginTop="20dp"
                 android:layout_marginRight="500dp"
@@ -275,41 +277,58 @@
         </LinearLayout>
 
 
-        <LinearLayout
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/fr_avg_rt_cl"
             android:layout_width="125dp"
             android:layout_height="match_parent"
             android:layout_gravity="center_horizontal"
             android:orientation="vertical">
 
 
-
+            <ProgressBar
+                android:id="@+id/fr_avg_RT_pb"
+                android:layout_width="50dp"
+                android:layout_marginTop="15dp"
+                android:layout_height="50dp"
+                android:indeterminate="false"
+                android:progressDrawable="@drawable/circular_progress_bar"
+                android:background="@drawable/pdialog_circle_shape"
+                style="?android:attr/progressBarStyleHorizontal"
+                app:layout_constraintEnd_toEndOf="@id/fr_avg_rt_cl"
+                app:layout_constraintTop_toTopOf="@id/fr_avg_rt_cl"
+                app:layout_constraintStart_toStartOf="@id/fr_avg_rt_cl"
+                android:max="100"
+                />
 
             <TextView
                 android:id="@+id/emp_AsFreelancer_AvgResponseTime"
                 android:layout_width="40dp"
                 android:layout_height="40dp"
-                android:layout_marginTop="20dp"
-                android:layout_marginRight="500dp"
-                android:layout_marginLeft="43dp"
-                android:background="@drawable/circle_shape"
+                app:layout_constraintStart_toStartOf="@+id/fr_avg_RT_pb"
+                app:layout_constraintTop_toTopOf="@+id/fr_avg_RT_pb"
+                app:layout_constraintEnd_toEndOf="@+id/fr_avg_RT_pb"
+                app:layout_constraintBottom_toBottomOf="@+id/fr_avg_RT_pb"
                 android:gravity="center"
-                android:text="90%"
+                android:text="%"
                 android:textColor="#000"
-                android:textSize="15sp" />
+                android:textSize="14sp" />
 
             <TextView
-                android:layout_width="113dp"
+                android:layout_width="wrap_content"
                 android:layout_height="37dp"
-                android:layout_marginLeft="12dp"
                 android:gravity="center"
-                android:text="Average\nresponse time"
+                android:text="Average\n response time"
+                app:layout_constraintTop_toBottomOf="@id/fr_avg_RT_pb"
+                app:layout_constraintEnd_toEndOf="@id/fr_avg_rt_cl"
+                app:layout_constraintStart_toStartOf="@id/fr_avg_rt_cl"
                 android:textColor="#000"
                 android:textSize="12sp" />
 
-        </LinearLayout>
+        </androidx.constraintlayout.widget.ConstraintLayout>
 
 
-        <LinearLayout
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/fr_avg_q_cl"
             android:layout_width="125dp"
             android:layout_height="match_parent"
             android:layout_gravity="center_horizontal"
@@ -317,31 +336,46 @@
 
 
 
+            <ProgressBar
+                android:id="@+id/fr_avg_quality_pb"
+                android:layout_width="50dp"
+                android:layout_marginTop="15dp"
+                android:layout_height="50dp"
+                android:indeterminate="false"
+                android:progressDrawable="@drawable/circular_progress_bar"
+                android:background="@drawable/pdialog_circle_shape"
+                style="?android:attr/progressBarStyleHorizontal"
+                app:layout_constraintEnd_toEndOf="@id/fr_avg_q_cl"
+                app:layout_constraintTop_toTopOf="@id/fr_avg_q_cl"
+                app:layout_constraintStart_toStartOf="@id/fr_avg_q_cl"
+                android:max="100"
+                />
 
             <TextView
                 android:id="@+id/emp_AsFreelancer_avgQuality"
                 android:layout_width="40dp"
                 android:layout_height="40dp"
-
-                android:layout_marginTop="20dp"
-                android:layout_marginRight="500dp"
-                android:layout_marginLeft="43dp"
-                android:background="@drawable/circle_shape"
                 android:gravity="center"
-                android:text="90%"
+                android:text="%"
+                app:layout_constraintStart_toStartOf="@+id/fr_avg_quality_pb"
+                app:layout_constraintTop_toTopOf="@+id/fr_avg_quality_pb"
+                app:layout_constraintEnd_toEndOf="@+id/fr_avg_quality_pb"
+                app:layout_constraintBottom_toBottomOf="@+id/fr_avg_quality_pb"
                 android:textColor="#000"
-                android:textSize="15sp" />
+                android:textSize="14sp" />
 
             <TextView
-                android:layout_width="113dp"
+                android:layout_width="wrap_content"
                 android:layout_height="37dp"
-                android:layout_marginLeft="12dp"
                 android:gravity="center"
-                android:text="Average\nquality of work"
+                app:layout_constraintTop_toBottomOf="@id/fr_avg_quality_pb"
+                app:layout_constraintEnd_toEndOf="@id/fr_avg_q_cl"
+                app:layout_constraintStart_toStartOf="@id/fr_avg_q_cl"
+                android:text="Average\n quality of work"
                 android:textColor="#000"
                 android:textSize="12sp" />
 
-        </LinearLayout>
+        </androidx.constraintlayout.widget.ConstraintLayout>
 
     </LinearLayout>
     <LinearLayout
@@ -374,8 +408,8 @@
 
             <TextView
                 android:id="@+id/emp_AsEmployer_NumOfProjects"
-                android:layout_width="40dp"
-                android:layout_height="40dp"
+                android:layout_width="45dp"
+                android:layout_height="45dp"
 
                 android:layout_marginTop="20dp"
                 android:layout_marginRight="500dp"
@@ -398,72 +432,103 @@
         </LinearLayout>
 
 
-        <LinearLayout
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/emp_avg_rt_cl"
             android:layout_width="125dp"
             android:layout_height="match_parent"
             android:layout_gravity="center_horizontal"
             android:orientation="vertical">
 
 
+            <ProgressBar
+                android:id="@+id/emp_avg_rt_pb"
+                android:layout_width="50dp"
+                android:layout_marginTop="15dp"
+                android:layout_height="50dp"
+                android:indeterminate="false"
+                android:progressDrawable="@drawable/circular_progress_bar"
+                android:background="@drawable/pdialog_circle_shape"
+                style="?android:attr/progressBarStyleHorizontal"
+                app:layout_constraintEnd_toEndOf="@id/emp_avg_rt_cl"
+                app:layout_constraintTop_toTopOf="@id/emp_avg_rt_cl"
+                app:layout_constraintStart_toStartOf="@id/emp_avg_rt_cl"
+                android:max="100"
+                />
 
             <TextView
                 android:id="@+id/emp_AsEmployerr_AvgResponseTime"
                 android:layout_width="40dp"
                 android:layout_height="40dp"
-
-                android:layout_marginTop="20dp"
-                android:layout_marginRight="500dp"
-                android:layout_marginLeft="43dp"
-                android:background="@drawable/circle_shape"
                 android:gravity="center"
-                android:text="90%"
+                app:layout_constraintStart_toStartOf="@+id/emp_avg_rt_pb"
+                app:layout_constraintTop_toTopOf="@+id/emp_avg_rt_pb"
+                app:layout_constraintEnd_toEndOf="@+id/emp_avg_rt_pb"
+                app:layout_constraintBottom_toBottomOf="@+id/emp_avg_rt_pb"
+                android:text="%"
                 android:textColor="#000"
-                android:textSize="15sp" />
+                android:textSize="14sp" />
 
             <TextView
-                android:layout_width="113dp"
+                android:layout_width="wrap_content"
                 android:layout_height="37dp"
-                android:layout_marginLeft="12dp"
                 android:gravity="center"
                 android:text="Average\n response time"
+                app:layout_constraintTop_toBottomOf="@+id/emp_avg_rt_pb"
+                app:layout_constraintEnd_toEndOf="@id/emp_avg_rt_cl"
+                app:layout_constraintStart_toStartOf="@id/emp_avg_rt_cl"
                 android:textColor="#000"
                 android:textSize="12sp" />
 
-        </LinearLayout>
+        </androidx.constraintlayout.widget.ConstraintLayout>
 
 
-        <LinearLayout
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/emp_otp_cl"
             android:layout_width="125dp"
             android:layout_height="match_parent"
             android:layout_gravity="center_horizontal"
             android:orientation="vertical">
 
 
-
+            <ProgressBar
+                android:id="@+id/emp_otp_pb"
+                android:layout_width="50dp"
+                android:layout_marginTop="15dp"
+                android:layout_height="50dp"
+                android:indeterminate="false"
+                android:progressDrawable="@drawable/circular_progress_bar"
+                android:background="@drawable/pdialog_circle_shape"
+                style="?android:attr/progressBarStyleHorizontal"
+                app:layout_constraintEnd_toEndOf="@id/emp_otp_cl"
+                app:layout_constraintTop_toTopOf="@id/emp_otp_cl"
+                app:layout_constraintStart_toStartOf="@id/emp_otp_cl"
+                android:max="100"
+                />
             <TextView
                 android:id="@+id/emp_AsEmployer_AvgOtp"
                 android:layout_width="40dp"
                 android:layout_height="40dp"
-
-                android:layout_marginTop="20dp"
-                android:layout_marginRight="500dp"
-                android:layout_marginLeft="43dp"
-                android:background="@drawable/circle_shape"
+                app:layout_constraintStart_toStartOf="@+id/emp_otp_pb"
+                app:layout_constraintTop_toTopOf="@+id/emp_otp_pb"
+                app:layout_constraintEnd_toEndOf="@+id/emp_otp_pb"
+                app:layout_constraintBottom_toBottomOf="@+id/emp_otp_pb"
                 android:gravity="center"
                 android:text="90%"
                 android:textColor="#000"
                 android:textSize="15sp" />
 
             <TextView
-                android:layout_width="113dp"
+                android:layout_width="wrap_content"
                 android:layout_height="37dp"
-                android:layout_marginLeft="12dp"
                 android:gravity="center"
-                android:text="Average\non-time payments"
+                app:layout_constraintTop_toBottomOf="@+id/emp_otp_pb"
+                app:layout_constraintEnd_toEndOf="@id/emp_otp_cl"
+                app:layout_constraintStart_toStartOf="@id/emp_otp_cl"
+                android:text="Average\n on-time payments"
                 android:textColor="#000"
                 android:textSize="12sp" />
 
-        </LinearLayout>
+        </androidx.constraintlayout.widget.ConstraintLayout>
 
           </LinearLayout>
 
@@ -518,16 +583,30 @@
 <!--            app:layout_constraintTop_toTopOf="@id/social_media_text" />-->
 
         <EditText
-            android:id="@+id/linkedin_link"
-            android:layout_width="180dp"
+            android:id="@+id/base_linkedin_link"
+            android:layout_width="wrap_content"
             android:layout_height="35dp"
             android:layout_marginStart="18dp"
+            android:text="www.linkedin.com/in/"
+            android:padding="5dp"
+            android:textColor="#000"
+            android:editable="false"
+            android:textSize="10sp"
+            app:layout_constraintStart_toEndOf="@id/linkedin"
+            app:layout_constraintTop_toTopOf="@id/linkedin" />
+
+
+        <EditText
+            android:id="@+id/linkedin_link"
+            android:layout_width="80dp"
+            android:layout_height="35dp"
+            android:layout_marginStart="-5dp"
             android:text="NA"
             android:padding="5dp"
             android:textColor="#000"
-            android:textSize="12sp"
-            app:layout_constraintStart_toEndOf="@id/linkedin"
-            app:layout_constraintTop_toTopOf="@id/linkedin" />
+            android:textSize="10sp"
+            app:layout_constraintStart_toEndOf="@id/base_linkedin_link"
+            app:layout_constraintTop_toTopOf="@id/base_linkedin_link" />
 
         <Button
             android:id="@+id/cancel_linkedin"
@@ -574,18 +653,30 @@
             app:layout_constraintStart_toStartOf="@id/linkedin"
             app:layout_constraintTop_toBottomOf="@id/linkedin"
             />
+        <EditText
+            android:id="@+id/base_twitter_link"
+            android:layout_width="wrap_content"
+            android:layout_height="35dp"
+            android:layout_marginStart="18dp"
+            android:text="www.twitter.com/"
+            android:padding="5dp"
+            android:textColor="#000"
+            android:editable="false"
+            android:textSize="10sp"
+            app:layout_constraintStart_toEndOf="@id/twitter"
+            app:layout_constraintTop_toTopOf="@id/twitter" />
 
         <EditText
             android:id="@+id/twitter_link"
-            android:layout_width="180dp"
+            android:layout_width="96dp"
             android:layout_height="35dp"
-            android:layout_marginStart="18dp"
+            android:layout_marginStart="0dp"
             android:text="NA"
             android:padding="5dp"
-            android:textSize="12sp"
-            app:layout_constraintStart_toEndOf="@id/twitter"
+            android:textSize="10sp"
+            app:layout_constraintStart_toEndOf="@id/base_twitter_link"
             android:textColor="#000"
-            app:layout_constraintTop_toTopOf="@id/twitter"
+            app:layout_constraintTop_toTopOf="@id/base_twitter_link"
             />
         <Button
             android:id="@+id/cancel_twitter"
@@ -622,16 +713,27 @@
             app:layout_constraintTop_toBottomOf="@id/twitter"
             />
         <EditText
-            android:id="@+id/facebook_link"
-            android:layout_width="180dp"
+            android:id="@+id/base_fb_link"
+            android:layout_width="wrap_content"
             android:layout_height="35dp"
             android:layout_marginStart="18dp"
+            android:text="www.facebook.com/"
+            android:padding="5dp"
+            android:textColor="#000"
+            android:editable="false"
+            android:textSize="10sp"
+            app:layout_constraintStart_toEndOf="@id/facebook"
+            app:layout_constraintTop_toTopOf="@id/facebook" />
+        <EditText
+            android:id="@+id/facebook_link"
+            android:layout_width="84dp"
+            android:layout_height="35dp"
             android:text="NA"
             android:padding="5dp"
-            android:textSize="12sp"
+            android:textSize="10sp"
             android:textColor="#000"
-            app:layout_constraintStart_toEndOf="@id/facebook"
-            app:layout_constraintTop_toTopOf="@id/facebook"
+            app:layout_constraintStart_toEndOf="@id/base_fb_link"
+            app:layout_constraintTop_toTopOf="@id/base_fb_link"
             />
 
         <Button
