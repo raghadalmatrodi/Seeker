@@ -1,10 +1,13 @@
 package com.example.seeker.EmployerMainPages.Chat_Emp;
 
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 
 
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.request.RequestOptions;
 import com.example.seeker.ChatMessageBroadcast;
 import com.example.seeker.Database.ApiClients;
 import com.example.seeker.EmployerMainPages.EmployerMainActivity;
@@ -15,6 +18,7 @@ import com.example.seeker.R;
 import com.example.seeker.SharedPref.Constants;
 import com.example.seeker.SharedPref.MySharedPreference;
 import com.google.gson.Gson;
+import com.stfalcon.chatkit.commons.ImageLoader;
 import com.stfalcon.chatkit.messages.MessageInput;
 import com.stfalcon.chatkit.messages.MessagesList;
 import com.stfalcon.chatkit.messages.MessagesListAdapter;
@@ -151,6 +155,8 @@ public class Emp_ChatMessages extends AppCompatActivity {
 
 
     public void setTheAdapter(){
+
+
         adapter = new MessagesListAdapter<>(MySharedPreference.getLong(getApplicationContext(), Constants.Keys.USER_ID,-1)+""
                 , null);
         messagesList.setAdapter(adapter);

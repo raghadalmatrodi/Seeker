@@ -28,6 +28,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.request.RequestOptions;
 import com.example.seeker.Activities.ParentEditProfileActivity;
 import com.example.seeker.Database.ApiClients;
 import com.example.seeker.FreelancerMainPages.FreelancerEditProfile;
@@ -249,7 +250,7 @@ public class EditProfileActivity extends ParentEditProfileActivity {
         if( userImgURL != null ){
             Glide.with(this)
                     .load(userImgURL)
-                    .placeholder(R.drawable.user)
+                    .placeholder(R.drawable.user).apply(RequestOptions.circleCropTransform())
                     .into(userImg);
 
         }

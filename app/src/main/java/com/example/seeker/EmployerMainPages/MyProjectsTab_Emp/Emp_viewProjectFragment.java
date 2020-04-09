@@ -18,6 +18,8 @@ import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.request.RequestOptions;
 import com.example.seeker.Contract.ContractFragment;
 import com.example.seeker.Database.ApiClients;
 import com.example.seeker.EmployerMainPages.AcceptBidConfirmation;
@@ -57,6 +59,7 @@ public class Emp_viewProjectFragment extends Fragment implements  Emp_MyProjects
     LinearLayout EmployerView;
     ImageView chat;
     Contract contract;
+    ImageView employerPic;
 
 
     ImageView contractImg;
@@ -205,6 +208,7 @@ public class Emp_viewProjectFragment extends Fragment implements  Emp_MyProjects
         EmployerView = view.findViewById(R.id.employer_row);
         chat = view.findViewById(R.id.chat);
         createdAt = view.findViewById(R.id.createdAt_project);
+        employerPic = view.findViewById(R.id.employer_picture);
 
 
     }
@@ -220,6 +224,12 @@ public class Emp_viewProjectFragment extends Fragment implements  Emp_MyProjects
         if(project.getEmployer().getId() == MySharedPreference.getLong(getContext(),Constants.Keys.EMPLOYER_ID,-1)){
             EmployerView.setVisibility(View.GONE);
         }
+
+        if(project.getEmployer().getUser().getAvatar()!= null)
+            Glide.with(getActivity())
+                    .load(project.getEmployer().getUser().getAvatar())
+                    .placeholder(R.drawable.user).apply(RequestOptions.circleCropTransform())
+                    .into(employerPic);
 
 
         if( (project.getTitle() != null))

@@ -16,6 +16,7 @@ import androidx.appcompat.app.AlertDialog;
 import androidx.fragment.app.Fragment;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.request.RequestOptions;
 import com.example.seeker.Activities.LoginActivity;
 import com.example.seeker.Database.ApiClients;
 import com.example.seeker.EmployerMainPages.AccountRelatedActivities.EditProfileActivity;
@@ -71,7 +72,7 @@ public class Freelancer_AccountFragment extends Fragment implements View.OnClick
         if( userImgURL != null ){
             Glide.with(this)
                     .load(userImgURL)
-                    .placeholder(R.drawable.user)
+                    .placeholder(R.drawable.user).apply(RequestOptions.circleCropTransform())
                     .into(profile_picture);
 
         }

@@ -1,6 +1,8 @@
 package com.example.seeker.Model;
 
-public class StorageDocument {
+import java.io.Serializable;
+
+public class StorageDocument  implements Serializable {
 
     private long id;
     private String name;

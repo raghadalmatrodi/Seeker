@@ -11,6 +11,7 @@ import android.widget.TextView;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.request.RequestOptions;
 import com.example.seeker.Model.Chat;
 import com.example.seeker.Model.ChatMessage;
 import com.example.seeker.R;
@@ -104,7 +105,7 @@ public class ChatAdapter extends RecyclerView.Adapter<ChatAdapter.MyViewHolder> 
             if( chats.get(position).getSecondUser().getAvatar() != null ){
                 Glide.with(mContext)
                         .load(chats.get(position).getSecondUser().getAvatar())
-                        .placeholder(R.drawable.user)
+                        .placeholder(R.drawable.user).apply(RequestOptions.circleCropTransform())
                         .into(holder.thumbnail);
             }
 
@@ -114,7 +115,7 @@ public class ChatAdapter extends RecyclerView.Adapter<ChatAdapter.MyViewHolder> 
             if( chats.get(position).getFirstUser().getAvatar() != null ){
                 Glide.with(mContext)
                         .load(chats.get(position).getFirstUser().getAvatar())
-                        .placeholder(R.drawable.user)
+                        .placeholder(R.drawable.user).apply(RequestOptions.circleCropTransform())
                         .into(holder.thumbnail);
             }
         }
