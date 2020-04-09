@@ -239,7 +239,7 @@ public class Emp_PostFragment extends Fragment implements ProjectTypeFragment.Pr
         file.stream().forEach(file1 -> {
             try {
                 attachments.add(MultipartBody.Part.createFormData("attachments", file1.getName(), RequestBody
-                        .create(MediaType.parse(Files.probeContentType(file1.toPath()).toString()), file1)));
+                        .create(MediaType.parse(Files.probeContentType(file1.toPath())), file1)));
             } catch (IOException e) {
                 e.printStackTrace();
             }

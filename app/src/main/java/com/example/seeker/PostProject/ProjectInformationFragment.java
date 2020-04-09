@@ -124,7 +124,8 @@ public class ProjectInformationFragment extends Fragment {
             public void onClick(View v) {
                 ChooserDialog chooserDialog = new ChooserDialog(view.getContext());
                 chooserDialog.withStartFile("");
-                chooserDialog.withChosenListener(new ChooserDialog.Result() {
+                chooserDialog .withFilter(false, false, "jpg", "jpeg", "png","pdf")
+                .withChosenListener(new ChooserDialog.Result() {
                     @Override
                     public void onChoosePath(String path, File pathFile) {
 

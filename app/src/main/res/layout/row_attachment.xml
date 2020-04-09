@@ -13,24 +13,24 @@
         android:id="@+id/eventRR"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="10dp"
-        android:layout_marginRight="10dp"
+        android:layout_marginLeft="40dp"
+        android:layout_marginRight="40dp"
 
         >
 
-    <ImageView
-        android:layout_width="30dp"
-        android:layout_height="30dp"
-        android:layout_centerVertical="true"
-        android:src="@drawable/folder"
-    >
+        <ImageView
+            android:id="@+id/attachmentpic"
+            android:layout_width="60dp"
+            android:layout_height="60dp"
+            android:layout_centerVertical="true"
+            android:src="@drawable/folder">
 
-    </ImageView>
+        </ImageView>
         <TextView
             android:layout_width="wrap_content"
             android:id="@+id/attachment_name"
             android:textSize="16sp"
-            android:layout_marginStart="45dp"
+            android:layout_marginStart="70dp"
             android:text="attachment"
 
             android:layout_marginEnd="65dp"

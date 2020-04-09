@@ -4,18 +4,20 @@ package com.example.seeker.PostProject;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.media.Image;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
-
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.bumptech.glide.Glide;
 import com.example.seeker.R;
 
 import java.io.File;
+import java.io.FileFilter;
 import java.util.List;
 
 public class AttachmentAdapter extends RecyclerView.Adapter<AttachmentAdapter.MyViewHolder>  {
@@ -64,6 +66,7 @@ public class AttachmentAdapter extends RecyclerView.Adapter<AttachmentAdapter.My
         public TextView name ;
         public RelativeLayout color;
         ImageView delete;
+        ImageView attachmentPicture;
 
 
         public MyViewHolder(View view , final OnItemClickListener listener) {
@@ -71,6 +74,7 @@ public class AttachmentAdapter extends RecyclerView.Adapter<AttachmentAdapter.My
             name =  view.findViewById(R.id.attachment_name);
 
             delete = view.findViewById(R.id.deleteEvent);
+            attachmentPicture = view.findViewById(R.id.attachmentpic);
 
 
                 delete.setOnClickListener(new View.OnClickListener() {
@@ -139,14 +143,43 @@ public class AttachmentAdapter extends RecyclerView.Adapter<AttachmentAdapter.My
 
     @Override
     public void onBindViewHolder(final MyViewHolder holder, int position) {
-        File album = eventList.get(position);
+        File file = eventList.get(position);
 
-        holder.name.setText(eventList.get(position).getName());
+        holder.name.setText(eventList.get(position).getAbsolutePath());
 
+        ImageFileFilter picture = new ImageFileFilter(file);
 
+        if(picture.accept(file)){
+            Glide.with(mContext)
+                    .load(file)
+                    .into(holder.attachmentPicture);
+        }
 
     } //  end onBindViewHolder
 
+    public class ImageFileFilter implements FileFilter {
+        File file;
+        private final String[] okFileExtensions = new String[] {
+                "jpg",
+                "png",
+                "gif",
+                "jpeg"
+        };
+
+        public ImageFileFilter(File newfile) {
+            this.file = newfile;
+        }
+
+        public boolean accept(File file) {
+            for (String extension: okFileExtensions) {
+                if (file.getName().toLowerCase().endsWith(extension)) {
+                    return true;
+                }
+            }
+            return false;
+        }
+
+    }
 
     public interface OnItemClickListener {
         void onItemClick( String name, String id);
