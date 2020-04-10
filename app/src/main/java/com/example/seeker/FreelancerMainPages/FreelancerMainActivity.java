@@ -3,6 +3,7 @@ package com.example.seeker.FreelancerMainPages;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.MenuItem;
 import android.widget.Toast;
 
@@ -17,6 +18,8 @@ import com.example.seeker.FreelancerMainPages.MyProjectsTab_Freelancer.Freelance
 import com.example.seeker.FreelancerMainPages.SearchTab_Freelancer.Freelancer_SearchFragment;
 import com.example.seeker.Model.Project;
 import com.example.seeker.R;
+import com.example.seeker.SharedPref.Constants;
+import com.example.seeker.SharedPref.MySharedPreference;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 import static android.widget.Toast.LENGTH_LONG;
@@ -30,6 +33,7 @@ public class FreelancerMainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main_freelancer);
 
+        Log.d("Token" , MySharedPreference.getString(getApplicationContext(), Constants.Keys.TOKEN_ID,""));
 
         BottomNavigationView navigation = (BottomNavigationView) findViewById(R.id.navigationF);
         navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);

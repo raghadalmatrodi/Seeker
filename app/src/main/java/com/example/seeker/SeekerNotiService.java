@@ -10,6 +10,7 @@ import android.os.IBinder;
 import android.util.Log;
 
 import androidx.core.app.NotificationCompat;
+import androidx.core.app.NotificationManagerCompat;
 import androidx.fragment.app.Fragment;
 
 import com.example.seeker.Database.ApiClients;
@@ -17,6 +18,7 @@ import com.example.seeker.EmployerMainPages.Chat_Emp.Emp_ChatMessages;
 import com.example.seeker.EmployerMainPages.EmployerMainActivity;
 import com.example.seeker.FreelancerMainPages.FreelancerMainActivity;
 import com.example.seeker.FreelancerMainPages.MyProjectsTab_Freelancer.Freelancer_viewProjectFragment;
+import com.example.seeker.Model.Chat;
 import com.example.seeker.Model.ChatMessage;
 import com.example.seeker.Model.Project;
 import com.example.seeker.Model.Responses.ApiResponse;
@@ -43,7 +45,7 @@ import retrofit2.Response;
 public class SeekerNotiService extends FirebaseMessagingService {
     String TAG = SeekerNotiService.class.getSimpleName();
     public static final String NOTIFICATION_CHANNEL_ID = "10001" ;
-    private final static String default_notification_channel_id = "default" ;
+    private final static String default_notification_channel_id = "123" ;
     public SeekerNotiService() {
     }
 //
@@ -77,14 +79,11 @@ public class SeekerNotiService extends FirebaseMessagingService {
                 e.printStackTrace();
             }
 
-//
+
 //            ChatMessage message = new Gson().fromJson(finalJson, ChatMessage.class);
-//
-//
-//
-//            Intent intent = new Intent("NewChatMessage");
-//            intent.putExtra("message", message);
-//            sendBroadcast(intent);
+
+
+
 //
 //////            message.setId(Long.parseLong(map.get("id")));
 ////            User user = new User();
@@ -107,14 +106,26 @@ public class SeekerNotiService extends FirebaseMessagingService {
 
             notificationIntent = new Intent(getApplicationContext(), FreelancerMainActivity.class);
             target = "project";
-            notificationIntent.putExtra( "NotificationMessage" , new Gson().fromJson(finalJson, Project.class) ) ;
+           // notificationIntent.putExtra( "NotificationMessage" , new Gson().fromJson(finalJson, Project.class) ) ;
             notificationIntent.putExtra("project",new Gson().fromJson(finalJson, Project.class) );
 
         }else if(type.equals("chat")){
 
+            notificationIntent = new Intent(getApplicationContext(), Emp_ChatMessages.class);
+            target = "chat";
+            //notificationIntent.putExtra( "NotificationMessage" , new Gson().fromJson(finalJson, Chat.class) ) ;
+            notificationIntent.putExtra("chatM",new Gson().fromJson(finalJson, ChatMessage.class) );
+            Intent intent = new Intent("NewChatMessage");
+            intent.putExtra("chatM", new Gson().fromJson(finalJson, ChatMessage.class));
+            sendBroadcast(intent);
         }else if(type.equals("expiry")){
 
         }else if(type.equals("acceptBid")){
+
+            notificationIntent = new Intent(getApplicationContext(), FreelancerMainActivity.class);
+//            target = "project";
+            // notificationIntent.putExtra( "NotificationMessage" , new Gson().fromJson(finalJson, Project.class) ) ;
+//            notificationIntent.putExtra("project",new Gson().fromJson(finalJson, Project.class) );
 
         }else if(type.equals("milestone")){
 
@@ -123,17 +134,18 @@ public class SeekerNotiService extends FirebaseMessagingService {
         }
 
         notificationIntent.putExtra("Fragment",  target);
-        notificationIntent.addCategory(Intent. CATEGORY_LAUNCHER ) ;
-        notificationIntent.setAction(Intent. ACTION_MAIN ) ;
+//        notificationIntent.addCategory(Intent. CATEGORY_LAUNCHER ) ;
+//        notificationIntent.setAction(Intent. ACTION_MAIN ) ;
         notificationIntent.setFlags(Intent. FLAG_ACTIVITY_CLEAR_TOP | Intent. FLAG_ACTIVITY_SINGLE_TOP ) ;
-        PendingIntent resultIntent = PendingIntent. getActivity (getApplicationContext() , 0 , notificationIntent , 0 ) ;
+        PendingIntent resultIntent = PendingIntent. getActivity (getApplicationContext() , 0 , notificationIntent , PendingIntent.FLAG_UPDATE_CURRENT ) ;
         NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(getApplicationContext() ,
                 default_notification_channel_id )
                 .setSmallIcon(R.drawable. ic_launcher_foreground )
                 .setContentTitle( remoteMessage.getData().get("title") )
                 .setContentText( remoteMessage.getData().get("body"))
+                .setAutoCancel(true)
                 .setContentIntent(resultIntent) ;
-        NotificationManager mNotificationManager = (NotificationManager) getSystemService(Context. NOTIFICATION_SERVICE ) ;
+        NotificationManagerCompat mNotificationManager = NotificationManagerCompat.from(getApplicationContext());
         if (android.os.Build.VERSION. SDK_INT >= android.os.Build.VERSION_CODES. O ) {
             int importance = NotificationManager. IMPORTANCE_HIGH ;
             NotificationChannel notificationChannel = new

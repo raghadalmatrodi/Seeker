@@ -2,6 +2,7 @@ package com.example.seeker.EmployerMainPages;
 
 
 import android.os.Bundle;
+import android.util.Log;
 import android.view.MenuItem;
 import android.widget.Toast;
 
@@ -14,6 +15,8 @@ import com.example.seeker.EmployerMainPages.Chat_Emp.Emp_MessagesFragment;
 import com.example.seeker.EmployerMainPages.MyProjectsTab_Emp.Emp_MyProjectsFragment;
 import com.example.seeker.EmployerMainPages.SearchTab_Emp.Emp_SearchFragment;
 import com.example.seeker.R;
+import com.example.seeker.SharedPref.Constants;
+import com.example.seeker.SharedPref.MySharedPreference;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 import static android.widget.Toast.LENGTH_LONG;
@@ -29,6 +32,7 @@ public class EmployerMainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main_employer);
 
+        Log.d("Token" , MySharedPreference.getString(getApplicationContext(),Constants.Keys.TOKEN_ID,""));
 
         BottomNavigationView navigation = (BottomNavigationView) findViewById(R.id.navigation);
         navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);

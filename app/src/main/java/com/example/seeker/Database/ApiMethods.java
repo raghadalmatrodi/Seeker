@@ -1,5 +1,7 @@
 package com.example.seeker.Database;
 
+import android.icu.util.Measure;
+
 import com.example.seeker.Model.Bid;
 import com.example.seeker.Model.Category;
 import com.example.seeker.Model.Certificate;
@@ -13,6 +15,7 @@ import com.example.seeker.Model.FreelancerRating;
 import com.example.seeker.Model.Login;
 import com.example.seeker.Model.Milestone;
 import com.example.seeker.Model.Project;
+import com.example.seeker.Model.PurchaseOrder;
 import com.example.seeker.Model.Responses.ApiResponse;
 import com.example.seeker.Model.Skill;
 import com.example.seeker.Model.StorageDocument;
@@ -149,6 +152,8 @@ public interface ApiMethods {
         String CALC_NUM_HIRED_PROJS = "freelancer/hired_projs/{id}";
 
         String UPLOAD_AVATAR = "user/avatar/{id}";
+        String PURCHASE_ORDER ="order";
+        String FIND_CHAT_BY_ID ="chat/{id}";
 
 
     }//End of Methods interface
@@ -413,5 +418,10 @@ public interface ApiMethods {
     @POST(Methods.UPLOAD_AVATAR)
     Call<StorageDocument> uploadAvatar(@Path ("id") long id, @Part MultipartBody.Part Avatar);
 
+    @POST(Methods.PURCHASE_ORDER)
+    Call<PurchaseOrder> purchaseOrder(@Body PurchaseOrder purchaseOrder);
+
+    @GET(Methods.FIND_CHAT_BY_ID)
+    Call<Chat> findChatById(@Path("id") long id);
 
 }//End of ApiMethods interface

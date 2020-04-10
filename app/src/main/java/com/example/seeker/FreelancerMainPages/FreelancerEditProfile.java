@@ -88,7 +88,7 @@ public class FreelancerEditProfile extends AppCompatActivity {
                     String skillToDisplay ="";
 
                     for (Skill subset : skillsList) {
-                        skillToDisplay += " - " +subset.getName() ;
+                        skillToDisplay += subset.getName() + "\n" ;
                     }
 
                     skillText.setText(skillToDisplay );
@@ -98,6 +98,7 @@ public class FreelancerEditProfile extends AppCompatActivity {
 
                 }//end else block
             }//End onResponse()
+
 
             @Override
             public void onFailure(Call<Freelancer> call, Throwable t) {

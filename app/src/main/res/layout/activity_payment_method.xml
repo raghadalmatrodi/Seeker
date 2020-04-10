@@ -3,6 +3,8 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:background="#48E0DDDD"
+
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
@@ -35,66 +37,227 @@
 
     </LinearLayout>
 
-    <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/parent"
+
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_marginTop="70dp">
+        android:orientation="vertical"
+        android:layout_marginTop="60dp"
+        android:layout_height="wrap_content"
+        >
 
 
-        <TextView
-            android:id="@+id/row_milestone_description"
-            android:layout_width="wrap_content"
-            android:layout_height="25dp"
-
-            android:layout_marginStart="10dp"
-            android:layout_marginTop="25dp"
-            android:layout_marginEnd="10dp"
-            android:gravity="center|center_vertical"
-            android:text="Design Initial logo"
-            android:textColor="#302E2E"
-            android:textSize="17sp"
-            app:layout_constraintEnd_toStartOf="@id/row_milestone_deadline"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
-
-        <TextView
-            android:id="@+id/row_milestone_deadline"
-            android:layout_width="wrap_content"
-            android:layout_height="25dp"
-            android:layout_marginStart="10dp"
-            android:layout_marginTop="25dp"
-            android:layout_marginBottom="22dp"
-            android:text="12/07/2020"
-            android:textColor="#302E2E"
-            android:textSize="17sp"
-            app:layout_constraintEnd_toStartOf="@id/row_milestone_price"
-            app:layout_constraintStart_toEndOf="@id/row_milestone_description"
-            app:layout_constraintTop_toTopOf="parent" />
-
-        <TextView
-            android:id="@+id/row_milestone_price"
-            android:layout_width="wrap_content"
-            android:layout_height="25dp"
-            android:layout_marginStart="10dp"
-            android:layout_marginTop="25dp"
-            android:layout_marginBottom="23dp"
-            android:text="150 SAR"
-            android:textColor="#302E2E"
-            android:textSize="17sp"
-            app:layout_constraintStart_toEndOf="@id/row_milestone_deadline"
-            app:layout_constraintTop_toTopOf="parent" />
-
-        <Button
-            android:id="@+id/payButton"
-            android:layout_width="wrap_content"
+        <LinearLayout
+            android:id="@+id/info_contract"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@drawable/rounded_background"
-            android:text="Pay"
-            tools:layout_editor_absoluteX="159dp"
-            tools:layout_editor_absoluteY="243dp"
-            tools:ignore="MissingConstraints" />
+            android:orientation="vertical"
+            android:visibility="visible"
+            >
+
+            <TextView
+                android:id="@+id/contract_project_name"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginTop="12dp"
+                android:text="Design website logo"
+                android:textColor="#000"
+                android:textSize="20sp"
+                android:textStyle="bold" />
+
+            <LinearLayout
+                android:layout_width="300dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginTop="12dp"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="120dp"
+                    android:layout_height="wrap_content"
+                    android:text="Status"
+                    android:textColor="#000"
+                    android:textSize="17sp"
+
+                    />
+
+                <TextView
+                    android:id="@+id/row_milestone_payment"
+                    android:layout_width="100dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="60dp"
+                    android:background="#F7921D"
+                    android:text="In Progress"
+                    android:textAlignment="center"
+                    android:textColor="#FFF"
+                    android:textSize="17sp"
+                    android:textStyle="bold"
+
+                    />
+
+            </LinearLayout>
+
+<!--            <LinearLayout-->
+<!--                android:layout_width="300dp"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:layout_gravity="center"-->
+<!--                android:layout_marginTop="10dp"-->
+<!--                android:orientation="horizontal">-->
+
+<!--                <TextView-->
+<!--                    android:layout_width="120dp"-->
+<!--                    android:layout_height="wrap_content"-->
+<!--                    android:text="Employer"-->
+<!--                    android:textColor="#000"-->
+
+<!--                    android:textSize="17sp"-->
+
+<!--                    />-->
+
+<!--                <TextView-->
+<!--                    android:id="@+id/contract_employer"-->
+<!--                    android:layout_width="120dp"-->
+<!--                    android:layout_height="wrap_content"-->
+<!--                    android:layout_marginStart="60dp"-->
+<!--                    android:text="In-progress"-->
+<!--                    android:textColor="#000"-->
+<!--                    android:textSize="17sp"-->
+
+<!--                    />-->
+
+<!--            </LinearLayout>-->
+
+<!--            <LinearLayout-->
+<!--                android:layout_width="300dp"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:layout_gravity="center"-->
+<!--                android:layout_marginTop="10dp"-->
+<!--                android:orientation="horizontal">-->
+
+<!--                <TextView-->
+<!--                    android:layout_width="120dp"-->
+<!--                    android:layout_height="wrap_content"-->
+<!--                    android:text="Freelancer"-->
+<!--                    android:textColor="#000"-->
+<!--                    android:textSize="17sp"-->
+
+<!--                    />-->
+
+<!--                <TextView-->
+<!--                    android:id="@+id/contract_freelancer"-->
+<!--                    android:layout_width="120dp"-->
+<!--                    android:layout_height="wrap_content"-->
+<!--                    android:layout_marginStart="60dp"-->
+<!--                    android:text="In-progress"-->
+<!--                    android:textColor="#000"-->
+<!--                    android:textSize="17sp"-->
+
+<!--                    />-->
+
+<!--            </LinearLayout>-->
+
+            <LinearLayout
+                android:layout_width="300dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginTop="10dp"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="120dp"
+                    android:layout_height="wrap_content"
+                    android:text="Delivery Date"
+                    android:textColor="#000"
+
+                    android:textSize="17sp"
+
+                    />
+
+                <TextView
+                    android:id="@+id/row_milestone_deadline"
+                    android:layout_width="120dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="60dp"
+                    android:text=""
+                    android:textColor="#000"
+                    android:textSize="17sp"
+
+                    />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="300dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginTop="10dp"
+                android:layout_marginBottom="20dp"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="120dp"
+                    android:layout_height="wrap_content"
+                    android:text="Price"
+                    android:textColor="#000"
+                    android:textSize="17sp"
+
+                    />
+
+                <TextView
+                    android:id="@+id/row_milestone_price"
+                    android:layout_width="120dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="60dp"
+                    android:text="In-progress"
+                    android:textColor="#000"
+                    android:textSize="17sp"
+
+                    />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="300dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginTop="0dp"
+                android:layout_marginBottom="20dp"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="120dp"
+                    android:layout_height="wrap_content"
+                    android:text="Milestone"
+                    android:textColor="#000"
+                    android:textSize="17sp"
+
+                    />
+
+                <TextView
+                    android:id="@+id/row_milestone_description"
+                    android:layout_width="120dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="60dp"
+                    android:text=""
+                    android:textColor="#000"
+                    android:textSize="17sp"
+
+                    />
+
+            </LinearLayout>
 
 
-    </androidx.constraintlayout.widget.ConstraintLayout>
+        </LinearLayout>
+
+    </LinearLayout>
+
+    <Button
+        android:id="@+id/payButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:textColor="@color/white"
+        android:background="@drawable/rounded_edges"
+        android:text="Pay"
+        tools:ignore="MissingConstraints" />
 </LinearLayout>

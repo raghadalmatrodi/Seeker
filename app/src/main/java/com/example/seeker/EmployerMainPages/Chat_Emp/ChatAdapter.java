@@ -122,7 +122,7 @@ public class ChatAdapter extends RecyclerView.Adapter<ChatAdapter.MyViewHolder> 
 
        if(chatMessages!=null){
            if(!chatMessages.isEmpty()){
-               ChatMessage message = chatMessages.get(chatMessages.size()-1);
+               ChatMessage message = chatMessages.get(0);
                long userId = new Long(message.getSender().getId());
                if(MySharedPreference.getLong(mContext, Constants.Keys.USER_ID,-1) == userId ) {
                    holder.email.setText("You: " + message.getMessage());

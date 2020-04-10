@@ -88,16 +88,10 @@ dependencies {
     implementation 'com.github.bumptech.glide:annotations:4.11.0'
     annotationProcessor 'com.github.bumptech.glide:compiler:4.11.0'
 
-//    implementation 'com.squareup.retrofit2:retrofit:2.4.0'
-//    implementation 'com.google.code.gson:gson:2.8.5'
-//    implementation 'com.squareup.retrofit2:converter-gson:2.4.0'
-//    implementation 'com.github.dbachelder:CreditCardEntry:1.4.9'
 
+    implementation 'com.github.dbachelder:CreditCardEntry:1.4.9'
+    implementation project(path: ':paytabs_sdk-v4.0.1')
 
-//    implementation "androidx.recyclerview:recyclerview:1.1.0"
-
-
-//    implementation 'cn.trinea.android.view.autoscrollviewpager:android-auto-scroll-view-pager:1.1.2'
 
 
 

@@ -61,9 +61,15 @@ public class AcceptBidConfirmation extends Fragment {
         }
         if(bid!= null) {
             bidTitle.setText(bid.getTitle());
-            bidDeadline.setText(bid.getDeliver_date());
-            bidDes.setText(bid.getDescription());
-            bidBud.setText(bid.getPrice()+"");
+
+
+            if(bid.getDeliver_date()!= null ) {
+                if (bid.getDeliver_date().length() > 10)
+                    bidDeadline.setText(bid.getDeliver_date().substring(0, 10));
+
+                bidDes.setText(bid.getDescription());
+                bidBud.setText(bid.getPrice() + "");
+            }
 
         }
 

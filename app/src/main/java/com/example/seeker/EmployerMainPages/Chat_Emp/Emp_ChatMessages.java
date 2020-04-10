@@ -62,7 +62,7 @@ public class Emp_ChatMessages extends AppCompatActivity {
         @Override
         public void onReceive(Context context, Intent intent) {
             super.onReceive(context, intent);
-            ChatMessage message = (ChatMessage) intent.getSerializableExtra("message");
+            ChatMessage message = (ChatMessage) intent.getSerializableExtra("chatM");
 //            Alerter.create(Emp_ChatMessages.this)
 //                    .setTitle("New Message")
 //                    .setText(message.getMessage())
@@ -93,9 +93,31 @@ public class Emp_ChatMessages extends AppCompatActivity {
         backButton = findViewById(R.id.chat_back);
         name = findViewById(R.id.user_name);
         inputView = findViewById(R.id.input);
+            if(getIntent().hasExtra("chatM")){
+                ChatMessage chatMessage = (ChatMessage)  getIntent().getSerializableExtra("chatM");
+                chat = chatMessage.getChat();
+                ApiClients.getAPIs().findChatById(chat.getId()).enqueue(new Callback<Chat>() {
+                    @Override
+                    public void onResponse(Call<Chat> call, Response<Chat> response) {
+                        if(response.isSuccessful()){
+                            chat = response.body();
+                            setTheAdapter();
 
+                        }else{
 
-         chat = (Chat) getIntent().getSerializableExtra("chat");
+                        }
+                    }
+
+                    @Override
+                    public void onFailure(Call<Chat> call, Throwable t) {
+
+                    }
+                });
+
+            }
+
+        if(getIntent().hasExtra("chat"))
+            chat = (Chat) getIntent().getSerializableExtra("chat");
         Log.i(LOG,"the object is :" + chat.toString());
 
 
@@ -160,7 +182,7 @@ public class Emp_ChatMessages extends AppCompatActivity {
         adapter = new MessagesListAdapter<>(MySharedPreference.getLong(getApplicationContext(), Constants.Keys.USER_ID,-1)+""
                 , null);
         messagesList.setAdapter(adapter);
-        adapter.addToEnd(chat.getChatMessages(),true);
+        adapter.addToEnd(chat.getChatMessages(),false);
     //    adapter.addToStart(chat.getChatMessages().get(0), true);
 
     }
