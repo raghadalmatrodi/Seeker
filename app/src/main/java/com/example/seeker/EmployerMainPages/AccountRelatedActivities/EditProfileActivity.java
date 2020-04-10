@@ -84,6 +84,7 @@ public class EditProfileActivity extends ParentEditProfileActivity {
     private long current_freelancer_id = MySharedPreference.getLong(EditProfileActivity.this, Constants.Keys.FREELANCER_ID, -1);
 
 
+    EditText base_linkedin, base_twitter, base_fb;
     private ImageView exclamation_icon;
     private ImageView userImg, cameraChooser;
     private ImageView phoneNumber, nationalId;
@@ -110,6 +111,7 @@ public class EditProfileActivity extends ParentEditProfileActivity {
                EmpNumOfProjects, EmpAvgResponseTime, EmpAvgOTP;
 
       private ProgressBar trustPointsPB;
+      private ProgressBar empAvgResponseTimePB, empOnTimePaymentPB, frAvgResponseTimePB, frQualityPB;
 
 
 //    previous samples
@@ -157,7 +159,13 @@ public class EditProfileActivity extends ParentEditProfileActivity {
 
 
         getUserById(current_user_id);
+        base_linkedin = findViewById(R.id.base_linkedin_link);
+        base_twitter = findViewById(R.id.base_twitter_link);
+        base_fb = findViewById(R.id.base_fb_link);
 
+        base_linkedin.setEnabled(false);
+        base_twitter.setEnabled(false);
+        base_fb.setEnabled(false);
         init();
         fillCurrentUSerData();
 
@@ -205,6 +213,10 @@ public class EditProfileActivity extends ParentEditProfileActivity {
         });
         totalTrustPoints_TV = findViewById(R.id.emp_total_trust_points);
         trustPointsPB = findViewById(R.id.TPprogressBar);
+        empAvgResponseTimePB = findViewById(R.id.emp_avg_rt_pb);
+        empOnTimePaymentPB = findViewById(R.id.emp_otp_pb);
+        frAvgResponseTimePB = findViewById(R.id.fr_avg_RT_pb);
+        frQualityPB = findViewById(R.id.fr_avg_quality_pb);
 
         name = findViewById(R.id.employer_edit_profile_name);
         nameAsEmployer = findViewById(R.id.edit_profile_name_as_emp);
@@ -1156,7 +1168,9 @@ public class EditProfileActivity extends ParentEditProfileActivity {
                     double total_otp = response.body().getTotal_on_time_payment();
                     double avgOTP = ((total_otp/num_of_ratings)/5) *100;
                     EmpAvgResponseTime.setText((int)avgRT+"%");
+                    empAvgResponseTimePB.setProgress((int)avgRT);
                     EmpAvgOTP.setText((int)avgOTP+"%");
+                    empOnTimePaymentPB.setProgress((int)avgOTP);
 
 
                 }
@@ -1190,7 +1204,9 @@ public class EditProfileActivity extends ParentEditProfileActivity {
                     double avgQ =( (quality/num_of_ratings)/5 )*100;
 
                     FrAvgResponseTime.setText((int)avgRT+"%");
+                    frAvgResponseTimePB.setProgress((int)avgRT);
                     FrAvgQualityOfWork.setText((int)avgQ+"%");
+                    frQualityPB.setProgress((int)avgQ);
 
                     Log.i(LOG,"onResponse: suc" + fr.toString());
                     skillsList = fr.getSkills();

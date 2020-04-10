@@ -46,15 +46,15 @@ public class SplashActivity extends Activity {
     private void checkIsLogin() {
         if (MySharedPreference.getBoolean(this, Constants.Keys.IS_LOGIN, false)) {
 
-//            if(MySharedPreference.getString(SplashActivity.this,Constants.Keys.USER_CURRENT_TYPE,"0").equals("EMPLOYER")){
+            if(MySharedPreference.getString(SplashActivity.this,Constants.Keys.USER_CURRENT_TYPE,"0").equals("EMPLOYER")){
             startActivity(new Intent(getApplicationContext(), EmployerMainActivity.class));
-//            finish();}
-//            else
-//            if(MySharedPreference.getString(SplashActivity.this,Constants.Keys.USER_CURRENT_TYPE,"0").equals("FREELANCER")){
-//                startActivity(new Intent(getApplicationContext(), FreelancerMainActivity.class));
-//                finish();
-//
-//            }
+            finish();}
+            else
+            if(MySharedPreference.getString(SplashActivity.this,Constants.Keys.USER_CURRENT_TYPE,"0").equals("FREELANCER")){
+                startActivity(new Intent(getApplicationContext(), FreelancerMainActivity.class));
+                finish();
+
+            }
         }//End of if
         else {
             startActivity(new Intent(getApplicationContext(), LoginActivity.class));
