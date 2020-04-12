@@ -96,6 +96,7 @@ dependencies {
 
 
     implementation 'com.github.dbachelder:CreditCardEntry:1.4.9'
+
     implementation project(path: ':paytabs_sdk-v4.0.1')
 
 

@@ -36,6 +36,8 @@ public class LogOut extends LoginActivity {
                             new DialogInterface.OnClickListener() {
                                 public void onClick(DialogInterface dialog, int id) {
                                     MySharedPreference.putBoolean(getApplicationContext(), Constants.Keys.IS_LOGIN,false);
+                                  //  MySharedPreference.clearData(getApplicationContext());
+
                                     Intent i = new Intent(getApplicationContext(),
                                             LoginActivity.class);
                                     startActivity(i);

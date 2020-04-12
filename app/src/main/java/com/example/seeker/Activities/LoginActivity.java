@@ -45,7 +45,12 @@ public class LoginActivity extends Activity {
     private TextView forgotPass, createAccount;
     private String userEmail, userPassword;
     private String encryptedPassword;
+    private String currentType;
 
+    @Override
+    protected void onResume() {
+        super.onResume();
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -104,35 +109,28 @@ public class LoginActivity extends Activity {
 
                 Log.i(LOG, "onResponse : Success");
                 if (response.isSuccessful()) {
-                    Log.i(LOG, "onResponse : " + response.body().toString());
+                    {    Log.i(LOG, "onResponse : " + response.body().toString());
                     executeGetUserByEmailRequest(userEmail);
 
 
-if(MySharedPreference.getString(LoginActivity.this,Constants.Keys.USER_CURRENT_TYPE,"0").equals("EMPLOYER"))
-{
-                     Intent intent = new Intent(LoginActivity.this, EmployerMainActivity.class);
-                    intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
-                    intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                    startActivity(intent);
-                    finish();}
 
-    if(MySharedPreference.getString(LoginActivity.this,Constants.Keys.USER_CURRENT_TYPE,"0").equals("FREELANCER")){
-
-
-
-        Intent intent = new Intent(LoginActivity.this, FreelancerMainActivity.class);
-    intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
-    intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-    startActivity(intent);
-    finish();
-}
+//    else {
+//        Intent intent = new Intent(LoginActivity.this, FreelancerMainActivity.class);
+//        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
+//        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+//        startActivity(intent);
+//        finish();
+//    }
 
 
                 }//End of if
+                    }
                 else {
                  wrongInfoDialog("wrong email/password try again!");
                 }//End of else
             }//End of big if
+
+
 //
 
 
@@ -143,6 +141,28 @@ if(MySharedPreference.getString(LoginActivity.this,Constants.Keys.USER_CURRENT_T
         });
 
     }//End of LoginApiRequest()
+
+
+    private void navigateToMainPage() {
+        if(currentType.equals("EMPLOYER"))
+        {
+            Intent intent = new Intent(LoginActivity.this, EmployerMainActivity.class);
+            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
+            intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+            startActivity(intent);
+            finish();}
+
+        if(currentType.equals("FREELANCER")){
+
+
+
+            Intent intent = new Intent(LoginActivity.this, FreelancerMainActivity.class);
+            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
+            intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+            startActivity(intent);
+            finish();
+        }
+    }
 
     private void init() {
         email = findViewById(R.id.login_emailET);
@@ -211,10 +231,13 @@ if(MySharedPreference.getString(LoginActivity.this,Constants.Keys.USER_CURRENT_T
 
     private void executeGetUserByEmailRequest(String usermail){
         ApiClients.getAPIs().findUSerByEmailRequest(usermail).enqueue(new Callback<User>() {
+
             @Override
             public void onResponse(Call<User> call, Response<User> response) {
                 if (response.isSuccessful()){
                     Log.i(LOG, "onResponse: " + response.body().toString());
+                 currentType=   response.body().getCurrent_type();
+
                     addCurrentUser(response.body());
 
                 }else {
@@ -257,6 +280,7 @@ if(MySharedPreference.getString(LoginActivity.this,Constants.Keys.USER_CURRENT_T
         MySharedPreference.putString(this, Constants.Keys.USER_EMAIL,  user.getEmail());
         MySharedPreference.putString(this,Constants.Keys.USER_CURRENT_TYPE,user.getCurrent_type() );
         MySharedPreference.putString(this, Constants.Keys.USER_IMG, user.getAvatar());
+        navigateToMainPage();
 //        MySharedPreference.putString(this, Constants.Keys.ENABLE_NOTI, user.getEnable_noti());
 
 
