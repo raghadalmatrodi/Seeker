@@ -155,6 +155,9 @@ public interface ApiMethods {
         String PURCHASE_ORDER ="order";
         String FIND_CHAT_BY_ID ="chat/{id}";
 
+        String UPLOAD_SAMPLE_WORK = "user/add-work/{id}";
+        String DELETE_SAMPLE_WORK = "user/{id}/delete-work/{attachmentId}";
+
 
     }//End of Methods interface
 
@@ -417,6 +420,13 @@ public interface ApiMethods {
     @Multipart
     @POST(Methods.UPLOAD_AVATAR)
     Call<StorageDocument> uploadAvatar(@Path ("id") long id, @Part MultipartBody.Part Avatar);
+
+    @Multipart
+    @POST(Methods.UPLOAD_SAMPLE_WORK)
+    Call<StorageDocument> uploadSampleWork ( @Path("id") long id, @Part MultipartBody.Part attachment);
+
+    @DELETE(Methods.DELETE_SAMPLE_WORK)
+    Call<Void> deleteSampleWork (@Path("id") long id ,@Path("attachmentId") long attachmentId );
 
     @POST(Methods.PURCHASE_ORDER)
     Call<PurchaseOrder> purchaseOrder(@Body PurchaseOrder purchaseOrder);

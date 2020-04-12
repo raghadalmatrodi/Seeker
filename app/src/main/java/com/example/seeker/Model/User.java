@@ -3,6 +3,8 @@ package com.example.seeker.Model;
 import com.stfalcon.chatkit.commons.models.IUser;
 
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Set;
 
 //todo 8 hind implemented serializable
@@ -22,7 +24,15 @@ public class User implements Serializable,IUser {
     private String facebook;
     private String linkedIn;
     private String education;
+    private List<StorageDocument> sampleWorks = new ArrayList<>();
 
+    public List<StorageDocument> getSampleWorks() {
+        return sampleWorks;
+    }
+
+    public void setSampleWorks(List<StorageDocument> sampleWorks) {
+        this.sampleWorks = sampleWorks;
+    }
 
     public User(long id, String username, Set<Role> roles, String email, String phone_number, String national_id, String rating, String current_type, String twitter, String facebook, String linkedIn, String education) {
         this.id = id;

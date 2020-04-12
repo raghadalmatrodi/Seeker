@@ -24,6 +24,15 @@ public class Project implements Serializable {
     private Set<Skill> skills = new HashSet<>();
     private String status;
     private String createdAt;
+    private List<StorageDocument> attachments = new ArrayList<>();
+
+    public List<StorageDocument> getAttachments() {
+        return attachments;
+    }
+
+    public void setAttachments(List<StorageDocument> attachments) {
+        this.attachments = attachments;
+    }
 
     public String getCreatedAt() {
         return createdAt;

@@ -936,14 +936,6 @@
                 app:layout_constraintStart_toEndOf="@id/education_text"
                 app:layout_constraintTop_toTopOf="@id/education_text" />
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="18dp"
-                android:text=""
-                android:textColor="#000"
-                android:textSize="20sp"
-                android:textStyle="bold"/>
 
 
 
@@ -979,16 +971,31 @@
             android:layout_width="401dp"
             android:layout_height="match_parent"
             android:layout_marginRight="102dp"
-            android:orientation="vertical">
+
+          >
 
             <TextView
+                android:id="@+id/sample_work_text"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="18dp"
-                android:text="Samples of previous work:"
+                android:text="Samples of pprevious work:"
                 android:textColor="#000"
-                android:textSize="20sp"
-                android:textStyle="bold"/>
+                android:textSize="17sp"
+               />
+            <ImageButton
+                android:id="@+id/upload_sample_work"
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:layout_marginStart="10dp"
+                app:layout_constraintHorizontal_bias="0.792"
+                android:layout_marginBottom="20dp"
+                app:layout_constraintStart_toEndOf="@id/sample_work_text"
+                app:layout_constraintTop_toTopOf="@id/sample_work_text"
+                android:src="@drawable/image_upload"
+            />
+
+
 
 
         </LinearLayout>

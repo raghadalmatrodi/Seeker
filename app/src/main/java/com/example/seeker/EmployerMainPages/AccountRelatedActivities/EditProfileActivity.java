@@ -4,6 +4,10 @@ import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.widget.Toolbar;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
+import androidx.recyclerview.widget.DefaultItemAnimator;
+import androidx.recyclerview.widget.GridLayoutManager;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import android.Manifest;
 import android.app.Activity;
@@ -11,6 +15,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
+import android.media.Image;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.util.Log;
@@ -40,10 +45,13 @@ import com.example.seeker.Model.Responses.ApiResponse;
 import com.example.seeker.Model.Skill;
 import com.example.seeker.Model.StorageDocument;
 import com.example.seeker.Model.User;
+import com.example.seeker.PostProject.AttachmentAdapter;
 import com.example.seeker.PostProject.ProjectInformationFragment;
 import com.example.seeker.R;
 import com.example.seeker.SharedPref.Constants;
 import com.example.seeker.SharedPref.MySharedPreference;
+
+import com.google.android.gms.common.api.Api;
 import com.google.gson.Gson;
 
 import java.io.ByteArrayOutputStream;
@@ -71,8 +79,7 @@ import retrofit2.Response;
 import retrofit2.http.Multipart;
 
 
-public class EditProfileActivity extends ParentEditProfileActivity {
-
+public class EditProfileActivity extends ParentEditProfileActivity implements SampleWorkAdapter.OnItemClickListener {
 
 
     private static final String LOG = EditProfileActivity.class.getSimpleName();
@@ -106,12 +113,12 @@ public class EditProfileActivity extends ParentEditProfileActivity {
     private RatingBar empTotalRates;
     private TextView numberOfRatings;
 
-//    todo: MAKE THEM PROGRESS BAR
-      private TextView FrWorkedOnProjects, FrAvgResponseTime, FrAvgQualityOfWork,
-               EmpNumOfProjects, EmpAvgResponseTime, EmpAvgOTP;
+    //    todo: MAKE THEM PROGRESS BAR
+    private TextView FrWorkedOnProjects, FrAvgResponseTime, FrAvgQualityOfWork,
+            EmpNumOfProjects, EmpAvgResponseTime, EmpAvgOTP;
 
-      private ProgressBar trustPointsPB;
-      private ProgressBar empAvgResponseTimePB, empOnTimePaymentPB, frAvgResponseTimePB, frQualityPB;
+    private ProgressBar trustPointsPB;
+    private ProgressBar empAvgResponseTimePB, empOnTimePaymentPB, frAvgResponseTimePB, frQualityPB;
 
 
 //    previous samples
@@ -121,14 +128,12 @@ public class EditProfileActivity extends ParentEditProfileActivity {
     User user;
 
     /**
-     *
      * Freelancer required declarations
-     *
-     *
      */
 
     private ImageView maroofImg;
-//    + skill related stuff :/
+    private ImageView uploadSampleWork;
+    //    + skill related stuff :/
     private LinearLayout skillsLL, divider;
     ImageButton add_skill;
     TextView skillText;
@@ -136,12 +141,20 @@ public class EditProfileActivity extends ParentEditProfileActivity {
 //    private Freelancer freelancer;
 
     Freelancer fr;
+    boolean isUploadAvatarClicked;
+    boolean isUploadSampleWorkClicked;
+
+    private RecyclerView recyclerView;
+    private SampleWorkAdapter adapter;
+    List<StorageDocument> files;
+
 
 
     @Override
     public void onBackPressed() {
         super.onBackPressed();
     }
+
     @Override
     protected void onResume() {
 
@@ -159,6 +172,7 @@ public class EditProfileActivity extends ParentEditProfileActivity {
 
 
         getUserById(current_user_id);
+
         base_linkedin = findViewById(R.id.base_linkedin_link);
         base_twitter = findViewById(R.id.base_twitter_link);
         base_fb = findViewById(R.id.base_fb_link);
@@ -169,38 +183,64 @@ public class EditProfileActivity extends ParentEditProfileActivity {
         init();
         fillCurrentUSerData();
 
+
         cameraChooser.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                isUploadAvatarClicked = true;
+                isUploadSampleWorkClicked = false;
+                openCameraChooser();
+
+            }
+        });
+        uploadSampleWork.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                isUploadAvatarClicked = false;
+                isUploadSampleWorkClicked = true;
                 openCameraChooser();
             }
         });
 
 
-        if(MySharedPreference.getString(EditProfileActivity.this,Constants.Keys.USER_CURRENT_TYPE,"0").equals("EMPLOYER")){
+        if (MySharedPreference.getString(EditProfileActivity.this, Constants.Keys.USER_CURRENT_TYPE, "0").equals("EMPLOYER")) {
             CalculateEmpTP(current_user_id);
-        } else if(MySharedPreference.getString(EditProfileActivity.this,Constants.Keys.USER_CURRENT_TYPE,"0").equals("FREELANCER")){
+        } else if (MySharedPreference.getString(EditProfileActivity.this, Constants.Keys.USER_CURRENT_TYPE, "0").equals("FREELANCER")) {
             CalculateFrTP(current_user_id);
         }
 
 
-
     }//End onCreate
 
+    private void initWorkRecyclerView() {
+       files = user.getSampleWorks();
+        recyclerView =  findViewById(R.id.attachment_recycle_view);
+        adapter = new SampleWorkAdapter(this, files);
+        LinearLayoutManager horizontalLayoutManagaer = new LinearLayoutManager(EditProfileActivity.this, LinearLayoutManager.HORIZONTAL, false);
+        recyclerView.setLayoutManager(horizontalLayoutManagaer);
+        recyclerView.setItemAnimator(new DefaultItemAnimator());
+        adapter.showDelete();
 
-    private void initToolbar(String username){
-            //init toolbar
-            Toolbar toolbar = findViewById(R.id.editprofile_toolbar);
-            toolbar.setTitle(username);
-            toolbar.setNavigationIcon(R.drawable.back_arrow_24dp);
-            toolbar.setNavigationOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    onBackPressed();
-                }//End onClick()
-            });
+        adapter.setOnItemClickListener(this);
+        recyclerView.setAdapter(adapter);
 
-        }//End initToolBar()
+
+    }
+
+
+    private void initToolbar(String username) {
+        //init toolbar
+        Toolbar toolbar = findViewById(R.id.editprofile_toolbar);
+        toolbar.setTitle(username);
+        toolbar.setNavigationIcon(R.drawable.back_arrow_24dp);
+        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                onBackPressed();
+            }//End onClick()
+        });
+
+    }//End initToolBar()
 
 
     private void init() {
@@ -239,7 +279,6 @@ public class EditProfileActivity extends ParentEditProfileActivity {
         cancelEdu = findViewById(R.id.emp_cancel_education);
 
 
-
         linkedinET = findViewById(R.id.linkedin_link);
         twitterET = findViewById(R.id.twitter_link);
         facebookET = findViewById(R.id.facebook_link);
@@ -251,15 +290,17 @@ public class EditProfileActivity extends ParentEditProfileActivity {
 
 
         cameraChooser = findViewById(R.id.editProfileImageChooser);
+        uploadSampleWork = findViewById(R.id.upload_sample_work);
+
         userImg = findViewById(R.id.edit_profile_pic);
 
         exclamation_icon = findViewById(R.id.exclamation);
 
 
-        String userImgURL = MySharedPreference.getString(getApplicationContext(),Constants.Keys.USER_IMG,null);
-        Log.i(LOG,"the user image :" + userImgURL);
+        String userImgURL = MySharedPreference.getString(getApplicationContext(), Constants.Keys.USER_IMG, null);
+        Log.i(LOG, "the user image :" + userImgURL);
 
-        if( userImgURL != null ){
+        if (userImgURL != null) {
             Glide.with(this)
                     .load(userImgURL)
                     .placeholder(R.drawable.user).apply(RequestOptions.circleCropTransform())
@@ -283,7 +324,7 @@ public class EditProfileActivity extends ParentEditProfileActivity {
         skillsLL = findViewById(R.id.skills_ll);
         divider = findViewById(R.id.skills_divider);
 
-        if(MySharedPreference.getString(EditProfileActivity.this,Constants.Keys.USER_CURRENT_TYPE,"0").equals("EMPLOYER")){
+        if (MySharedPreference.getString(EditProfileActivity.this, Constants.Keys.USER_CURRENT_TYPE, "0").equals("EMPLOYER")) {
             maroofImg.setVisibility(View.GONE);
             skillsLL.setVisibility(View.GONE);
             divider.setVisibility(View.GONE);
@@ -295,16 +336,15 @@ public class EditProfileActivity extends ParentEditProfileActivity {
         empTotalRates = findViewById(R.id.employer_total_rating_in_profile);
         Employer emp = new Employer(current_emp_id);
 
-        if(MySharedPreference.getString(EditProfileActivity.this,Constants.Keys.USER_CURRENT_TYPE,"0").equals("EMPLOYER"))
-        executeCalculateEmployerTotalRating(emp);
-        else if(MySharedPreference.getString(EditProfileActivity.this,Constants.Keys.USER_CURRENT_TYPE,"0").equals("FREELANCER"))
-        calculateFreelancerTotalRates(new Freelancer(current_freelancer_id));
+        if (MySharedPreference.getString(EditProfileActivity.this, Constants.Keys.USER_CURRENT_TYPE, "0").equals("EMPLOYER"))
+            executeCalculateEmployerTotalRating(emp);
+        else if (MySharedPreference.getString(EditProfileActivity.this, Constants.Keys.USER_CURRENT_TYPE, "0").equals("FREELANCER"))
+            calculateFreelancerTotalRates(new Freelancer(current_freelancer_id));
 
 //        getEmployer(current_emp_id);
         getEmployerByUserId(current_user_id);
         getFreelancerByUserIDRequest(current_user_id);
         numberOfRatings = findViewById(R.id.numOfRatings_EmployerProfile);
-
 
 
         initStats();
@@ -410,7 +450,7 @@ public class EditProfileActivity extends ParentEditProfileActivity {
                         saveLinkedin.setVisibility(View.INVISIBLE);
                         cancelLinkedin.setVisibility(View.INVISIBLE);
                         if (user.getLinkedIn() != null)
-                        linkedinET.setText(user.getLinkedIn());
+                            linkedinET.setText(user.getLinkedIn());
 //                        getLinkedIn();
 //                        finish();
 //                        overridePendingTransition(0, 0);
@@ -471,10 +511,9 @@ public class EditProfileActivity extends ParentEditProfileActivity {
         });
 
 
-
     }
 
-    private void Facebook(){
+    private void Facebook() {
         facebookImg.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -508,7 +547,7 @@ public class EditProfileActivity extends ParentEditProfileActivity {
                             facebookET.setText(user.getFacebook());
                         /**
                          *THIS IS GOOOD.
-//                         */
+                         //                         */
 //                        finish();
 //                        overridePendingTransition(0, 0);
 //                        startActivity(getIntent());
@@ -559,7 +598,7 @@ public class EditProfileActivity extends ParentEditProfileActivity {
                         saveEdu.setVisibility(View.INVISIBLE);
                         cancelEdu.setVisibility(View.INVISIBLE);
                         if (user.getEducation() != null)
-                        educationET.setText(user.getEducation());
+                            educationET.setText(user.getEducation());
 //                        else educationET.setText("No education added.");
 //
 //                        finish();
@@ -595,15 +634,15 @@ public class EditProfileActivity extends ParentEditProfileActivity {
 
     }//End wrongInfoDialog()
 
-    private void fillCurrentUSerData(){
+    private void fillCurrentUSerData() {
         String username = MySharedPreference.getString(EditProfileActivity.this, Constants.Keys.USER_NAME, "");
-        String capitalizedName = username.substring(0,1).toUpperCase() + username.substring(1,username.length());
+        String capitalizedName = username.substring(0, 1).toUpperCase() + username.substring(1, username.length());
 
         name.setText(capitalizedName);
 
-        nameAsFreelancer.setText(capitalizedName+" as Freelancer:");
+        nameAsFreelancer.setText(capitalizedName + " as Freelancer:");
 
-        nameAsEmployer.setText(capitalizedName+ " as Employer:");
+        nameAsEmployer.setText(capitalizedName + " as Employer:");
 
         initToolbar(capitalizedName);
 
@@ -615,7 +654,7 @@ public class EditProfileActivity extends ParentEditProfileActivity {
         ApiClients.getAPIs().getPostLinkedInRequest(id, linkedin).enqueue(new Callback<User>() {
             @Override
             public void onResponse(Call<User> call, Response<User> response) {
-                if (response.isSuccessful()){
+                if (response.isSuccessful()) {
                     user = response.body();
                 } else {
                     Toast.makeText(EditProfileActivity.this, response.errorBody().toString(), Toast.LENGTH_LONG).show();
@@ -631,12 +670,12 @@ public class EditProfileActivity extends ParentEditProfileActivity {
 
     }//end add linkedin
 
-    private void executeAddTwitterRequest(long id, String twitter){
+    private void executeAddTwitterRequest(long id, String twitter) {
 
         ApiClients.getAPIs().getPostTwitterRequest(id, twitter).enqueue(new Callback<User>() {
             @Override
             public void onResponse(Call<User> call, Response<User> response) {
-                if (response.isSuccessful()){
+                if (response.isSuccessful()) {
                     user = response.body();
                     //todo either call calc tp or refresh activity.
                 } else {
@@ -652,12 +691,12 @@ public class EditProfileActivity extends ParentEditProfileActivity {
 
     }//end add twitter
 
-    private void executeAddFacebookRequest(long id, String facebook){
+    private void executeAddFacebookRequest(long id, String facebook) {
 
         ApiClients.getAPIs().getPostFacebookRequest(id, facebook).enqueue(new Callback<User>() {
             @Override
             public void onResponse(Call<User> call, Response<User> response) {
-                if (response.isSuccessful()){
+                if (response.isSuccessful()) {
                     user = response.body();
                 } else {
                     Toast.makeText(EditProfileActivity.this, response.errorBody().toString(), Toast.LENGTH_LONG).show();
@@ -678,7 +717,7 @@ public class EditProfileActivity extends ParentEditProfileActivity {
         ApiClients.getAPIs().getPostEducation(id, education).enqueue(new Callback<User>() {
             @Override
             public void onResponse(Call<User> call, Response<User> response) {
-                if (response.isSuccessful()){
+                if (response.isSuccessful()) {
                     user = response.body();
                 } else {
                     Toast.makeText(EditProfileActivity.this, response.errorBody().toString(), Toast.LENGTH_LONG).show();
@@ -693,21 +732,20 @@ public class EditProfileActivity extends ParentEditProfileActivity {
     }
 
 
-
     /**
      * FOR CHOOSING IMAGE
      */
 
-    private void showPhotoOptionsDialog(){
-        final CharSequence[] items = {"Camera","Gallery"};
+    private void showPhotoOptionsDialog() {
+        final CharSequence[] items = {"Camera", "Gallery"};
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setItems(items, new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int item) {
 
-                if(items[item].equals("Camera")){
+                if (items[item].equals("Camera")) {
                     cameraIntent();
-                }else if(items[item].equals("Gallery")){
+                } else if (items[item].equals("Gallery")) {
                     galleryIntent();
                 }//End else if block
             }//End onClick()
@@ -719,7 +757,7 @@ public class EditProfileActivity extends ParentEditProfileActivity {
     private void cameraIntent() {
 
         cameraIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-        startActivityForResult(cameraIntent,INTENT_CAMERA);
+        startActivityForResult(cameraIntent, INTENT_CAMERA);
 
     }//End cameraIntent()
 
@@ -727,14 +765,13 @@ public class EditProfileActivity extends ParentEditProfileActivity {
 
         photoPickerIntent = new Intent(Intent.ACTION_PICK);
         photoPickerIntent.setType("image/*");
-        startActivityForResult(photoPickerIntent,INTENT_GALLERY);
+        startActivityForResult(photoPickerIntent, INTENT_GALLERY);
 
     }//End galleryIntent()
 
-    private void openCameraChooser(){
-        if(!checkPermission()){
+    private void openCameraChooser() {
+        if (!checkPermission()) {
             requestPermission();
-            return;
         }//End if block
         showPhotoOptionsDialog();
     }//End openCameraChooser()
@@ -755,99 +792,160 @@ public class EditProfileActivity extends ParentEditProfileActivity {
     }//End requestPermission()
 
 
-//            MySharedPreference.putString(this, Constants.Keys.USER_IMG, user.getImage());
-
     @Override
     protected void onActivityResult(int reqCode, int resultCode, Intent data) {
         super.onActivityResult(reqCode, resultCode, data);
         if (resultCode == Activity.RESULT_OK)
-            //End of if
-            if (reqCode == INTENT_CAMERA || reqCode == INTENT_GALLERY)
-                try {
-                    final Bitmap bitmap;
-                    if (data.getData() == null) {
-                        bitmap = (Bitmap) data.getExtras().get("data");
-                    }//End of if
-                    else {
-                        bitmap = MediaStore.Images.Media.getBitmap(this.getContentResolver(), data.getData());
-                    }//End of else
+            if (reqCode == INTENT_CAMERA || reqCode == INTENT_GALLERY) {
+                if (isUploadAvatarClicked) {
+                    try {
+                        final Bitmap bitmap;
+                        if (data.getData() == null) {
+                            bitmap = (Bitmap) data.getExtras().get("data");
+                        }//End of if
+                        else {
+                            bitmap = MediaStore.Images.Media.getBitmap(this.getContentResolver(), data.getData());
+                        }//End of else
 
-                    userImg.setImageBitmap(bitmap);
-                    fromBitmapToFile(bitmap);
-                    byte[] img = ImageToByte(imageFile);
+                     //   userImg.setImageBitmap(bitmap);
+                        fromBitmapToFile(bitmap);
+                        current_user_id = MySharedPreference.getLong(getApplicationContext(), Constants.Keys.USER_ID, -1);
+                        Log.i(LOG, "onResponse : Successful im in is avatar  " + current_user_id);
 
-                    current_user_id = MySharedPreference.getLong(getApplicationContext(),Constants.Keys.USER_ID,-1);
-                    Log.i(LOG, "onResponse : notSuccessful  " + current_user_id);
+                        uploadAvatar(current_user_id, imageFile);
 
-                    uploadAvatar(current_user_id, imageFile);
+                    } catch (FileNotFoundException e) {
+                        e.printStackTrace();
+                    }//End of catch
+                    catch (IOException e) {
+                        e.printStackTrace();
+                    }//end catch block
+                } else if (isUploadSampleWorkClicked) {
+
+                    try {
+                         Bitmap bitmap;
+                        if (data.getData() == null) {
+                            bitmap = (Bitmap) data.getExtras().get("data");
+                        } else {
+                            bitmap = MediaStore.Images.Media.getBitmap(this.getContentResolver(), data.getData());
+                        }
+
+                       convertFromBitmapToFile(current_user_id,bitmap);
+
+                        current_user_id = MySharedPreference.getLong(getApplicationContext(), Constants.Keys.USER_ID, -1);
+                        Log.i(LOG, "onResponse : Successful im in is upload work  " + current_user_id);
+
+//                        uploadSampleWork(current_user_id, sampleWork);
+
+                    } catch (FileNotFoundException e) {
+                        e.printStackTrace();
+                    }//End of catch
+                    catch (IOException e) {
+                        e.printStackTrace();
+                    }//end catch block
+
+                    Log.i(LOG, " upload sample work clicked yaaay");
 
 
-//                    postImg(current_user_id, img);
+                }
 
-//                    MySharedPreference.putString(this, Constants.Keys.USER_IMG, bitmap.toString());
-//
-//                    String imageString = MySharedPreference.getString(EditProfileActivity.this,Constants.Keys.USER_IMG,"");
-//                    Glide.with(this).load(imageString).into(userImg);
-
-
-
-                } catch (FileNotFoundException e) {
-                    e.printStackTrace();
-                }//End of catch
-                catch (IOException e) {
-                    e.printStackTrace();
-                }//end catch block
+            }
 
 
     }//End onActivityResult()
 
-    private void uploadAvatar(Long id, File imageFile) {
-        MultipartBody.Part body =null;
+    private void uploadSampleWork(long id, File sampleWork) {
+        MultipartBody.Part body = null;
         try {
-          body = MultipartBody.Part.createFormData("avatar", imageFile.getName(), RequestBody
-                            .create(MediaType.parse(Files.probeContentType(imageFile.toPath()).toString()), imageFile) );
+            body = MultipartBody.Part.createFormData("attachment", sampleWork.getName(), RequestBody
+                    .create(MediaType.parse(Files.probeContentType(sampleWork.toPath()).toString()), sampleWork));
 
-//            ApiClients.getAPIs().uploadAvatar(id,body).enqueue(new Callback<ApiResponse>() {
-//                @Override
-//                public void onResponse(Call<ApiResponse> call, Response<ApiResponse> response) {
-//                    if(response.isSuccessful()) {
-//                        Log.i(LOG, "onResponse : Success" + response.message());
-////                        StorageDocument storageDocument = (StorageDocument) response.body();
-////                        MySharedPreference.putBoolean(getApplicationContext(),Constants.Keys.USER_IMG,response.body());
-//                    }else{
-//                        Log.i(LOG, "onResponse : not Success" + response.message() + id);
-//
-//                    }
-//
-//                }
-//
-//                @Override
-//                public void onFailure(Call<ApiResponse> call, Throwable t) {
-//                    Log.i(LOG, "onResponse : not Success" + t.getMessage());
-//
-//                }
-//            });
-    ApiClients.getAPIs().uploadAvatar(id,body).enqueue(new Callback<StorageDocument>() {
-    @Override
-    public void onResponse(Call<StorageDocument> call, Response<StorageDocument> response) {
-                            if(response.isSuccessful()) {
+            ApiClients.getAPIs().uploadSampleWork(id, body).enqueue(new Callback<StorageDocument>() {
+                @Override
+                public void onResponse(Call<StorageDocument> call, Response<StorageDocument> response) {
+                    if (response.isSuccessful()) {
                         Log.i(LOG, "onResponse : Success" + response.message());
                         StorageDocument storageDocument = response.body();
-                        MySharedPreference.putString(getApplicationContext(),Constants.Keys.USER_IMG,storageDocument.getUrl());
-                                Log.i(LOG, "onResponse : Success the picture " + storageDocument.getUrl());
+                        Log.i(LOG, "onResponse : Success the picture " + storageDocument.getUrl());
+                        files.add(response.body());
+                        adapter.notifyDataSetChanged();
+                        adapter.notifyItemChanged(adapter.getItemCount()-1);
 
-                            }else{
+                    } else {
                         Log.i(LOG, "onResponse : not Success" + response.message() + id);
 
                     }
+                }
+
+                @Override
+                public void onFailure(Call<StorageDocument> call, Throwable t) {
+                    Log.i(LOG, "onResponse : not Success" + t.getMessage());
+
+                }
+            });
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
     }
 
-    @Override
-    public void onFailure(Call<StorageDocument> call, Throwable t) {
-            Log.i(LOG, "onResponse : not Success" + t.getMessage());
+    private File convertFromBitmapToFile(long user_id,Bitmap bitmap) {
+        File filesDir = getFilesDir();
 
-        }
-        });
+        String name1 = "";
+        if (name.getText() != null)
+            name1 = name.getText().toString();
+
+        File sampleWorkFile = new File(filesDir, name1 + ".png");
+
+        OutputStream os;
+        try {
+            os = new FileOutputStream(sampleWorkFile);
+            bitmap.compress(Bitmap.CompressFormat.PNG, 100, os);
+
+            os.flush();
+            os.close();
+            uploadSampleWork(user_id , sampleWorkFile);
+//            return os;
+        }//End try block
+        catch (Exception e) {
+            Log.e(getClass().getSimpleName(), "Error writing bitmap", e);
+        }//End catch
+
+        return sampleWorkFile;
+    }
+
+    private void uploadAvatar(Long id, File imageFile) {
+        MultipartBody.Part body = null;
+        try {
+            body = MultipartBody.Part.createFormData("avatar", imageFile.getName(), RequestBody
+                    .create(MediaType.parse(Files.probeContentType(imageFile.toPath()).toString()), imageFile));
+
+            ApiClients.getAPIs().uploadAvatar(id, body).enqueue(new Callback<StorageDocument>() {
+                @Override
+                public void onResponse(Call<StorageDocument> call, Response<StorageDocument> response) {
+                    if (response.isSuccessful()) {
+                        Log.i(LOG, "onResponse : Success" + response.message());
+                        StorageDocument storageDocument = response.body();
+                        MySharedPreference.putString(getApplicationContext(), Constants.Keys.USER_IMG, storageDocument.getUrl());
+                        Log.i(LOG, "onResponse : Success the picture " + storageDocument.getUrl());
+                        Glide.with(getApplicationContext())
+                                .load(storageDocument.getUrl())
+                                .placeholder(R.drawable.user).apply(RequestOptions.circleCropTransform())
+                                .into(userImg);
+
+                    } else {
+                        Log.i(LOG, "onResponse : not Success" + response.message() + id);
+
+                    }
+                }
+
+                @Override
+                public void onFailure(Call<StorageDocument> call, Throwable t) {
+                    Log.i(LOG, "onResponse : not Success" + t.getMessage());
+
+                }
+            });
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -855,50 +953,11 @@ public class EditProfileActivity extends ParentEditProfileActivity {
 
     }
 
-
-
-
-//    private void post(File file){
-//        ApiClients.getAPIs().postAvat(file).enqueue(new Callback<Void>() {
-//            @Override
-//            public void onResponse(Call<Void> call, Response<Void> response) {
-//
-//            }
-//
-//            @Override
-//            public void onFailure(Call<Void> call, Throwable t) {
-//
-//            }
-//        });
-//    }
-
-    //TODO: REMOVE IT!!!!!!!!!!!!!!!!!!!!!!!!!!!! NOT WORKING IDK WHY :)???!!
-    private void postImg(long id, byte[] img){
-        ApiClients.getAPIs().getPostImgRequest(id, img).enqueue(new Callback<Void>() {
-            @Override
-            public void onResponse(Call<Void> call, Response<Void> response) {
-                if(response.isSuccessful()){
-                    Toast.makeText(EditProfileActivity.this,"FINALLY SUCCESSFUL",Toast.LENGTH_LONG).show();
-
-                } else{
-                    Toast.makeText(EditProfileActivity.this,response.errorBody().toString(),Toast.LENGTH_LONG).show();
-
-                }
-            }
-
-            @Override
-            public void onFailure(Call<Void> call, Throwable t) {
-                Toast.makeText(EditProfileActivity.this,t.getLocalizedMessage(),Toast.LENGTH_LONG).show();
-
-            }
-        });
-    }
-
     private void fromBitmapToFile(Bitmap bitmap) {
         File filesDir = getFilesDir();
 
         String name1 = "";
-        if (name.getText() != null )
+        if (name.getText() != null)
             name1 = name.getText().toString();
 
         imageFile = new File(filesDir, name1 + ".png");
@@ -912,7 +971,7 @@ public class EditProfileActivity extends ParentEditProfileActivity {
             os.close();
 //            return os;
         }//End try block
-        catch (Exception e){
+        catch (Exception e) {
             Log.e(getClass().getSimpleName(), "Error writing bitmap", e);
         }//End catch
 
@@ -925,42 +984,42 @@ public class EditProfileActivity extends ParentEditProfileActivity {
         alertDialog.setIcon(R.drawable.exclamation);
         alertDialog.setPositiveButton("OK", new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int which) {
-               dialog.dismiss();
+                dialog.dismiss();
             }//end onClick
         });//end setPositiveButton
 
         alertDialog.show();
     }//end wrongInfoDialog()
-
-    public static byte[] ImageToByte(File file) throws FileNotFoundException{
-
-        FileInputStream fis = new FileInputStream(file);
-
-        ByteArrayOutputStream bos = new ByteArrayOutputStream();
-
-        byte[] buf = new byte[1024];
-
-        try {
-
-            for (int readNum; (readNum = fis.read(buf)) != -1;) {
-
-                bos.write(buf, 0, readNum);
-
-                System.out.println("read " + readNum + " bytes,");
-
-            }
-
-        } catch (IOException ex) {
-
-        }
-
-        byte[] bytes = bos.toByteArray();
-
-
-
-        return bytes;
-
-    }
+//
+//    public static byte[] ImageToByte(File file) throws FileNotFoundException{
+//
+//        FileInputStream fis = new FileInputStream(file);
+//
+//        ByteArrayOutputStream bos = new ByteArrayOutputStream();
+//
+//        byte[] buf = new byte[1024];
+//
+//        try {
+//
+//            for (int readNum; (readNum = fis.read(buf)) != -1;) {
+//
+//                bos.write(buf, 0, readNum);
+//
+//                System.out.println("read " + readNum + " bytes,");
+//
+//            }
+//
+//        } catch (IOException ex) {
+//
+//        }
+//
+//        byte[] bytes = bos.toByteArray();
+//
+//
+//
+//        return bytes;
+//
+//    }
 
 
     //todo: check validity of phone number, maroof acc and national id.
@@ -979,10 +1038,10 @@ public class EditProfileActivity extends ParentEditProfileActivity {
 
         final EditText infoET = dialogView.findViewById(R.id.accounts_editText);
         TextView title = dialogView.findViewById(R.id.txt_exit);
-        TextView add =  dialogView.findViewById(R.id.btn_add);
-        TextView cancel =  dialogView.findViewById(R.id.btn_cancel);
+        TextView add = dialogView.findViewById(R.id.btn_add);
+        TextView cancel = dialogView.findViewById(R.id.btn_cancel);
 
-        switch (type){
+        switch (type) {
             case 0:
                 title.setText("Please enter your maarof account");
                 if (fr.getMaarof_account() != null)
@@ -1019,7 +1078,7 @@ public class EditProfileActivity extends ParentEditProfileActivity {
                 if (infoET.getText().toString().equals(""))
                     wrongInfoDialog("Field is empty, please fill it with required information");
                 else {
-                    switch (type){
+                    switch (type) {
                         case 0:
                             executeAddMaroofAccRequest(MySharedPreference.getLong(EditProfileActivity.this, Constants.Keys.FREELANCER_ID, -1), infoET.getText().toString());
                             dialogBuilder.dismiss();
@@ -1054,7 +1113,7 @@ public class EditProfileActivity extends ParentEditProfileActivity {
         ApiClients.getAPIs().getPostMaroofAccountRequest(id, maroofAcc).enqueue(new Callback<Freelancer>() {
             @Override
             public void onResponse(Call<Freelancer> call, Response<Freelancer> response) {
-                if (response.isSuccessful()){
+                if (response.isSuccessful()) {
                     fr = response.body();
                 } else {
                     Toast.makeText(EditProfileActivity.this, response.errorBody().toString(), Toast.LENGTH_LONG).show();
@@ -1077,7 +1136,7 @@ public class EditProfileActivity extends ParentEditProfileActivity {
         ApiClients.getAPIs().getPostPhoneNumberRequest(id, phone).enqueue(new Callback<User>() {
             @Override
             public void onResponse(Call<User> call, Response<User> response) {
-                if (response.isSuccessful()){
+                if (response.isSuccessful()) {
                     user = response.body();
                 } else {
                     Toast.makeText(EditProfileActivity.this, response.errorBody().toString(), Toast.LENGTH_LONG).show();
@@ -1093,12 +1152,12 @@ public class EditProfileActivity extends ParentEditProfileActivity {
     }//end add phone
 
     //TWO
-    private void executeAddNationalIdRequest(long id, String NationalId){
+    private void executeAddNationalIdRequest(long id, String NationalId) {
 
         ApiClients.getAPIs().getPostNationalIdRequest(id, NationalId).enqueue(new Callback<User>() {
             @Override
             public void onResponse(Call<User> call, Response<User> response) {
-                if (response.isSuccessful()){
+                if (response.isSuccessful()) {
                     user = response.body();
                 } else {
                     Toast.makeText(EditProfileActivity.this, response.errorBody().toString(), Toast.LENGTH_LONG).show();
@@ -1113,11 +1172,11 @@ public class EditProfileActivity extends ParentEditProfileActivity {
 
     }
 
-    private void executeCalculateEmployerTotalRating(Employer employer_id){
+    private void executeCalculateEmployerTotalRating(Employer employer_id) {
         ApiClients.getAPIs().CalculateEmployerTotalRating(employer_id).enqueue(new Callback<Double>() {
             @Override
             public void onResponse(Call<Double> call, Response<Double> response) {
-                if (response.isSuccessful()){
+                if (response.isSuccessful()) {
                     //None worked in presenting the value as double
                     // يقرب العدد بعدين يحطه :)
                     empTotalRates.setRating(Float.valueOf(String.valueOf(response.body())));
@@ -1154,23 +1213,23 @@ public class EditProfileActivity extends ParentEditProfileActivity {
         ApiClients.getAPIs().getEmployerByUserIdRequest(user_id).enqueue(new Callback<Employer>() {
             @Override
             public void onResponse(Call<Employer> call, Response<Employer> response) {
-                if (response.isSuccessful()){
-                    if(MySharedPreference.getString(EditProfileActivity.this,Constants.Keys.USER_CURRENT_TYPE,"0").equals("EMPLOYER")){
-                        numberOfRatings.setText("("+response.body().getNum_of_ratings()+")");
+                if (response.isSuccessful()) {
+                    if (MySharedPreference.getString(EditProfileActivity.this, Constants.Keys.USER_CURRENT_TYPE, "0").equals("EMPLOYER")) {
+                        numberOfRatings.setText("(" + response.body().getNum_of_ratings() + ")");
                     }
 
                     //Filling As employer statistics
-                    EmpNumOfProjects.setText(response.body().getNum_of_posted_Projects()+"");
+                    EmpNumOfProjects.setText(response.body().getNum_of_posted_Projects() + "");
 
                     double response_time = response.body().getResponse_time();
                     double num_of_ratings = response.body().getNum_of_ratings();
-                    double avgRT =( ((response_time/num_of_ratings) /5) *100);
+                    double avgRT = (((response_time / num_of_ratings) / 5) * 100);
                     double total_otp = response.body().getTotal_on_time_payment();
-                    double avgOTP = ((total_otp/num_of_ratings)/5) *100;
-                    EmpAvgResponseTime.setText((int)avgRT+"%");
-                    empAvgResponseTimePB.setProgress((int)avgRT);
-                    EmpAvgOTP.setText((int)avgOTP+"%");
-                    empOnTimePaymentPB.setProgress((int)avgOTP);
+                    double avgOTP = ((total_otp / num_of_ratings) / 5) * 100;
+                    EmpAvgResponseTime.setText((int) avgRT + "%");
+                    empAvgResponseTimePB.setProgress((int) avgRT);
+                    EmpAvgOTP.setText((int) avgOTP + "%");
+                    empOnTimePaymentPB.setProgress((int) avgOTP);
 
 
                 }
@@ -1184,72 +1243,65 @@ public class EditProfileActivity extends ParentEditProfileActivity {
 
     }
 
-    private void getFreelancerByUserIDRequest(long user_id ){
+    private void getFreelancerByUserIDRequest(long user_id) {
 
         ApiClients.getAPIs().getFreelancerByUserIdRequest(user_id).enqueue(new Callback<Freelancer>() {
             @Override
             public void onResponse(Call<Freelancer> call, Response<Freelancer> response) {
-                if (response.isSuccessful()){
+                if (response.isSuccessful()) {
                     fr = response.body();
-                    if(MySharedPreference.getString(EditProfileActivity.this,Constants.Keys.USER_CURRENT_TYPE,"0").equals("FREELANCER")){
-                        numberOfRatings.setText("("+response.body().getNum_of_ratings()+")");
+                    if (MySharedPreference.getString(EditProfileActivity.this, Constants.Keys.USER_CURRENT_TYPE, "0").equals("FREELANCER")) {
+                        numberOfRatings.setText("(" + response.body().getNum_of_ratings() + ")");
                     }
 
-                    FrWorkedOnProjects.setText(response.body().getNum_of_hired_projects()+"");
+                    FrWorkedOnProjects.setText(response.body().getNum_of_hired_projects() + "");
                     double response_time = response.body().getTotal_response_time();
                     double num_of_ratings = response.body().getNum_of_ratings();
-                    double avgRT =( ((response_time/num_of_ratings) /5) *100);
+                    double avgRT = (((response_time / num_of_ratings) / 5) * 100);
 
                     double quality = response.body().getTotal_quality_of_work();
-                    double avgQ =( (quality/num_of_ratings)/5 )*100;
+                    double avgQ = ((quality / num_of_ratings) / 5) * 100;
 
-                    FrAvgResponseTime.setText((int)avgRT+"%");
-                    frAvgResponseTimePB.setProgress((int)avgRT);
-                    FrAvgQualityOfWork.setText((int)avgQ+"%");
-                    frQualityPB.setProgress((int)avgQ);
+                    FrAvgResponseTime.setText((int) avgRT + "%");
+                    frAvgResponseTimePB.setProgress((int) avgRT);
+                    FrAvgQualityOfWork.setText((int) avgQ + "%");
+                    frQualityPB.setProgress((int) avgQ);
 
-                    Log.i(LOG,"onResponse: suc" + fr.toString());
+                    Log.i(LOG, "onResponse: suc" + fr.toString());
                     skillsList = fr.getSkills();
-                    Log.i(LOG,"onResponse: suc" + fr.getSkills());
-                    Log.i(LOG,"onResponse: suc" + skillsList.toString());
+                    Log.i(LOG, "onResponse: suc" + fr.getSkills());
+                    Log.i(LOG, "onResponse: suc" + skillsList.toString());
 
                     skillText = findViewById(R.id.list_skills);
-                    String skillToDisplay ="";
+                    String skillToDisplay = "";
 
                     for (Skill subset : skillsList) {
-                        skillToDisplay += " - " +subset.getName() ;
+                        skillToDisplay += subset.getName() + "\n";
                     }
 
-                    skillText.setText(skillToDisplay );
+                    skillText.setText(skillToDisplay);
 
 
-
-
-
-                } else{
-                    Log.i(LOG,"onResponse: notSuc" + response.toString());
+                } else {
+                    Log.i(LOG, "onResponse: notSuc" + response.toString());
                 }
             }
 
             @Override
             public void onFailure(Call<Freelancer> call, Throwable t) {
-                Log.i(LOG,"onFailure :" + t.toString());
+                Log.i(LOG, "onFailure :" + t.toString());
             }
         });
 
 
-
-
-
-
     }//End getFreelancerByUserIdRequest()
 
-    private void CalculateEmpTP(long id){
+    private void CalculateEmpTP(long id) {
         ApiClients.getAPIs().CalculateEmployerTrustPoints(id).enqueue(new Callback<Integer>() {
             @Override
             public void onResponse(Call<Integer> call, Response<Integer> response) {
-                if (response.isSuccessful()){
-                    totalTrustPoints_TV.setText(response.body()+"%");
+                if (response.isSuccessful()) {
+                    totalTrustPoints_TV.setText(response.body() + "%");
                     trustPointsPB.setProgress(response.body());
                 }
 
@@ -1262,12 +1314,12 @@ public class EditProfileActivity extends ParentEditProfileActivity {
         });
     }//End CalculateEmpTP()
 
-    private void CalculateFrTP(long id){
+    private void CalculateFrTP(long id) {
         ApiClients.getAPIs().CalculateFreelancerTrustPoints(id).enqueue(new Callback<Integer>() {
             @Override
             public void onResponse(Call<Integer> call, Response<Integer> response) {
-                if (response.isSuccessful()){
-                    totalTrustPoints_TV.setText(response.body()+"%");
+                if (response.isSuccessful()) {
+                    totalTrustPoints_TV.setText(response.body() + "%");
                     trustPointsPB.setProgress(response.body());
                 }
             }
@@ -1279,11 +1331,11 @@ public class EditProfileActivity extends ParentEditProfileActivity {
         });
     }
 
-    private void getUserById(long id){
+    private void getUserById(long id) {
         ApiClients.getAPIs().findUserById(id).enqueue(new Callback<User>() {
             @Override
             public void onResponse(Call<User> call, Response<User> response) {
-                if (response.isSuccessful()){
+                if (response.isSuccessful()) {
                     user = response.body();
 
 
@@ -1311,11 +1363,9 @@ public class EditProfileActivity extends ParentEditProfileActivity {
                     else
                         facebookET.setText("NA");
 
-
-
+                       initWorkRecyclerView();
 
                 }
-//                    user = response.body();
             }
 
             @Override
@@ -1326,6 +1376,20 @@ public class EditProfileActivity extends ParentEditProfileActivity {
     }
 
 
+    @Override
+    public void onItemClick(StorageDocument storageDocument) {
+        List<String> images = new ArrayList<>();
+        List<Image> images1 =null;
+         user.getSampleWorks().forEach(sampleWork -> {
+             images.add(sampleWork.getUrl());
+         });
+
+         Intent intent = new Intent(EditProfileActivity.this , ViewAttachmentActivity.class);
+         intent.putExtra("image" , storageDocument.getUrl());
+         startActivity(intent);
+
+
+    }
 
 
 }

@@ -17,7 +17,9 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".Rating.test"></activity>
+        <activity android:name=".EmployerMainPages.AccountRelatedActivities.ViewAttachmentActivity"
+         ></activity>
+        <activity android:name=".Rating.test" />
         <activity android:name=".EmployerMainPages.AccountRelatedActivities.SettingActivity" />
         <activity android:name=".EmployerMainPages.AccountRelatedActivities.Payment.PaymentMethodActivity" />
         <activity android:name=".EmployerMainPages.AccountRelatedActivities.Payment.PaymentActivity" />

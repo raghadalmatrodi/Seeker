@@ -939,10 +939,11 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginLeft="18dp"
+            android:layout_marginTop="3dp"
             android:text=""
             android:layout_marginBottom="20dp"
             android:textColor="#000"
-            android:textSize="17sp"
+            android:textSize="14sp"
             />
 
     </LinearLayout>
@@ -950,14 +951,14 @@
     <LinearLayout
         android:background="@drawable/divider"
         android:layout_width="match_parent"
-        android:layout_marginTop="10dp"
         android:layout_height="2dp"></LinearLayout>
 
     <LinearLayout
         android:layout_width="401dp"
         android:layout_height="match_parent"
+        android:layout_marginTop="10dp"
         android:layout_marginRight="102dp"
-        android:orientation="vertical">
+       >
 
         <TextView
             android:layout_width="wrap_content"
@@ -967,6 +968,28 @@
             android:textColor="#000"
             android:textSize="17sp"/>
 
+        <ImageView
+            android:id="@+id/upload_sample_work"
+            android:layout_width="26dp"
+            android:layout_height="26dp"
+            android:layout_marginStart="10dp"
+            app:layout_constraintHorizontal_bias="0.792"
+            android:layout_marginBottom="10dp"
+            app:layout_constraintStart_toEndOf="@id/sample_work_text"
+            app:layout_constraintTop_toTopOf="@id/sample_work_text"
+            android:src="@drawable/add_image"
+            />
+    </LinearLayout>
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/attachment_recycle_view"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="5dp"
+            android:layout_marginBottom="10dp"
+       />
 
     </LinearLayout>
 

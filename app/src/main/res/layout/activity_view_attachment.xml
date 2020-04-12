@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:background="@color/gray"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".EmployerMainPages.AccountRelatedActivities.ViewAttachmentActivity">
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+        <ImageView
+            android:id="@+id/back_button"
+            android:layout_marginTop="10dp"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:layout_gravity="left"
+            android:src="@drawable/white_back">
+
+        </ImageView>
+        <ImageView
+            android:id="@+id/view_attachment"
+            android:layout_width="match_parent"
+            android:layout_height="600dp"
+            android:layout_gravity="center" >
+
+        </ImageView>
+    </FrameLayout>
+
+</LinearLayout>
