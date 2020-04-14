@@ -227,7 +227,7 @@ public class BidsAdapter extends RecyclerView.Adapter<BidsAdapter.MyViewHolder> 
                 listener.onAcceptBidItemClick(bid);
 
 
-                addMilestone(bid);
+
 
             }
 
@@ -242,34 +242,6 @@ public class BidsAdapter extends RecyclerView.Adapter<BidsAdapter.MyViewHolder> 
 
     }//End of onBindViewHolder
 
-    private void addMilestone(Bid bid) {
-
-
-
-            Milestone milestone = new Milestone(bid.getPrice(), "0", bid.getDeliver_date(),project.getTitle(), project);
-
-            ApiClients.getAPIs().createMilestoneRequest(milestone).enqueue(new Callback<Milestone>() {
-                @Override
-                public void onResponse(Call<Milestone> call, Response<Milestone> response) {
-                    if (response.isSuccessful()){
-                        Log.i("onResponse successful ",response.message());
-                    }
-                    Log.i("onResponse Notsuccessful ",response.message());
-                }
-
-
-                @Override
-                public void onFailure(Call<Milestone> call, Throwable t) {
-
-                    Log.i("onResponse fail ", "fail");
-                }
-            });
-
-
-
-
-
-    }
 
     private void findFreelancerById(long id){
 //        ApiClients.getAPIs().findFreelancerById(id).enqueue(new Callback<Freelancer>() {

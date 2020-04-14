@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 
 import com.example.seeker.R;
 
@@ -19,6 +20,7 @@ public class ContactSupportActivity extends AppCompatActivity {
     private EditText eSubject;
     private EditText eMsg;
     private Button btn;
+    private ImageView backBtn;
 
 
     @Override
@@ -29,6 +31,15 @@ public class ContactSupportActivity extends AppCompatActivity {
             eTo.setText("SeekerApp@hotmail.com");
             eTo.setEnabled(false);
             eSubject = (EditText)findViewById(R.id.txtSub);
+            backBtn = findViewById(R.id.support_back);
+            backBtn.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+
+                    finish();
+
+                }
+            });
             eMsg = (EditText)findViewById(R.id.txtMsg);
             btn = (Button)findViewById(R.id.btnSend);
             btn.setOnClickListener(new View.OnClickListener() {
