@@ -46,6 +46,10 @@ public class SplashActivity extends Activity {
     private void checkIsLogin() {
         if (MySharedPreference.getBoolean(this, Constants.Keys.IS_LOGIN, false)) {
 
+
+
+
+
             if(MySharedPreference.getString(SplashActivity.this,Constants.Keys.USER_CURRENT_TYPE,"0").equals("EMPLOYER")){
             startActivity(new Intent(getApplicationContext(), EmployerMainActivity.class));
             finish();}
