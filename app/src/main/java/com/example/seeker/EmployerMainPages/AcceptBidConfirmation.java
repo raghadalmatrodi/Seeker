@@ -23,6 +23,7 @@ import com.example.seeker.EmployerMainPages.MyProjectsTab_Emp.Emp_MyProjectsFrag
 import com.example.seeker.EmployerMainPages.MyProjectsTab_Emp.Emp_viewProjectFragment;
 import com.example.seeker.EmployerMainPages.MyProjectsTab_Emp.ProjectsStatusFragments.Emp_MyProjects_In_Progress_Fragment;
 import com.example.seeker.Model.Bid;
+import com.example.seeker.Model.Milestone;
 import com.example.seeker.Model.Project;
 import com.example.seeker.Model.Responses.ApiResponse;
 import com.example.seeker.R;
@@ -97,6 +98,7 @@ public class AcceptBidConfirmation extends Fragment {
                      Log.i("onResponse ", response.message());
 
                      incrementNumberOfWorkedOnPRojects(bid);
+
                      Fragment fragment = new Emp_MyProjectsFragment();
 
                      FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
@@ -192,4 +194,34 @@ public class AcceptBidConfirmation extends Fragment {
             }
         });
     }
+
+//
+//    private void addMilestone(Bid bid) {
+//
+//
+//
+//        Milestone milestone = new Milestone(bid.getPrice(), "0", bid.getDeliver_date(),project.getTitle(), project);
+//
+//        ApiClients.getAPIs().createMilestoneRequest(milestone).enqueue(new Callback<Milestone>() {
+//            @Override
+//            public void onResponse(Call<Milestone> call, Response<Milestone> response) {
+//                if (response.isSuccessful()){
+//                    Log.i("onResponse successful ",response.message());
+//                }
+//                Log.i("onResponse Notsuccessful ",response.message());
+//            }
+//
+//
+//            @Override
+//            public void onFailure(Call<Milestone> call, Throwable t) {
+//
+//                Log.i("onResponse fail ", "fail");
+//            }
+//        });
+//
+//
+//
+//
+//
+//    }
 }
