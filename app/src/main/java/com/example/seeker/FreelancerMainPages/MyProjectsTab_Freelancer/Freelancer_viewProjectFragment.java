@@ -23,6 +23,8 @@ import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.request.RequestOptions;
 import com.example.seeker.Contract.ContractFragment;
 import com.example.seeker.Database.ApiClients;
 import com.example.seeker.EmployerMainPages.AcceptBidConfirmation;
@@ -66,6 +68,7 @@ public class Freelancer_viewProjectFragment extends Fragment implements  Emp_MyP
     TextView createdAt;
 
     Button placeBidBtn;
+    ImageView employerPic;
 //    boolean hasBid = false;
     long currentFreelancer = MySharedPreference.getLong(getContext(), Constants.Keys.FREELANCER_ID, -1);
 
@@ -258,6 +261,7 @@ public class Freelancer_viewProjectFragment extends Fragment implements  Emp_MyP
         chat = view.findViewById(R.id.chat);
         createdAt = view.findViewById(R.id.createdAt_project);
         placeBidBtn = view.findViewById(R.id.place_bid_btn);
+        employerPic = view.findViewById(R.id.employer_picture);
 
 
 
@@ -275,6 +279,12 @@ public class Freelancer_viewProjectFragment extends Fragment implements  Emp_MyP
             EmployerView.setVisibility(View.GONE);
         }
 
+
+        if(project.getEmployer().getUser().getAvatar()!= null)
+            Glide.with(getActivity())
+                    .load(project.getEmployer().getUser().getAvatar())
+                    .placeholder(R.drawable.user).apply(RequestOptions.circleCropTransform())
+                    .into(employerPic);
 
         if( (project.getTitle() != null))
             if(!project.getTitle().trim().equals(""))

@@ -52,6 +52,14 @@ public class PaymentMethodActivity extends AppCompatActivity {
             payButton.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
+                    if(milestone.getProject().getType().equals("1")){
+                        //successful payment
+                        payButton.setVisibility(View.GONE);
+                        payment.setText("paid");
+                        payment.setBackgroundColor(getResources().getColor(R.color.colorAccent));
+                    }else{
+
+
                     Intent in = new Intent(getApplicationContext(), PayTabActivity.class);
                     in.putExtra(PaymentParams.MERCHANT_EMAIL, "NouraAlsabr@hotmail.com"); //this a demo account for testing the sdk
                     in.putExtra(PaymentParams.SECRET_KEY,"2p32OqqSGoJE1fPx0tCSvpYUTsbQrvAuVDxJ4XCKmlpnAfVAIyteXr9QTlHlRhPMVnvZk8JGt844n0F6y9lvAvmuR3PIlEug10fm");//Add your Secret Key Here
@@ -88,7 +96,7 @@ public class PaymentMethodActivity extends AppCompatActivity {
 //Tokenization
                     in.putExtra(PaymentParams.IS_TOKENIZATION, true);
                     startActivityForResult(in, PaymentParams.PAYMENT_REQUEST_CODE);
-                }
+                }}
             });
 
         backBtn.setOnClickListener(new View.OnClickListener() {
@@ -119,9 +127,7 @@ public class PaymentMethodActivity extends AppCompatActivity {
         int index = stringPrice.indexOf(".");
         stringPrice = stringPrice.substring(0, index);
           price.setText(stringPrice + " SAR");
-          if(milestone.getProject().getType().equals("1")){
-              payButton.setVisibility(View.GONE);
-          }
+
     }
 
 
