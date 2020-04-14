@@ -36,7 +36,8 @@
         <activity android:name=".PostBid.PostBidActivity" />
         <activity android:name=".PostBid.ViewBid" />
         <activity android:name=".EmployerMainPages.AccountRelatedActivities.EditProfileActivity" />
-        <activity android:name=".EmployerMainPages.AccountRelatedActivities.NotificationsActivity" />
+        <activity android:name=".EmployerMainPages.AccountRelatedActivities.NotificationsActivity"
+            android:theme="@style/AppTheme.AppBarOverlay"/>
         <activity android:name=".Activities.SplashActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

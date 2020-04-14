@@ -20,8 +20,8 @@
 
         <ImageView
             android:id="@+id/user_image"
-            android:layout_width="40dp"
-            android:layout_height="40dp"
+            android:layout_width="60dp"
+            android:layout_height="60dp"
             android:layout_marginTop="20dp"
             android:layout_marginLeft="20dp"
             card_view:srcCompat="@drawable/user"
@@ -38,7 +38,9 @@
             android:id="@+id/user_name"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="70dp"
+            android:layout_marginLeft="110dp"
+            android:layout_marginTop="10dp"
+
             android:text="Contact"
             android:paddingStart="@dimen/album_title_padding"
             android:paddingTop="@dimen/album_title_padding"
@@ -51,7 +53,7 @@
             android:id="@+id/user_last_chat"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="70dp"
+            android:layout_marginLeft="110dp"
             android:layout_marginBottom="9dp"
             android:layout_below="@+id/user_name"
             android:gravity="center_horizontal"

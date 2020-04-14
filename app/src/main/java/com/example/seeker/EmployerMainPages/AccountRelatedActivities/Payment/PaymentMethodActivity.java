@@ -53,10 +53,23 @@ public class PaymentMethodActivity extends AppCompatActivity {
                 @Override
                 public void onClick(View v) {
                     if(milestone.getProject().getType().equals("1")){
-                        //successful payment
-                        payButton.setVisibility(View.GONE);
-                        payment.setText("paid");
-                        payment.setBackgroundColor(getResources().getColor(R.color.colorAccent));
+
+                        PurchaseOrder purchaseOrder = new PurchaseOrder("123456","Cash",milestone.getAmount(),milestone);
+                        ApiClients.getAPIs().purchaseOrder(purchaseOrder).enqueue(new Callback<PurchaseOrder>() {
+                            @Override
+                            public void onResponse(Call<PurchaseOrder> call, Response<PurchaseOrder> response) {
+                                //successful payment
+                                payButton.setVisibility(View.GONE);
+                                payment.setText("paid");
+                                payment.setBackgroundColor(getResources().getColor(R.color.colorAccent));
+                            }
+
+                            @Override
+                            public void onFailure(Call<PurchaseOrder> call, Throwable t) {
+
+                            }
+                        });
+
                     }else{
 
 
