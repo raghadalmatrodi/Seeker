@@ -123,11 +123,22 @@ public class LoginActivity extends Activity {
 //    }
 
 
-                }//End of if
+                }}else if(response.code()==400){
+                    Converter<ResponseBody,ApiException> converter = ApiClients.getInstant().responseBodyConverter(ApiException.class,new Annotation[0]);
+                    ApiException exception = null;
+                    try {
+                        exception = converter.convert(response.errorBody());
+
+                                wrongInfoDialog(exception.getMessage());
+
+                    } catch (IOException e) {
+                        e.printStackTrace();
                     }
-                else {
-                 wrongInfoDialog("wrong email/password try again!");
-                }//End of else
+              //   wrongInfoDialog(response.message());
+                } else{
+                 wrongInfoDialog("Wrong Email or Password");
+
+                }
             }//End of big if
 
 

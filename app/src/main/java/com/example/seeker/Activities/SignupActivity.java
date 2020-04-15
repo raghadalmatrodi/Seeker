@@ -148,8 +148,7 @@ private static final String LOG= SignupActivity.class.getSimpleName();
 
                     Log.i(LOG, "onResponse : " + response.body().toString());
 
-                    //Todo: intent
-                    Dialog("You have successfully registered");
+                    Dialog("You have successfully registered, please verify your email");
 
                 } else{
                     Converter<ResponseBody,ApiException> converter = ApiClients.getInstant().responseBodyConverter(ApiException.class,new Annotation[0]);
