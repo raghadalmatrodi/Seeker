@@ -158,7 +158,7 @@ public class ViewBid extends AppCompatActivity implements Serializable,BidsAdapt
 
                    recyclerView = (RecyclerView) findViewById(R.id.recycler_view_b);
                    recyclerView.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
-                   adapter = new BidsAdapter(bidList, mainProject);
+                   adapter = new BidsAdapter(getApplicationContext(),bidList, mainProject);
                    bidList = new ArrayList<>();
                    recyclerView.setItemAnimator(new DefaultItemAnimator());
                    recyclerView.setAdapter(adapter);
@@ -223,7 +223,7 @@ public class ViewBid extends AppCompatActivity implements Serializable,BidsAdapt
 
                     recyclerView = (RecyclerView) findViewById(R.id.recycler_view_b);
                     recyclerView.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
-                    adapter = new BidsAdapter(bidList, mainProject);
+                    adapter = new BidsAdapter(getApplicationContext(),bidList, mainProject);
                     bidList = new ArrayList<>();
                     recyclerView.setItemAnimator(new DefaultItemAnimator());
                     recyclerView.setAdapter(adapter);

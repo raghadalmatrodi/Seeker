@@ -1,6 +1,7 @@
 package com.example.seeker.PostBid;
 
 import android.app.AlertDialog;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -13,6 +14,8 @@ import android.widget.Toast;
 
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.request.RequestOptions;
 import com.example.seeker.Database.ApiClients;
 import com.example.seeker.Model.Bid;
 import com.example.seeker.Model.Category;
@@ -37,6 +40,8 @@ public class BidsAdapter extends RecyclerView.Adapter<BidsAdapter.MyViewHolder> 
     Project project;
     Freelancer freelancer;
     String capitalizedName;
+    private Context mContext;
+
 
     public void setListener(BidsAdapterListener listener) {
         this.listener = listener;
@@ -58,7 +63,7 @@ public class BidsAdapter extends RecyclerView.Adapter<BidsAdapter.MyViewHolder> 
         public MyViewHolder(View view) {
             super(view);
 
-//            user_img = view.findViewById(R.id.bid_user_img);
+            user_img = view.findViewById(R.id.bid_user_img);
             username = view.findViewById(R.id.bid_user_name);
             description = view.findViewById(R.id.bid_user_description);
             price = view.findViewById(R.id.bid_proposed_price);
@@ -91,7 +96,8 @@ public class BidsAdapter extends RecyclerView.Adapter<BidsAdapter.MyViewHolder> 
         isPending = true;
 
     }
-    public BidsAdapter(List<Bid> bidList, Project project) {
+    public BidsAdapter(Context context,List<Bid> bidList, Project project) {
+        this.mContext = context;
         this.project = project;
         this.bidList = bidList;
     }//End of BidsAdapter()
@@ -200,6 +206,16 @@ public class BidsAdapter extends RecyclerView.Adapter<BidsAdapter.MyViewHolder> 
                 holder.status.setText("");
             }
         }
+
+
+        if(bid.getFreelancer()!=null)
+         if(bid.getFreelancer().getUser() !=null)
+            if(bid.getFreelancer().getUser().getAvatar()!=null)
+            Glide.with(mContext)
+                    .load(bid.getFreelancer().getUser().getAvatar())
+                    .placeholder(R.drawable.user).apply(RequestOptions.circleCropTransform())
+                    .into(holder.user_img);
+
 
         holder.acceptBid.setOnClickListener(new View.OnClickListener() {
             @Override

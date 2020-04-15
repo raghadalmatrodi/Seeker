@@ -2,6 +2,7 @@ package com.example.seeker.FreelancerMainPages.MyProjectsTab_Freelancer;
 
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.media.Image;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -28,6 +29,8 @@ import com.bumptech.glide.request.RequestOptions;
 import com.example.seeker.Contract.ContractFragment;
 import com.example.seeker.Database.ApiClients;
 import com.example.seeker.EmployerMainPages.AcceptBidConfirmation;
+import com.example.seeker.EmployerMainPages.AccountRelatedActivities.SampleWorkAdapter;
+import com.example.seeker.EmployerMainPages.AccountRelatedActivities.ViewAttachmentActivity;
 import com.example.seeker.EmployerMainPages.Chat_Emp.Emp_ChatMessages;
 import com.example.seeker.EmployerMainPages.MyProjectsTab_Emp.ProjectsStatusFragments.Emp_MyProjects_Pending_Fragment;
 import com.example.seeker.Model.Bid;
@@ -35,6 +38,7 @@ import com.example.seeker.Model.Chat;
 import com.example.seeker.Model.Contract;
 import com.example.seeker.Model.Project;
 import com.example.seeker.Model.Skill;
+import com.example.seeker.Model.StorageDocument;
 import com.example.seeker.PostBid.BidsAdapter;
 import com.example.seeker.PostBid.PostBidActivity;
 import com.example.seeker.PostBid.ViewFullBid;
@@ -49,7 +53,7 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class Freelancer_viewProjectFragment extends Fragment implements  Emp_MyProjects_Pending_Fragment.ProjectListener ,BidsAdapter.BidsAdapterListener {
+public class Freelancer_viewProjectFragment extends Fragment implements  Emp_MyProjects_Pending_Fragment.ProjectListener ,BidsAdapter.BidsAdapterListener   , SampleWorkAdapter.OnItemClickListener{
 
     private static final String LOG = Freelancer_viewProjectFragment.class.getSimpleName();
 
@@ -71,6 +75,8 @@ public class Freelancer_viewProjectFragment extends Fragment implements  Emp_MyP
     ImageView employerPic;
 //    boolean hasBid = false;
     long currentFreelancer = MySharedPreference.getLong(getContext(), Constants.Keys.FREELANCER_ID, -1);
+    List<StorageDocument> files;
+    private SampleWorkAdapter sampleWorkAdapter;
 
 
     ImageView contractImg;
@@ -151,6 +157,7 @@ public class Freelancer_viewProjectFragment extends Fragment implements  Emp_MyP
         HidingPlaceBidBtn();
 
         onPostBidClicked(project);
+        setTheAttachmentAdapter();
 
 
         return view;
@@ -348,7 +355,7 @@ public class Freelancer_viewProjectFragment extends Fragment implements  Emp_MyP
     public void setTheAdapter(){
         recyclerView = (RecyclerView) view.findViewById(R.id.recycler_view_b);
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
-        adapter = new BidsAdapter(bids, project);
+        adapter = new BidsAdapter(getContext(),bids, project);
         recyclerView.setItemAnimator(new DefaultItemAnimator());
         recyclerView.setAdapter(adapter);
         adapter.setListener(this);
@@ -360,7 +367,33 @@ public class Freelancer_viewProjectFragment extends Fragment implements  Emp_MyP
 
 
     }
+    public void setTheAttachmentAdapter()  {
+        files = project.getAttachments();
+        if(!files.isEmpty()) {
+            TextView noAttachments = view.findViewById(R.id.no_attachment);
+            noAttachments.setVisibility(View.GONE);
+        }
+        recyclerView =  view.findViewById(R.id.attachment_recycle_view);
+        sampleWorkAdapter = new SampleWorkAdapter(getContext(), files);
+        LinearLayoutManager horizontalLayoutManagaer = new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false);
+        recyclerView.setLayoutManager(horizontalLayoutManagaer);
+        recyclerView.setItemAnimator(new DefaultItemAnimator());
+        sampleWorkAdapter.setOnItemClickListener(this);
+        recyclerView.setAdapter(sampleWorkAdapter);
+    }
 
+    @Override
+    public void onItemClick(StorageDocument storageDocument) {
+        List<String> images = new ArrayList<>();
+        List<Image> images1 =null;
+        project.getAttachments().forEach(sampleWork -> {
+            images.add(sampleWork.getUrl());
+        });
+
+        Intent intent = new Intent(getContext() , ViewAttachmentActivity.class);
+        intent.putExtra("image" , storageDocument.getUrl());
+        startActivity(intent);
+    }
     @Override
     public void onBidItemClick(Bid bid) {
 

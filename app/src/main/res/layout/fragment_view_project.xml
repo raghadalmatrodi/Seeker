@@ -231,7 +231,32 @@
             android:textSize="18dp"
             android:text="No date provided"></TextView>
 
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Attachments"
+            android:textColor="@android:color/black"
+            android:textSize="19dp"
+            android:layout_marginTop="20dp"
+            android:textStyle="bold"></TextView>
+        <TextView
+            android:id="@+id/no_attachment"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="18dp"
+            android:text="No Attahcments provided"></TextView>
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/attachment_recycle_view"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
+                android:layout_marginBottom="10dp"
+                />
 
+        </LinearLayout>
 
 </LinearLayout>
 <LinearLayout
