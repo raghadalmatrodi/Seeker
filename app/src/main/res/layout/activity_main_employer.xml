@@ -17,13 +17,13 @@
         android:id="@+id/navigation"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_gravity="bottom"
+      android:layout_gravity="bottom"
         android:background="?android:attr/windowBackground"
         app:itemBackground="@android:color/white"
         android:foreground="?attr/selectableItemBackground"
         app:itemIconTint="@color/colorPrimary"
         app:itemTextColor="@color/colorPrimary"
         app:menu="@menu/navigation_emp"
-        android:layout_marginBottom="5dp"/>
+        android:layout_marginBottom="0dp"/>
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

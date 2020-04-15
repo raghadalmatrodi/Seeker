@@ -7,6 +7,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.WindowManager;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -93,6 +94,7 @@ public class Emp_viewProjectFragment extends Fragment implements  Emp_MyProjects
          init();
 
         emp_myProjects_pending_fragment = new Emp_MyProjects_Pending_Fragment();
+        getActivity().getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_NOTHING);
 
         Bundle bundle = this.getArguments();
         if (bundle != null) {

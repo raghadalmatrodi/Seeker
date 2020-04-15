@@ -24,6 +24,6 @@
         app:itemIconTint="@color/colorPrimary"
         app:itemTextColor="@color/colorPrimary"
         app:menu="@menu/navigation_freelancer"
-        android:layout_marginBottom="5dp"/>
+        android:layout_marginBottom="0dp"/>
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

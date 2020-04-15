@@ -362,8 +362,6 @@ public class Freelancer_viewProjectFragment extends Fragment implements  Emp_MyP
         recyclerView.setNestedScrollingEnabled(true);
         DividerItemDecoration dividerItemDecoration = new DividerItemDecoration(recyclerView.getContext(), DividerItemDecoration.VERTICAL);
         recyclerView.addItemDecoration(dividerItemDecoration);
-        if(isPending==1)
-        adapter.showAccept();
 
 
     }

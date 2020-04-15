@@ -47,8 +47,12 @@
         </activity>
         <activity android:name=".Activities.SignupActivity" />
         <activity android:name=".Activities.LoginActivity" />
-        <activity android:name=".EmployerMainPages.EmployerMainActivity" />
-        <activity android:name=".FreelancerMainPages.FreelancerMainActivity" /> <!-- <activity android:name=".PostProject.PostProjectActivity" /> -->
+        <activity android:name=".EmployerMainPages.EmployerMainActivity"
+            android:windowSoftInputMode="adjustPan"
+            />
+        <activity android:name=".FreelancerMainPages.FreelancerMainActivity"
+            android:windowSoftInputMode="adjustPan"
+            /> <!-- <activity android:name=".PostProject.PostProjectActivity" /> -->
         <activity android:name=".EmployerMainPages.AccountRelatedActivities.ContactSupportActivity" />
 
         <service android:name=".SeekerNotiService">
