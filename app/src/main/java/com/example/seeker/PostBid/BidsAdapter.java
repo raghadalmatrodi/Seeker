@@ -59,7 +59,6 @@ public class BidsAdapter extends RecyclerView.Adapter<BidsAdapter.MyViewHolder> 
         private TextView status;
 
 
-
         public MyViewHolder(View view) {
             super(view);
 
@@ -70,6 +69,7 @@ public class BidsAdapter extends RecyclerView.Adapter<BidsAdapter.MyViewHolder> 
             deadline = view.findViewById(R.id.bid_deliverydate);
             acceptBid = view.findViewById(R.id.accept_bid);
             status = view.findViewById(R.id.status);
+
 
             if(isEmployer && isPending){
                 acceptBid.setVisibility(View.VISIBLE);
@@ -100,6 +100,8 @@ public class BidsAdapter extends RecyclerView.Adapter<BidsAdapter.MyViewHolder> 
         this.mContext = context;
         this.project = project;
         this.bidList = bidList;
+        isEmployer= false;
+        isPending= false;
     }//End of BidsAdapter()
 
 

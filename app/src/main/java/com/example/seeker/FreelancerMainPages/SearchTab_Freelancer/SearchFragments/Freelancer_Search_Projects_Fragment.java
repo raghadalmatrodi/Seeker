@@ -99,7 +99,6 @@ public class Freelancer_Search_Projects_Fragment extends Fragment
         Fragment fragment = new Freelancer_viewProjectFragment();
         Bundle bundle = new Bundle();
         bundle.putSerializable("project", project);
-        bundle.putInt("pending", 1);
         fragment.setArguments(bundle);
         FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();

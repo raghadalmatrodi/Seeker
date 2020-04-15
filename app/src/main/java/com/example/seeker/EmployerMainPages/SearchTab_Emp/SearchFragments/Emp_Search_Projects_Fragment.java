@@ -108,7 +108,7 @@ public class Emp_Search_Projects_Fragment extends Fragment
         Fragment fragment = new Emp_viewProjectFragment();
         Bundle bundle = new Bundle();
         bundle.putSerializable("project", project);
-        bundle.putInt("pending", 1);
+     //   bundle.putInt("pending", 1);
         fragment.setArguments(bundle);
         FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
