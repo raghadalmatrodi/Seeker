@@ -143,14 +143,14 @@ public class Emp_Search_Projects_Fragment extends Fragment
                 R.drawable.wesite_and_it,
                 R.drawable.mobile,
                 R.drawable.writing,
-                R.drawable.art_and_design,
-                R.drawable.data_entry,
-                R.drawable.music_and_audio,
+                R.drawable.art_and_design,//---
                 R.drawable.wesite_and_it,
-                R.drawable.mobile,
+                R.drawable.mobile,//------
+                R.drawable.wesite_and_it,
                 R.drawable.writing,
                 R.drawable.art_and_design,
                 R.drawable.data_entry,
+                R.drawable.mobile,
                 R.drawable.music_and_audio,
                 R.drawable.wesite_and_it,
                 R.drawable.mobile,
