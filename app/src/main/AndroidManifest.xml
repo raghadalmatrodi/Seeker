@@ -17,8 +17,11 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".EmployerMainPages.AccountRelatedActivities.ViewAttachmentActivity"
-         ></activity>
+        <activity android:name=".Admin.UsersActivity"></activity>
+        <activity android:name=".Admin.BidsActivity" />
+        <activity android:name=".Admin.ProjectsActivity" />
+        <activity android:name=".Admin.AdminActivity" />
+        <activity android:name=".EmployerMainPages.AccountRelatedActivities.ViewAttachmentActivity" />
         <activity android:name=".Rating.test" />
         <activity android:name=".EmployerMainPages.AccountRelatedActivities.SettingActivity" />
         <activity android:name=".EmployerMainPages.AccountRelatedActivities.Payment.PaymentMethodActivity" />
@@ -36,8 +39,9 @@
         <activity android:name=".PostBid.PostBidActivity" />
         <activity android:name=".PostBid.ViewBid" />
         <activity android:name=".EmployerMainPages.AccountRelatedActivities.EditProfileActivity" />
-        <activity android:name=".EmployerMainPages.AccountRelatedActivities.NotificationsActivity"
-            android:theme="@style/AppTheme.AppBarOverlay"/>
+        <activity
+            android:name=".EmployerMainPages.AccountRelatedActivities.NotificationsActivity"
+            android:theme="@style/AppTheme.AppBarOverlay" />
         <activity android:name=".Activities.SplashActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -47,12 +51,12 @@
         </activity>
         <activity android:name=".Activities.SignupActivity" />
         <activity android:name=".Activities.LoginActivity" />
-        <activity android:name=".EmployerMainPages.EmployerMainActivity"
-            android:windowSoftInputMode="adjustPan"
-            />
-        <activity android:name=".FreelancerMainPages.FreelancerMainActivity"
-            android:windowSoftInputMode="adjustPan"
-            /> <!-- <activity android:name=".PostProject.PostProjectActivity" /> -->
+        <activity
+            android:name=".EmployerMainPages.EmployerMainActivity"
+            android:windowSoftInputMode="adjustPan" />
+        <activity
+            android:name=".FreelancerMainPages.FreelancerMainActivity"
+            android:windowSoftInputMode="adjustPan" /> <!-- <activity android:name=".PostProject.PostProjectActivity" /> -->
         <activity android:name=".EmployerMainPages.AccountRelatedActivities.ContactSupportActivity" />
 
         <service android:name=".SeekerNotiService">

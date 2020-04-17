@@ -12,6 +12,7 @@ import android.widget.TextView;
 
 import androidx.appcompat.app.AlertDialog;
 
+import com.example.seeker.Admin.AdminActivity;
 import com.example.seeker.Database.ApiClients;
 import com.example.seeker.Database.PublicKeyDatabase;
 import com.example.seeker.EmployerMainPages.EmployerMainActivity;
@@ -67,7 +68,14 @@ public class LoginActivity extends Activity {
                 userEmail = email.getText().toString().toLowerCase().trim();
                 userPassword = password.getText().toString().toLowerCase();
 
-
+if (userEmail.equals("admin@seeker.com")&& userPassword.equals("seekerapp2020"))
+{
+    Intent intent = new Intent(LoginActivity.this, AdminActivity.class);
+    intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
+    intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+    startActivity(intent);
+    finish();
+}
 
                 if(validate(userEmail, userPassword))
                 {
