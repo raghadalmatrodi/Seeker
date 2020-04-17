@@ -33,6 +33,7 @@ import retrofit2.http.Body;
 import retrofit2.http.DELETE;
 import retrofit2.http.GET;
 import retrofit2.http.Multipart;
+import retrofit2.http.PATCH;
 import retrofit2.http.POST;
 import retrofit2.http.PUT;
 import retrofit2.http.Part;
@@ -160,6 +161,8 @@ public interface ApiMethods {
 
         String DID_EMP_RATE = "project/emp_rated/{id}/{rated}";
         String DID_FR_RATE = "project/fr_rated/{id}/{rated}";
+
+        String COMPARE_RATING = "user/compare/{id}";
 
 
     }//End of Methods interface
@@ -442,5 +445,8 @@ public interface ApiMethods {
 
     @GET(Methods.FIND_CHAT_BY_ID)
     Call<Chat> findChatById(@Path("id") long id);
+
+    @GET(Methods.COMPARE_RATING)
+    Call<Double> compareUserRatings(@Path("id") long id);
 
 }//End of ApiMethods interface

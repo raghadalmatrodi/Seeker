@@ -120,6 +120,8 @@ public class ViewProfileActivity extends AppCompatActivity {
             else
                 educationTV.setText("No education added yet.");
 
+            compareRatings(Long.valueOf(user.getId()));
+
 
         }//end if
 
@@ -377,6 +379,20 @@ public class ViewProfileActivity extends AppCompatActivity {
     }
 
 
+    private void compareRatings(long user_id){
+        ApiClients.getAPIs().compareUserRatings(user_id).enqueue(new Callback<Double>() {
+            @Override
+            public void onResponse(Call<Double> call, Response<Double> response) {
+                if (response.isSuccessful())
+                    userTotalRating.setRating(Float.valueOf(String.valueOf(response.body())));
+            }
+
+            @Override
+            public void onFailure(Call<Double> call, Throwable t) {
+
+            }
+        });
+    }
 
 
 }//End class()
