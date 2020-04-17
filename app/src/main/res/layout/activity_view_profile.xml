@@ -37,13 +37,22 @@
                 app:layout_constraintTop_toTopOf="@id/first_ll">
 
 
-                <ImageView
+<!--                <ImageView-->
+<!--                    android:id="@+id/"-->
+<!--                    android:layout_width="105dp"-->
+<!--                    android:layout_height="108dp"-->
+<!--                    android:layout_marginStart="20dp"-->
+<!--                    android:layout_marginEnd="20dp"-->
+<!--                    android:src="@drawable/user" />-->
+                <de.hdodenhof.circleimageview.CircleImageView
+                    xmlns:app="http://schemas.android.com/apk/res-auto"
                     android:id="@+id/view_profile_pic"
                     android:layout_width="105dp"
                     android:layout_height="108dp"
                     android:layout_marginStart="20dp"
                     android:layout_marginEnd="20dp"
-                    android:src="@drawable/user" />
+                    android:src="@drawable/user"
+                    />
 
                 <TextView
                     android:id="@+id/view_profile_name"

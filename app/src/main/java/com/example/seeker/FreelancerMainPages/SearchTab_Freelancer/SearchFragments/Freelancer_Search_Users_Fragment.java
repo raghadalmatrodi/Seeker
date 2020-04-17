@@ -1,6 +1,7 @@
 package com.example.seeker.FreelancerMainPages.SearchTab_Freelancer.SearchFragments;
 
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.content.res.Resources;
 import android.graphics.Rect;
 import android.os.Bundle;
@@ -31,6 +32,7 @@ import com.example.seeker.Model.Freelancer;
 import com.example.seeker.Model.User;
 import com.example.seeker.R;
 import com.example.seeker.Search.CategorySearchAdapter;
+import com.example.seeker.ViewProfileActivity;
 
 import java.util.List;
 
@@ -104,7 +106,9 @@ public class Freelancer_Search_Users_Fragment extends Fragment
     //no need
     @Override
     public void onUserItemSelectedAdapter(User user) {
-
+        Intent intent = new Intent(getActivity(), ViewProfileActivity.class);
+        intent.putExtra("myuser", user);
+        startActivity(intent);
     }
 
 
@@ -231,7 +235,7 @@ public class Freelancer_Search_Users_Fragment extends Fragment
 
         recyclerViewUser = (RecyclerView) view.findViewById(R.id.recycler_view_freelancer_byuser_search_user);
         recyclerViewUser.setLayoutManager(new LinearLayoutManager(getActivity()));
-        freelancerUserSearchAdapter = new FreelancerUserSearchAdapter(userList);
+        freelancerUserSearchAdapter = new FreelancerUserSearchAdapter(getContext(), userList);
         recyclerViewUser.setItemAnimator(new DefaultItemAnimator());
         recyclerViewUser.setAdapter(freelancerUserSearchAdapter);
         if (!userList.isEmpty())

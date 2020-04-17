@@ -12,6 +12,8 @@ import android.widget.RatingBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.request.RequestOptions;
 import com.example.seeker.Database.ApiClients;
 import com.example.seeker.Model.Employer;
 import com.example.seeker.Model.Freelancer;
@@ -42,6 +44,7 @@ public class ViewProfileActivity extends AppCompatActivity {
 
     private TextView username, nameAsFreelancer, nameAsEmployer;
     private TextView educationTV;
+    String capitalizedName;
 
     private TextView totalTrustPoints_TV;
     double empRatings, frRatings;
@@ -83,7 +86,7 @@ public class ViewProfileActivity extends AppCompatActivity {
 //        executeFindFreelancerByUserIdRequest(Long.valueOf(user.getId()));
 
         if (user != null) {
-            initToolbar(user.getName());
+
             c();
             getEmpByUserId();
 
@@ -270,10 +273,19 @@ public class ViewProfileActivity extends AppCompatActivity {
     }//End init()
 
     private void setNames() {
+        capitalizedName = user.getName().substring(0, 1).toUpperCase() + user.getName().substring(1, user.getName().length());
+        username.setText(capitalizedName);
+        nameAsFreelancer.setText(capitalizedName+" "+getString(R.string.as_freelancer));
+        nameAsEmployer.setText(capitalizedName+" "+getString(R.string.as_employer));
 
-        username.setText(user.getName());
-        nameAsFreelancer.setText(user.getName()+" "+getString(R.string.as_freelancer));
-        nameAsEmployer.setText(user.getName()+" "+getString(R.string.as_employer));
+        initToolbar(capitalizedName);
+
+        if(user.getAvatar()!=null)
+            Glide.with(ViewProfileActivity.this)
+                    .load(user.getAvatar())
+                    .placeholder(R.drawable.user).apply(RequestOptions.circleCropTransform())
+                    .into(userImg);
+
 
     }
 
@@ -380,15 +392,24 @@ public class ViewProfileActivity extends AppCompatActivity {
 
 
     private void compareRatings(long user_id){
-        ApiClients.getAPIs().compareUserRatings(user_id).enqueue(new Callback<Double>() {
+        ApiClients.getAPIs().compareUserRatings(user_id).enqueue(new Callback<Integer>() {
             @Override
-            public void onResponse(Call<Double> call, Response<Double> response) {
-                if (response.isSuccessful())
-                    userTotalRating.setRating(Float.valueOf(String.valueOf(response.body())));
+            public void onResponse(Call<Integer> call, Response<Integer> response) {
+                if (response.isSuccessful()) {
+//                    user =
+                    if (user.getRating()!=null){
+                        userTotalRating.setRating(Float.valueOf(user.getRating()));
+                        Log.d("user rating = ",""+Float.valueOf(user.getRating()));
+                        userNumberOfRatings.setText("("+response.body()+")");
+                    }
+
+                } else {
+
+                }
             }
 
             @Override
-            public void onFailure(Call<Double> call, Throwable t) {
+            public void onFailure(Call<Integer> call, Throwable t) {
 
             }
         });

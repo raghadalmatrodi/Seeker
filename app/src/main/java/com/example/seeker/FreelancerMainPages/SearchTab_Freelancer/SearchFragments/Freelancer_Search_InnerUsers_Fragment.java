@@ -2,6 +2,7 @@ package com.example.seeker.FreelancerMainPages.SearchTab_Freelancer.SearchFragme
 
 
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -30,6 +31,7 @@ import com.example.seeker.Model.Project;
 import com.example.seeker.Model.Skill;
 import com.example.seeker.Model.User;
 import com.example.seeker.R;
+import com.example.seeker.ViewProfileActivity;
 
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -213,6 +215,10 @@ public class Freelancer_Search_InnerUsers_Fragment extends Fragment implements F
     @Override
     public void onUserItemSelectedAdapter(User user) {
 
+        Intent intent = new Intent(getActivity(), ViewProfileActivity.class);
+        intent.putExtra("myuser", user);
+        startActivity(intent);
+
 //        Fragment fragment = new Freelancer_viewProjectFragment();
 //        Bundle bundle = new Bundle();
 //        bundle.putSerializable("user", user);
@@ -229,7 +235,7 @@ public class Freelancer_Search_InnerUsers_Fragment extends Fragment implements F
     public void settheAdapter() {
         recyclerView = (RecyclerView) view.findViewById(R.id.recycler_freelancer_search_users);
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
-        adapter = new FreelancerUserSearchAdapter(userList);
+        adapter = new FreelancerUserSearchAdapter(getContext(), userList);
         recyclerView.setItemAnimator(new DefaultItemAnimator());
         recyclerView.setAdapter(adapter);
         if (!userList.isEmpty())
@@ -243,7 +249,7 @@ public class Freelancer_Search_InnerUsers_Fragment extends Fragment implements F
     public void setUserAdapter() {
         recyclerView = (RecyclerView) view.findViewById(R.id.recycler_freelancer_search_users);
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
-        adapter = new FreelancerUserSearchAdapter(userList);
+        adapter = new FreelancerUserSearchAdapter(getContext(), userList);
         recyclerView.setItemAnimator(new DefaultItemAnimator());
         recyclerView.setAdapter(adapter);
         if (!userList.isEmpty())

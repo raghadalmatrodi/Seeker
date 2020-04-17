@@ -1,21 +1,32 @@
 package com.example.seeker.EmployerMainPages.SearchTab_Emp;
 
+import android.content.Context;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Filter;
 import android.widget.Filterable;
 import android.widget.ImageView;
+import android.widget.RatingBar;
 import android.widget.TextView;
 
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.request.RequestOptions;
+import com.example.seeker.Database.ApiClients;
+import com.example.seeker.EmployerMainPages.SearchTab_Emp.SearchFragments.Emp_Search_InnerUsers_Fragment;
 import com.example.seeker.Model.Project;
 import com.example.seeker.Model.User;
 import com.example.seeker.R;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class UserSearchAdapter extends RecyclerView.Adapter<UserSearchAdapter.MyViewHolder> implements Filterable {
 
@@ -25,6 +36,8 @@ public class UserSearchAdapter extends RecyclerView.Adapter<UserSearchAdapter.My
 
     UserSearchAdapterListener listener;
     private List<User> filteredUserSearchList;
+    private Context mContext;
+
 
     public void setListener(UserSearchAdapterListener listener) {
         this.listener = listener;
@@ -34,8 +47,8 @@ public class UserSearchAdapter extends RecyclerView.Adapter<UserSearchAdapter.My
 
         public ImageView avatar;
         public ImageView arrow;
-        public TextView title;
-        public TextView rating;
+        public TextView title, numOfRatings;
+        public RatingBar rating;
 
         public MyViewHolder(View view) {
             super(view);
@@ -43,6 +56,10 @@ public class UserSearchAdapter extends RecyclerView.Adapter<UserSearchAdapter.My
             title = view.findViewById(R.id.row_username);
             rating = view.findViewById(R.id.row_user_rating);
             arrow = view.findViewById(R.id.row_user_arrow);
+            rating.setIsIndicator(true);
+            numOfRatings = view.findViewById(R.id.view_others_profile_numOfRatings);
+            avatar = view.findViewById(R.id.s_user_image);
+
 
             view.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -55,8 +72,8 @@ public class UserSearchAdapter extends RecyclerView.Adapter<UserSearchAdapter.My
     }//Enf of class MyViewHolder
 
 
-    public UserSearchAdapter(List<User> userList) {
-
+    public UserSearchAdapter(Context context, List<User> userList) {
+        this.mContext = context;
         this.userList = userList;
         this.userSearchList=userList;
     }//End of CategorySearchAdapter()
@@ -72,9 +89,17 @@ public class UserSearchAdapter extends RecyclerView.Adapter<UserSearchAdapter.My
 
     @Override
     public void onBindViewHolder(final UserSearchAdapter.MyViewHolder holder, int position) {
+
         User user = userList.get(position);
-        holder.title.setText(user.getUsername());
-       holder.rating.setText(user.getRating());
+        String capitalizedName = user.getName().substring(0,1).toUpperCase() + user.getName().substring(1,user.getName().length());
+        holder.title.setText(capitalizedName);
+        compareRatings(user, holder);
+        if(user.getAvatar()!=null)
+            Glide.with(mContext)
+                    .load(user.getAvatar())
+                    .placeholder(R.drawable.user).apply(RequestOptions.circleCropTransform())
+                    .into(holder.avatar);
+
 
 
     }//End of onBindViewHolder
@@ -129,6 +154,31 @@ public class UserSearchAdapter extends RecyclerView.Adapter<UserSearchAdapter.My
             }
         };
     }
+
+    private void compareRatings(User myuser, UserSearchAdapter.MyViewHolder holder){
+        ApiClients.getAPIs().compareUserRatings(Long.valueOf(myuser.getId())).enqueue(new Callback<Integer>() {
+            @Override
+            public void onResponse(Call<Integer> call, Response<Integer> response) {
+                if (response.isSuccessful()) {
+//                    user =
+                    if (myuser.getRating()!=null){
+                        holder.rating.setRating(Float.valueOf(myuser.getRating()));
+                        Log.d("user rating = ",""+Float.valueOf(myuser.getRating()));
+                        holder.numOfRatings.setText("("+response.body()+")");
+                    }
+
+                } else {
+
+                }
+            }
+
+            @Override
+            public void onFailure(Call<Integer> call, Throwable t) {
+
+            }
+        });
+    }
+
 
 
 }

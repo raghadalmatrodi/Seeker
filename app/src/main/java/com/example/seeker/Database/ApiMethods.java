@@ -447,6 +447,6 @@ public interface ApiMethods {
     Call<Chat> findChatById(@Path("id") long id);
 
     @GET(Methods.COMPARE_RATING)
-    Call<Double> compareUserRatings(@Path("id") long id);
+    Call<Integer> compareUserRatings(@Path("id") long id);
 
 }//End of ApiMethods interface

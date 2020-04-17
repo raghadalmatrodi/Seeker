@@ -231,7 +231,7 @@ public class Emp_Search_Users_Fragment extends Fragment
 
         recyclerViewUser = (RecyclerView) view.findViewById(R.id.recycler_view_emp_byuser_search_user);
         recyclerViewUser.setLayoutManager(new LinearLayoutManager(getActivity()));
-        userSearchAdapter = new UserSearchAdapter(userList);
+        userSearchAdapter = new UserSearchAdapter(getContext(), userList);
         recyclerViewUser.setItemAnimator(new DefaultItemAnimator());
         recyclerViewUser.setAdapter(userSearchAdapter);
         if (!userList.isEmpty())

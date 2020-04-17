@@ -237,7 +237,7 @@ userList=new ArrayList<>();
     public void setUserAdapter() {
         recyclerView = (RecyclerView) view.findViewById(R.id.recycler_emp_search_users);
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
-        adapter = new UserSearchAdapter(userList);
+        adapter = new UserSearchAdapter(getContext(), userList);
         recyclerView.setItemAnimator(new DefaultItemAnimator());
         recyclerView.setAdapter(adapter);
         if (!userList.isEmpty())
