@@ -183,7 +183,11 @@ public class Freelancer_MyProjects_Pending_Fragment extends Fragment implements 
 //                    }
 
 //                    projectList =  response.body();
-                    pendingText.setText("");
+                    if (!projectList.isEmpty())
+                        pendingText.setVisibility(View.GONE);
+//                        pendingText.setText("");
+                    else pendingText.setText("There are no pending projects yet");
+
 
                     recyclerView = (RecyclerView) view.findViewById(R.id.fr_pending_recycler_view);
 
@@ -201,8 +205,8 @@ public class Freelancer_MyProjects_Pending_Fragment extends Fragment implements 
 
                 }else{
                     Toast.makeText(getContext(),"not success",Toast.LENGTH_LONG).show();
-                    //todo: fix the message, should be when there are no projects [when projects list is empty]
-                    pendingText.setText("There are no pending projects");
+
+                    pendingText.setText("Something went wrong, please try again in a few moments");
                 }
             }
 

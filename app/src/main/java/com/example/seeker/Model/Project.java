@@ -25,6 +25,24 @@ public class Project implements Serializable {
     private String status;
     private String createdAt;
     private List<StorageDocument> attachments = new ArrayList<>();
+    private boolean did_emp_rate;
+    private boolean did_fr_rate;
+
+    public boolean isDid_emp_rate() {
+        return did_emp_rate;
+    }
+
+    public void setDid_emp_rate(boolean did_emp_rate) {
+        this.did_emp_rate = did_emp_rate;
+    }
+
+    public boolean isDid_fr_rate() {
+        return did_fr_rate;
+    }
+
+    public void setDid_fr_rate(boolean did_fr_rate) {
+        this.did_fr_rate = did_fr_rate;
+    }
 
     public List<StorageDocument> getAttachments() {
         return attachments;

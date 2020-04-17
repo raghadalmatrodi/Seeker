@@ -2,6 +2,7 @@ package com.example.seeker.EmployerMainPages.SearchTab_Emp.SearchFragments;
 
 
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -29,6 +30,7 @@ import com.example.seeker.Model.Project;
 import com.example.seeker.Model.Skill;
 import com.example.seeker.Model.User;
 import com.example.seeker.R;
+import com.example.seeker.ViewProfileActivity;
 
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -213,15 +215,19 @@ userList=new ArrayList<>();
     @Override
     public void onUserItemSelectedAdapter(User user) {
 
-        Fragment fragment = new Emp_viewProjectFragment();
-        Bundle bundle = new Bundle();
-        bundle.putSerializable("user", user);
-        fragment.setArguments(bundle);
-        FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
-        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-        fragmentTransaction.replace(R.id.frame_container_emp, fragment);
-        fragmentTransaction.addToBackStack(null);
-        fragmentTransaction.commit();
+//        Fragment fragment = new Emp_viewProjectFragment();
+//        Bundle bundle = new Bundle();
+//        bundle.putSerializable("user", user);
+//        fragment.setArguments(bundle);
+//        FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
+//        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+//        fragmentTransaction.replace(R.id.frame_container_emp, fragment);
+//        fragmentTransaction.addToBackStack(null);
+//        fragmentTransaction.commit();
+
+        Intent intent = new Intent(getActivity(), ViewProfileActivity.class);
+        intent.putExtra("myuser", user);
+        startActivity(intent);
 
 
     }

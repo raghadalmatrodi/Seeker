@@ -253,4 +253,13 @@ Saudi law governs these terms of use, their subject matter and their composition
     <string name="emp_response_time_rating_q">How well do you rate the \nemployer\'s <b>response time</b>?</string>
     <string name="delete">Delete Project</string>
     <string name="Extend">Extend Project</string>
+    <string name="samples_of_previous_work">Samples of previous work:</string>
+    <string name="as_freelancer">As Freelancer</string>
+    <string name="as_employer">As Employer</string>
+    <string name="please_take_a_moment_to_rate_the_freelancer">Please, take a moment to rate the freelancer..</string>
+    <string name="how_well_do_u_rate_fr_prof">How well do you rate the \nfreelancer\'s <b>professionalism</b>?</string>
+    <string name="how_well_do_u_rate_fr_respect_deadlines">How well do you rate the \nfreelancer\'s <b>respect of deadlines</b>?</string>
+    <string name="how_well_do_u_rate_fr_budget">How well do you rate the \nfreelancer\'s <b>selected budget</b>?</string>
+    <string name="how_well_do_u_rate_fr_res_time">How well do you rate the \nfreelancer\'s <b>response time</b>?</string>
+    <string name="how_well_do_u_rate_fr_quality">How well do you rate the \nfreelancer\'s <b>quality of work</b>?</string>
 </resources>
