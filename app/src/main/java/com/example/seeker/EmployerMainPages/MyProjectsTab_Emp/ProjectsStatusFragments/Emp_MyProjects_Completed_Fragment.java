@@ -76,6 +76,7 @@ public class Emp_MyProjects_Completed_Fragment extends Fragment implements Proje
         Fragment fragment = new Emp_viewProjectFragment();
         Bundle bundle = new Bundle();
         bundle.putSerializable("project",project);
+        bundle.putString("flag", "EC");
         fragment.setArguments(bundle);
         FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();

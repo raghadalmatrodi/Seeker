@@ -16,7 +16,6 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.seeker.Database.ApiClients;
-import com.example.seeker.EmployerMainPages.MyProjectsTab_Emp.Emp_viewProjectFragment;
 import com.example.seeker.FreelancerMainPages.MyProjectsTab_Freelancer.Freelancer_viewProjectFragment;
 import com.example.seeker.Model.Project;
 import com.example.seeker.R;
@@ -31,40 +30,40 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class Freelancer_MyProjects_In_Progress_Fragment extends Fragment implements Serializable, FRProjectAdapter.ProjectAdapterListener {
-
+public class Freelancer_MyCompleted_Projects_Frag extends Fragment implements Serializable, FRProjectAdapter.ProjectAdapterListener {
     private View view;
     private RecyclerView recyclerView;
     private FRProjectAdapter adapter;
     private List<Project> projectList = new ArrayList<>();
-    private Freelancer_MyProjects_Pending_Fragment.ProjectListener projectListener;
-    private TextView inProgressText;
+    private Freelancer_MyCompleted_Projects_Frag.ProjectListener projectListener;
+    private TextView completedText;
+    long currentFreelancer = MySharedPreference.getLong(getContext(), Constants.Keys.FREELANCER_ID,-1);
+
+
 
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        view = inflater.inflate(R.layout.fragment_freelancer_in_progress_projects, container, false);
-        inProgressText = view.findViewById(R.id.fr_in_progress_text);
+        view = inflater.inflate(R.layout.freelancer_completed_projects, container, false);
+        completedText = view.findViewById(R.id.fr_completed_txt);
 
         return view;
     }//End onCreateView()
 
+    public interface ProjectListener{
+
+        void onProjectItemSelected(Project project);
+    }//End of interface
+
     @Override
     public void onProjectItemClick(Project project) {
-
-//        projectListener.onProjectItemSelected(project);
-//        todo 3? hind
-//        Intent i = new Intent(getContext(), ViewBid.class);
-//
-//        //casting to serializable didn't work, so i let class bid implements the serializable and it worked :)
-//        i.putExtra("projectObj", project);
-//        startActivity(i);
 
         Fragment fragment = new Freelancer_viewProjectFragment();
         Bundle bundle = new Bundle();
         bundle.putSerializable("project",project);
+        bundle.putString("flag", "FC");
         fragment.setArguments(bundle);
         FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
@@ -75,7 +74,7 @@ public class Freelancer_MyProjects_In_Progress_Fragment extends Fragment impleme
 
     }
 
-    public void setListener (Freelancer_MyProjects_Pending_Fragment.ProjectListener projectListener)
+    public void setListener (Freelancer_MyCompleted_Projects_Frag.ProjectListener projectListener)
     {
         this.projectListener = projectListener;
 
@@ -85,25 +84,12 @@ public class Freelancer_MyProjects_In_Progress_Fragment extends Fragment impleme
     public void onResume() {
         super.onResume();
 
-        ApiClients.getAPIs().getProjectsByStatusOnly("1").enqueue(new Callback<List<Project>>() {
+        ApiClients.getAPIs().getProjectsByStatusOnly("2").enqueue(new Callback<List<Project>>() {
             @Override
             public void onResponse(Call<List<Project>> call, Response<List<Project>> response) {
 
                 if(response.isSuccessful()){
                     Toast.makeText(getContext(),"SUCCESS",Toast.LENGTH_LONG).show();
-
-                    long currentFreelancer = MySharedPreference.getLong(getContext(), Constants.Keys.FREELANCER_ID,-1);
-
-                    /**
-                     * LET'S RESTART, FROM THE BEGINNING.
-                     * ASSUMING ALL PROJECTS HAS LIST OF BIDS. -> unfortunately not, so check on that plz :), no need we got bids size
-                     * 1ST: WE FOR LOOP IN ALL PROJECTS, K
-                     * 2ND: WE FOR LOOP IN ALL BIDS IN PROJECT K, H
-                     * 3RD: NOW I'M ON THE FIRST BID H OF THE FIRST PROJECT K, (ASSUMING THAT ALL BIDS CONTAINS FREELANCER OBJS) -> unfortunately not, so check on that too plz :)
-                     * -> I'LL CHECK WHETHER PROJECT K . BID H . FREELANCER . FRID EQUALS CURRENT FREELANCER ID
-                     * IF YES, I'LL ADD THIS PROJECT K TO MY PROJECTSLIST. IF NOT, MOVE TO BID H+1.
-                     *
-                     */
 
                     int responseSize = response.body().size();
                     int bidSize = 0;
@@ -118,29 +104,28 @@ public class Freelancer_MyProjects_In_Progress_Fragment extends Fragment impleme
 
                             if (response.body().get(k).getBids().get(h).getFreelancer() != null)
                                 if (response.body().get(k).getBids().get(h).getStatus().equals("accepted"))
-                                if (response.body().get(k).getBids().get(h).getFreelancer().getId() == currentFreelancer)
-                                    projectList.add(response.body().get(k));
+                                    if (response.body().get(k).getBids().get(h).getFreelancer().getId() == currentFreelancer)
+                                        projectList.add(response.body().get(k));
 
                         }//Bids loop
                     }//Projects loop.
 
                     if (!projectList.isEmpty())
-                        inProgressText.setVisibility(View.GONE);
-//                    inProgressText.setText("");
-                    else inProgressText.setText("There are no projects in progress");
+                        completedText.setVisibility(View.GONE);
+                    else completedText.setText("There are no completed projects yet..");
                     setUpRecyclerView();
 
 
                 }else{
                     Toast.makeText(getContext(),"not success",Toast.LENGTH_LONG).show();
-                    inProgressText.setText("Something went wrong, please try again in a few moments");
+                    completedText.setText("Something went wrong, please try again in a few moments");
                 }
             }
 
             @Override
             public void onFailure(Call<List<Project>> call, Throwable t) {
                 Toast.makeText(getContext(),"fail",Toast.LENGTH_LONG).show();
-                inProgressText.setText("Error, Something went wrong..");
+                completedText.setText("Error, Something went wrong..");
             }
         });
 
@@ -148,7 +133,7 @@ public class Freelancer_MyProjects_In_Progress_Fragment extends Fragment impleme
     }//End onResume()
 
     private void setUpRecyclerView() {
-        recyclerView = view.findViewById(R.id.fr_pending_recycler_view);
+        recyclerView = view.findViewById(R.id.fr_completed_recycler_view);
 
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
 
@@ -156,10 +141,12 @@ public class Freelancer_MyProjects_In_Progress_Fragment extends Fragment impleme
         projectList = new ArrayList<>();
         recyclerView.setItemAnimator(new DefaultItemAnimator());
         recyclerView.setAdapter(adapter);
-        adapter.setListener(Freelancer_MyProjects_In_Progress_Fragment.this);
+        adapter.setListener(Freelancer_MyCompleted_Projects_Frag.this);
         recyclerView.setNestedScrollingEnabled(true);
         DividerItemDecoration dividerItemDecoration = new DividerItemDecoration(recyclerView.getContext(), DividerItemDecoration.VERTICAL);
         recyclerView.addItemDecoration(dividerItemDecoration);
     }
+
+
 
 }

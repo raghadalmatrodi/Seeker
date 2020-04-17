@@ -5,6 +5,9 @@ import androidx.fragment.app.Fragment;
 import androidx.viewpager.widget.ViewPager;
 
 import android.app.Dialog;
+import android.content.Context;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.view.MotionEvent;
 import android.view.View;
@@ -16,7 +19,6 @@ import android.widget.Toast;
 
 import com.example.seeker.Database.ApiClients;
 import com.example.seeker.Model.Employer;
-import com.example.seeker.Model.EmployerRating;
 import com.example.seeker.Model.Freelancer;
 import com.example.seeker.Model.FreelancerRating;
 import com.example.seeker.Model.Responses.ApiResponse;
@@ -88,9 +90,10 @@ public class EmployerRatesFreelancer extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_employer_rating);
 
-      init();
+//      init();
 
-      onRatingBarChanged();
+//      onRatingBarChanged();
+        ShowCustomDialog(EmployerRatesFreelancer.this);
 
 
 
@@ -102,39 +105,39 @@ public class EmployerRatesFreelancer extends AppCompatActivity {
 //        responseTimeE =  q3Rating.getRating();
 
 
-
-        Freelancer freelancer = new Freelancer(frId);
-        Employer employer = new Employer(empId);
-
-
-
-        //freelancer
-        getFreelancerRatingsValues(frId);
-//        getRatingValues(empId);
-
-
-
-
-        finishBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
-                totalRatingTv.setText("prof= "+professionalismF+" , respect= "+ respectOfDeadlinesF +" , budget= "+budgetF+" , res= "+responseTimeF+" , q= "+qualityF);
-                RateTheFreelancer(qualityF, professionalismF, respectOfDeadlinesF, budgetF, responseTimeF);
-//                RateTheEmp(professionalismE , onTimePaymentE , responseTimeE);
-
-
-                NewFreelancerRating(new FreelancerRating(responseTimeF, professionalismF, respectOfDeadlinesF, qualityF, budgetF, freelancer, employer));
-//                perfomRateEmployerRequest(new EmployerRating(responseTimeE, professionalismE, onTimePaymentE, freelancer, employer));
-//                Toast.makeText(FreelancerRatesEmployer.this,"emp total = "+empTotalRates,Toast.LENGTH_LONG).show();
-
-//                Toast.makeText(FreelancerRatesEmployer.this,"number of rating = "+num_of_ratings+"\n response time = "+response_time+"\n total otp = "+total_on_time_payment,Toast.LENGTH_LONG).show();
-
-
-            }
-        });
-
-
+//start new comment
+//        Freelancer freelancer = new Freelancer(frId);
+//        Employer employer = new Employer(empId);
+//
+//
+//
+//        //freelancer
+//        getFreelancerRatingsValues(frId);
+////        getRatingValues(empId);
+//
+//
+//
+//
+//        finishBtn.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//
+//                totalRatingTv.setText("prof= "+professionalismF+" , respect= "+ respectOfDeadlinesF +" , budget= "+budgetF+" , res= "+responseTimeF+" , q= "+qualityF);
+//                RateTheFreelancer(qualityF, professionalismF, respectOfDeadlinesF, budgetF, responseTimeF);
+////                RateTheEmp(professionalismE , onTimePaymentE , responseTimeE);
+//
+//
+//                NewFreelancerRating(new FreelancerRating(responseTimeF, professionalismF, respectOfDeadlinesF, qualityF, budgetF, freelancer, employer));
+////                perfomRateEmployerRequest(new EmployerRating(responseTimeE, professionalismE, onTimePaymentE, freelancer, employer));
+////                Toast.makeText(FreelancerRatesEmployer.this,"emp total = "+empTotalRates,Toast.LENGTH_LONG).show();
+//
+////                Toast.makeText(FreelancerRatesEmployer.this,"number of rating = "+num_of_ratings+"\n response time = "+response_time+"\n total otp = "+total_on_time_payment,Toast.LENGTH_LONG).show();
+//
+//
+//            }
+//        });
+//
+//finish new comment
 //        show = findViewById(R.id.show_d_btn);
 //        show.setOnClickListener(new View.OnClickListener() {
 //            @Override
@@ -232,12 +235,155 @@ public class EmployerRatesFreelancer extends AppCompatActivity {
         setUpQs();
     }//End init()
 
+    TextView q1, q2, q3, q4, q5, total;
+    RatingBar r1, r2, r3, r4, r5, t;
+    Button finish;
+
+    public void ShowCustomDialog(Context c) {
+
+        Dialog rankDialog = new Dialog(c);
+        rankDialog.setContentView(R.layout.emp_rate_fr_dialog);
+        rankDialog.setCancelable(false);
+        rankDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+
+
+//        total = findViewById(R.id.tv);
+
+        q1 = rankDialog.findViewById(R.id.q_one);
+        r1 = rankDialog.findViewById(R.id.rb_one);
+
+        q2 = rankDialog.findViewById(R.id.q_two);
+        r2 = rankDialog.findViewById(R.id.rb_two);
+
+        q3 = rankDialog.findViewById(R.id.q_three);
+        r3 = rankDialog.findViewById(R.id.rb_three);
+
+        q4 = rankDialog.findViewById(R.id.q_four);
+        r4 = rankDialog.findViewById(R.id.rb_four);
+
+        q5 = rankDialog.findViewById(R.id.q_five);
+        r5 = rankDialog.findViewById(R.id.rb_five);
+
+
+        finish = rankDialog.findViewById(R.id.emp_finish);
+
+        setUpQs();
+        /**
+         * everything after init
+         * */
+
+        getRates();
+
+//
+//        professionalismE = q1Rating.getRating();
+//        onTimePaymentE = q2Rating.getRating();
+//        responseTimeE =  q3Rating.getRating();
+
+
+        Employer employer = new Employer(empId);
+        Freelancer freelancer = new Freelancer(frId);
+
+//        getEmployerTotalRatingVal(empId);
+        getFreelancerRatingsValues(frId);
+//        getRatingValues(empId);
+
+
+
+
+        finish.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+
+                //
+
+//                totalRatingTv.setText("prof= "+professionalismF+" , respect= "+ respectOfDeadlinesF +" , budget= "+budgetF+" , res= "+responseTimeF+" , q= "+qualityF);
+                RateTheFreelancer(qualityF, professionalismF, respectOfDeadlinesF, budgetF, responseTimeF);
+//                RateTheEmp(professionalismE , onTimePaymentE , responseTimeE);
+
+
+                NewFreelancerRating(new FreelancerRating(responseTimeF, professionalismF, respectOfDeadlinesF, qualityF, budgetF, freelancer, employer));
+//                perfomRateEmployerRequest(new EmployerRating(responseTimeE, professionalismE, onTimePaymentE, freelancer, employer));
+                //
+
+
+//                total.setText("prof= "+professionalismE+" , otp= "+ onTimePaymentE+" , res time= "+responseTimeE);
+//                RateTheEmp(professionalismE , onTimePaymentE , responseTimeE);
+
+
+//                performRateEmployerRequest(new EmployerRating(responseTimeE, professionalismE, onTimePaymentE, freelancer, employer));
+//                Toast.makeText(FreelancerRatesEmployer.this,"emp total = "+empTotalRates,Toast.LENGTH_LONG).show();
+
+//                Toast.makeText(FreelancerRatesEmployer.this,"number of rating = "+num_of_ratings+"\n response time = "+response_time+"\n total otp = "+total_on_time_payment,Toast.LENGTH_LONG).show();
+
+
+                rankDialog.dismiss();
+            }
+        });
+
+
+
+//        Button updateButton = (Button) rankDialog.findViewById(R.id.finish);
+//        updateButton.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//
+//                double avg = ratingBar.getProgress();
+//                idk.setText(new DecimalFormat("##.##").format(avg) + "avg ");
+//
+//                rankDialog.dismiss();
+//            }
+//        });
+        //now that the dialog is set up, it's time to show it
+        rankDialog.show();
+
+    }
+
+    private void getRates() {
+        r1.setOnRatingBarChangeListener(new RatingBar.OnRatingBarChangeListener() {
+            @Override
+            public void onRatingChanged(RatingBar ratingBar, float rating, boolean fromUser) {
+                professionalismF = (int)ratingBar.getRating();
+            }
+        });
+
+        r2.setOnRatingBarChangeListener(new RatingBar.OnRatingBarChangeListener() {
+            @Override
+            public void onRatingChanged(RatingBar ratingBar, float rating, boolean fromUser) {
+                respectOfDeadlinesF = (int)ratingBar.getRating();
+            }
+        });
+
+
+        r3.setOnRatingBarChangeListener(new RatingBar.OnRatingBarChangeListener() {
+            @Override
+            public void onRatingChanged(RatingBar ratingBar, float rating, boolean fromUser) {
+                budgetF = (int)ratingBar.getRating();
+            }
+        });
+
+        r4.setOnRatingBarChangeListener(new RatingBar.OnRatingBarChangeListener() {
+            @Override
+            public void onRatingChanged(RatingBar ratingBar, float rating, boolean fromUser) {
+                responseTimeF = (int)ratingBar.getRating();
+            }
+        });
+
+        r5.setOnRatingBarChangeListener(new RatingBar.OnRatingBarChangeListener() {
+            @Override
+            public void onRatingChanged(RatingBar ratingBar, float rating, boolean fromUser) {
+                qualityF = (int)ratingBar.getRating();
+            }
+        });
+    }
+
+
     private void setUpQs() {
-        question1.setText("How well do you rate the freelancer's professionalism?");
-        question2.setText("How well do you rate the freelancer's respect of deadlines?");
-        question3.setText("How well do you rate the freelancer's selected budget?");
-        question4.setText("How well do you rate the freelancer's response time?");
-        question5.setText("How well do you rate the freelancer's quality of work?");
+        q1.setText(R.string.how_well_do_u_rate_fr_prof);
+        q2.setText(R.string.how_well_do_u_rate_fr_respect_deadlines);
+        q3.setText(R.string.how_well_do_u_rate_fr_budget);
+        q4.setText(R.string.how_well_do_u_rate_fr_res_time);
+        q5.setText(R.string.how_well_do_u_rate_fr_quality);
 
     }//End setUpQs()
     /**
@@ -271,8 +417,8 @@ public class EmployerRatesFreelancer extends AppCompatActivity {
 
 //        avg = empTotalRates/ ((float)num_of_ratings);
 
-        totalRatingTv.setText("total rating"+ rateFR);
-        tot.setRating(rateFR);
+//        totalRatingTv.setText("total rating"+ rateFR);
+//        tot.setRating(rateFR);
 
 //        long id, int num_of_ratings, int response_time, int total_on_time_payment, float total_emp_ratings
         setRatingValues(new Freelancer(frId, num_of_ratings, total_quality_of_work, total_response_time));

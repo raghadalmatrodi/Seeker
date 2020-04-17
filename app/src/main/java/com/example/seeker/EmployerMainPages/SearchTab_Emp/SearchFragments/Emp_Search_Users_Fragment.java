@@ -1,6 +1,7 @@
 package com.example.seeker.EmployerMainPages.SearchTab_Emp.SearchFragments;
 
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.content.res.Resources;
 import android.graphics.Rect;
 import android.os.Bundle;
@@ -27,6 +28,7 @@ import com.example.seeker.Model.Category;
 import com.example.seeker.Model.User;
 import com.example.seeker.R;
 import com.example.seeker.Search.CategorySearchAdapter;
+import com.example.seeker.ViewProfileActivity;
 
 import java.util.List;
 
@@ -100,7 +102,9 @@ public class Emp_Search_Users_Fragment extends Fragment
     //no need
     @Override
     public void onUserItemSelectedAdapter(User user) {
-
+        Intent intent = new Intent(getActivity(), ViewProfileActivity.class);
+        intent.putExtra("myuser", user);
+        startActivity(intent);
     }
 
 

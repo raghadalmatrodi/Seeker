@@ -158,6 +158,9 @@ public interface ApiMethods {
         String UPLOAD_SAMPLE_WORK = "user/add-work/{id}";
         String DELETE_SAMPLE_WORK = "user/{id}/delete-work/{attachmentId}";
 
+        String DID_EMP_RATE = "project/emp_rated/{id}/{rated}";
+        String DID_FR_RATE = "project/fr_rated/{id}/{rated}";
+
 
     }//End of Methods interface
 
@@ -280,6 +283,12 @@ public interface ApiMethods {
 
     @POST(Methods.CALC_NUM_HIRED_PROJS)
     Call<Void> CalculateNumberOfWorkedOnProjects(@Path("id") long id);
+
+    @POST(Methods.DID_EMP_RATE)
+    Call<Project> DidEmployerRate(@Path("id") long id, @Path("rated") boolean rated);
+
+    @POST(Methods.DID_FR_RATE)
+    Call<Project> DidFreelancerRate(@Path("id") long id, @Path("rated") boolean rated);
 
 
     /**

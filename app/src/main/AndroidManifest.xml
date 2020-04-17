@@ -20,6 +20,7 @@
         <activity android:name=".EmployerMainPages.AccountRelatedActivities.ViewAttachmentActivity"
          ></activity>
         <activity android:name=".Rating.test" />
+        <activity android:name=".ViewProfileActivity"></activity>
         <activity android:name=".EmployerMainPages.AccountRelatedActivities.SettingActivity" />
         <activity android:name=".EmployerMainPages.AccountRelatedActivities.Payment.PaymentMethodActivity" />
         <activity android:name=".EmployerMainPages.AccountRelatedActivities.Payment.PaymentActivity" />
