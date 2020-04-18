@@ -48,6 +48,7 @@ import com.example.seeker.Model.Project;
 import com.example.seeker.Model.Responses.ApiResponse;
 import com.example.seeker.Model.Skill;
 import com.example.seeker.Model.StorageDocument;
+import com.example.seeker.Model.User;
 import com.example.seeker.PostBid.BidsAdapter;
 import com.example.seeker.PostBid.PostBidActivity;
 import com.example.seeker.PostBid.ViewFullBid;
@@ -93,6 +94,7 @@ public class Freelancer_viewProjectFragment extends Fragment implements  Emp_MyP
     long empId, frId;
 
     ImageView contractImg;
+    User user;
 
     Emp_MyProjects_Pending_Fragment emp_myProjects_pending_fragment;
     private RecyclerView recyclerView;
@@ -108,6 +110,7 @@ public class Freelancer_viewProjectFragment extends Fragment implements  Emp_MyP
          view = inflater.inflate(R.layout.freelancer_fragment_view_project, container, false);
         chatList = new ArrayList<>();
 
+        getUser();
          init();
 
         emp_myProjects_pending_fragment = new Emp_MyProjects_Pending_Fragment();
@@ -139,6 +142,7 @@ public class Freelancer_viewProjectFragment extends Fragment implements  Emp_MyP
         contractImg.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+
 
                 Fragment fragment = new ContractFragment();
                 Bundle bundle = new Bundle();
@@ -213,22 +217,28 @@ public class Freelancer_viewProjectFragment extends Fragment implements  Emp_MyP
             @Override
             public void onClick(View v) {
 
+
+                if (user.getIsEnabled().equals("1")) {
+
 //                if (HasBid(bids))
 //                        wrongInfoDialog("Sorry, you already have placed a bid on this project..\nDelete the current bid to bid again. ");
 //                    else {
-                        /**
-                         * INTENT TO POST BID WITH CURRENT PROJECT
-                         */
+                    /**
+                     * INTENT TO POST BID WITH CURRENT PROJECT
+                     */
                     Intent intent = new Intent(getActivity(), PostBidActivity.class);
-                    intent.putExtra("currentProjObj" , project);
+                    intent.putExtra("currentProjObj", project);
                     startActivity(intent);
 
 //                    findProjectById(project.getId());
 //                    setTheAdapter();
 
 
-
 //                }
+
+                }else{
+                    wrongInfoDialog("Your Account has been deactivated  \n to further information contact the support");
+                }
 
             }
         });
@@ -238,6 +248,25 @@ public class Freelancer_viewProjectFragment extends Fragment implements  Emp_MyP
 //        overridePendingTransition(0, 0);
 //        getFragmentManager().beginTransaction().detach(this).attach(this).commit();
 
+    }
+    private void getUser() {
+
+        long user_id = MySharedPreference.getLong(getContext(), Constants.Keys.USER_ID, -1);
+
+        ApiClients.getAPIs().findUserById(user_id).enqueue(new Callback<User>() {
+            @Override
+            public void onResponse(Call<User> call, Response<User> response) {
+                if (response.isSuccessful()){
+
+                    user = response.body();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<User> call, Throwable t) {
+
+            }
+        });
     }
 
     private void HidingPlaceBidBtn() {
@@ -461,7 +490,7 @@ public class Freelancer_viewProjectFragment extends Fragment implements  Emp_MyP
 
                     if(contract != null){
 
-                        if((contract.getProject().getEmployer().getId() == MySharedPreference.getLong(getContext(),Constants.Keys.EMPLOYER_ID,-1)) || (contract.getFreelancer().getId() == MySharedPreference.getLong(getContext(), Constants.Keys.FREELANCER_ID,-1))){
+                        if(contract.getFreelancer().getId() == MySharedPreference.getLong(getContext(), Constants.Keys.FREELANCER_ID,-1)){
                             contractImg.setVisibility(View.VISIBLE);
                         }
                     }

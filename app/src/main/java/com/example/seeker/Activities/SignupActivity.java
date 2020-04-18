@@ -126,6 +126,7 @@ private static final String LOG= SignupActivity.class.getSimpleName();
       userToSignup.setEmail(mail);
       userToSignup.setPassword(encryptedPassword);
       userToSignup.setUsername(name);
+      userToSignup.setIsEnabled("1");
 
       Role role = new Role(1,null);
       Set<Role> setOfRole = new HashSet<>();

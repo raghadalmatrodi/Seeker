@@ -2,12 +2,14 @@ package com.example.seeker.EmployerMainPages;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
 import android.app.Activity;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
@@ -26,7 +28,10 @@ import com.example.seeker.Model.Bid;
 import com.example.seeker.Model.Milestone;
 import com.example.seeker.Model.Project;
 import com.example.seeker.Model.Responses.ApiResponse;
+import com.example.seeker.Model.User;
 import com.example.seeker.R;
+import com.example.seeker.SharedPref.Constants;
+import com.example.seeker.SharedPref.MySharedPreference;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -37,6 +42,7 @@ public class AcceptBidConfirmation extends Fragment {
     Button cancel_bid;
     View view;
     Bid bid;
+    private User user;
     ImageView backButton;
     TextView bidTitle;
     TextView bidDes;
@@ -44,6 +50,7 @@ public class AcceptBidConfirmation extends Fragment {
     TextView bidDeadline;
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
+        getUser();
         view = inflater.inflate(R.layout.activity_accept_bid_confirmation, container, false);
         accept_bid = view.findViewById(R.id.bid_accept) ;
         cancel_bid = view.findViewById(R.id.bid_cancel);
@@ -91,31 +98,38 @@ public class AcceptBidConfirmation extends Fragment {
         accept_bid.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-         if(bid != null) {
-             ApiClients.getAPIs().acceptBid(bid.getId()).enqueue(new Callback<ApiResponse>() {
-                 @Override
-                 public void onResponse(Call<ApiResponse> call, Response<ApiResponse> response) {
-                     Log.i("onResponse ", response.message());
 
-                     incrementNumberOfWorkedOnPRojects(bid);
+                if (user.getIsEnabled().equals("1")) {
+                    if (bid != null) {
+                        ApiClients.getAPIs().acceptBid(bid.getId()).enqueue(new Callback<ApiResponse>() {
+                            @Override
+                            public void onResponse(Call<ApiResponse> call, Response<ApiResponse> response) {
+                                Log.i("onResponse ", response.message());
 
-                     Fragment fragment = new Emp_MyProjectsFragment();
+                                incrementNumberOfWorkedOnPRojects(bid);
 
-                     FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
-                     FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-                     fragmentTransaction.replace(R.id.frame_container_emp, fragment);
-                     fragmentTransaction.addToBackStack(null);
-                     fragmentTransaction.commit();
+                                Fragment fragment = new Emp_MyProjectsFragment();
+
+                                FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
+                                FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+                                fragmentTransaction.replace(R.id.frame_container_emp, fragment);
+                                fragmentTransaction.addToBackStack(null);
+                                fragmentTransaction.commit();
 
 
-                 }
+                            }
 
-                 @Override
-                 public void onFailure(Call<ApiResponse> call, Throwable t) {
-                     Log.i("onFailure ", t.getLocalizedMessage());
+                            @Override
+                            public void onFailure(Call<ApiResponse> call, Throwable t) {
+                                Log.i("onFailure ", t.getLocalizedMessage());
 
-                 }
-             });
+                            }
+                        });
+                    }
+                } else {
+
+                    wrongInfoDialog("Your Account has been deactivated  \n to further information contact the support");
+
                 }
             }
         });
@@ -137,6 +151,25 @@ public class AcceptBidConfirmation extends Fragment {
         });
 
         return view;
+    }
+    private void getUser() {
+
+        long user_id = MySharedPreference.getLong(getContext(), Constants.Keys.USER_ID, -1);
+
+        ApiClients.getAPIs().findUserById(user_id).enqueue(new Callback<User>() {
+            @Override
+            public void onResponse(Call<User> call, Response<User> response) {
+                if (response.isSuccessful()){
+
+                    user = response.body();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<User> call, Throwable t) {
+
+            }
+        });
     }
 //    @Override
 //    protected void onCreate(Bundle savedInstanceState) {
@@ -194,34 +227,27 @@ public class AcceptBidConfirmation extends Fragment {
             }
         });
     }
+    private void wrongInfoDialog(String msg) {
+        final androidx.appcompat.app.AlertDialog.Builder alertDialog = new AlertDialog.Builder(getContext());
 
-//
-//    private void addMilestone(Bid bid) {
-//
-//
-//
-//        Milestone milestone = new Milestone(bid.getPrice(), "0", bid.getDeliver_date(),project.getTitle(), project);
-//
-//        ApiClients.getAPIs().createMilestoneRequest(milestone).enqueue(new Callback<Milestone>() {
-//            @Override
-//            public void onResponse(Call<Milestone> call, Response<Milestone> response) {
-//                if (response.isSuccessful()){
-//                    Log.i("onResponse successful ",response.message());
-//                }
-//                Log.i("onResponse Notsuccessful ",response.message());
-//            }
-//
-//
-//            @Override
-//            public void onFailure(Call<Milestone> call, Throwable t) {
-//
-//                Log.i("onResponse fail ", "fail");
-//            }
-//        });
-//
-//
-//
-//
-//
-//    }
+        alertDialog.setTitle("Warning");
+
+        // Setting Dialog Message
+        alertDialog.setMessage(msg);
+
+        // Setting Icon to Dialog
+//        alertDialog.setIcon(R.drawable.exclamation);
+
+        //Setting Negative "ok" Button
+        alertDialog.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.dismiss();
+            }//end onClick
+        });//end setPositiveButton
+
+        alertDialog.show();
+
+    }//End wrongInfoDialog()
+
+
 }

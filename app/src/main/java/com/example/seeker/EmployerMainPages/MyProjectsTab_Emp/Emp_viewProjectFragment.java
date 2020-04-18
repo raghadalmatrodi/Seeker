@@ -151,18 +151,6 @@ public class Emp_viewProjectFragment extends Fragment implements  Emp_MyProjects
                 fragmentTransaction.replace(R.id.frame_container_emp, fragment);
                 fragmentTransaction.addToBackStack(null);
                 fragmentTransaction.commit();
-                }else{
-
-                    Fragment fragment = new ContractFragment();
-                    Bundle bundle = new Bundle();
-                    bundle.putSerializable("project",project);
-                    fragment.setArguments(bundle);
-                    FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
-                    FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-                    fragmentTransaction.replace(R.id.frame_container_freelancer, fragment);
-                    fragmentTransaction.addToBackStack(null);
-                    fragmentTransaction.commit();
-
                 }
 
             }
@@ -421,7 +409,7 @@ public class Emp_viewProjectFragment extends Fragment implements  Emp_MyProjects
 
                     if(contract != null){
 
-                        if((contract.getProject().getEmployer().getId() == MySharedPreference.getLong(getContext(),Constants.Keys.EMPLOYER_ID,-1)) || (contract.getFreelancer().getId() == MySharedPreference.getLong(getContext(), Constants.Keys.FREELANCER_ID,-1))){
+                        if((contract.getProject().getEmployer().getId() == MySharedPreference.getLong(getContext(),Constants.Keys.EMPLOYER_ID,-1))){
                             contractImg.setVisibility(View.VISIBLE);
                         }
                     }

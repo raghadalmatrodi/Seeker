@@ -16,6 +16,7 @@ public class User implements Serializable,IUser {
     private String email;
     private StorageDocument avatar;
 
+    private String isEnabled;
     private String phone_number;
     private String national_id;
     private String rating;
@@ -178,5 +179,13 @@ public class User implements Serializable,IUser {
 
     public void setCurrent_type(String current_type) {
         this.current_type = current_type;
+    }
+
+    public String getIsEnabled() {
+        return isEnabled;
+    }
+
+    public void setIsEnabled(String isEnabled) {
+        this.isEnabled = isEnabled;
     }
 }

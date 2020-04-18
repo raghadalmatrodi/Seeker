@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="horizontal"
+    android:layout_width="match_parent"
+    android:layout_height="110dp"
+    android:paddingTop="10dp"
+    android:paddingBottom="10dp"
+    android:padding="10dp"
+    >
+
+    <de.hdodenhof.circleimageview.CircleImageView
+        android:id="@+id/user_image"
+        android:layout_width="67dp"
+        android:layout_height="65dp"
+        android:src="@drawable/user"
+        android:layout_marginTop="10dp"
+        app:civ_border_color="@color/colorPrimary"
+        app:civ_border_width="1dp" />
+
+    <LinearLayout
+        android:layout_width="221dp"
+        android:layout_height="100dp"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/row_username"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="15dp"
+            android:layout_marginTop="10dp"
+            android:text="Raghad"
+            android:textColor="#000"
+
+            android:textSize="20dp" />
+
+        <TextView
+            android:id="@+id/row_user_rating"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="17dp"
+            android:layout_marginTop="5dp"
+            android:text="user rating test"
+            android:textColor="#747171"
+            android:textSize="17dp" />
+
+    </LinearLayout>
+
+    <TextView
+        android:id="@+id/row_user_deactivate"
+        android:layout_width="97dp"
+        android:layout_height="34dp"
+        android:layout_marginTop="25dp"
+        android:layout_marginRight="10dp"
+        android:background="#A30707"
+        android:gravity="center_vertical"
+        android:text="Deactivate"
+        android:textAlignment="center"
+        android:textColor="#FFFF"
+        android:textSize="15dp"
+        android:textStyle="bold" />
+
+
+</LinearLayout>
+

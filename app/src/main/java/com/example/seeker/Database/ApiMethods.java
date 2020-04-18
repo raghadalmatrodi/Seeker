@@ -78,7 +78,7 @@ public interface ApiMethods {
         String DELETE_MILESTONE ="milestone/delete/{id}";
         String UPDATE_TOKEN = "user/updateToken/{token}/{id}";
 
-
+        String CHANGE_IS_ENABLED="user/userID/{id}";
 
         String GET_ALL_SKILLS = "skill/find-all";
 
@@ -390,7 +390,8 @@ public interface ApiMethods {
     @GET(Methods.GET_EMPLOYER_TOTAL_RATINGS_VALUE)
     Call<Float> getEmployerTotalRating(@Path("id") long id);
 
-
+    @GET(Methods.CHANGE_IS_ENABLED)
+    Call<String> changeIsEnabled(@Path("id") long id);
 
     @GET(Methods.FIND_CHAT)
     Call<Chat> findChat(@Path("user1_id") Long user1_id , @Path("user2_id") Long user2_id);
@@ -422,6 +423,7 @@ public interface ApiMethods {
 
     @DELETE(Methods.DELETE_USER)
     Call<ApiResponse> deleteUserById(@Path("user_id") long user_id);
+
 
 
 

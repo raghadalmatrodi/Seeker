@@ -258,8 +258,6 @@ public class Emp_PostFragment extends Fragment implements ProjectTypeFragment.Pr
 
                     Log.i(LOG, "onResponse : Success");
                     SuccesDialog("Your project has been posted successfully.");
-//                    numberOfPostedProjects+= 1;
-//                    setNumberOfPostedProjects(current_emp_id, numberOfPostedProjects);
 
                 } else {
                     Log.i(LOG, "onResponse : fail");
@@ -473,6 +471,9 @@ public class Emp_PostFragment extends Fragment implements ProjectTypeFragment.Pr
 
     }
 
+    private void getUser(){
+
+    }
 
     private void incrementNumberOfPostedProjects(){
         ApiClients.getAPIs().CalculateNumberOfPostedProjects(current_emp_id).enqueue(new Callback<Void>() {

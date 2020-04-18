@@ -66,16 +66,16 @@ public class LoginActivity extends Activity {
             public void onClick(View view) {
 
                 userEmail = email.getText().toString().toLowerCase().trim();
-                userPassword = password.getText().toString().toLowerCase();
+                userPassword = password.getText().toString();
 
-if (userEmail.equals("admin@seeker.com")&& userPassword.equals("seekerapp2020"))
-{
-    Intent intent = new Intent(LoginActivity.this, AdminActivity.class);
-    intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
-    intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-    startActivity(intent);
-    finish();
-}
+        if (userEmail.equals("admin@seeker.com")&& userPassword.equals("seekerapp2020"))
+        {
+            Intent intent = new Intent(LoginActivity.this, AdminActivity.class);
+            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
+            intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+            startActivity(intent);
+             finish();
+        }
 
                 if(validate(userEmail, userPassword))
                 {

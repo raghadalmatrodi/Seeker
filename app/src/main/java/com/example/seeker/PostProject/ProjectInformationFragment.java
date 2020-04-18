@@ -1,6 +1,5 @@
 package com.example.seeker.PostProject;
 
-import android.app.AlertDialog;
 import android.app.DatePickerDialog;
 import android.content.DialogInterface;
 import android.content.res.Resources;
@@ -20,6 +19,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.appcompat.app.AlertDialog;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.DefaultItemAnimator;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -28,7 +28,10 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.seeker.Database.ApiClients;
 import com.example.seeker.Model.Project;
 import com.example.seeker.Model.Responses.ApiResponse;
+import com.example.seeker.Model.User;
 import com.example.seeker.R;
+import com.example.seeker.SharedPref.Constants;
+import com.example.seeker.SharedPref.MySharedPreference;
 import com.google.gson.Gson;
 import com.obsez.android.lib.filechooser.ChooserDialog;
 
@@ -84,7 +87,7 @@ public class ProjectInformationFragment extends Fragment {
     private String expiryDate;
     int i=0;
 
-
+    private User user;
 
 
 
@@ -100,6 +103,7 @@ public class ProjectInformationFragment extends Fragment {
 
         getActivity().getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN);
 
+        getUser();
         init();
 
         files = new ArrayList<>(3);
@@ -131,7 +135,7 @@ public class ProjectInformationFragment extends Fragment {
 
                        if(adapter.getItemCount() == 4){
 
-                           showDialog("The maximum number of attachments is 4");
+                           wrongInfoDialog("The maximum number of attachments is 4");
                        }else {
 
                            files.add(pathFile);
@@ -183,48 +187,51 @@ public class ProjectInformationFragment extends Fragment {
                 budget = budgeText.getText().toString();
                 deadlineDate = deadlineDateText.getText().toString();
 
+                if (user.getIsEnabled().equals("1")){
+
+                    if (validate()) {
+
+                        expiryDate = setExpiryDate();
+
+                        setTime();
+
+                        deadlineDate = deadlineDate + timeString;
+                        expiryDate = expiryDate + timeString;
+
+                        deadlineLocalDateTime = convertStringToLocalDateTime(deadlineDate);
+                        expiryLocalDateTime = convertStringToLocalDateTime(expiryDate);
 
 
-                if(validate()){
-
-                    expiryDate = setExpiryDate();
-
-                    setTime();
-
-                    deadlineDate = deadlineDate+timeString;
-                    expiryDate = expiryDate+timeString;
-
-                   deadlineLocalDateTime=  convertStringToLocalDateTime(deadlineDate);
-                   expiryLocalDateTime = convertStringToLocalDateTime(expiryDate);
-
-
-                    Log.i("PROJECT", deadlineLocalDateTime.toString());
-
-                    Log.i("FILES", files.toString());
-
-
-                    if(files.isEmpty()){
-                        projectInformationListener.onPostProjectItemSelected(title,description,budget,deadlineLocalDateTime.toString(),expiryLocalDateTime.toString());
                         Log.i("PROJECT", deadlineLocalDateTime.toString());
-                    }else{
 
-                        //TODO CREATE THE OBJECT
-                      //  Double budgetToSave =  Double.parseDouble(budget);
-                   // Project project = new Project(title, description, budgetToSave,projectType,paymentType,expiryLocalDateTime ,deadlineLocalDateTime,  "0");
-                        projectInformationListener.onPostProjectItemSelectedWithAttachments(title,description,budget,deadlineLocalDateTime.toString(),expiryLocalDateTime.toString() ,files);
+                        Log.i("FILES", files.toString());
 
-                       // Project projectToSave = new Project(title , description , budgetToSave ,deadlineLocalDateTime.toString(), expiryLocalDateTime.toString());
-                     //   createProjectWithAttachments(files);
+
+                        if (files.isEmpty()) {
+                            projectInformationListener.onPostProjectItemSelected(title, description, budget, deadlineLocalDateTime.toString(), expiryLocalDateTime.toString());
+                            Log.i("PROJECT", deadlineLocalDateTime.toString());
+                        } else {
+
+                            //TODO CREATE THE OBJECT
+                            //  Double budgetToSave =  Double.parseDouble(budget);
+                            // Project project = new Project(title, description, budgetToSave,projectType,paymentType,expiryLocalDateTime ,deadlineLocalDateTime,  "0");
+                            projectInformationListener.onPostProjectItemSelectedWithAttachments(title, description, budget, deadlineLocalDateTime.toString(), expiryLocalDateTime.toString(), files);
+
+                            // Project projectToSave = new Project(title , description , budgetToSave ,deadlineLocalDateTime.toString(), expiryLocalDateTime.toString());
+                            //   createProjectWithAttachments(files);
+
+                        }
+
+
+                    } else {
+
+                        wrongInfoDialog("Missing information");
+
 
                     }
+            }else{
 
-
-
-                }else {
-
-                    showDialog("Missing information");
-
-
+                    wrongInfoDialog("Your Account has been deactivated  \n to further information contact the support");
                 }
 
             }
@@ -235,51 +242,27 @@ public class ProjectInformationFragment extends Fragment {
         return view;
     }//End of onCreateView()
 
+    private void getUser() {
+
+       long user_id = MySharedPreference.getLong(getContext(), Constants.Keys.USER_ID, -1);
+
+        ApiClients.getAPIs().findUserById(user_id).enqueue(new Callback<User>() {
+            @Override
+            public void onResponse(Call<User> call, Response<User> response) {
+                if (response.isSuccessful()){
+
+                    user = response.body();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<User> call, Throwable t) {
+
+            }
+        });
+    }
 
 
-
-    //TODO reema remove comment
-//
-//    private void createProjectWithAttachments(List<File> file)  {
-//        Project project = new Project("ne111w","new11",333,null , null , null,
-//                null ,null);
-//        List<MultipartBody.Part> attachments = new ArrayList<>();
-//
-//            file.stream().forEach(file1 -> {
-//                try {
-//                    attachments.add(MultipartBody.Part.createFormData("attachments",file1.getName() , RequestBody
-//                            .create(MediaType.parse(Files.probeContentType(file1.toPath()).toString()) , file1)));
-//                } catch (IOException e) {
-//                    e.printStackTrace();
-//                }
-//            });
-//
-//
-//        Gson gson = new Gson();
-//        RequestBody projectRequestBody = RequestBody.create(MediaType.parse("application/json; charset=utf-8"), gson.toJson(project));
-//
-//        ApiClients.getAPIs().getPostProjectWithAttachmentsRequest(projectRequestBody,attachments).enqueue(new Callback<ApiResponse>() {
-//            private  final String LOG = ProjectInformationFragment.class.getSimpleName() ;
-//
-//            @Override
-//            public void onResponse(Call<ApiResponse> call, Response<ApiResponse> response) {
-//                if (response.isSuccessful()) {
-//
-//                    Log.i(LOG, "onResponse : Success");
-//
-//                }else{
-//                    Log.i(LOG, "onResponse : fail");
-//
-//                }
-//            }
-//
-//            @Override
-//            public void onFailure(Call<ApiResponse> call, Throwable t) {
-//                Log.i(LOG, "onFailure : fail");
-//
-//            }
-//        });
-//    }
     public void setData(String paymentType) {
 
        if(paymentType.equals("Hourly")){
@@ -422,27 +405,27 @@ public class ProjectInformationFragment extends Fragment {
         void onBackInfoClick();
     }
 
+    private void wrongInfoDialog(String msg) {
+        final androidx.appcompat.app.AlertDialog.Builder alertDialog = new AlertDialog.Builder(getContext());
 
-    public void showDialog(final String msg ) {
-        final AlertDialog alertDialog = new AlertDialog.Builder(getContext()).create();
-        // alertDialog.getWindow().setBackgroundDrawable(mContext.getResources().getDrawable(R.drawable.dialogbackground));
+        alertDialog.setTitle("Warning");
+
+        // Setting Dialog Message
         alertDialog.setMessage(msg);
-        alertDialog.setIcon(R.mipmap.ic_launcher);
 
-        alertDialog.setButton(AlertDialog.BUTTON_POSITIVE, "Ok",
-                new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialogInterface, int i) {
-                        alertDialog.dismiss();
+        // Setting Icon to Dialog
+//        alertDialog.setIcon(R.drawable.exclamation);
 
-
-                    }//End onClick()
-                });//End BUTTON_POSITIVE
-
+        //Setting Negative "ok" Button
+        alertDialog.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.dismiss();
+            }//end onClick
+        });//end setPositiveButton
 
         alertDialog.show();
 
-    }//end showDialog
+    }//End wrongInfoDialog()
 
 
     public class GridSpacingItemDecoration extends RecyclerView.ItemDecoration {
@@ -479,6 +462,7 @@ public class ProjectInformationFragment extends Fragment {
             }
         }
     }
+
     public class VerticalSpaceItemDecoration extends RecyclerView.ItemDecoration {
 
         private final int verticalSpaceHeight;
