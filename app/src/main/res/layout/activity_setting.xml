@@ -54,7 +54,42 @@ app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/layout"
         app:layout_constraintStart_toStartOf="parent"
 
-        android:layout_marginTop="50dp"
+        android:layout_marginTop="10dp"
+
+        />
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@android:color/darker_gray"
+        tools:ignore="MissingConstraints"
+        app:layout_constraintTop_toBottomOf="@id/deactivate_account"
+
+        />
+    <TextView
+        android:id="@+id/change_pass"
+        android:layout_width="403dp"
+        android:layout_height="42dp"
+
+        android:layout_marginBottom="200dp"
+        android:text="Change password"
+        android:textColor="#B31B1B"
+        android:gravity="center_vertical"
+        android:textAlignment="center"
+        android:textSize="17sp"
+
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/deactivate_account"
+        app:layout_constraintStart_toStartOf="parent"
+
+        android:layout_marginTop="10dp"
+
+        />
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@android:color/darker_gray"
+        tools:ignore="MissingConstraints"
+        app:layout_constraintTop_toBottomOf="@id/change_pass"
 
         />
 

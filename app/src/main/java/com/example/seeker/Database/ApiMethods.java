@@ -163,6 +163,7 @@ public interface ApiMethods {
         String DID_FR_RATE = "project/fr_rated/{id}/{rated}";
 
         String COMPARE_RATING = "user/compare/{id}";
+        String CHANGE_PASSWORD="user/reset";
 
 
     }//End of Methods interface
@@ -173,6 +174,8 @@ public interface ApiMethods {
 
     @POST(Methods.SIGNUP)
     Call<ApiResponse> getSignUpRequest(@Body User user);
+    @POST(Methods.CHANGE_PASSWORD)
+    Call<ApiResponse> changePassRequest(@Body User user);
 
     @POST(Methods.LOGIN)
     Call<String> getLoginRequest(@Body Login login);

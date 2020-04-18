@@ -2,32 +2,24 @@ package com.example.seeker.EmployerMainPages.AccountRelatedActivities;
 
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentManager;
-import androidx.fragment.app.FragmentTransaction;
-import androidx.recyclerview.widget.DefaultItemAnimator;
-import androidx.recyclerview.widget.DividerItemDecoration;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.example.seeker.Activities.LoginActivity;
 import com.example.seeker.Database.ApiClients;
-import com.example.seeker.EmployerMainPages.MyProjectsTab_Emp.Emp_MyProjectsFragment;
-import com.example.seeker.FreelancerMainPages.MyProjectsTab_Freelancer.ProjectsStatusFragments.FRProjectAdapter;
-import com.example.seeker.FreelancerMainPages.MyProjectsTab_Freelancer.ProjectsStatusFragments.Freelancer_MyProjects_Pending_Fragment;
-import com.example.seeker.Model.Bid;
 import com.example.seeker.Model.Employer;
 import com.example.seeker.Model.Project;
 import com.example.seeker.Model.Responses.ApiResponse;
+import com.example.seeker.Model.User;
 import com.example.seeker.R;
 import com.example.seeker.SharedPref.Constants;
 import com.example.seeker.SharedPref.MySharedPreference;
@@ -42,7 +34,7 @@ import retrofit2.Response;
 public class SettingActivity extends AppCompatActivity {
 
     private ImageView backBtn;
-    private TextView deactivateBtn;
+    private TextView deactivateBtn,changePassBtn;
     private Employer employer;
     boolean checkBids;
     List<Project> projectList = new ArrayList<>();
@@ -70,16 +62,40 @@ public class SettingActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
 
-
-
-
-
            checkProject();
 
 
+            }
+        });
+        changePassBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
 
 
+                final AlertDialog dialogBuilder = new AlertDialog.Builder(SettingActivity.this).create();
+                LayoutInflater inflater = getLayoutInflater();
+                View dialogView = inflater.inflate(R.layout.custom_dialog, null);
 
+                final EditText editText = (EditText) dialogView.findViewById(R.id.edt_comment);
+                Button button1 = (Button) dialogView.findViewById(R.id.buttonSubmit);
+                Button button2 = (Button) dialogView.findViewById(R.id.buttonCancel);
+
+                button2.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        dialogBuilder.dismiss();
+                    }
+                });
+                button1.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        changePassword(editText.getText().toString());
+                        dialogBuilder.dismiss();
+                    }
+                });
+
+                dialogBuilder.setView(dialogView);
+                dialogBuilder.show();
             }
         });
     }
@@ -88,6 +104,7 @@ public class SettingActivity extends AppCompatActivity {
 
         backBtn = findViewById(R.id.setting_back);
         deactivateBtn = findViewById(R.id.deactivate_account);
+        changePassBtn=findViewById(R.id.change_pass);
     }
 
     private boolean checkBids() {
@@ -133,7 +150,7 @@ public class SettingActivity extends AppCompatActivity {
 
                     if (!projectList.isEmpty()) {
 
-                        wrongInfoDialog("You have to complete all your In-Progress Bids Project ");
+                        InfoDialog("Wrong","You have to complete all your In-Progress Bids Project ");
 
                     } else {
 
@@ -143,14 +160,14 @@ public class SettingActivity extends AppCompatActivity {
 
                 }else{
 
-                    wrongInfoDialog(response.message());
+                    InfoDialog("Warning",response.message());
                 }
             }
 
             @Override
             public void onFailure(Call<List<Project>> call, Throwable t) {
 
-                wrongInfoDialog("Try again later");
+                InfoDialog("Wrong","Try again later");
 
             }
         });
@@ -189,14 +206,14 @@ public class SettingActivity extends AppCompatActivity {
                         }else {
                             Log.d("NotEmpty",""+ myProject.size() );
 
-                            wrongInfoDialog("You have to complete all your In-Progress Projects");
+                            InfoDialog("Wrong","You have to complete all your In-Progress Projects");
 
                         }
                     }
 
                 }else{
 
-                    wrongInfoDialog(response.message());
+                    InfoDialog("Warning",response.message());
                 }
 
             }
@@ -204,7 +221,7 @@ public class SettingActivity extends AppCompatActivity {
             @Override
             public void onFailure(Call<List<Project>> call, Throwable t) {
 
-                wrongInfoDialog("Try again later");
+                InfoDialog("Wrong","Try again later");
 
             }
         });
@@ -379,10 +396,10 @@ public class SettingActivity extends AppCompatActivity {
 //to refresh the list
 
     }
-    private void wrongInfoDialog(String msg) {
+    private void InfoDialog(String title,String msg) {
         final AlertDialog.Builder alertDialog = new AlertDialog.Builder(this);
 
-        alertDialog.setTitle("Warning");
+        alertDialog.setTitle(title);
 
         // Setting Dialog Message
         alertDialog.setMessage(msg);
@@ -398,7 +415,7 @@ public class SettingActivity extends AppCompatActivity {
 
         alertDialog.show();
 
-    }//End wrongInfoDialog()
+    }//End InfoDialog()
 
     private void deleteBid(long id) {
 
@@ -438,6 +455,34 @@ public class SettingActivity extends AppCompatActivity {
 
     }//End of clearData()
 
+public void changePassword(String newPass){
+        if(!newPass.isEmpty()&&newPass.length()>=8){
+            User user=new User();
+            user.setId(MySharedPreference.getLong(this,Constants.Keys.USER_ID,0));
+            user.setPassword(newPass);
 
+            ApiClients.getAPIs().changePassRequest(user).enqueue(new Callback<ApiResponse>() {
+                @Override
+                public void onResponse(Call<ApiResponse> call, Response<ApiResponse> response) {
+                    if (response.isSuccessful()) {
+                        System.out.println("successful change pass");
+                    }
+                }
+
+                @Override
+                public void onFailure(Call<ApiResponse> call, Throwable t) {
+
+                }
+            });
+            InfoDialog("Successful","Your password has been changed successfully.");
+
+        }
+        else {
+            InfoDialog("Wrong","Missing field/Incorrect password.");
+        }
+
+
+
+}
 
 }
