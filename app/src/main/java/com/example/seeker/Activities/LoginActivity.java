@@ -240,11 +240,10 @@ public class LoginActivity extends Activity {
             public void onClick(DialogInterface dialog, int which) {
                 email.setText("");
                 password.setText("");
-
             }//end onClick
         });//end setPositiveButton
-
-        alertDialog.show();
+//todo
+ // alertDialog.show();
 
     }//end wrongInfoDialog()
 

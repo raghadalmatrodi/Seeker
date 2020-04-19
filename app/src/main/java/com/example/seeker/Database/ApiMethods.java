@@ -141,6 +141,7 @@ public interface ApiMethods {
 
 
         String DELETE_BID="bid/{bid_id}";
+        String DELETE_BID_ADMIN="bid/d/{bid_id}";
 
         //غيرت الباث لان كان نفس فايند يوزر كذا اذا جيت ادور يوزر بيحذفه
         String DELETE_USER="user/deleteUser/{user_id}";
@@ -419,6 +420,9 @@ public interface ApiMethods {
 
     @DELETE(Methods.DELETE_BID)
     Call<ApiResponse> deleteBid(@Path("bid_id") long bid_id);
+
+    @DELETE(Methods.DELETE_BID_ADMIN)
+    Call<ApiResponse> deleteBidAdmin(@Path("bid_id") long bid_id);
 
 
     @DELETE(Methods.DELETE_USER)

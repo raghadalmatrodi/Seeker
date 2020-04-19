@@ -1,7 +1,9 @@
 package com.example.seeker.Admin;
 
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
@@ -46,8 +48,8 @@ projects.setOnClickListener(new View.OnClickListener() {
         logout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                startActivity( new Intent(AdminActivity.this, LoginActivity.class));
-finish();
+                infoDialog("Warning"," Are you sure you want to logout?");
+
             }
         });
 
@@ -60,4 +62,35 @@ finish();
         users = findViewById(R.id.users_btn);
         logout=findViewById(R.id.admin_logout_btn);
     }
+
+
+    private void infoDialog(String title, String msg) {
+        AlertDialog.Builder alertDialog = new AlertDialog.Builder(this);
+        // Setting Dialog Title
+        alertDialog.setTitle(title);
+
+        // Setting Dialog Message
+        alertDialog.setMessage(msg);
+
+        alertDialog.setPositiveButton("yes", new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int which) {
+
+                dialog.dismiss();
+                startActivity( new Intent(AdminActivity.this, LoginActivity.class));
+                finish();
+
+            }//end onClick
+        });//end setPositiveButton
+        alertDialog.setNegativeButton("No",new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int which) {
+
+                dialog.dismiss();
+
+
+            }//end onClick
+        });//end setNegativeButton
+
+        alertDialog.show();
+
+    }//end wrongInfoDialog()
 }
