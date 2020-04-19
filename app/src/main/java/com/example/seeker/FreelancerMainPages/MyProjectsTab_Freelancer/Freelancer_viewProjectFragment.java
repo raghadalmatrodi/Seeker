@@ -110,7 +110,6 @@ public class Freelancer_viewProjectFragment extends Fragment implements  Emp_MyP
          view = inflater.inflate(R.layout.freelancer_fragment_view_project, container, false);
         chatList = new ArrayList<>();
 
-        getUser();
          init();
 
         emp_myProjects_pending_fragment = new Emp_MyProjects_Pending_Fragment();
@@ -193,6 +192,13 @@ public class Freelancer_viewProjectFragment extends Fragment implements  Emp_MyP
 
 
         return view;
+
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        getUser();
 
     }
 
