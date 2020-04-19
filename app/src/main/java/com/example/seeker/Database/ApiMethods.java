@@ -426,7 +426,7 @@ public interface ApiMethods {
 
 
     @DELETE(Methods.DELETE_USER)
-    Call<ApiResponse> deleteUserById(@Path("user_id") long user_id);
+    Call<Void> deleteUserById(@Path("user_id") long user_id);
 
 
 

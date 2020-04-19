@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.icu.text.IDNA;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -240,9 +241,6 @@ public class SettingActivity extends AppCompatActivity {
         alertDialog.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int which) {
 
-               deleteAllProject();
-
-               deleteAllBid();
 
 
                deleteUser();
@@ -271,131 +269,33 @@ public class SettingActivity extends AppCompatActivity {
 
         long user_id = MySharedPreference.getLong(this, Constants.Keys.USER_ID, -1);
 
-        ApiClients.getAPIs().deleteUserById(user_id).enqueue(new Callback<ApiResponse>() {
+        ApiClients.getAPIs().deleteUserById(user_id).enqueue(new Callback<Void>() {
             @Override
-            public void onResponse(Call<ApiResponse> call, Response<ApiResponse> response) {
-                logout();
+            public void onResponse(Call<Void> call, Response<Void> response) {
+
+
+                    MySharedPreference.clearData(SettingActivity.this);
+                    Intent intent = new Intent(SettingActivity.this, LoginActivity.class);
+                    intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                    intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                    startActivity(intent);
+
+
+
+
+
 
             }
 
             @Override
-            public void onFailure(Call<ApiResponse> call, Throwable t) {
+            public void onFailure(Call<Void> call, Throwable t) {
 
+                InfoDialog("Warning",t.getMessage());
             }
         });
 
     }
 
-    private void deleteAllBid() {
-
-
-        ApiClients.getAPIs().getProjectsByStatusOnly("0").enqueue(new Callback<List<Project>>() {
-            @Override
-            public void onResponse(Call<List<Project>> call, Response<List<Project>> response) {
-
-                if(response.isSuccessful()){
-                    /**
-                     *     int responseSize = response.body().size();
-                     *                     for (int i = 0; i< responseSize; i++){
-                     *                         if (response.body().get(i).getFreelancer() != null)
-                     *                         if (response.body().get(i).getFreelancer().getId() == 252){
-                     *                             bidList.add(response.body().get(i));
-                     *                         }
-                     *                     }
-                     */
-
-
-                    long currFree = MySharedPreference.getLong(SettingActivity.this, Constants.Keys.FREELANCER_ID,-1);
-
-
-                    /**
-                     * LET'S RESTART, FROM THE BEGINNING.
-                     * ASSUMING ALL PROJECTS HAS LIST OF BIDS.
-                     * 1ST: WE FOR LOOP IN ALL PROJECTS, K
-                     * 2ND: WE FOR LOOP IN ALL BIDS IN PROJECT K, H
-                     * 3RD: NOW I'M ON THE FIRST BID H OF THE FIRST PROJECT K, (ASSUMING THAT ALL BIDS CONTAINS FREELANCER OBJS) -> unfortunately not, so check on that plz :)
-                     * -> I'LL CHECK WHETHER PROJECT K . BID H . FREELANCER . FRID EQUALS CURRENT FREELANCER ID
-                     * IF YES, I'LL ADD THIS PROJECT K TO MY PROJECTSLIST. IF NOT, MOVE TO BID H+1.
-                     *
-                     */
-
-                    int rSize = response.body().size();
-                    int bidSize = 0;
-
-                    //Projects loop
-                    for (int k = 0; k < rSize; k++){
-                        bidSize = response.body().get(k).getBids().size();
-
-                        //Bids on project k loop
-                        for (int h = 0; h < bidSize; h++ ){
-
-                            if (response.body().get(k).getBids().get(h).getFreelancer() != null)
-                                if (response.body().get(k).getBids().get(h).getFreelancer().getId() == currFree)
-                                    deleteBid(response.body().get(k).getBids().get(h).getId());
-
-                        }//Bids loop
-                    }//Projects loop.
-
-
-                }else{
-
-                }
-            }
-
-            @Override
-            public void onFailure(Call<List<Project>> call, Throwable t) {
-
-            }
-        });
-
-
-    }
-
-    private void deleteAllProject() {
-
-        ApiClients.getAPIs().getProjectByStatus("0", employer).enqueue(new Callback<List<Project>>() {
-            @Override
-            public void onResponse(Call<List<Project>> call, Response<List<Project>> response) {
-
-                if(response.isSuccessful()){
-
-                    List<Project> deletedProject = response.body();
-
-                    if(!deletedProject.isEmpty()){
-
-                        for(int i=0; i<deletedProject.size(); i++){
-
-                            deleteProject(deletedProject.get(i));
-                        }
-                    }
-                }
-
-            }
-
-            @Override
-            public void onFailure(Call<List<Project>> call, Throwable t) {
-
-            }
-        });
-    }
-
-    private void deleteProject(Project project) {
-        ApiClients.getAPIs().deleteProject(project.getId()).enqueue(new Callback<ApiResponse>() {
-            @Override
-            public void onResponse(Call<ApiResponse> call, Response<ApiResponse> response) {
-                if (response.isSuccessful()) {
-
-                }
-            }
-
-            @Override
-            public void onFailure(Call<ApiResponse> call, Throwable t) {
-
-            }
-        });
-//to refresh the list
-
-    }
     private void InfoDialog(String title,String msg) {
         final AlertDialog.Builder alertDialog = new AlertDialog.Builder(this);
 
@@ -411,49 +311,35 @@ public class SettingActivity extends AppCompatActivity {
             public void onClick(DialogInterface dialog, int which) {
                 dialog.dismiss();
             }//end onClick
-        });//end setPositiveButton
+        });//end setPosit    private void deleteBid(long id) {
+//
+//
+//            ApiClients.getAPIs().deleteBid(id).enqueue(new Callback<ApiResponse>() {
+//                @Override
+//                public void onResponse(Call<ApiResponse> call, Response<ApiResponse> response) {
+//                    if (response.isSuccessful()) {
+//                    }
+//                }
+//
+//                @Override
+//                public void onFailure(Call<ApiResponse> call, Throwable t) {
+//
+//                }
+//            });
+//
+//
+//
+//    }iveButton
 
         alertDialog.show();
 
     }//End InfoDialog()
 
-    private void deleteBid(long id) {
-
-
-            ApiClients.getAPIs().deleteBid(id).enqueue(new Callback<ApiResponse>() {
-                @Override
-                public void onResponse(Call<ApiResponse> call, Response<ApiResponse> response) {
-                    if (response.isSuccessful()) {
-                    }
-                }
-
-                @Override
-                public void onFailure(Call<ApiResponse> call, Throwable t) {
-
-                }
-            });
+//
 
 
 
-    }
 
-    //TODO: REEMA LOGOUT
-    public void logout() {
-
-        clearData();
-
-         Intent intent = new Intent(this, LoginActivity.class);
-        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
-        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-        startActivity(intent);
-
-    }//End of logout()
-
-    public void clearData() {
-
-        MySharedPreference.clearData(this);
-
-    }//End of clearData()
 
 public void changePassword(String newPass){
         if(!newPass.isEmpty()&&newPass.length()>=8){
