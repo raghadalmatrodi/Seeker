@@ -2,6 +2,7 @@ package com.example.seeker.Admin;
 
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.graphics.Color;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -10,6 +11,7 @@ import android.view.ViewGroup;
 import android.widget.Filter;
 import android.widget.Filterable;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import androidx.appcompat.app.AlertDialog;
@@ -19,6 +21,7 @@ import com.example.seeker.Database.ApiClients;
 import com.example.seeker.Model.Project;
 import com.example.seeker.Model.User;
 import com.example.seeker.R;
+import com.example.seeker.ViewProfileActivity;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -41,6 +44,7 @@ public class UsersAdapter extends RecyclerView.Adapter<UsersAdapter.MyViewHolder
         public TextView deactivate;
         public TextView title;
         public TextView rating;
+        public LinearLayout linearLayout;
 
         public MyViewHolder(View view) {
             super(view);
@@ -48,6 +52,18 @@ public class UsersAdapter extends RecyclerView.Adapter<UsersAdapter.MyViewHolder
             title = view.findViewById(R.id.row_username);
             rating = view.findViewById(R.id.row_user_rating);
             deactivate = view.findViewById(R.id.row_user_deactivate);
+            linearLayout = view.findViewById(R.id.user_admin_layout);
+
+            linearLayout.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    Intent intent = new Intent(context, ViewProfileActivity.class);
+                    User user = userList.get(getAdapterPosition());
+                    intent.putExtra("myuser", user);
+                    context.startActivity(intent);
+
+                }
+            });
 
 
 
@@ -88,7 +104,7 @@ public class UsersAdapter extends RecyclerView.Adapter<UsersAdapter.MyViewHolder
         if(user.getIsEnabled() != null) {
             if (user.getIsEnabled().equals("0")) {
 
-                holder.deactivate.setText("Activate");
+                holder.deactivate.setText("Re-activate");
                 holder.deactivate.setBackgroundColor(Color.parseColor("#288F2C"));
             }else{
 
@@ -118,7 +134,7 @@ public class UsersAdapter extends RecyclerView.Adapter<UsersAdapter.MyViewHolder
                 if(user.getIsEnabled() != null) {
                     if (user.getIsEnabled().equals("0")) {
 
-                        holder.deactivate.setText("Activate");
+                        holder.deactivate.setText("Re-activate");
                         holder.deactivate.setBackgroundColor(Color.parseColor("#288F2C"));
                     }else{
 
