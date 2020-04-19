@@ -238,12 +238,14 @@ public class LoginActivity extends Activity {
         //Setting Negative "ok" Button
         alertDialog.setPositiveButton("OK", new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int which) {
+
+                dialog.dismiss();
                 email.setText("");
                 password.setText("");
             }//end onClick
         });//end setPositiveButton
-//todo
- // alertDialog.show();
+
+  alertDialog.show();
 
     }//end wrongInfoDialog()
 

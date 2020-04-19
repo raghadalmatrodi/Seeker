@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<LinearLayout
+    android:id="@+id/project_linear"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="horizontal"
+    android:layout_width="match_parent"
+    android:layout_height="110dp"
+    android:paddingTop="10dp"
+    android:paddingBottom="10dp"
+    android:padding="10dp"
+    >
+
+
+
+    <LinearLayout
+        android:layout_width="221dp"
+        android:layout_height="100dp"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/row_project_title_admin"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="15dp"
+            android:layout_marginTop="10dp"
+            android:text="project title"
+            android:textColor="#000"
+
+            android:textSize="20dp" />
+
+        <TextView
+            android:id="@+id/row_project_description_admin"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="17dp"
+            android:layout_marginTop="5dp"
+            android:text="project description"
+            android:textColor="#747171"
+            android:textSize="17dp" />
+
+    </LinearLayout>
+
+    <TextView
+        android:id="@+id/row_project_deactivate"
+        android:layout_width="97dp"
+        android:layout_height="34dp"
+        android:layout_marginTop="25dp"
+        android:layout_marginRight="10dp"
+        android:layout_marginLeft="50dp"
+        android:background="#A30707"
+        android:gravity="center_vertical"
+        android:text="Delete"
+        android:textAlignment="center"
+        android:textColor="#FFFF"
+        android:textSize="15dp"
+        android:textStyle="bold" />
+
+
+</LinearLayout>
+

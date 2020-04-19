@@ -70,7 +70,9 @@ public interface ApiMethods {
         String GET_ALL_PROJECTS = "project/findAll";
         String GET_ALL_USERS="user/findAll";
         String DELETE_PROJECT="project/{project_id}";
-//       String GET_ALL_USERS="user/findAll";
+        String DELETE_PROJECT_ADMIN="project/d/{project_id}";
+
+        //       String GET_ALL_USERS="user/findAll";
         String EXTEND_PROJECT="project/extend";
         String FIND_CHAT_BY_USER ="chat/user/{user_id}";
         String CREATE_CHAT_MESSAGE = "chatMessage";
@@ -339,6 +341,8 @@ public interface ApiMethods {
 
     @DELETE(Methods.DELETE_PROJECT)
     Call<ApiResponse> deleteProject(@Path("project_id") long project_id);
+    @DELETE(Methods.DELETE_PROJECT_ADMIN)
+    Call<ApiResponse> deleteProjectAdmin(@Path("project_id") long project_id);
 
     @PUT(Methods.EXTEND_PROJECT)
     Call<ApiResponse> updateExpiryDate(@Body Project project);
