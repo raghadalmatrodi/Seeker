@@ -17,13 +17,14 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".Admin.UsersActivity"></activity>
+        <activity android:name=".FreelancerMainPages.FreelancerPayment"></activity>
+        <activity android:name=".Admin.UsersActivity" />
         <activity android:name=".Admin.BidsActivity" />
         <activity android:name=".Admin.ProjectsActivity" />
         <activity android:name=".Admin.AdminActivity" />
         <activity android:name=".EmployerMainPages.AccountRelatedActivities.ViewAttachmentActivity" />
         <activity android:name=".Rating.test" />
-        <activity android:name=".ViewProfileActivity"></activity>
+        <activity android:name=".ViewProfileActivity" />
         <activity android:name=".EmployerMainPages.AccountRelatedActivities.SettingActivity" />
         <activity android:name=".EmployerMainPages.AccountRelatedActivities.Payment.PaymentMethodActivity" />
         <activity android:name=".EmployerMainPages.AccountRelatedActivities.Payment.PaymentActivity" />

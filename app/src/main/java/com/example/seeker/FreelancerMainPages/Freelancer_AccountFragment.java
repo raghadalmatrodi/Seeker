@@ -38,6 +38,8 @@ public class Freelancer_AccountFragment extends Fragment implements View.OnClick
     TextView logoutBtn, name;
     LinearLayout edit_profile;
     LinearLayout settings;
+    LinearLayout payment;
+
     ImageView profile_picture;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -52,6 +54,8 @@ public class Freelancer_AccountFragment extends Fragment implements View.OnClick
         switch_btn.setOnClickListener(this);
         logoutBtn.setOnClickListener(this);
         settings.setOnClickListener(this);
+        payment.setOnClickListener(this);
+
 
         // Inflate the layout for this fragment
         return view;
@@ -67,6 +71,7 @@ public class Freelancer_AccountFragment extends Fragment implements View.OnClick
         name = view.findViewById(R.id.freelancer_profile_name);
         settings = view.findViewById(R.id.settings_ll);
         profile_picture = view.findViewById(R.id.profile_picture);
+        payment = view.findViewById(R.id.payments_ll);
 
         String userImgURL = MySharedPreference.getString(getContext(),Constants.Keys.USER_IMG,null);
         if( userImgURL != null ){
@@ -105,6 +110,9 @@ public class Freelancer_AccountFragment extends Fragment implements View.OnClick
 
             case R.id.settings_ll:
                 startActivity(new Intent(Freelancer_AccountFragment.this.getActivity(), SettingActivity.class));
+                break;
+            case R.id.payments_ll:
+                startActivity(new Intent(Freelancer_AccountFragment.this.getActivity(), FreelancerPayment.class));
 
 
 

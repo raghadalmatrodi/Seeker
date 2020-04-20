@@ -170,6 +170,8 @@ public interface ApiMethods {
 
         String CHANGE_PASSWORD="user/reset";
 
+        String POST_IBAN_NUMBER = "freelancer/Iban";
+
 
     }//End of Methods interface
 
@@ -257,6 +259,9 @@ public interface ApiMethods {
 
 
     //NEW WORKING ONES
+
+    @POST(Methods.POST_IBAN_NUMBER)
+    Call<Void>  setFreelancerIban(@Body Freelancer freelancer);
 
     //TODO: CALCULATE TRUST POINTS USING THIS API :) DELETE OLDER ONES :)
     @POST(Methods.POST_EMPLOYER_TRUST_POINTS)

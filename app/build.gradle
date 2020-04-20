@@ -100,5 +100,5 @@ dependencies {
     implementation project(path: ':paytabs_sdk-v4.0.1')
 
 
-
+    implementation 'org.iban4j:iban4j:3.2.1'
 }
