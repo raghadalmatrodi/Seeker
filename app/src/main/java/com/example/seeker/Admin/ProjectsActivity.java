@@ -229,16 +229,9 @@ public class ProjectsActivity extends AppCompatActivity implements ProjectsAdapt
     public void onProjectItemClick(Project project) {
     //todo
 
-        Fragment fragment = new Emp_viewProjectFragment();
-        Bundle bundle = new Bundle();
-        bundle.putSerializable("project", project);
-        fragment.setArguments(bundle);
-
-        FragmentManager fragmentManager = this.getSupportFragmentManager();
-        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-        fragmentTransaction.replace(R.id.main_content, fragment);
-        fragmentTransaction.addToBackStack(null);
-        fragmentTransaction.commit();
+        Intent intent = new Intent(getBaseContext(), ViewProjectActivity.class);
+        intent.putExtra("projectObj", project);
+        startActivity(intent);
     }
 
     @Override
