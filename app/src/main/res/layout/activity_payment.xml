@@ -33,6 +33,15 @@
 
     </LinearLayout>
 
+    <TextView
+        android:id="@+id/no_payment"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_marginTop="10dp"
+        android:text="No Projects to pay for"
+        />
+
     <ayalma.ir.expandablerecyclerview.ExpandableRecyclerView
         xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:tools="http://schemas.android.com/tools"

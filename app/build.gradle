@@ -96,9 +96,9 @@ dependencies {
 
 
     implementation 'com.github.dbachelder:CreditCardEntry:1.4.9'
-
+    implementation 'com.google.firebase:firebase-auth:19.3.0'
     implementation project(path: ':paytabs_sdk-v4.0.1')
 
 
-
+    implementation 'org.iban4j:iban4j:3.2.1'
 }

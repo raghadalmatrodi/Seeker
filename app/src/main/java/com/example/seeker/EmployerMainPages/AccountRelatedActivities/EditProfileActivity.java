@@ -18,6 +18,7 @@ import android.graphics.Bitmap;
 import android.media.Image;
 import android.os.Bundle;
 import android.provider.MediaStore;
+import android.text.InputFilter;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -575,7 +576,7 @@ public class EditProfileActivity extends ParentEditProfileActivity implements Sa
                     @Override
                     public void onClick(View v) {
 //                        UserSocialMedia userSocialMedia = new UserSocialMedia(educationET.getText().toString());
-                        executeAddEducationRequest(current_user_id, educationET.getText().toString());
+                        executeAddEducationRequest(current_user_id, new User(educationET.getText().toString()));
 
 
                         educationET.setEnabled(false);
@@ -712,7 +713,7 @@ public class EditProfileActivity extends ParentEditProfileActivity implements Sa
 
     }//end add facebook
 
-    private void executeAddEducationRequest(long id, String education) {
+    private void executeAddEducationRequest(long id, User education) {
 
         ApiClients.getAPIs().getPostEducation(id, education).enqueue(new Callback<User>() {
             @Override
@@ -1023,6 +1024,11 @@ public class EditProfileActivity extends ParentEditProfileActivity implements Sa
 
 
     //todo: check validity of phone number, maroof acc and national id.
+    private void setMaxLength(EditText editText, int max){
+        InputFilter[] filterArray = new InputFilter[1];
+        filterArray[0] = new InputFilter.LengthFilter(max);
+        editText.setFilters(filterArray);
+    }
 
     private void AddInfoDialog(int type) {
         /**
@@ -1052,14 +1058,17 @@ public class EditProfileActivity extends ParentEditProfileActivity implements Sa
 
             case 1:
                 title.setText("Please enter your phone number");
+                setMaxLength(infoET, 10);
                 if (user.getPhone_number() != null)
                     //TODO: REMOVE AFTER VALIDATION
                     infoET.setText(user.getPhone_number());
+
                 else
-                    infoET.setHint("Phone Number");
+                    infoET.setHint("please enter in this format: 05xxxxxxxx");
                 break;
 
             case 2:
+                setMaxLength(infoET, 10);
                 title.setText("Please enter your national ID");
                 infoET.setHint("National ID");
                 break;
@@ -1086,13 +1095,19 @@ public class EditProfileActivity extends ParentEditProfileActivity implements Sa
                             break;
 
                         case 1:
+                            if (infoET.getText().length() <10)
+                                wrongInfoDialog("Phone number can't be less than 10 digits. Please try again.");
+                            else {
                             executeAddPhoneNumberRequest(MySharedPreference.getLong(EditProfileActivity.this, Constants.Keys.USER_ID, -1), infoET.getText().toString());
-                            dialogBuilder.dismiss();
+                            dialogBuilder.dismiss();}
 
                             break;
                         case 2:
+                            if (infoET.getText().length() <10)
+                                wrongInfoDialog("National ID can't be less than 10 digits. Please try again.");
+                            else{
                             executeAddNationalIdRequest(MySharedPreference.getLong(EditProfileActivity.this, Constants.Keys.USER_ID, -1), infoET.getText().toString());
-                            dialogBuilder.dismiss();
+                            dialogBuilder.dismiss();}
 
                             break;
                     }//end switch

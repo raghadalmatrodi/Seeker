@@ -17,6 +17,8 @@ public class Freelancer implements Serializable {
     private int num_of_hired_projects;
     private List<Bid> bids = new ArrayList<>();
     private Set<Skill> skills = new HashSet<>();
+    private String fullName;
+    private String ibanNumber;
 
     //Freelancer Constructor for Rating
 
@@ -25,6 +27,10 @@ public class Freelancer implements Serializable {
         this.num_of_ratings = num_of_ratings;
         this.total_quality_of_work = total_quality_of_work;
         this.total_response_time = total_response_time;
+    }
+
+    public Freelancer(){
+
     }
 
     public Freelancer(long id, User user, String maarof_account, int num_of_ratings, int total_response_time, int total_quality_of_work, int num_of_hired_projects, List<Bid> bids, Set<Skill> skills) {
@@ -55,6 +61,21 @@ public class Freelancer implements Serializable {
         this.skills = skills;
     }
 
+    public String getFullName() {
+        return fullName;
+    }
+
+    public void setFullName(String fullName) {
+        this.fullName = fullName;
+    }
+
+    public String getIbanNumber() {
+        return ibanNumber;
+    }
+
+    public void setIbanNumber(String ibanNumber) {
+        this.ibanNumber = ibanNumber;
+    }
 
     public long getId() {
         return id;
@@ -144,6 +165,8 @@ public class Freelancer implements Serializable {
                 ", num_of_hired_projects=" + num_of_hired_projects +
                 ", bids=" + bids +
                 ", skills=" + skills +
+                ", fullName='" + fullName + '\'' +
+                ", ibanNumber='" + ibanNumber + '\'' +
                 '}';
     }
 }//End class

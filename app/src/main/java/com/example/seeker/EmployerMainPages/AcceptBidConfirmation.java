@@ -50,7 +50,6 @@ public class AcceptBidConfirmation extends Fragment {
     TextView bidDeadline;
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
-        getUser();
         view = inflater.inflate(R.layout.activity_accept_bid_confirmation, container, false);
         accept_bid = view.findViewById(R.id.bid_accept) ;
         cancel_bid = view.findViewById(R.id.bid_cancel);
@@ -171,7 +170,14 @@ public class AcceptBidConfirmation extends Fragment {
             }
         });
     }
-//    @Override
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        getUser();
+
+    }
+    //    @Override
 //    protected void onCreate(Bundle savedInstanceState) {
 //        super.onCreate(savedInstanceState);
 //        setContentView(R.layout.activity_accept_bid_confirmation);

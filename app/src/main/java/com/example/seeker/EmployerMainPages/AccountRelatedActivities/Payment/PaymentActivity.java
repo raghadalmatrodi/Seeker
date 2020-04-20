@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.TextView;
 
 import com.example.seeker.Database.ApiClients;
 import com.example.seeker.Model.Employer;
@@ -26,6 +27,7 @@ public class PaymentActivity extends AppCompatActivity {
 
     List<Project> projectList;
     ImageView backBtn;
+    TextView noPayment;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -45,6 +47,8 @@ public class PaymentActivity extends AppCompatActivity {
 
     private void init() {
         backBtn = findViewById(R.id.payment_back);
+        noPayment = findViewById(R.id.no_payment);
+
     }
 
     @Override
@@ -60,6 +64,11 @@ public class PaymentActivity extends AppCompatActivity {
                 if(response.isSuccessful()){
 
                     projectList = (List) response.body();
+
+                    if(!projectList.isEmpty()){
+
+                        noPayment.setVisibility(View.GONE);
+                    }
 
                     ExpandableRecyclerView eRecyclerView = findViewById(R.id.purchase_list);
                     PaymentAdapter mPIAdapter = new PaymentAdapter(projectList, PaymentActivity.this); // purchaseItemAdapter

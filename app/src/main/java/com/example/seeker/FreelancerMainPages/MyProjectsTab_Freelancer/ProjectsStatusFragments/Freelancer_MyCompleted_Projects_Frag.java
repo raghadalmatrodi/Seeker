@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -38,6 +39,8 @@ public class Freelancer_MyCompleted_Projects_Frag extends Fragment implements Se
     private Freelancer_MyCompleted_Projects_Frag.ProjectListener projectListener;
     private TextView completedText;
     long currentFreelancer = MySharedPreference.getLong(getContext(), Constants.Keys.FREELANCER_ID,-1);
+    private ProgressBar mProgressBar;
+
 
 
 
@@ -48,6 +51,9 @@ public class Freelancer_MyCompleted_Projects_Frag extends Fragment implements Se
         // Inflate the layout for this fragment
         view = inflater.inflate(R.layout.freelancer_completed_projects, container, false);
         completedText = view.findViewById(R.id.fr_completed_txt);
+        mProgressBar = view.findViewById(R.id.myDataLoaderProgressBar);
+        mProgressBar.setVisibility(View.VISIBLE);
+
 
         return view;
     }//End onCreateView()
@@ -87,6 +93,7 @@ public class Freelancer_MyCompleted_Projects_Frag extends Fragment implements Se
         ApiClients.getAPIs().getProjectsByStatusOnly("2").enqueue(new Callback<List<Project>>() {
             @Override
             public void onResponse(Call<List<Project>> call, Response<List<Project>> response) {
+                mProgressBar.setVisibility(View.GONE);
 
                 if(response.isSuccessful()){
                     Toast.makeText(getContext(),"SUCCESS",Toast.LENGTH_LONG).show();

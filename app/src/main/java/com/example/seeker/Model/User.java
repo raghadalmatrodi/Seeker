@@ -35,6 +35,10 @@ public class User implements Serializable,IUser {
         this.sampleWorks = sampleWorks;
     }
 
+    public User(String education) {
+        this.education = education;
+    }
+
     public User(long id, String username, Set<Role> roles, String email, String phone_number, String national_id, String rating, String current_type, String twitter, String facebook, String linkedIn, String education) {
         this.id = id;
         this.username = username;

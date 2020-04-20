@@ -126,34 +126,26 @@ public class Freelancer_Search_Projects_Fragment extends Fragment
         int[] covers = new int[]{
                 R.drawable.wesite_and_it,
                 R.drawable.mobile,
+                R.drawable.swdevlpoment,
                 R.drawable.writing,
                 R.drawable.art_and_design,
                 R.drawable.data_entry,
+                R.drawable.marketing,
                 R.drawable.music_and_audio,
-                R.drawable.wesite_and_it,
-                R.drawable.mobile,
-                R.drawable.writing,
-                R.drawable.art_and_design,
-                R.drawable.data_entry,
+                R.drawable.editing,
+                R.drawable.teaching,//---
+                R.drawable.construction,
+                R.drawable.organizing,
+                R.drawable.housekeeping,//------
+                R.drawable.delivery,
                 R.drawable.music_and_audio,
-                R.drawable.wesite_and_it,
-                R.drawable.mobile,
-                R.drawable.writing,
+                R.drawable.makeup,
+                R.drawable.cooking,
                 R.drawable.art_and_design,
-                R.drawable.data_entry,
-                R.drawable.music_and_audio,
-                R.drawable.wesite_and_it,
-                R.drawable.mobile,
-                R.drawable.writing,
-                R.drawable.art_and_design,
-                R.drawable.data_entry,
-                R.drawable.music_and_audio,
-                R.drawable.wesite_and_it,
-                R.drawable.mobile,
-                R.drawable.writing,
-                R.drawable.art_and_design,
-                R.drawable.data_entry,
-                R.drawable.music_and_audio
+                R.drawable.planning,
+                R.drawable.photography,
+                R.drawable.training,
+                R.drawable.styling
         };
 
 

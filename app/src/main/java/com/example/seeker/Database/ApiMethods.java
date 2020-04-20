@@ -166,7 +166,11 @@ public interface ApiMethods {
         String DID_FR_RATE = "project/fr_rated/{id}/{rated}";
 
         String COMPARE_RATING = "user/compare/{id}";
+        String FIND_BIDS_BY_PROJECT_ID = "bid/find_projs/{project_id}";
+
         String CHANGE_PASSWORD="user/reset";
+
+        String POST_IBAN_NUMBER = "freelancer/Iban";
 
 
     }//End of Methods interface
@@ -244,6 +248,9 @@ public interface ApiMethods {
     @POST(Methods.POST_EDUCATION)
     Call<User> getPostEducation(@Path("id") long id, @Path("education") String education);
 
+    @POST(Methods.POST_EDUCATION)
+    Call<User> getPostEducation(@Path("id") long id, @Body User education);
+
     @POST(Methods.POST_IMG)
     Call<Void> getPostImgRequest(@Path("id") long id, @Path("img") byte[] img);
 //
@@ -252,6 +259,9 @@ public interface ApiMethods {
 
 
     //NEW WORKING ONES
+
+    @POST(Methods.POST_IBAN_NUMBER)
+    Call<Void>  setFreelancerIban(@Body Freelancer freelancer);
 
     //TODO: CALCULATE TRUST POINTS USING THIS API :) DELETE OLDER ONES :)
     @POST(Methods.POST_EMPLOYER_TRUST_POINTS)
@@ -461,5 +471,8 @@ public interface ApiMethods {
 
     @GET(Methods.COMPARE_RATING)
     Call<Integer> compareUserRatings(@Path("id") long id);
+
+    @GET(Methods.FIND_BIDS_BY_PROJECT_ID)
+    Call<List<Bid>> findBidsByProjectId(@Path("project_id") long project_id);
 
 }//End of ApiMethods interface

@@ -61,12 +61,6 @@ public class PostBidActivity extends AppCompatActivity {
     private LocalDateTime localDateTimet;
     private DatePickerDialog picker;
 
-    //todo: hind commented -> remove later
-//    Freelancer freelancer;
-
-
-
-
 
 
 
@@ -77,9 +71,6 @@ public class PostBidActivity extends AppCompatActivity {
         getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN);
 
         init();
-
-
-//        getCurrentProject();
 
         Intent i = getIntent();
         Project project = (Project) i.getSerializableExtra("currentProjObj");
@@ -125,38 +116,7 @@ public class PostBidActivity extends AppCompatActivity {
                     dateStr = dateStr+timeString;
                     localDateTimet = convertStringToLocalDateTime(dateStr);
 
-//                    Freelancer freelancer = new Freelancer(MySharedPreference.getLong(PostBidActivity.this, Constants.Keys.USER_ID, -1));
 
-                    //CHECK! NOT SURE
-//                    if (MySharedPreference.getLong(PostBidActivity.this, Constants.Keys.USER_ID, -1) != -1)
-//                    freelancer.setId(MySharedPreference.getLong(PostBidActivity.this, Constants.Keys.USER_ID, -1));
-                    //todo: hind commented -> remove later
-
-//                        executeFindFreelancerByUserIdRequest(MySharedPreference.getLong(PostBidActivity.this, Constants.Keys.USER_ID, -1));
-                    //todo: JUST COMMENTED SAT 7 MARCH 9PM
-//
-//                    long freelancerID = MySharedPreference.getLong(PostBidActivity.this, Constants.Keys.FREELANCER_ID,-1);
-//
-//                    Freelancer freelancer = new Freelancer(freelancerID);
-//                    Employer employer = new Employer(empID);
-
-
-
-//                    long projectID = project.getId();
-//                    project.setId(projectID);
-//
-//
-//
-//                    Bid bid = new Bid(bidTitleStr,bidDescriptionStr,priceDouble,localDateTimet.toString() ,"pending", freelancer, project);
-//
-////                    String checkStr = bidTitleStr+" -- "+bidDescriptionStr+ " -- "+ priceStr + " -- "+" -- " + dateStr;
-////                    Toast.makeText(getApplicationContext(),checkStr,Toast.LENGTH_LONG).show();
-//
-//                    executePostBidRequest(bid);
-                    /**
-                     * hind added and commented above lines on mar.7
-                     *
-                     */
                     executeFindFreelancerByUserIdRequest(MySharedPreference.getLong(PostBidActivity.this, Constants.Keys.USER_ID, -1));
 
                 }
@@ -195,21 +155,22 @@ public class PostBidActivity extends AppCompatActivity {
         bidDescriptionStr = bid_decsription.getText().toString();
         bidTitleStr = bid_title.getText().toString();
 
-
-
-
-        if(bidTitleStr.isEmpty() || priceStr.isEmpty() || dateStr.isEmpty() || bidDescriptionStr.isEmpty()) {
-//            Toast.makeText(this,"Some fields are empty", Toast.LENGTH_SHORT).show();
-            wrongInfoDialog(getString(R.string.some_fields_are_empty));
+        if (Double.valueOf(priceStr) == 0) {
+            wrongInfoDialog("Selected budget must be a positive number, try again");
             return false;
+        }else {
 
-        } else {
+            if (bidTitleStr.isEmpty() || priceStr.isEmpty() || dateStr.isEmpty() || bidDescriptionStr.isEmpty()) {
+                wrongInfoDialog(getString(R.string.some_fields_are_empty));
+                return false;
 
-            priceDouble = Double.parseDouble(priceStr);
-            return true;
+            } else {
+
+                priceDouble = Double.parseDouble(priceStr);
+                return true;
+            }
+
         }
-
-
     }//end validInput()
 
 
@@ -446,30 +407,6 @@ public class PostBidActivity extends AppCompatActivity {
         alertDialog.show();
 
     }//End wrongInfoDialog()
-
-    private void wrongInfoDialogWithTitle(String title, String msg) {
-        final AlertDialog.Builder alertDialog = new AlertDialog.Builder(this);
-
-        alertDialog.setTitle(title);
-
-        // Setting Dialog Message
-        alertDialog.setMessage(msg);
-
-        // Setting Icon to Dialog
-//        alertDialog.setIcon(R.drawable.exclamation);
-
-        //Setting Negative "ok" Button
-        alertDialog.setPositiveButton("OK", new DialogInterface.OnClickListener() {
-            public void onClick(DialogInterface dialog, int which) {
-                dialog.dismiss();
-            }//end onClick
-        });//end setPositiveButton
-
-        alertDialog.show();
-
-    }//End wrongInfoDialog()
-
-
 
 
 }//End class.

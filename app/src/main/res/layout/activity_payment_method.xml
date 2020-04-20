@@ -55,7 +55,7 @@
             >
 
             <TextView
-                android:id="@+id/contract_project_name"
+                android:id="@+id/payment_project_name"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"

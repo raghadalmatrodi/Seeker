@@ -35,6 +35,7 @@ public class PaymentMethodActivity extends AppCompatActivity {
     public TextView deadline;
     public TextView price;
     public TextView payment;
+    public TextView title;
     Milestone milestone;
     Button payButton;
 
@@ -134,6 +135,9 @@ public class PaymentMethodActivity extends AppCompatActivity {
             payment.setBackgroundColor(getResources().getColor(R.color.colorAccent));
 
         }
+        if(milestone.getProject().getTitle() != null){
+            title.setText(milestone.getProject().getTitle());
+        }
 
 
         String stringPrice = String.valueOf(milestone.getAmount());
@@ -153,6 +157,7 @@ public class PaymentMethodActivity extends AppCompatActivity {
         employer = findViewById(R.id.contract_employer);
         freelancer = findViewById(R.id.contract_freelancer);
         payButton = findViewById(R.id.payButton);
+        title = findViewById(R.id.payment_project_name);
 
     }
 
