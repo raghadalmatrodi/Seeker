@@ -3,11 +3,14 @@ package com.example.seeker.Activities;
 import android.app.Activity;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.appcompat.app.AlertDialog;
@@ -47,6 +50,8 @@ public class LoginActivity extends Activity {
     private String userEmail, userPassword;
     private String encryptedPassword;
     private String currentType;
+    private Button resetPassword;
+    private EditText forget_pass_email;
 
     @Override
     protected void onResume() {
@@ -107,7 +112,72 @@ public class LoginActivity extends Activity {
 //            }//End of onClick()
 //        });
 
+        forgotPass.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                showForgetPasswordDialog();
+            }
+        });
+
     }//End onCreate()
+
+    private void showForgetPasswordDialog() {
+        final ForgotPassDialog customDialog = new ForgotPassDialog(LoginActivity.this);
+        customDialog.show();
+        customDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+
+        resetPassword = customDialog.findViewById(R.id.btn_send);
+        forget_pass_email = customDialog.findViewById(R.id.forgotPass_edtEmail);
+
+        resetPassword.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if(forget_pass_email.getText().toString().equals("") || forget_pass_email.getText().toString().trim().equals("") ){
+                    customDialog.dismiss();
+                    wrongInfoDialog("The email is empty");
+                } else if(!isValid(forget_pass_email.getText().toString())) {
+                    customDialog.dismiss();
+                    wrongInfoDialog("Wrong email format");
+                }else{
+                    ApiClients.getAPIs().forgetPassword(forget_pass_email.getText().toString()).enqueue(new Callback<Void>() {
+                        @Override
+                        public void onResponse(Call<Void> call, Response<Void> response) {
+                            if(response.isSuccessful()){
+                                customDialog.dismiss();
+
+                                showDialog("If your'e registered the reset password email is sent to your email");
+
+                            }else{
+                                customDialog.dismiss();
+
+                                showDialog("If your'e registered the reset password email is sent to your email");
+
+                            }
+
+                        }
+
+                        @Override
+                        public void onFailure(Call<Void> call, Throwable t) {
+                            customDialog.dismiss();
+
+                            wrongInfoDialog("Error, please try again later");
+
+                        }
+                    });
+
+
+                }
+
+            }//End  onClick() //for forgotPassDialog_sendBtn btn
+        });
+
+    }
+
+    private boolean isValid(String forget_pass_email) {
+        String regex = "^[\\w-_\\.+]*[\\w-_\\.]\\@([\\w]+\\.)+[\\w]+[\\w]$";
+
+        return  forget_pass_email.matches(regex);
+    }
 
     private void LoginApiRequest() {
 
@@ -149,10 +219,6 @@ public class LoginActivity extends Activity {
                 }
             }//End of big if
 
-
-//
-
-
             @Override
             public void onFailure(Call<String> call, Throwable t) {
              wrongInfoDialog(t.getLocalizedMessage());
@@ -186,9 +252,10 @@ public class LoginActivity extends Activity {
     private void init() {
         email = findViewById(R.id.login_emailET);
         password = findViewById(R.id.login_passwordlET);
-//        forgotPass = findViewById(R.id.forgetPass);
+        forgotPass = findViewById(R.id.goto_resetPassword);
         createAccount = findViewById(R.id.goto_signup);
         login = findViewById(R.id.login_btn);
+
 
     }//End init()
 
@@ -246,6 +313,30 @@ public class LoginActivity extends Activity {
         });//end setPositiveButton
 
   alertDialog.show();
+
+    }//end wrongInfoDialog()
+
+    private void showDialog(String msg) {
+        AlertDialog.Builder alertDialog = new AlertDialog.Builder(this);
+        // Setting Dialog Title
+        alertDialog.setTitle("Successful");
+
+        // Setting Dialog Message
+        alertDialog.setMessage(msg);
+
+        // Setting Icon to Dialog
+//        alertDialog.setIcon(R.drawable.exclamation);
+        //Setting Negative "ok" Button
+        alertDialog.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int which) {
+
+                dialog.dismiss();
+                email.setText("");
+                password.setText("");
+            }//end onClick
+        });//end setPositiveButton
+
+        alertDialog.show();
 
     }//end wrongInfoDialog()
 

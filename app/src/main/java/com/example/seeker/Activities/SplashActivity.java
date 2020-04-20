@@ -66,8 +66,7 @@ public class SplashActivity extends Activity {
                 finish();
 
             }
-        }//End of if
-        else {
+        }else {
             startActivity(new Intent(getApplicationContext(), LoginActivity.class));
             finish();
         }//End of else
@@ -76,9 +75,11 @@ public class SplashActivity extends Activity {
     private void executeUpdateToken() {
 
         String token = MySharedPreference.getString(getApplicationContext(),Constants.Keys.TOKEN_ID,"");
+        Log.d(SplashActivity.class.getSimpleName(), " token: " + token);
+
         Long userId = MySharedPreference.getLong(getApplicationContext(),Constants.Keys.USER_ID,-1);
 
-        if(!((token == null || token.equals("")) ) && userId !=-1 ){
+        if((!(token == null || token.equals("")) ) && userId !=-1 ){
             ApiClients.getAPIs().updateToken(token ,userId ).enqueue(new Callback<ApiResponse>() {
                 @Override
                 public void onResponse(Call<ApiResponse> call, Response<ApiResponse> response) {

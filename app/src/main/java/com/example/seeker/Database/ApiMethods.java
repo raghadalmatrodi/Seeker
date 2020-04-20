@@ -169,6 +169,8 @@ public interface ApiMethods {
         String FIND_BIDS_BY_PROJECT_ID = "bid/find_projs/{project_id}";
 
         String CHANGE_PASSWORD="user/reset";
+        String RESET_PASSWORD= "account/resetPassword/{email}";
+
 
         String POST_IBAN_NUMBER = "freelancer/Iban";
 
@@ -474,5 +476,8 @@ public interface ApiMethods {
 
     @GET(Methods.FIND_BIDS_BY_PROJECT_ID)
     Call<List<Bid>> findBidsByProjectId(@Path("project_id") long project_id);
+
+    @PUT(Methods.RESET_PASSWORD)
+    Call<Void> forgetPassword(@Path("email") String email);
 
 }//End of ApiMethods interface
