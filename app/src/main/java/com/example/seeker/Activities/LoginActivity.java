@@ -245,7 +245,7 @@ public class LoginActivity extends Activity {
             }//end onClick
         });//end setPositiveButton
 
-  alertDialog.show();
+ // alertDialog.show();
 
     }//end wrongInfoDialog()
 

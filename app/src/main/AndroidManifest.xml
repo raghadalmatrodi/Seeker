@@ -23,6 +23,8 @@
         <activity android:name=".Admin.AdminActivity" />
         <activity android:name=".EmployerMainPages.AccountRelatedActivities.ViewAttachmentActivity" />
         <activity android:name=".Rating.test" />
+        <activity android:name=".Admin.ViewProjectActivity" />
+
         <activity android:name=".ViewProfileActivity"></activity>
         <activity android:name=".EmployerMainPages.AccountRelatedActivities.SettingActivity" />
         <activity android:name=".EmployerMainPages.AccountRelatedActivities.Payment.PaymentMethodActivity" />

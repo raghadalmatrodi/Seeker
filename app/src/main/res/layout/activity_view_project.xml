@@ -1,0 +1,254 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/parent1"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/parent"
+        android:layout_width="match_parent"
+        android:layout_height="70dp"
+        android:background="#48E0DDDD">
+
+        <ImageView
+            android:id="@+id/activity_project_view_back"
+            android:layout_width="35dp"
+            android:layout_height="35dp"
+            android:layout_marginStart="10dp"
+            app:layout_constraintStart_toStartOf="@id/parent"
+            app:layout_constraintTop_toTopOf="@id/parent"
+            android:layout_marginTop="15dp"
+            android:layout_gravity="center_vertical"
+            android:src="@drawable/ic_arrow_back"/>
+
+        <TextView
+            android:id="@+id/activity_project_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="10dp"
+            app:layout_constraintStart_toEndOf="@id/activity_project_view_back"
+            app:layout_constraintTop_toTopOf="@id/activity_project_view_back"
+            android:text="Project title"
+            android:layout_marginTop="3dp"
+            android:textColor="#198A7A"
+            android:layout_gravity="center_vertical"
+
+            android:textSize="20sp"
+            android:textStyle="bold" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+    <ScrollView
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content">
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <LinearLayout
+                android:id="@+id/activity_employer_row"
+                android:layout_width="match_parent"
+
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="20dp"
+                android:layout_marginTop="10dp"
+                android:layout_marginRight="20dp"
+                android:layout_marginBottom="20dp"
+                android:orientation="horizontal">
+
+<ImageView
+    android:id="@+id/activity_employer_picture"
+    android:layout_width="50dp"
+                    android:layout_height="50dp"
+                    android:src="@drawable/account_tab">
+
+
+</ImageView>
+
+                <TextView
+                    android:id="@+id/activity_employer_name"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="20dp"
+                    android:text="Employer name"
+                    android:textColor="@android:color/black"
+
+                    android:textSize="20dp"
+                    android:textStyle="bold">
+
+                </TextView>
+
+            </LinearLayout>
+
+
+
+
+
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="30dp"
+        android:layout_marginTop="10dp"
+        android:orientation="vertical"
+        >
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Project Description"
+            android:textColor="@android:color/black"
+            android:textSize="19dp"
+
+            android:textStyle="bold"></TextView>
+        <TextView
+            android:id="@+id/activity_project_des"
+            android:layout_width="wrap_content"
+            android:textSize="18dp"
+            android:layout_height="wrap_content"
+            android:text="No Description provided"></TextView>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Estimated budget (SAR)"
+            android:textColor="@android:color/black"
+            android:textSize="19dp"
+            android:layout_marginTop="20dp"
+            android:textStyle="bold"></TextView>
+        <TextView
+            android:id="@+id/activity_project_budget"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="18dp"
+            android:text="No budget provided"></TextView>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Project type"
+            android:textColor="@android:color/black"
+            android:textSize="19dp"
+            android:layout_marginTop="20dp"
+            android:textStyle="bold"></TextView>
+        <TextView
+            android:id="@+id/activity_project_type"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="18dp"
+            android:text="No type provided"></TextView>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Required skills"
+            android:textColor="@android:color/black"
+            android:textSize="19dp"
+            android:layout_marginTop="20dp"
+            android:textStyle="bold"></TextView>
+        <TextView
+            android:id="@+id/activity_project_skills"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="18dp"
+            android:text="No skills provided"></TextView>
+
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Submission Date"
+            android:textColor="@android:color/black"
+            android:textSize="19dp"
+            android:layout_marginTop="20dp"
+            android:textStyle="bold"></TextView>
+        <TextView
+            android:id="@+id/activity_project_date"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="18dp"
+            android:text="No date provided"></TextView>
+
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Created At"
+            android:textColor="@android:color/black"
+            android:textSize="19dp"
+            android:layout_marginTop="20dp"
+            android:textStyle="bold"></TextView>
+        <TextView
+            android:id="@+id/activity_createdAt_project"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="18dp"
+            android:text="No date provided"></TextView>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Attachments"
+            android:textColor="@android:color/black"
+            android:textSize="19dp"
+            android:layout_marginTop="20dp"
+            android:textStyle="bold"></TextView>
+        <TextView
+            android:id="@+id/activity_no_attachment"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="18dp"
+            android:text="No Attahcments provided"></TextView>
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/activity_attachment_recycle_view"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
+                android:layout_marginBottom="10dp"
+                />
+
+        </LinearLayout>
+
+</LinearLayout>
+<LinearLayout
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_marginTop="20dp"
+    android:layout_gravity="center">
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Current bids"
+        android:textColor="@android:color/black"
+        android:textSize="19dp"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="20dp"
+        android:textStyle="bold"></TextView>
+            <TextView
+                android:id="@+id/activity_numberOfBids"
+                android:layout_width="wrap_content"
+                android:textColor="@android:color/black"
+                android:textSize="19dp"
+                android:layout_height="wrap_content">
+
+            </TextView>
+
+</LinearLayout>
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/activity_recycler_view_b"
+        android:layout_width="match_parent"
+        android:layout_height="200dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginBottom="90dp"
+        android:clipToPadding="false"
+        android:isScrollContainer="false" />
+        </LinearLayout>
+
+    </ScrollView>
+</LinearLayout>
