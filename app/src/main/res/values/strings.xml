@@ -262,4 +262,5 @@ Saudi law governs these terms of use, their subject matter and their composition
     <string name="how_well_do_u_rate_fr_budget">How well do you rate the \nfreelancer\'s <b>selected budget</b>?</string>
     <string name="how_well_do_u_rate_fr_res_time">How well do you rate the \nfreelancer\'s <b>response time</b>?</string>
     <string name="how_well_do_u_rate_fr_quality">How well do you rate the \nfreelancer\'s <b>quality of work</b>?</string>
+    <string name="already_has_bid_msg">You already have a bid on this project.. Delete the current bid then try again.</string>
 </resources>

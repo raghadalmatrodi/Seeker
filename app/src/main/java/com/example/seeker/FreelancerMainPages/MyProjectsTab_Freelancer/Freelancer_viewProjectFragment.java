@@ -56,7 +56,9 @@ import com.example.seeker.R;
 import com.example.seeker.Rating.FreelancerRatesEmployer;
 import com.example.seeker.SharedPref.Constants;
 import com.example.seeker.SharedPref.MySharedPreference;
+import com.example.seeker.ViewProfileActivity;
 
+import java.security.Key;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -103,6 +105,8 @@ public class Freelancer_viewProjectFragment extends Fragment implements  Emp_MyP
 
     View view;
     List<Bid> bids;
+    //todo hind remove if didnt work
+    TextView number_of_bids;
     int isPending=0;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -155,9 +159,12 @@ public class Freelancer_viewProjectFragment extends Fragment implements  Emp_MyP
             }
         });
 
-        bids = project.getBids();
-        TextView number_of_bids = view.findViewById(R.id.numberOfBids);
-        number_of_bids.setText("("+ (bids.size() )+ ")");
+//        bids = project.getBids();
+        number_of_bids = view.findViewById(R.id.numberOfBids);
+        findBidsByProject();
+
+//        if (bids != null)
+//        number_of_bids.setText("("+ (bids.size() )+ ")");
 
 
         emp_myProjects_pending_fragment.setListener(this);
@@ -183,7 +190,7 @@ public class Freelancer_viewProjectFragment extends Fragment implements  Emp_MyP
               }
           });
 
-        setTheAdapter();
+//        setTheAdapter();
 
         HidingPlaceBidBtn();
 
@@ -199,7 +206,29 @@ public class Freelancer_viewProjectFragment extends Fragment implements  Emp_MyP
     public void onResume() {
         super.onResume();
         getUser();
+        findBidsByProject();
 
+    }
+
+    private void findBidsByProject() {
+        ApiClients.getAPIs().findBidsByProjectId(project.getId()).enqueue(new Callback<List<Bid>>() {
+            @Override
+            public void onResponse(Call<List<Bid>> call, Response<List<Bid>> response) {
+                if (response.isSuccessful()) {
+                    bids = response.body();
+                    if (bids != null) {
+                        number_of_bids.setText("(" + (bids.size()) + ")");
+                        setTheAdapter(bids);
+
+                    }
+                }
+            }
+
+            @Override
+            public void onFailure(Call<List<Bid>> call, Throwable t) {
+
+            }
+        });
     }
 
     private boolean HasBid(List<Bid> bidList) {
@@ -208,7 +237,7 @@ public class Freelancer_viewProjectFragment extends Fragment implements  Emp_MyP
         for (int i = 0; i< bidList.size(); i++){
             if (bidList.get(i).getFreelancer() != null )
                 if (bidList.get(i).getFreelancer().getId() == currentFreelancer) {
-                    Toast.makeText(getContext(),"BID FOUND!",Toast.LENGTH_SHORT).show();
+//                    Toast.makeText(getContext(),"BID FOUND!",Toast.LENGTH_SHORT).show();
                     hasBid =  true;
 //                    hasBid = true;
                 }
@@ -226,33 +255,43 @@ public class Freelancer_viewProjectFragment extends Fragment implements  Emp_MyP
 
                 if (user.getIsEnabled().equals("1")) {
 
-//                if (HasBid(bids))
-//                        wrongInfoDialog("Sorry, you already have placed a bid on this project..\nDelete the current bid to bid again. ");
-//                    else {
-                    /**
-                     * INTENT TO POST BID WITH CURRENT PROJECT
-                     */
-                    Intent intent = new Intent(getActivity(), PostBidActivity.class);
-                    intent.putExtra("currentProjObj", project);
-                    startActivity(intent);
-
-//                    findProjectById(project.getId());
-//                    setTheAdapter();
 
 
-//                }
+                if (HasBid(bids))
+                        wrongInfoDialog("Sorry..",getString(R.string.already_has_bid_msg));
+                    else {
 
-                }else{
-                    wrongInfoDialog("Your Account has been deactivated  \n to further information contact the support");
+                        if (project.getEmployer().getId() == MySharedPreference.getLong(getContext(), Constants.Keys.EMPLOYER_ID, -1)){
+                            wrongInfoDialog("We're sorry..","You can't place a bid on your project.");
+                        }else {
+                            if (project.getType().equals("1"))
+                                onFieldBidsDialog("Warning!","We're irresponsible for the payments of on-field projects.");
+
+                            else {
+                                /**
+                                 * INTENT TO POST BID WITH CURRENT PROJECT
+                                 */
+                                Intent intent = new Intent(getActivity(), PostBidActivity.class);
+                                intent.putExtra("currentProjObj", project);
+                                startActivity(intent);
+
+                            }
+
+
+
+                        }
+
+                }//else(HasBid(bids))
+                }//if not enabled
+                else{
+                    wrongInfoDialog("","Your Account has been deactivated  \n to further information contact the support");
                 }
 
+
             }
+
+
         });
-//        finish();
-//        overridePendingTransition(0, 0);
-//        startActivity(getIntent());
-//        overridePendingTransition(0, 0);
-//        getFragmentManager().beginTransaction().detach(this).attach(this).commit();
 
     }
     private void getUser() {
@@ -412,13 +451,25 @@ public class Freelancer_viewProjectFragment extends Fragment implements  Emp_MyP
 
 
         }
+
+        onEmpClicked();
     }
 
+    private void onEmpClicked() {
+        EmployerView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getActivity(), ViewProfileActivity.class);
+                intent.putExtra("myuser", project.getEmployer().getUser());
+                startActivity(intent);
+            }
+        });
+    }
 
-    public void setTheAdapter(){
+    public void setTheAdapter(List<Bid> bidd){
         recyclerView = (RecyclerView) view.findViewById(R.id.recycler_view_b);
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
-        adapter = new BidsAdapter(getContext(),bids, project);
+        adapter = new BidsAdapter(getContext(),bidd, project);
         recyclerView.setItemAnimator(new DefaultItemAnimator());
         recyclerView.setAdapter(adapter);
         adapter.setListener(this);
@@ -518,9 +569,10 @@ public class Freelancer_viewProjectFragment extends Fragment implements  Emp_MyP
     }
 
 
-    private void wrongInfoDialog(String msg) {
+    private void wrongInfoDialog(String title, String msg) {
         final AlertDialog.Builder alertDialog = new AlertDialog.Builder(getContext());
 
+        alertDialog.setTitle(title);
         // Setting Dialog Message
         alertDialog.setMessage(msg);
 
@@ -535,22 +587,33 @@ public class Freelancer_viewProjectFragment extends Fragment implements  Emp_MyP
 
     }//End wrongInfoDialog()
 
-    private void findProjectById(long project_id){
-        ApiClients.getAPIs().findProjectById(project_id).enqueue(new Callback<Project>() {
-            @Override
-            public void onResponse(Call<Project> call, Response<Project> response) {
-                if (response.isSuccessful()){
-                    project = response.body();
-                    bids = response.body().getBids();
-                }
-            }
+    private void onFieldBidsDialog(String title, String msg) {
+        final AlertDialog.Builder alertDialog = new AlertDialog.Builder(getContext());
 
-            @Override
-            public void onFailure(Call<Project> call, Throwable t) {
+        alertDialog.setTitle(title);
+        // Setting Dialog Message
+        alertDialog.setMessage(msg);
 
+        //Setting Negative "ok" Button
+        alertDialog.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.dismiss();
+                Intent intent = new Intent(getActivity(), PostBidActivity.class);
+                intent.putExtra("currentProjObj", project);
+                startActivity(intent);
+            }//end onClick
+        });//end setPositiveButton
+        alertDialog.setNegativeButton("CANCEL", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.dismiss();
             }
         });
-    }
+
+        alertDialog.show();
+
+    }//End onFieldBidsDialog()
+
 
     /**
      *  RATING RELATED METHODS
@@ -799,6 +862,10 @@ public class Freelancer_viewProjectFragment extends Fragment implements  Emp_MyP
         });
     }
 
-
+//    @Override
+//    public void onResume() {
+//        super.onResume();
+//        findBidsByProject();
+//    }
 
 }

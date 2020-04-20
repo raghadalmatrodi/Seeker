@@ -53,6 +53,7 @@ import com.example.seeker.PostBid.BidsAdapter;
 import com.example.seeker.R;
 import com.example.seeker.SharedPref.Constants;
 import com.example.seeker.SharedPref.MySharedPreference;
+import com.example.seeker.ViewProfileActivity;
 
 import java.io.IOException;
 import java.net.MalformedURLException;
@@ -248,6 +249,17 @@ public class Emp_viewProjectFragment extends Fragment implements  Emp_MyProjects
 
     }
 
+    private void onEmpClicked() {
+        EmployerView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getActivity(), ViewProfileActivity.class);
+                intent.putExtra("myuser", project.getEmployer().getUser());
+                startActivity(intent);
+            }
+        });
+    }
+
     @Override
     public void onProjectItemSelected(Project project) {
     this.project = project;
@@ -326,6 +338,8 @@ public class Emp_viewProjectFragment extends Fragment implements  Emp_MyProjects
 
 
         }
+
+        onEmpClicked();
     }
 
 

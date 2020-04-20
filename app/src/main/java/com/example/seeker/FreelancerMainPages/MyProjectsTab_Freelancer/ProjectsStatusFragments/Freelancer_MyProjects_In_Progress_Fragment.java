@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -39,6 +40,8 @@ public class Freelancer_MyProjects_In_Progress_Fragment extends Fragment impleme
     private List<Project> projectList = new ArrayList<>();
     private Freelancer_MyProjects_Pending_Fragment.ProjectListener projectListener;
     private TextView inProgressText;
+    private ProgressBar mProgressBar;
+
 
 
     @Override
@@ -47,20 +50,14 @@ public class Freelancer_MyProjects_In_Progress_Fragment extends Fragment impleme
         // Inflate the layout for this fragment
         view = inflater.inflate(R.layout.fragment_freelancer_in_progress_projects, container, false);
         inProgressText = view.findViewById(R.id.fr_in_progress_text);
+        mProgressBar = view.findViewById(R.id.myDataLoaderProgressBar);
+        mProgressBar.setVisibility(View.VISIBLE);
 
         return view;
     }//End onCreateView()
 
     @Override
     public void onProjectItemClick(Project project) {
-
-//        projectListener.onProjectItemSelected(project);
-//        todo 3? hind
-//        Intent i = new Intent(getContext(), ViewBid.class);
-//
-//        //casting to serializable didn't work, so i let class bid implements the serializable and it worked :)
-//        i.putExtra("projectObj", project);
-//        startActivity(i);
 
         Fragment fragment = new Freelancer_viewProjectFragment();
         Bundle bundle = new Bundle();
@@ -88,22 +85,12 @@ public class Freelancer_MyProjects_In_Progress_Fragment extends Fragment impleme
         ApiClients.getAPIs().getProjectsByStatusOnly("1").enqueue(new Callback<List<Project>>() {
             @Override
             public void onResponse(Call<List<Project>> call, Response<List<Project>> response) {
+                mProgressBar.setVisibility(View.GONE);
 
                 if(response.isSuccessful()){
                     Toast.makeText(getContext(),"SUCCESS",Toast.LENGTH_LONG).show();
 
                     long currentFreelancer = MySharedPreference.getLong(getContext(), Constants.Keys.FREELANCER_ID,-1);
-
-                    /**
-                     * LET'S RESTART, FROM THE BEGINNING.
-                     * ASSUMING ALL PROJECTS HAS LIST OF BIDS. -> unfortunately not, so check on that plz :), no need we got bids size
-                     * 1ST: WE FOR LOOP IN ALL PROJECTS, K
-                     * 2ND: WE FOR LOOP IN ALL BIDS IN PROJECT K, H
-                     * 3RD: NOW I'M ON THE FIRST BID H OF THE FIRST PROJECT K, (ASSUMING THAT ALL BIDS CONTAINS FREELANCER OBJS) -> unfortunately not, so check on that too plz :)
-                     * -> I'LL CHECK WHETHER PROJECT K . BID H . FREELANCER . FRID EQUALS CURRENT FREELANCER ID
-                     * IF YES, I'LL ADD THIS PROJECT K TO MY PROJECTSLIST. IF NOT, MOVE TO BID H+1.
-                     *
-                     */
 
                     int responseSize = response.body().size();
                     int bidSize = 0;
