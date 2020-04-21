@@ -161,7 +161,7 @@ if(project.getMilestones().isEmpty())
 else {
     infoDialog("Cannot proceed", "The Project has pending payment/contact the user.");}
 
-                    
+
 
 
 
