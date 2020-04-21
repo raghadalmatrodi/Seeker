@@ -177,81 +177,145 @@ public class ProjectInformationFragment extends Fragment {
                 backInformationListener.onBackInfoClick();
             }
         });
-        postBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-
-
-                title = titleText.getText().toString();
-                description = descriptionText.getText().toString();
-                budget = budgeText.getText().toString();
-                deadlineDate = deadlineDateText.getText().toString();
-
-                if (user.getIsEnabled().equals("1")){
-
-                    if (validate()) {
-
-                        expiryDate = setExpiryDate();
-
-                        setTime();
-
-                        deadlineDate = deadlineDate + timeString;
-                        expiryDate = expiryDate + timeString;
-
-                        deadlineLocalDateTime = convertStringToLocalDateTime(deadlineDate);
-                        expiryLocalDateTime = convertStringToLocalDateTime(expiryDate);
-
-
-                        Log.i("PROJECT", deadlineLocalDateTime.toString());
-
-                        Log.i("FILES", files.toString());
-
-
-                        if (files.isEmpty()) {
-                            projectInformationListener.onPostProjectItemSelected(title, description, budget, deadlineLocalDateTime.toString(), expiryLocalDateTime.toString());
-                            Log.i("PROJECT", deadlineLocalDateTime.toString());
-                        } else {
-
-                            //TODO CREATE THE OBJECT
-                            //  Double budgetToSave =  Double.parseDouble(budget);
-                            // Project project = new Project(title, description, budgetToSave,projectType,paymentType,expiryLocalDateTime ,deadlineLocalDateTime,  "0");
-                            projectInformationListener.onPostProjectItemSelectedWithAttachments(title, description, budget, deadlineLocalDateTime.toString(), expiryLocalDateTime.toString(), files);
-
-                            // Project projectToSave = new Project(title , description , budgetToSave ,deadlineLocalDateTime.toString(), expiryLocalDateTime.toString());
-                            //   createProjectWithAttachments(files);
-
-                        }
-
-
-                    } else {
-
-                        wrongInfoDialog("Missing information");
-
-
-                    }
-            }else{
-
-                    wrongInfoDialog("Your Account has been deactivated  \n to further information contact the support");
-                }
-
-            }
-        });
+//        postBtn.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//
+//
+//                title = titleText.getText().toString();
+//                description = descriptionText.getText().toString();
+//                budget = budgeText.getText().toString();
+//                deadlineDate = deadlineDateText.getText().toString();
+//
+//                if (user.getIsEnabled().equals("1")){
+//
+//                    if (validate()) {
+//
+//                        expiryDate = setExpiryDate();
+//
+//                        setTime();
+//
+//                        deadlineDate = deadlineDate + timeString;
+//                        expiryDate = expiryDate + timeString;
+//
+//                        deadlineLocalDateTime = convertStringToLocalDateTime(deadlineDate);
+//                        expiryLocalDateTime = convertStringToLocalDateTime(expiryDate);
+//
+//
+//                        Log.i("PROJECT", deadlineLocalDateTime.toString());
+//
+//                        Log.i("FILES", files.toString());
+//
+//
+//                        if (files.isEmpty()) {
+//                            projectInformationListener.onPostProjectItemSelected(title, description, budget, deadlineLocalDateTime.toString(), expiryLocalDateTime.toString());
+//                            Log.i("PROJECT", deadlineLocalDateTime.toString());
+//                        } else {
+//
+//                            //TODO CREATE THE OBJECT
+//                            //  Double budgetToSave =  Double.parseDouble(budget);
+//                            // Project project = new Project(title, description, budgetToSave,projectType,paymentType,expiryLocalDateTime ,deadlineLocalDateTime,  "0");
+//                            projectInformationListener.onPostProjectItemSelectedWithAttachments(title, description, budget, deadlineLocalDateTime.toString(), expiryLocalDateTime.toString(), files);
+//
+//                            // Project projectToSave = new Project(title , description , budgetToSave ,deadlineLocalDateTime.toString(), expiryLocalDateTime.toString());
+//                            //   createProjectWithAttachments(files);
+//
+//                        }
+//
+//
+//                    } else {
+//
+//                        wrongInfoDialog("Missing information");
+//
+//
+//                    }
+//            }else{
+//
+//                    wrongInfoDialog("Your Account has been deactivated  \n to further information contact the support");
+//                }
+//
+//            }
+//        });
 
 
 
         return view;
     }//End of onCreateView()
 
+    @Override
+    public void onResume() {
+        super.onResume();
+
+    }
+
     private void getUser() {
 
-       long user_id = MySharedPreference.getLong(getContext(), Constants.Keys.USER_ID, -1);
+        long user_id = MySharedPreference.getLong(getContext(), Constants.Keys.USER_ID, -1);
 
         ApiClients.getAPIs().findUserById(user_id).enqueue(new Callback<User>() {
             @Override
             public void onResponse(Call<User> call, Response<User> response) {
                 if (response.isSuccessful()){
-
                     user = response.body();
+                    postBtn.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View view) {
+
+
+                            title = titleText.getText().toString();
+                            description = descriptionText.getText().toString();
+                            budget = budgeText.getText().toString();
+                            deadlineDate = deadlineDateText.getText().toString();
+
+                            if (user.getIsEnabled().equals("1")){
+
+                                if (validate()) {
+
+                                    expiryDate = setExpiryDate();
+
+                                    setTime();
+
+                                    deadlineDate = deadlineDate + timeString;
+                                    expiryDate = expiryDate + timeString;
+
+                                    deadlineLocalDateTime = convertStringToLocalDateTime(deadlineDate);
+                                    expiryLocalDateTime = convertStringToLocalDateTime(expiryDate);
+
+
+                                    Log.i("PROJECT", deadlineLocalDateTime.toString());
+
+                                    Log.i("FILES", files.toString());
+
+
+                                    if (files.isEmpty()) {
+                                        projectInformationListener.onPostProjectItemSelected(title, description, budget, deadlineLocalDateTime.toString(), expiryLocalDateTime.toString());
+                                        Log.i("PROJECT", deadlineLocalDateTime.toString());
+                                    } else {
+
+                                        //TODO CREATE THE OBJECT
+                                        //  Double budgetToSave =  Double.parseDouble(budget);
+                                        // Project project = new Project(title, description, budgetToSave,projectType,paymentType,expiryLocalDateTime ,deadlineLocalDateTime,  "0");
+                                        projectInformationListener.onPostProjectItemSelectedWithAttachments(title, description, budget, deadlineLocalDateTime.toString(), expiryLocalDateTime.toString(), files);
+
+                                        // Project projectToSave = new Project(title , description , budgetToSave ,deadlineLocalDateTime.toString(), expiryLocalDateTime.toString());
+                                        //   createProjectWithAttachments(files);
+
+                                    }
+
+
+                                } else {
+
+                                    wrongInfoDialog("Missing information");
+
+
+                                }
+                            }else{
+
+                                wrongInfoDialog("Your Account has been deactivated  \n to further information contact the support");
+                            }
+
+                        }
+                    });
                 }
             }
 

@@ -140,7 +140,7 @@ public class SeekerNotiService extends FirebaseMessagingService {
         PendingIntent resultIntent = PendingIntent. getActivity (getApplicationContext() , 0 , notificationIntent , PendingIntent.FLAG_UPDATE_CURRENT ) ;
         NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(getApplicationContext() ,
                 default_notification_channel_id )
-                .setSmallIcon(R.drawable. ic_launcher_foreground )
+                .setSmallIcon(R.drawable. ic_launcher )
                 .setContentTitle( remoteMessage.getData().get("title") )
                 .setContentText( remoteMessage.getData().get("body"))
                 .setAutoCancel(true)
@@ -181,7 +181,9 @@ public class SeekerNotiService extends FirebaseMessagingService {
 
         //TODO save the token in shared prefrencess
         MySharedPreference.putString(getApplicationContext(), Constants.Keys.TOKEN_ID,token);
-     if(MySharedPreference.getBoolean(getApplicationContext(),Constants.Keys.IS_LOGIN,false)){
+        Log.d(TAG, "Refreshed token: " + token);
+
+        if(MySharedPreference.getBoolean(getApplicationContext(),Constants.Keys.IS_LOGIN,false)){
          ApiClients.getAPIs().updateToken(token ,userId ).enqueue(new Callback<ApiResponse>() {
              @Override
              public void onResponse(Call<ApiResponse> call, Response<ApiResponse> response) {
