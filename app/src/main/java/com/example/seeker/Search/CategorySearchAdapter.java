@@ -11,6 +11,7 @@ import android.widget.TextView;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.request.RequestOptions;
 import com.example.seeker.Model.Category;
 import com.example.seeker.R;
 
@@ -81,7 +82,10 @@ public class CategorySearchAdapter extends RecyclerView.Adapter<CategorySearchAd
         Category category = categorySearchList.get(position);
         holder.title.setText(category.getTitle());
 
+
+
         // loading album cover using Glide library
+        if(category.getImage()!=null)
         Glide.with(mContext).load(category.getImage()).into(holder.thumbnail);
     }
 

@@ -175,7 +175,7 @@ for(int i=0; i<categorySearchSearchList.size();i++){
 if(categorySearchSearchList.get(i).getCategory_type().equals("1"))
     categorySearchSearchList.get(i).setTitle(categorySearchSearchList.get(i).getTitle()+ "\n (On-Field) ");
 
-    categorySearchSearchList.get(i).setImage(covers[i]);
+//    categorySearchSearchList.get(i).setImage(covers[i]);
 
 
 

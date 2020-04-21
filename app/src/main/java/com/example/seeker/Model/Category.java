@@ -14,8 +14,15 @@ public class Category implements Serializable {
     private String category_type;
     private List<Project> projects = new ArrayList<>();
     private Set<Skill> skills = new HashSet<>();
-    private int image;
+    private String image;
 
+    public String getImage() {
+        return image;
+    }
+
+    public void setImage(String image) {
+        this.image = image;
+    }
 
     public Category(long id, String title, String description, String category_type, List<Project> projects, Set<Skill> skills) {
         this.id = id;
@@ -72,14 +79,6 @@ public class Category implements Serializable {
 
     public void setSkills(Set<Skill> skills) {
         this.skills = skills;
-    }
-
-    public int getImage() {
-        return image;
-    }
-
-    public void setImage(int image) {
-        this.image = image;
     }
 
     @Override
