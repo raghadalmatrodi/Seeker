@@ -32,6 +32,13 @@ public class Constants {
          String TOKEN_ID = "token_id";
 
         String USER_CURRENT_TYPE = "USER_CURRENT_TYPE";
+        String enableProjectExpiryNoti ="enableProjectExpiryNoti";
+
+        String enableProjectSkillNoti ="enableProjectSkillNoti";
+
+        String enableAcceptBidNoti ="enableAcceptBidNoti";
+
+        String enableMilestoneDLNoti ="enableMilestoneDLNoti";
     }//End Keys interface
 
 }//End class

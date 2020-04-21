@@ -20,6 +20,7 @@ import com.bumptech.glide.request.RequestOptions;
 import com.example.seeker.Activities.LoginActivity;
 import com.example.seeker.Database.ApiClients;
 import com.example.seeker.EmployerMainPages.AccountRelatedActivities.EditProfileActivity;
+import com.example.seeker.EmployerMainPages.AccountRelatedActivities.NotificationsActivity;
 import com.example.seeker.EmployerMainPages.AccountRelatedActivities.SettingActivity;
 import com.example.seeker.EmployerMainPages.Emp_AccountFragment;
 import com.example.seeker.EmployerMainPages.EmployerMainActivity;
@@ -39,6 +40,7 @@ public class Freelancer_AccountFragment extends Fragment implements View.OnClick
     LinearLayout edit_profile;
     LinearLayout settings;
     LinearLayout payment;
+    LinearLayout notification;
 
     ImageView profile_picture;
     @Override
@@ -55,6 +57,7 @@ public class Freelancer_AccountFragment extends Fragment implements View.OnClick
         logoutBtn.setOnClickListener(this);
         settings.setOnClickListener(this);
         payment.setOnClickListener(this);
+        notification.setOnClickListener(this);
 
 
         // Inflate the layout for this fragment
@@ -72,6 +75,7 @@ public class Freelancer_AccountFragment extends Fragment implements View.OnClick
         settings = view.findViewById(R.id.settings_ll);
         profile_picture = view.findViewById(R.id.profile_picture);
         payment = view.findViewById(R.id.payments_ll);
+        notification = view.findViewById(R.id.notifications_ll);
 
         String userImgURL = MySharedPreference.getString(getContext(),Constants.Keys.USER_IMG,null);
         if( userImgURL != null ){
@@ -113,6 +117,9 @@ public class Freelancer_AccountFragment extends Fragment implements View.OnClick
                 break;
             case R.id.payments_ll:
                 startActivity(new Intent(Freelancer_AccountFragment.this.getActivity(), FreelancerPayment.class));
+                break;
+            case R.id.notifications_ll:
+                startActivity(new Intent(Freelancer_AccountFragment.this.getActivity(), NotificationsActivity.class));
 
 
 

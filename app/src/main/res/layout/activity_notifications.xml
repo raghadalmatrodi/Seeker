@@ -26,9 +26,9 @@
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="35dp"
                 android:layout_marginTop="25dp"
-                android:text="New message"
+                android:text="Recieve notification when your bid is accepted"
                 android:textColor="#000"
-                android:textSize="16dp" />
+                android:textSize="13dp" />
 
         </LinearLayout>
 
@@ -67,14 +67,14 @@
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="35dp"
                 android:layout_marginTop="25dp"
-                android:text="New message"
+                android:text="Recieve notification when a project is posted according to your skills"
                 android:textColor="#000"
-                android:textSize="16dp" />
+                android:textSize="13dp" />
 
         </LinearLayout>
 
         <Switch
-            android:id="@+id/allow_messages"
+            android:id="@+id/allow_skill"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="25dp"
@@ -106,9 +106,9 @@
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="35dp"
                 android:layout_marginTop="25dp"
-                android:text="New message"
+                android:text="Recieve notification before a milestone deadline"
                 android:textColor="#000"
-                android:textSize="16dp" />
+                android:textSize="13dp" />
 
         </LinearLayout>
 
@@ -145,9 +145,9 @@
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="35dp"
                 android:layout_marginTop="25dp"
-                android:text="New message"
+                android:text="Recieve notification before the project expiry date"
                 android:textColor="#000"
-                android:textSize="16dp" />
+                android:textSize="13dp" />
 
         </LinearLayout>
 

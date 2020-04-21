@@ -391,6 +391,12 @@ public class LoginActivity extends Activity {
         MySharedPreference.putString(this, Constants.Keys.USER_EMAIL,  user.getEmail());
         MySharedPreference.putString(this,Constants.Keys.USER_CURRENT_TYPE,user.getCurrent_type() );
         MySharedPreference.putString(this, Constants.Keys.USER_IMG, user.getAvatar());
+
+        MySharedPreference.putBoolean(this, Constants.Keys.enableAcceptBidNoti, user.isEnableAcceptBidNoti());
+        MySharedPreference.putBoolean(this, Constants.Keys.enableMilestoneDLNoti, user.isEnableMilestoneDLNoti());
+        MySharedPreference.putBoolean(this, Constants.Keys.enableProjectExpiryNoti, user.isEnableProjectExpiryNoti());
+        MySharedPreference.putBoolean(this, Constants.Keys.enableProjectSkillNoti, user.isEnableProjectSkillNoti());
+
         navigateToMainPage();
 //        MySharedPreference.putString(this, Constants.Keys.ENABLE_NOTI, user.getEnable_noti());
 

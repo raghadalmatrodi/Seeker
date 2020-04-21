@@ -22,6 +22,7 @@ import com.example.seeker.Model.StorageDocument;
 import com.example.seeker.Model.User;
 import com.example.seeker.Model.UserSocialMedia;
 import com.example.seeker.Rating.EmployerRatesFreelancer;
+import com.google.firebase.annotations.PublicApi;
 
 import java.util.List;
 import java.util.Set;
@@ -173,6 +174,14 @@ public interface ApiMethods {
 
 
         String POST_IBAN_NUMBER = "freelancer/Iban";
+
+        String setEnableProjectExpiryNoti ="user/setEnableProjectExpiryNoti/{id}/{value}";
+        String SetEnableProjectSkillNoti = "user/SetEnableProjectSkillNoti/{id}/{value}";
+        String SetEnableAcceptBidNoti = "user/SetEnableAcceptBidNoti/{id}/{value}";
+        String SetEnableMilestoneDLNoti = "user/SetEnableMilestoneDLNoti/{id}/{value}";
+
+
+
 
 
     }//End of Methods interface
@@ -479,5 +488,19 @@ public interface ApiMethods {
 
     @PUT(Methods.RESET_PASSWORD)
     Call<Void> forgetPassword(@Path("email") String email);
+
+    @PUT(Methods.setEnableProjectExpiryNoti)
+    Call<Void> setEnableProjectExpiryNoti(@Path("id") Long id, @Path("value") boolean value);
+
+    @PUT(Methods.SetEnableAcceptBidNoti)
+    Call<Void> SetEnableAcceptBidNoti(@Path("id") Long id, @Path("value") boolean value);
+
+    @PUT(Methods.SetEnableMilestoneDLNoti)
+    Call<Void> SetEnableMilestoneDLNoti(@Path("id") Long id, @Path("value") boolean value);
+
+    @PUT(Methods.SetEnableProjectSkillNoti)
+    Call<Void> SetEnableProjectSkillNoti(@Path("id") Long id, @Path("value") boolean value);
+
+
 
 }//End of ApiMethods interface

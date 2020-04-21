@@ -25,6 +25,48 @@ public class User implements Serializable,IUser {
     private String facebook;
     private String linkedIn;
     private String education;
+
+
+    private boolean enableProjectExpiryNoti;
+
+    private boolean enableProjectSkillNoti;
+
+    private boolean enableAcceptBidNoti;
+
+    private boolean enableMilestoneDLNoti;
+
+    public boolean isEnableProjectExpiryNoti() {
+        return enableProjectExpiryNoti;
+    }
+
+    public void setEnableProjectExpiryNoti(boolean enableProjectExpiryNoti) {
+        this.enableProjectExpiryNoti = enableProjectExpiryNoti;
+    }
+
+    public boolean isEnableProjectSkillNoti() {
+        return enableProjectSkillNoti;
+    }
+
+    public void setEnableProjectSkillNoti(boolean enableProjectSkillNoti) {
+        this.enableProjectSkillNoti = enableProjectSkillNoti;
+    }
+
+    public boolean isEnableAcceptBidNoti() {
+        return enableAcceptBidNoti;
+    }
+
+    public void setEnableAcceptBidNoti(boolean enableAcceptBidNoti) {
+        this.enableAcceptBidNoti = enableAcceptBidNoti;
+    }
+
+    public boolean isEnableMilestoneDLNoti() {
+        return enableMilestoneDLNoti;
+    }
+
+    public void setEnableMilestoneDLNoti(boolean enableMilestoneDLNoti) {
+        this.enableMilestoneDLNoti = enableMilestoneDLNoti;
+    }
+
     private List<StorageDocument> sampleWorks = new ArrayList<>();
 
     public List<StorageDocument> getSampleWorks() {
