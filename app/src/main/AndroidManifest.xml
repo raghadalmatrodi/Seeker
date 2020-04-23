@@ -28,7 +28,6 @@
         <activity android:name=".Admin.ViewProjectActivity" />
 
         <activity android:name=".ViewProfileActivity"></activity>
-        <activity android:name=".ViewProfileActivity" />
         <activity android:name=".EmployerMainPages.AccountRelatedActivities.SettingActivity" />
         <activity android:name=".EmployerMainPages.AccountRelatedActivities.Payment.PaymentMethodActivity" />
         <activity android:name=".EmployerMainPages.AccountRelatedActivities.Payment.PaymentActivity" />

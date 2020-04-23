@@ -155,9 +155,11 @@ public class ProjectsActivity extends AppCompatActivity implements ProjectsAdapt
                 new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
+                        //if(project.getMilestones().)
+                        if (project.getStatus().equals("0")){
 if(project.getMilestones().isEmpty())
 {  deleteProject(project);
-                        infoDialog("Successful", "The Project has been deleted successfully.");}
+                        infoDialog("Successful", "The Project has been deleted successfully.");}}
 else {
     infoDialog("Cannot proceed", "The Project has pending payment/contact the user.");}
 
