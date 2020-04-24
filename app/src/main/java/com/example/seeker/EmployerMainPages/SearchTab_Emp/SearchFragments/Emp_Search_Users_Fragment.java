@@ -176,7 +176,7 @@ public class Emp_Search_Users_Fragment extends Fragment
     public void onResume() {
         super.onResume();
         getAllCategory();
-        getAllProjects();
+        getAllUsers();
 
 
     }//end on resume
@@ -243,7 +243,7 @@ public class Emp_Search_Users_Fragment extends Fragment
 
     }
 
-    private void getAllProjects() {
+    private void getAllUsers() {
 
         ApiClients.getAPIs().getAllUsers().enqueue(new Callback<List<User>>() {
             @Override
