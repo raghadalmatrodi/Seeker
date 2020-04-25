@@ -156,26 +156,16 @@ public class Emp_Search_Projects_Fragment extends Fragment
                 R.drawable.photography,
                 R.drawable.training,
                 R.drawable.styling
-//                R.drawable.art_and_design,
-//                R.drawable.data_entry,
-//                R.drawable.music_and_audio,
-//                R.drawable.wesite_and_it,
-//                R.drawable.mobile,
-//                R.drawable.writing,
-//                R.drawable.art_and_design,
-//                R.drawable.data_entry,
-//                R.drawable.music_and_audio
+
         };
 
 
 
 for(int i=0; i<categorySearchSearchList.size();i++){
-    // قاعد يسوي لي كراش بدون هالشرط
     if(categorySearchSearchList.get(i).getCategory_type()!= null)
 if(categorySearchSearchList.get(i).getCategory_type().equals("1"))
     categorySearchSearchList.get(i).setTitle(categorySearchSearchList.get(i).getTitle()+ "\n (On-Field) ");
 
-//    categorySearchSearchList.get(i).setImage(covers[i]);
 
 
 

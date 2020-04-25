@@ -23,12 +23,8 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.seeker.Database.ApiClients;
-import com.example.seeker.EmployerMainPages.SearchTab_Emp.SearchFragments.Emp_Search_InnerUsers_Fragment;
-import com.example.seeker.EmployerMainPages.SearchTab_Emp.SearchFragments.Emp_Search_Users_Fragment;
-import com.example.seeker.EmployerMainPages.SearchTab_Emp.UserSearchAdapter;
 import com.example.seeker.FreelancerMainPages.SearchTab_Freelancer.FreelancerUserSearchAdapter;
 import com.example.seeker.Model.Category;
-import com.example.seeker.Model.Freelancer;
 import com.example.seeker.Model.User;
 import com.example.seeker.R;
 import com.example.seeker.Search.CategorySearchAdapter;
@@ -180,7 +176,7 @@ public class Freelancer_Search_Users_Fragment extends Fragment
     public void onResume() {
         super.onResume();
         getAllCategory();
-        getAllProjects();
+        getAllUsers();
 
 
     }//end on resume
@@ -247,7 +243,7 @@ public class Freelancer_Search_Users_Fragment extends Fragment
 
     }
 
-    private void getAllProjects() {
+    private void getAllUsers() {
 
         ApiClients.getAPIs().getAllUsers().enqueue(new Callback<List<User>>() {
             @Override

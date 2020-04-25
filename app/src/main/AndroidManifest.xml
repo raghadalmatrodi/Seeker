@@ -28,12 +28,10 @@
         <activity android:name=".Admin.ViewProjectActivity" />
 
         <activity android:name=".ViewProfileActivity"></activity>
-        <activity android:name=".ViewProfileActivity" />
         <activity android:name=".EmployerMainPages.AccountRelatedActivities.SettingActivity" />
         <activity android:name=".EmployerMainPages.AccountRelatedActivities.Payment.PaymentMethodActivity" />
         <activity android:name=".EmployerMainPages.AccountRelatedActivities.Payment.PaymentActivity" />
         <activity android:name=".EmployerMainPages.Chat_Emp.Emp_ChatMessages" />
-        <activity android:name=".Activities.BaseActivity" />
         <activity android:name=".EmployerMainPages.AcceptBidConfirmation" />
         <activity android:name=".Rating.EmployerRatesFreelancer" />
         <activity android:name=".FreelancerMainPages.FreelancerEditProfile" />

@@ -58,7 +58,6 @@ public class Emp_MyProjects_Pending_Fragment extends Fragment implements Seriali
     private ProjectListener projectListener;
     private TextView pendingText;
     private Employer employer;
-   // private ImageView trashIcon,extendIcon;
 
 
 
@@ -81,10 +80,6 @@ public class Emp_MyProjects_Pending_Fragment extends Fragment implements Seriali
 
         pendingText = view.findViewById(R.id.emp_pending_text);
 
-        //start here
-//        trashIcon = view.findViewById(R.id.image_trash);
-//        extendIcon = view.findViewById(R.id.image_extend);
-       // prepareProjects();
 
         return view;
     }
