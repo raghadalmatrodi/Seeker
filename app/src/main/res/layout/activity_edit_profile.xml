@@ -261,7 +261,7 @@
                 android:layout_marginRight="500dp"
                 android:background="@drawable/circle_shape"
                 android:gravity="center"
-                android:text="90%"
+                android:text="-"
                 android:textColor="#000"
                 android:textSize="15sp" />
 
@@ -416,7 +416,7 @@
                 android:layout_marginLeft="43dp"
                 android:background="@drawable/circle_shape"
                 android:gravity="center"
-                android:text="90%"
+                android:text="-"
                 android:textColor="#000"
                 android:textSize="15sp" />
 
@@ -513,7 +513,7 @@
                 app:layout_constraintEnd_toEndOf="@+id/emp_otp_pb"
                 app:layout_constraintBottom_toBottomOf="@+id/emp_otp_pb"
                 android:gravity="center"
-                android:text="90%"
+                android:text="%"
                 android:textColor="#000"
                 android:textSize="15sp" />
 

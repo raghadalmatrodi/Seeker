@@ -24,7 +24,6 @@
         <activity android:name=".Admin.ProjectsActivity" />
         <activity android:name=".Admin.AdminActivity" />
         <activity android:name=".EmployerMainPages.AccountRelatedActivities.ViewAttachmentActivity" />
-        <activity android:name=".Rating.test" />
         <activity android:name=".Admin.ViewProjectActivity" />
 
         <activity android:name=".ViewProfileActivity"></activity>
@@ -33,15 +32,12 @@
         <activity android:name=".EmployerMainPages.AccountRelatedActivities.Payment.PaymentActivity" />
         <activity android:name=".EmployerMainPages.Chat_Emp.Emp_ChatMessages" />
         <activity android:name=".EmployerMainPages.AcceptBidConfirmation" />
-        <activity android:name=".Rating.EmployerRatesFreelancer" />
         <activity android:name=".FreelancerMainPages.FreelancerEditProfile" />
         <activity
             android:name=".FreelancerMainPages.SearchTab_Freelancer.AddSkillActivity"
             android:theme="@style/AppTheme.AppBarOverlay" />
-        <activity android:name=".Rating.FreelancerRatesEmployer" />
         <activity android:name=".PostBid.ViewFullBid" />
         <activity android:name=".PostBid.PostBidActivity" />
-        <activity android:name=".PostBid.ViewBid" />
         <activity android:name=".EmployerMainPages.AccountRelatedActivities.EditProfileActivity" />
         <activity
             android:name=".EmployerMainPages.AccountRelatedActivities.NotificationsActivity"

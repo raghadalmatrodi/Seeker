@@ -10,7 +10,6 @@ import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.RatingBar;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
@@ -87,8 +86,9 @@ public class ViewProfileActivity extends AppCompatActivity {
 
         if (user != null) {
 
-            c();
-            getEmpByUserId();
+            setFreelancerInfo();
+            setEmpInfo();
+
 
             setNames();
 
@@ -130,7 +130,7 @@ public class ViewProfileActivity extends AppCompatActivity {
 
     }//End onCreate()
 
-    private void c() {
+    private void setFreelancerInfo() {
         //مايشوف الفريلانسر الا جوا :)
         ApiClients.getAPIs().getFreelancerByUserIdRequest(Long.valueOf(user.getId())).enqueue(new Callback<Freelancer>() {
             @Override
@@ -192,7 +192,7 @@ public class ViewProfileActivity extends AppCompatActivity {
 
     }
 
-    private void getEmpByUserId(){
+    private void setEmpInfo(){
         ApiClients.getAPIs().getEmployerByUserIdRequest(Long.valueOf(user.getId())).enqueue(new Callback<Employer>() {
             @Override
             public void onResponse(Call<Employer> call, Response<Employer> response) {

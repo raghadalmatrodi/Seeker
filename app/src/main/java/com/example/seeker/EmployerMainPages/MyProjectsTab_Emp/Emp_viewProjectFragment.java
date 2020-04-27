@@ -2,7 +2,6 @@ package com.example.seeker.EmployerMainPages.MyProjectsTab_Emp;
 
 import android.app.Dialog;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.media.Image;
 import android.graphics.Color;
@@ -20,7 +19,6 @@ import android.widget.RatingBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import androidx.appcompat.app.AlertDialog;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
@@ -34,7 +32,6 @@ import com.bumptech.glide.request.RequestOptions;
 import com.example.seeker.Contract.ContractFragment;
 import com.example.seeker.Database.ApiClients;
 import com.example.seeker.EmployerMainPages.AcceptBidConfirmation;
-import com.example.seeker.EmployerMainPages.AccountRelatedActivities.EditProfileActivity;
 import com.example.seeker.EmployerMainPages.AccountRelatedActivities.SampleWorkAdapter;
 import com.example.seeker.EmployerMainPages.AccountRelatedActivities.ViewAttachmentActivity;
 import com.example.seeker.EmployerMainPages.Chat_Emp.Emp_ChatMessages;
@@ -55,10 +52,6 @@ import com.example.seeker.SharedPref.Constants;
 import com.example.seeker.SharedPref.MySharedPreference;
 import com.example.seeker.ViewProfileActivity;
 
-import java.io.IOException;
-import java.net.MalformedURLException;
-import java.net.URL;
-import java.net.URLConnection;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -102,6 +95,8 @@ public class Emp_viewProjectFragment extends Fragment implements  Emp_MyProjects
     View view;
     List<Bid> bids;
     int isPending=0;
+    int counter = 0;
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
@@ -124,15 +119,17 @@ public class Emp_viewProjectFragment extends Fragment implements  Emp_MyProjects
         findFrId();
 
         if (checkFlag != null)
-        if (checkFlag.equals("EC")){
+        if (checkFlag.equals("EC") && counter == 0){
 //            wrongInfoDialog("TEST WORKED!");
             if (!did_emp_rate){
                 //show rating dialog
-                ShowCustomDialog(getContext());
+                ShowRatingCustomDialog(getContext());
+                counter++;
                 //update the project.
 //                didEmployerRate();
             }
         }
+
 
         setProjectInformation();
 
@@ -193,6 +190,21 @@ public class Emp_viewProjectFragment extends Fragment implements  Emp_MyProjects
 
     }
 
+    @Override
+    public void onResume() {
+        super.onResume();
+        if (checkFlag != null)
+            if (checkFlag.equals("EC") && counter == 0){
+//            wrongInfoDialog("TEST WORKED!");
+                if (!did_emp_rate){
+                    //show rating dialog
+                    ShowRatingCustomDialog(getContext());
+                    counter++;
+                    //update the project.
+//                didEmployerRate();
+                }
+            }
+    }
 
     private void excecuteChatRequest() {
         Long user1_id = MySharedPreference.getLong(getContext(),Constants.Keys.USER_ID,-1);
@@ -462,7 +474,7 @@ public class Emp_viewProjectFragment extends Fragment implements  Emp_MyProjects
     private int  total_response_time;
     private int  total_quality_of_work;
 
-    public void ShowCustomDialog(Context c) {
+    public void ShowRatingCustomDialog(Context c) {
 
         Dialog rankDialog = new Dialog(c);
         rankDialog.setContentView(R.layout.emp_rate_fr_dialog);
