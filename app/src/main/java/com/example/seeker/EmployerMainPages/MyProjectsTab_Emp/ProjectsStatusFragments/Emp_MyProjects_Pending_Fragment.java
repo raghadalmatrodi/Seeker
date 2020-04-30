@@ -60,7 +60,6 @@ public class Emp_MyProjects_Pending_Fragment extends Fragment implements Seriali
     private Employer employer;
 
 
-
     private ProgressBar mProgressBar;
 
     private static final String LOG = Emp_MyProjects_Pending_Fragment.class.getSimpleName();
@@ -155,14 +154,12 @@ public class Emp_MyProjects_Pending_Fragment extends Fragment implements Seriali
         super.onResume();
 
 
-prepareProjects();
+        prepareProjects();
 
 
     }
 
     private void prepareProjects() {
-
-
 
 
         ApiClients.getAPIs().getProjectByStatus("0", employer).enqueue(new Callback<List<Project>>() {
@@ -171,14 +168,14 @@ prepareProjects();
                 mProgressBar.setVisibility(View.GONE);
                 if (response.isSuccessful()) {
 
-                        projectList = response.body();
-                    if(projectList != null) {
+                    projectList = response.body();
+                    if (projectList != null) {
                         for (int i = 0; i < projectList.size(); i++) {
 
 
                             if (checkToDelete(projectList.get(i).getExpiry_date())) {
-          deleteProject(projectList.get(i));
-                         projectList.remove(i);
+                                deleteProject(projectList.get(i));
+                                projectList.remove(i);
                             }
 
 
@@ -186,7 +183,7 @@ prepareProjects();
                         pendingText.setVisibility(View.GONE);
                         setTheAdapter();
                         // adapter.notifyDataSetChanged();
-                    }else{
+                    } else {
 
                         pendingText.setText("No Projects");
                         Log.i(LOG, "onResponse not suc: " + response.toString());
@@ -215,7 +212,7 @@ prepareProjects();
 
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
         if (!projectList.isEmpty())
-            adapter = new ProjectAdapter( projectList, 0);
+            adapter = new ProjectAdapter(projectList, 0);
         recyclerView.setItemAnimator(new DefaultItemAnimator());
         recyclerView.setAdapter(adapter);
         if (!projectList.isEmpty())
@@ -224,7 +221,7 @@ prepareProjects();
         DividerItemDecoration dividerItemDecoration = new DividerItemDecoration(recyclerView.getContext(), DividerItemDecoration.VERTICAL);
         recyclerView.addItemDecoration(dividerItemDecoration);
         if (!projectList.isEmpty())
-        adapter.notifyDataSetChanged();
+            adapter.notifyDataSetChanged();
 
 
     }
@@ -269,7 +266,7 @@ prepareProjects();
 
             }
         });
-       getFragmentManager().beginTransaction().detach(this).attach(this).commit();
+        getFragmentManager().beginTransaction().detach(this).attach(this).commit();
 
     }
 
@@ -359,19 +356,18 @@ prepareProjects();
         LocalDate dateCreated = LocalDate.parse(createdAt, DateTimeFormatter.ISO_LOCAL_DATE);
         Duration diff = Duration.between(dateCreated.atStartOfDay(), dateExpiry.atStartOfDay());
         long diffDays = diff.toDays();
-        System.out.println("difference for expiry is"+ diffDays);
+        System.out.println("difference for expiry is" + diffDays);
 
         Date date = new Date();
         SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy HH:mm:ss");
         String dateString = formatter.format(date);
         dateString = dateString.substring(0, 10);
-        System.out.println("difference for extend is"+ diffDays);
-        if (diffDays==0)
+        System.out.println("difference for extend is" + diffDays);
+        if (diffDays == 0)
             return true;
 
         return false;
     }
-
 
 
     public boolean checkToDelete(String expiryDate) {
@@ -380,15 +376,15 @@ prepareProjects();
         LocalDate localDate = LocalDate.now();
 
         LocalDate dateExpiry = LocalDate.parse(expiryDate, DateTimeFormatter.ISO_LOCAL_DATE);
-       // LocalDate todayDate = LocalDate.parse(today,DateTimeFormatter.ISO_LOCAL_DATE);
-        Duration diff = Duration.between( localDate.atStartOfDay(),dateExpiry.atStartOfDay());
+        // LocalDate todayDate = LocalDate.parse(today,DateTimeFormatter.ISO_LOCAL_DATE);
+        Duration diff = Duration.between(localDate.atStartOfDay(), dateExpiry.atStartOfDay());
         long diffDays = diff.toDays();
 
         //to test
-System.out.println("difference for delete is"+ diffDays);
+        System.out.println("difference for delete is" + diffDays);
 
 
-        if (diffDays == -1 )
+        if (diffDays == -1)
             return true;
 
         return false;

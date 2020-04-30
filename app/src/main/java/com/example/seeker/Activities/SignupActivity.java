@@ -225,9 +225,9 @@ private static final String LOG= SignupActivity.class.getSimpleName();
                 wrongInfoDialog("Invalid email format");
 
             } else {
-                if (pass.length() < 6) {
+                if (pass.length() < 8) {
 
-                    wrongInfoDialog("Password should be more than 6 characters, please try again");
+                    wrongInfoDialog("Password should be more than 8 characters, please try again");
 
 
                 } else {

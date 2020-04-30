@@ -286,23 +286,13 @@ public class ProjectInformationFragment extends Fragment {
                                     expiryLocalDateTime = convertStringToLocalDateTime(expiryDate);
 
 
-                                    Log.i("PROJECT", deadlineLocalDateTime.toString());
-
-                                    Log.i("FILES", files.toString());
-
-
                                     if (files.isEmpty()) {
                                         projectInformationListener.onPostProjectItemSelected(title, description, budget, deadlineLocalDateTime.toString(), expiryLocalDateTime.toString());
                                         Log.i("PROJECT", deadlineLocalDateTime.toString());
                                     } else {
 
-                                        //TODO CREATE THE OBJECT
-                                        //  Double budgetToSave =  Double.parseDouble(budget);
-                                        // Project project = new Project(title, description, budgetToSave,projectType,paymentType,expiryLocalDateTime ,deadlineLocalDateTime,  "0");
                                         projectInformationListener.onPostProjectItemSelectedWithAttachments(title, description, budget, deadlineLocalDateTime.toString(), expiryLocalDateTime.toString(), files);
 
-                                        // Project projectToSave = new Project(title , description , budgetToSave ,deadlineLocalDateTime.toString(), expiryLocalDateTime.toString());
-                                        //   createProjectWithAttachments(files);
 
                                     }
 

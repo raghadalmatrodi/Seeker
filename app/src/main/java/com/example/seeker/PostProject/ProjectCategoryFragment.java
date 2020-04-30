@@ -92,7 +92,7 @@ public class ProjectCategoryFragment extends Fragment implements CategoryAdapter
 
     public interface CategoryListener{
 
-       void onCategoryTypeItemSelected(Category category);
+        void onCategoryTypeItemSelected(Category category);
     }//End of interface
 
     @Override
