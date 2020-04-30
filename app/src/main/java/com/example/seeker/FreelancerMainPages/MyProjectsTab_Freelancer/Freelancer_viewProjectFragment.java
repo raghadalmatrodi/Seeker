@@ -19,7 +19,6 @@ import android.widget.RatingBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
@@ -53,12 +52,10 @@ import com.example.seeker.PostBid.BidsAdapter;
 import com.example.seeker.PostBid.PostBidActivity;
 import com.example.seeker.PostBid.ViewFullBid;
 import com.example.seeker.R;
-import com.example.seeker.Rating.FreelancerRatesEmployer;
 import com.example.seeker.SharedPref.Constants;
 import com.example.seeker.SharedPref.MySharedPreference;
 import com.example.seeker.ViewProfileActivity;
 
-import java.security.Key;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -108,6 +105,9 @@ public class Freelancer_viewProjectFragment extends Fragment implements  Emp_MyP
     //todo hind remove if didnt work
     TextView number_of_bids;
     int isPending=0;
+
+    int counter = 0;
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
@@ -130,11 +130,13 @@ public class Freelancer_viewProjectFragment extends Fragment implements  Emp_MyP
         empId = project.getEmployer().getId();
 
         if (checkFlag != null)
-            if (checkFlag.equals("FC")){
+            if (checkFlag.equals("FC") && counter == 0){
+
 //            wrongInfoDialog("TEST WORKED!");
                 if (!did_fr_rate){
                     //show rating dialog
-                    ShowCustomDialog(getContext());
+                    ShowRatingCustomDialog(getContext());
+                    counter++;
                     //update the project.
 //                didEmployerRate();
                 }
@@ -202,11 +204,25 @@ public class Freelancer_viewProjectFragment extends Fragment implements  Emp_MyP
 
     }
 
+
     @Override
     public void onResume() {
         super.onResume();
         getUser();
         findBidsByProject();
+
+        if (checkFlag != null)
+            if (checkFlag.equals("FC") && counter == 0){
+
+//            wrongInfoDialog("TEST WORKED!");
+                if (!did_fr_rate){
+                    //show rating dialog
+                    ShowRatingCustomDialog(getContext());
+                    counter++;
+                    //update the project.
+//                didEmployerRate();
+                }
+            }
 
     }
 
@@ -641,10 +657,10 @@ public class Freelancer_viewProjectFragment extends Fragment implements  Emp_MyP
     RatingBar r1, r2, r3;
     Button finish;
 
-    public void ShowCustomDialog(Context c) {
+    public void ShowRatingCustomDialog(Context c) {
 
         Dialog rankDialog = new Dialog(c);
-        rankDialog.setContentView(R.layout.dialog_test);
+        rankDialog.setContentView(R.layout.fr_rate_dialog);
         rankDialog.setCancelable(false);
         rankDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
 
@@ -782,7 +798,7 @@ public class Freelancer_viewProjectFragment extends Fragment implements  Emp_MyP
 
 
 
-    public void RateTheEmp(int professionalismE , int onTimePaymentE, int responseTimeE){
+    public void RateTheEmp(int professionalismE , int onTimePaymentE, int responseTimeE ){
         float ratingEmp;
         float avg;
         //Q1 -> professionalism
@@ -807,7 +823,7 @@ public class Freelancer_viewProjectFragment extends Fragment implements  Emp_MyP
 
 
     private void setRatingValues(Employer employer){
-        ApiClients.getAPIs().setAllEmployerRatingValues(employer).enqueue(new Callback<Void>() {
+        ApiClients.getAPIs().setAllEmployerRatingValues(employer, project.getId()).enqueue(new Callback<Void>() {
             @Override
             public void onResponse(Call<Void> call, Response<Void> response) {
                 if (response.isSuccessful())

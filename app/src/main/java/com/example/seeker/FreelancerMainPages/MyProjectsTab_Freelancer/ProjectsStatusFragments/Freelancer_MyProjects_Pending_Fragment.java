@@ -131,7 +131,6 @@ public class Freelancer_MyProjects_Pending_Fragment extends Fragment implements 
 
                     if (!projectList.isEmpty())
                         pendingText.setVisibility(View.GONE);
-//                        pendingText.setText("");
                     else pendingText.setText("There are no pending projects yet");
 
 

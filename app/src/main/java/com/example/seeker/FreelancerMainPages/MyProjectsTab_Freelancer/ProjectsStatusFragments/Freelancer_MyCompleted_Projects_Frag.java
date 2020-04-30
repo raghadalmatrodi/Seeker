@@ -125,7 +125,7 @@ public class Freelancer_MyCompleted_Projects_Frag extends Fragment implements Se
 
                 }else{
                     Toast.makeText(getContext(),"not success",Toast.LENGTH_LONG).show();
-                    completedText.setText("Something went wrong, please try again in a few moments");
+                    completedText.setText("No projects.");
                 }
             }
 

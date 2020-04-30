@@ -1,11 +1,11 @@
 package com.example.seeker.EmployerMainPages.AccountRelatedActivities;
 
 import androidx.appcompat.app.AlertDialog;
+import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.DefaultItemAnimator;
-import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -35,29 +35,18 @@ import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
-import com.example.seeker.Activities.ParentEditProfileActivity;
 import com.example.seeker.Database.ApiClients;
-import com.example.seeker.FreelancerMainPages.FreelancerEditProfile;
 import com.example.seeker.FreelancerMainPages.SearchTab_Freelancer.AddSkillActivity;
 import com.example.seeker.Model.Employer;
 import com.example.seeker.Model.Freelancer;
-import com.example.seeker.Model.Project;
-import com.example.seeker.Model.Responses.ApiResponse;
 import com.example.seeker.Model.Skill;
 import com.example.seeker.Model.StorageDocument;
 import com.example.seeker.Model.User;
-import com.example.seeker.PostProject.AttachmentAdapter;
-import com.example.seeker.PostProject.ProjectInformationFragment;
 import com.example.seeker.R;
 import com.example.seeker.SharedPref.Constants;
 import com.example.seeker.SharedPref.MySharedPreference;
 
-import com.google.android.gms.common.api.Api;
-import com.google.gson.Gson;
-
-import java.io.ByteArrayOutputStream;
 import java.io.File;
-import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -68,19 +57,15 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-import javax.net.ssl.HostnameVerifier;
-
 import okhttp3.MediaType;
 import okhttp3.MultipartBody;
-import okhttp3.OkHttpClient;
 import okhttp3.RequestBody;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
-import retrofit2.http.Multipart;
 
 
-public class EditProfileActivity extends ParentEditProfileActivity implements SampleWorkAdapter.OnItemClickListener {
+public class EditProfileActivity extends AppCompatActivity implements SampleWorkAdapter.OnItemClickListener {
 
 
     private static final String LOG = EditProfileActivity.class.getSimpleName();
@@ -991,36 +976,6 @@ public class EditProfileActivity extends ParentEditProfileActivity implements Sa
 
         alertDialog.show();
     }//end wrongInfoDialog()
-//
-//    public static byte[] ImageToByte(File file) throws FileNotFoundException{
-//
-//        FileInputStream fis = new FileInputStream(file);
-//
-//        ByteArrayOutputStream bos = new ByteArrayOutputStream();
-//
-//        byte[] buf = new byte[1024];
-//
-//        try {
-//
-//            for (int readNum; (readNum = fis.read(buf)) != -1;) {
-//
-//                bos.write(buf, 0, readNum);
-//
-//                System.out.println("read " + readNum + " bytes,");
-//
-//            }
-//
-//        } catch (IOException ex) {
-//
-//        }
-//
-//        byte[] bytes = bos.toByteArray();
-//
-//
-//
-//        return bytes;
-//
-//    }
 
 
     //todo: check validity of phone number, maroof acc and national id.
@@ -1095,17 +1050,19 @@ public class EditProfileActivity extends ParentEditProfileActivity implements Sa
                             break;
 
                         case 1:
-                            if (infoET.getText().length() <10)
-                                wrongInfoDialog("Phone number can't be less than 10 digits. Please try again.");
+//                            if (infoET.getText().length() <10)
+                            if (!isValidPhoneNumber(infoET.getText().toString()))
+                                wrongInfoDialog("Incorrect format, please retry..");
                             else {
                             executeAddPhoneNumberRequest(MySharedPreference.getLong(EditProfileActivity.this, Constants.Keys.USER_ID, -1), infoET.getText().toString());
                             dialogBuilder.dismiss();}
 
                             break;
                         case 2:
-                            if (infoET.getText().length() <10)
-                                wrongInfoDialog("National ID can't be less than 10 digits. Please try again.");
-                            else{
+//                            if (infoET.getText().length() <10)
+                                if (isValidNid(infoET.getText().toString()) == -1)
+                                wrongInfoDialog("National ID is incorrect, Please try again.");
+                            else if((isValidNid(infoET.getText().toString()) == 1) || (isValidNid(infoET.getText().toString()) == 2)){
                             executeAddNationalIdRequest(MySharedPreference.getLong(EditProfileActivity.this, Constants.Keys.USER_ID, -1), infoET.getText().toString());
                             dialogBuilder.dismiss();}
 
@@ -1121,6 +1078,53 @@ public class EditProfileActivity extends ParentEditProfileActivity implements Sa
         dialogBuilder.setView(dialogView);
         dialogBuilder.show();
     }//End info dialog
+
+    /**
+     *The validation method was taken from:
+     * http://regexlib.com/Search.aspx?k=Mobile+&c=-1&m=-1&ps=20&p=5&AspxAutoDetectCookieSupport=1
+     */
+    public boolean isValidPhoneNumber(String target) {
+//        String regex = "^[\\w-_\\.+]*[\\w-_\\.]\\@([\\w]+\\.)+[\\w]+[\\w]$";
+//        /^(009665|9665|\+9665|05|5)(5|0|3|6|4|9|1|8|7)([0-9]{7})$/
+//        ^(05)[0-9]{8}$
+        String regex = "^(009665|9665|\\+9665|05)(0|1|3|4|5|6|7|8|9)[0-9]{7}$";
+        if (target.matches(regex))
+            return true;
+        else return false;
+
+    }//End isValidPhoneNumber()
+
+    /**
+     * The method was taken from:
+     * https://github.com/alhazmy13/Saudi-ID-Validator
+     * It's a small function check(idNumber),
+     * return -1 if the id is not correct,
+     * 1 for saudi id OR 2 for non-saudis.
+     */
+    public int isValidNid(String id) {
+        id = id.trim();
+        if (!id.matches("[0-9]+")) {
+            return -1;
+        }
+        if (id.length() != 10) {
+            return -1;
+        }
+        int type = Integer.parseInt(id.substring(0, 1));
+        if (type != 2 && type != 1) {
+            return -1;
+        }
+        int sum = 0;
+        for (int i = 0; i < 10; i++) {
+            if (i % 2 == 0) {
+                String ZFOdd = String.format("%02d", Integer.parseInt(id.substring(i, i+1)) * 2);
+                sum += Integer.parseInt(ZFOdd.substring(0, 1)) + Integer.parseInt(ZFOdd.substring(1, 2));
+            } else {
+                sum += Integer.parseInt(id.substring(i, i+1));
+            }
+        }
+        return (sum % 10 != 0) ? -1 : type;
+
+    }//End NID validator
 
     //ZERO
     private void executeAddMaroofAccRequest(long id, String maroofAcc) {

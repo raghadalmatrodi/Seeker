@@ -177,8 +177,8 @@ prepareProjects();
 
 
                             if (checkToDelete(projectList.get(i).getExpiry_date())) {
-//                                deleteProject(projectList.get(i));
-//                                projectList.remove(i);
+          deleteProject(projectList.get(i));
+                         projectList.remove(i);
                             }
 
 
@@ -322,6 +322,7 @@ prepareProjects();
                         if (action == 1) {
                             if (checkExpiryDate(project.getExpiry_date(), project.getCreatedAt())) {
                                 updateProject(project);
+                                System.out.println("extend true");
                                 infoDialog("Successful", "Your project has been extended successfully.");
                             } else
                                 infoDialog("Wrong", "You cannot extend the project before 10 days of its posted date.");
@@ -364,7 +365,8 @@ prepareProjects();
         SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy HH:mm:ss");
         String dateString = formatter.format(date);
         dateString = dateString.substring(0, 10);
-        if (diffDays == 1 && dateString.equals(expiryDate))
+        System.out.println("difference for extend is"+ diffDays);
+        if (diffDays==0)
             return true;
 
         return false;
@@ -386,7 +388,7 @@ prepareProjects();
 System.out.println("difference for delete is"+ diffDays);
 
 
-        if (diffDays == 0 )
+        if (diffDays == -1 )
             return true;
 
         return false;

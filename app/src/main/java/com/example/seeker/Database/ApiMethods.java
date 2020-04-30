@@ -1,10 +1,7 @@
 package com.example.seeker.Database;
 
-import android.icu.util.Measure;
-
 import com.example.seeker.Model.Bid;
 import com.example.seeker.Model.Category;
-import com.example.seeker.Model.Certificate;
 import com.example.seeker.Model.Chat;
 import com.example.seeker.Model.ChatMessage;
 import com.example.seeker.Model.Contract;
@@ -34,7 +31,6 @@ import retrofit2.http.Body;
 import retrofit2.http.DELETE;
 import retrofit2.http.GET;
 import retrofit2.http.Multipart;
-import retrofit2.http.PATCH;
 import retrofit2.http.POST;
 import retrofit2.http.PUT;
 import retrofit2.http.Part;
@@ -54,15 +50,13 @@ public interface ApiMethods {
         String GET_PROJECT = "project/status/{status}";
         String GET_BIDS = "bid/find-all";
         //todo: hind delete them if the others worked. :)
-        String POST_SOCIAL_MEDIA = "userSocialMedia/add-accounts";
-        String GET_SOCIAL_MEDIA = "userSocialMedia/find-all";
+
         String GET_USER_BY_EMAIL = "user/email/{email}";
         String GET_EMPLOYER_BY_USER_ID = "employer/user_id/{user_id}";
         String GET_ALL_CATEGORY = "category/find-all";
         String GET_FREELANCER_BY_USER_ID = "freelancer/user_id/{user_id}";
         String GET_BIDS_BY_STATUS = "bid/status/{status}";
         String GET_PROJECTS_BY_STATUS = "project/statuses/{status}";
-        String POST_CERTIFICATES = "certificate/create";
         String GET_CERTIFICATES = "certificate/find-all";
         String ACCEPT_BID ="bid/accept-bid/{id}";
         String GET_PROJECTS_BY_CATEGORY = "project/category";
@@ -93,14 +87,6 @@ public interface ApiMethods {
         String POST_TWITTER = "user/twitter/{id}/{twitter}";
         String POST_FACEBOOK = "user/facebook/{id}/{facebook}";
 
-        String GET_LINKEDIN = "user/get_linkedin/{id}";
-        String GET_TWITTER = "user/get_twitter/{id}";
-        String GET_FACEBOOK = "user/get_fb/{id}";
-
-        String GET_NID = "user/get_nid/{id}";
-        String GET_PHONE = "user/get_phone/{id}";
-        String GET_MAROOF = "freelancer/get_maarof/{id}";
-
         String POST_EDUCATION = "user/education/{id}/{education}";
         String GET_EDUCATION = "user/get_education/{id}";
 
@@ -111,15 +97,10 @@ public interface ApiMethods {
 
 
 
-        String GET_ALL_TP = "user/get_all_vals/{id}";
-
-        String POST_EMPLOYER_TRUST_POINTS = "user/total_emp_tp/{id}";
-        String POST_FREELANCER_TRUST_POINTS = "user/total_fr_tp/{id}";
-
         //EMPLOYER RATING METHODS
         String GET_EMPLOYER_RATING_VALUES = "employer/get_rating_values/{id}";
         String GET_EMPLOYER_TOTAL_RATINGS_VALUE = "employer/get_total_emp_rating/{id}";
-        String SET_ALL_EMPLOYER_RATING_VALUES = "employer/rating_values";
+        String SET_ALL_EMPLOYER_RATING_VALUES = "employer/rating_values/{project_id}";
         String SET_ALL_FREELANCER_RATING_VALUES = "freelancer/rating_values";
 
         //employer uses it to rate the freelancer
@@ -134,8 +115,6 @@ public interface ApiMethods {
 
         String POST_CALC_EMP_TOTAL_RATINGS = "employerRating/emp";
         String GET_EMPLOYER_BY_ID = "employer/{id}";
-
-        String POST_NUM_OF_POSTED_PROJECTS = "employer/posted_projs/{id}/{num_of_posted_Projects}";
 
         String CALC_FR_TOTAL_RATINGS = "freelancerRating/total";
 
@@ -212,8 +191,6 @@ public interface ApiMethods {
     @POST(Methods.GET_PROJECT)
     Call<List<Project>> getProjectByStatus(@Path("status") String status, @Body Employer employer);
 
-    @POST(Methods.POST_SOCIAL_MEDIA)
-    Call<ApiResponse> getPostSocialMediaRequest(@Body UserSocialMedia userSocialMedia);
 
     @POST(Methods.GET_BIDS_BY_STATUS)
     Call<List<Bid>> getBidByStatus(@Path("status") String status);
@@ -221,8 +198,6 @@ public interface ApiMethods {
     @POST(Methods.GET_PROJECTS_BY_STATUS)
     Call<List<Project>> getProjectsByStatusOnly(@Path("status") String status);
 
-    @POST(Methods.POST_CERTIFICATES)
-    Call<ApiResponse> getPostCertificatesRequest(@Body Certificate certificate);
 
     @PUT(Methods.ACCEPT_BID)
     Call<ApiResponse> acceptBid(@Path("id") long id);
@@ -256,8 +231,6 @@ public interface ApiMethods {
     @POST(Methods.POST_FACEBOOK)
     Call<User> getPostFacebookRequest(@Path("id") long id, @Path("facebook") String facebook);
 
-    @POST(Methods.POST_EDUCATION)
-    Call<User> getPostEducation(@Path("id") long id, @Path("education") String education);
 
     @POST(Methods.POST_EDUCATION)
     Call<User> getPostEducation(@Path("id") long id, @Body User education);
@@ -274,13 +247,6 @@ public interface ApiMethods {
     @POST(Methods.POST_IBAN_NUMBER)
     Call<Void>  setFreelancerIban(@Body Freelancer freelancer);
 
-    //TODO: CALCULATE TRUST POINTS USING THIS API :) DELETE OLDER ONES :)
-    @POST(Methods.POST_EMPLOYER_TRUST_POINTS)
-    Call<Integer> calculateEmployerTrustPoints(@Path("id") long id);
-
-    @POST(Methods.POST_FREELANCER_TRUST_POINTS)
-    Call<Integer> calculateFreelancerTrustPoints(@Path("id") long id);
-
     @POST(Methods.ADD_NEW_FREELANCER_RATING)
     Call<ApiResponse> getRateFreelancerRequest(@Body FreelancerRating freelancerRating);
 
@@ -288,13 +254,11 @@ public interface ApiMethods {
     Call<ApiResponse> getRateEmployerRequest (@Body EmployerRating employerRating);
 
     @PUT(Methods.SET_ALL_EMPLOYER_RATING_VALUES)
-    Call<Void> setAllEmployerRatingValues(@Body Employer employer);
+    Call<Void> setAllEmployerRatingValues(@Body Employer employer, @Path("project_id") long project_id);
 
     @POST(Methods.POST_CALC_EMP_TOTAL_RATINGS)
     Call<Double> CalculateEmployerTotalRating(@Body Employer employer_id);
 
-    @POST(Methods.POST_NUM_OF_POSTED_PROJECTS)
-    Call<Void> setNumberOfPostedProjects(@Path("id") long id, @Path("num_of_posted_Projects") int num_of_posted_projects);
 
     @PUT(Methods.SET_ALL_FREELANCER_RATING_VALUES)
     Call<Void> setAllFreelancerRatingValues(@Body Freelancer freelancer);
@@ -329,10 +293,6 @@ public interface ApiMethods {
     @GET(Methods.GET_BIDS)
     Call<List<Bid>> getAllBids();
 
-
-    @GET(Methods.GET_SOCIAL_MEDIA)
-    Call<List<UserSocialMedia>> getAllSocialMedia();
-
     @GET(Methods.GET_USER_BY_EMAIL)
     Call<User> findUSerByEmailRequest(@Path("email") String email);
 
@@ -345,8 +305,6 @@ public interface ApiMethods {
     @GET(Methods.GET_FREELANCER_BY_USER_ID)
     Call<Freelancer> getFreelancerByUserIdRequest(@Path("user_id") long user_id);
 
-    @GET(Methods.GET_CERTIFICATES)
-    Call<List<Certificate>> getAllCertificates();
 
     @GET(Methods.GET_CONTRACT_BY_PROJECT_ID)
     Call<Contract> getContractByProjectIdRequest(@Path("project_id") long project_id);
@@ -384,31 +342,6 @@ public interface ApiMethods {
 
     @GET(Methods.GET_ALL_SKILLS)
     Call<Set<Skill>> getAllSkills();
-
-
-    @GET(Methods.GET_LINKEDIN)
-    Call<String> getLinkedin(@Path("id") long id);
-
-    @GET(Methods.GET_TWITTER)
-    Call<String> getTwitter(@Path("id") long id);
-
-    @GET(Methods.GET_FACEBOOK)
-    Call<String> getFacebook(@Path("id") long id);
-
-    @GET(Methods.GET_EDUCATION)
-    Call<String> getEducation(@Path("id") long id);
-
-    @GET(Methods.GET_NID)
-    Call<String> getNationalId(@Path("id") long id);
-
-    @GET(Methods.GET_PHONE)
-    Call<String> getPhoneNumber(@Path("id") long id);
-
-    @GET(Methods.GET_MAROOF)
-    Call<String> getMaroofAcc(@Path("id") long id);
-
-    @GET(Methods.GET_ALL_TP)
-    Call<List<String>> getAllTPVals(@Path("id") long id);
 
     @GET(Methods.GET_EMPLOYER_RATING_VALUES)
     Call<List<Integer>> getEmployerRatingValues(@Path("id") long id);
