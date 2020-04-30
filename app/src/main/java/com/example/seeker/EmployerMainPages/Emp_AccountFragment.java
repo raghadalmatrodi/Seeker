@@ -48,6 +48,7 @@ public class Emp_AccountFragment extends Fragment implements View.OnClickListene
 
     private ImageView profile_picture;
     private TextView name;
+    long user_id;
 
 
     private LinearLayout notificationsLL, paymentsLL, settingsLL, privacy_policyLL, terms_conditionsLL, contact_supportLL;
@@ -61,6 +62,7 @@ public class Emp_AccountFragment extends Fragment implements View.OnClickListene
 
 
         view = inflater.inflate(R.layout.fragment_emp_account, container, false);
+        user_id = MySharedPreference.getLong(getContext(), Constants.Keys.USER_ID , -1);
 
         init();
 
@@ -230,8 +232,25 @@ changeUserType();
         builder.setPositiveButton("Yes",
                 new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int id) {
-                       logout();
-                    }
+                        ApiClients.getAPIs().logout(user_id).enqueue(new Callback<Void>() {
+                            @Override
+                            public void onResponse(Call<Void> call, Response<Void> response) {
+                                if(response.isSuccessful()) {
+                                    Log.d("response.isSuccessful(", response.message());
+                                    logout();
+
+                                }else{
+                                    Log.d("response.isnotSuccessful(", response.message());
+
+                                }
+                            }
+
+                            @Override
+                            public void onFailure(Call<Void> call, Throwable t) {
+                                Log.d("failure", t.getLocalizedMessage());
+
+                            }
+                        });                    }
                 });
         builder.setNegativeButton("No",
                 new DialogInterface.OnClickListener() {

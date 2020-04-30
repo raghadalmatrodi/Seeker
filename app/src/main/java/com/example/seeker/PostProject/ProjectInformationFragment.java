@@ -126,36 +126,7 @@ public class ProjectInformationFragment extends Fragment {
         attachFile.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                ChooserDialog chooserDialog = new ChooserDialog(view.getContext());
-                chooserDialog.withStartFile("");
-                chooserDialog .withFilter(false, false, "jpg", "jpeg", "png")
-                .withChosenListener(new ChooserDialog.Result() {
-                    @Override
-                    public void onChoosePath(String path, File pathFile) {
-
-                       if(adapter.getItemCount() == 4){
-
-                           wrongInfoDialog("The maximum number of attachments is 4");
-                       }else {
-
-                           files.add(pathFile);
-
-                           adapter.notifyDataSetChanged();
-                       }
-                        //هنا الزبده
-                        // لاتشيلين ذا الكومنت ياريما
-
-
-                    }
-                });
-                chooserDialog.withOnCancelListener(new DialogInterface.OnCancelListener() {
-                    public void onCancel(DialogInterface dialog) {
-                        Log.d("CANCEL", "CANCEL");
-                        dialog.cancel(); // MUST have
-                    }
-                });
-                chooserDialog.build();
-                chooserDialog.show();// to handle the back key pressed or clicked outside the dialog:
+                uploadAttachment();
 
             }
         });
@@ -241,6 +212,39 @@ public class ProjectInformationFragment extends Fragment {
 
         return view;
     }//End of onCreateView()
+
+    private void uploadAttachment() {
+        ChooserDialog chooserDialog = new ChooserDialog(view.getContext());
+        chooserDialog.withStartFile("");
+        chooserDialog .withFilter(false, false, "jpg", "jpeg", "png")
+        .withChosenListener(new ChooserDialog.Result() {
+            @Override
+            public void onChoosePath(String path, File pathFile) {
+
+               if(adapter.getItemCount() == 4){
+
+                   wrongInfoDialog("The maximum number of attachments is 4");
+               }else {
+
+                   files.add(pathFile);
+
+                   adapter.notifyDataSetChanged();
+               }
+                //هنا الزبده
+                // لاتشيلين ذا الكومنت ياريما
+
+
+            }
+        });
+        chooserDialog.withOnCancelListener(new DialogInterface.OnCancelListener() {
+            public void onCancel(DialogInterface dialog) {
+                Log.d("CANCEL", "CANCEL");
+                dialog.cancel(); // MUST have
+            }
+        });
+        chooserDialog.build();
+        chooserDialog.show();// to handle the back key pressed or clicked outside the dialog:
+    }
 
     @Override
     public void onResume() {

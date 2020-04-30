@@ -1,13 +1,8 @@
 package com.example.seeker.EmployerMainPages.Chat_Emp;
 
-import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentTransaction;
 
 
-import com.bumptech.glide.Glide;
-import com.bumptech.glide.request.RequestOptions;
 import com.example.seeker.ChatMessageBroadcast;
 import com.example.seeker.Database.ApiClients;
 import com.example.seeker.EmployerMainPages.EmployerMainActivity;
@@ -17,13 +12,10 @@ import com.example.seeker.Model.User;
 import com.example.seeker.R;
 import com.example.seeker.SharedPref.Constants;
 import com.example.seeker.SharedPref.MySharedPreference;
-import com.google.gson.Gson;
-import com.stfalcon.chatkit.commons.ImageLoader;
 import com.stfalcon.chatkit.messages.MessageInput;
 import com.stfalcon.chatkit.messages.MessagesList;
 import com.stfalcon.chatkit.messages.MessagesListAdapter;
 
-import android.app.FragmentManager;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
@@ -34,14 +26,11 @@ import android.view.View;
 import android.view.WindowManager;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
-import java.nio.channels.Channel;
 import java.text.SimpleDateFormat;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.Date;
-import java.util.List;
 import java.util.UUID;
 
 import retrofit2.Call;
@@ -132,7 +121,7 @@ public class Emp_ChatMessages extends AppCompatActivity {
 
                 ChatMessage message = new ChatMessage(id, createdAt, input.toString(), sender,chat );
 
-                boolean isSent= excecuteApiRequest( message);
+                boolean isSent= excecuteSendMessageApiRequest( message);
 
                 adapter.addToStart(message , true);
                 adapter.notifyDataSetChanged();
@@ -150,7 +139,7 @@ public class Emp_ChatMessages extends AppCompatActivity {
     }
 
 
-    private boolean excecuteApiRequest(ChatMessage message) {
+    private boolean excecuteSendMessageApiRequest(ChatMessage message) {
         final boolean[] sent = {false};
       ApiClients.getAPIs().createChatMessage(message).enqueue(new Callback<ChatMessage>() {
           @Override

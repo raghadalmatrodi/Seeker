@@ -43,12 +43,14 @@ public class Freelancer_AccountFragment extends Fragment implements View.OnClick
     LinearLayout notification;
 
     ImageView profile_picture;
+    long user_id;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
 
 
         view = inflater.inflate(R.layout.fragment_freelancer_account, container, false);
+        user_id = MySharedPreference.getLong(getContext(), Constants.Keys.USER_ID , -1);
 
             init();
 
@@ -169,7 +171,26 @@ public class Freelancer_AccountFragment extends Fragment implements View.OnClick
             builder.setPositiveButton("Yes",
                     new DialogInterface.OnClickListener() {
                         public void onClick(DialogInterface dialog, int id) {
-                            logout();
+                            ApiClients.getAPIs().logout(user_id).enqueue(new Callback<Void>() {
+                                @Override
+                                public void onResponse(Call<Void> call, Response<Void> response) {
+                                    if(response.isSuccessful()) {
+                                        Log.d("response.isSuccessful(", response.message());
+                                        logout();
+
+                                    }else{
+                                        Log.d("response.isnotSuccessful(", response.message());
+
+                                    }
+                                }
+
+                                @Override
+                                public void onFailure(Call<Void> call, Throwable t) {
+                                    Log.d("failure", t.getLocalizedMessage());
+
+                                }
+                            });
+
                         }
                     });
             builder.setNegativeButton("No",

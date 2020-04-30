@@ -31,6 +31,12 @@ public class ViewAttachmentActivity extends AppCompatActivity {
         setContentView(R.layout.activity_view_attachment);
 
 
+        viewAttachment();
+
+
+    }
+
+    private void viewAttachment() {
         Intent intent = getIntent();
         String image = intent.getStringExtra("image");
         ImageView imageView = findViewById(R.id.view_attachment);
@@ -46,9 +52,8 @@ public class ViewAttachmentActivity extends AppCompatActivity {
                 .load(image)
                 .placeholder(R.drawable.folder)
                 .into(imageView);
-
-
     }
+
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()){

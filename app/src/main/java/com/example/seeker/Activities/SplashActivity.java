@@ -10,6 +10,7 @@ import android.util.Log;
 
 import androidx.constraintlayout.widget.ConstraintLayout;
 
+import com.example.seeker.Admin.AdminActivity;
 import com.example.seeker.ApplictionNAme;
 import com.example.seeker.Database.ApiClients;
 import com.example.seeker.EmployerMainPages.EmployerMainActivity;
@@ -63,6 +64,11 @@ public class SplashActivity extends Activity {
             else
             if(MySharedPreference.getString(SplashActivity.this,Constants.Keys.USER_CURRENT_TYPE,"0").equals("FREELANCER")){
                 startActivity(new Intent(getApplicationContext(), FreelancerMainActivity.class));
+                finish();
+
+            } else
+            if(MySharedPreference.getString(SplashActivity.this,Constants.Keys.USER_CURRENT_TYPE,"0").equals("ADMIN")){
+                startActivity(new Intent(getApplicationContext(), AdminActivity.class));
                 finish();
 
             }

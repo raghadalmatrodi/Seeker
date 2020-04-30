@@ -18,7 +18,6 @@ import com.example.seeker.Model.Skill;
 import com.example.seeker.Model.StorageDocument;
 import com.example.seeker.Model.User;
 import com.example.seeker.Model.UserSocialMedia;
-import com.example.seeker.Rating.EmployerRatesFreelancer;
 import com.google.firebase.annotations.PublicApi;
 
 import java.util.List;
@@ -44,6 +43,7 @@ public interface ApiMethods {
 
         String SIGNUP = "account/register";
         String LOGIN ="account/login";
+        String LOGOUT = "user/logout/{id}";
         String POST_PROJECT = "project/post";
         String POST_PROJECT_WITH_ATTACHMENTS = "project/with-attachments";
         String POST_BID = "bid/post";
@@ -433,6 +433,9 @@ public interface ApiMethods {
 
     @PUT(Methods.SetEnableProjectSkillNoti)
     Call<Void> SetEnableProjectSkillNoti(@Path("id") Long id, @Path("value") boolean value);
+
+    @PUT(Methods.LOGOUT)
+    Call<Void> logout (@Path("id") long id);
 
 
 
