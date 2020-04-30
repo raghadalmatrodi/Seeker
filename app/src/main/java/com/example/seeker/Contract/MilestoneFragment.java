@@ -93,10 +93,10 @@ public class MilestoneFragment extends Fragment {
 
                 if (project.getPayment_type().equals("Hourly")) {
 
-                     milestoneHourlyDialog();
+                    milestoneHourlyDialog();
 
 
-                } else {
+                }else {
 
                     getTotalBudget();
 
@@ -332,28 +332,11 @@ public class MilestoneFragment extends Fragment {
                            adapter.notifyDataSetChanged();
 
 
-                       }else{
+                       }else{ showDialog("Over budget!"); }
 
-                           showDialog("Over budget!");
-                       }
+                    }else{ showDialog("Please Enter a valid date"); }
 
-
-
-
-                    }else{
-
-
-                        showDialog("Please Enter a valid date");
-                    }
-
-
-
-
-                }else{
-
-                        showDialog("Missing Information");
-
-                }
+                }else{ showDialog("Missing Information"); }
 
 
 
