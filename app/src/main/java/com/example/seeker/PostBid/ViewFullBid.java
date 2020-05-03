@@ -11,6 +11,8 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.request.RequestOptions;
 import com.example.seeker.Database.ApiClients;
 import com.example.seeker.EmployerMainPages.AccountRelatedActivities.EditProfileActivity;
 import com.example.seeker.Model.Bid;
@@ -51,6 +53,7 @@ public class ViewFullBid extends AppCompatActivity {
         title = findViewById(R.id.viewfullbid_title);
         username = findViewById(R.id.viewfullbidfreelancername);
         trashIcon=findViewById(R.id.delete_bid);
+        userImg = findViewById(R.id.viewfullbidfreelancerimg);
 
     }
     String capitalizedName;
@@ -88,6 +91,13 @@ public class ViewFullBid extends AppCompatActivity {
             deliverydate.setText(noTimeDeadline);
         }
 
+        if(bid.getFreelancer()!=null)
+            if(bid.getFreelancer().getUser() !=null)
+                if(bid.getFreelancer().getUser().getAvatar()!=null)
+                    Glide.with(getApplicationContext())
+                            .load(bid.getFreelancer().getUser().getAvatar())
+                            .placeholder(R.drawable.user).apply(RequestOptions.circleCropTransform())
+                            .into(userImg);
 
         desc.setText(bid.getDescription());
         title.setText(bid.getTitle());
@@ -107,6 +117,8 @@ public class ViewFullBid extends AppCompatActivity {
                     }
                 });}
             }
+
+
 
             ApiClients.getAPIs().findFreelancerById(bid.getFreelancer().getId()).enqueue(new Callback<Freelancer>() {
                 @Override
