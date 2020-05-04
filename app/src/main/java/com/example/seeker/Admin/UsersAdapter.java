@@ -98,7 +98,6 @@ public class UsersAdapter extends RecyclerView.Adapter<UsersAdapter.MyViewHolder
 
         User user = userList.get(position);
         holder.title.setText(user.getUsername());
-        holder.rating.setText(user.getRating());
 
         holder.deactivate.setTag(position);
         if(user.getIsEnabled() != null) {

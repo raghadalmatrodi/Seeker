@@ -106,7 +106,7 @@ public class Freelancer_MyProjects_Pending_Fragment extends Fragment implements 
                 mProgressBar.setVisibility(View.GONE);
 
                 if(response.isSuccessful()){
-                    Toast.makeText(getContext(),"SUCCESS",Toast.LENGTH_LONG).show();
+//                    Toast.makeText(getContext(),"SUCCESS",Toast.LENGTH_LONG).show();
 
                     long currFree = MySharedPreference.getLong(getContext(), Constants.Keys.FREELANCER_ID,-1);
 
@@ -149,7 +149,7 @@ public class Freelancer_MyProjects_Pending_Fragment extends Fragment implements 
 
 
                 }else{
-                    Toast.makeText(getContext(),"not success",Toast.LENGTH_LONG).show();
+//                    Toast.makeText(getContext(),"not success",Toast.LENGTH_LONG).show();
 
                     pendingText.setText("Something went wrong, please try again in a few moments");
                 }
@@ -157,7 +157,7 @@ public class Freelancer_MyProjects_Pending_Fragment extends Fragment implements 
 
             @Override
             public void onFailure(Call<List<Project>> call, Throwable t) {
-                Toast.makeText(getContext(),"fail",Toast.LENGTH_LONG).show();
+//                Toast.makeText(getContext(),"fail",Toast.LENGTH_LONG).show();
                 pendingText.setText("Error, Something went wrong..");
             }
         });

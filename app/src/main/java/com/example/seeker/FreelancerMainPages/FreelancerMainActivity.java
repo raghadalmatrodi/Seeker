@@ -75,19 +75,19 @@ public class FreelancerMainActivity extends AppCompatActivity {
             switch (item.getItemId()) {
                 case R.id.navigation_msg:
                     loadFragment(new Freelancer_MessagesFragment());
-                    Toast.makeText(FreelancerMainActivity.this, Emp_title_msg, LENGTH_LONG).show();
+//                    Toast.makeText(FreelancerMainActivity.this, Emp_title_msg, LENGTH_LONG).show();
                     return true;
                 case R.id.navigation_projects:
                     loadFragment(new Freelancer_MyProjectsFragment());
-                    Toast.makeText(FreelancerMainActivity.this, R.string.Emp_title_project, LENGTH_LONG).show();
+//                    Toast.makeText(FreelancerMainActivity.this, R.string.Emp_title_project, LENGTH_LONG).show();
                     return true;
                 case R.id.navigation_search:
                     loadFragment(new Freelancer_SearchFragment());
-                    Toast.makeText(FreelancerMainActivity.this, R.string.Emp_title_search, LENGTH_LONG).show();
+//                    Toast.makeText(FreelancerMainActivity.this, R.string.Emp_title_search, LENGTH_LONG).show();
                     return true;
                 case R.id.navigation_account:
                     loadFragment(new Freelancer_AccountFragment());
-                    Toast.makeText(FreelancerMainActivity.this, R.string.Emp_title_account, LENGTH_LONG).show();
+//                    Toast.makeText(FreelancerMainActivity.this, R.string.Emp_title_account, LENGTH_LONG).show();
                     return true;
             }
             return false;

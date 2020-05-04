@@ -96,7 +96,7 @@ public class Freelancer_MyCompleted_Projects_Frag extends Fragment implements Se
                 mProgressBar.setVisibility(View.GONE);
 
                 if(response.isSuccessful()){
-                    Toast.makeText(getContext(),"SUCCESS",Toast.LENGTH_LONG).show();
+//                    Toast.makeText(getContext(),"SUCCESS",Toast.LENGTH_LONG).show();
 
                     int responseSize = response.body().size();
                     int bidSize = 0;
@@ -124,14 +124,14 @@ public class Freelancer_MyCompleted_Projects_Frag extends Fragment implements Se
 
 
                 }else{
-                    Toast.makeText(getContext(),"not success",Toast.LENGTH_LONG).show();
+//                    Toast.makeText(getContext(),"not success",Toast.LENGTH_LONG).show();
                     completedText.setText("No projects.");
                 }
             }
 
             @Override
             public void onFailure(Call<List<Project>> call, Throwable t) {
-                Toast.makeText(getContext(),"fail",Toast.LENGTH_LONG).show();
+//                Toast.makeText(getContext(),"fail",Toast.LENGTH_LONG).show();
                 completedText.setText("Error, Something went wrong..");
             }
         });

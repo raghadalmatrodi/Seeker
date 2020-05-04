@@ -178,7 +178,7 @@ public class AddSkillActivity extends AppCompatActivity {
             @Override
             public void onResponse(Call<Set<Skill>> call, Response<Set<Skill>> response) {
                 if (response.isSuccessful()){
-                    Toast.makeText(getApplicationContext(), "success", Toast.LENGTH_LONG).show();
+//                    Toast.makeText(getApplicationContext(), "success", Toast.LENGTH_LONG).show();
 //                    allSkills.addAll(response.body());
 
 
@@ -211,14 +211,14 @@ public class AddSkillActivity extends AppCompatActivity {
 
 //                    allSkills = response.body();
                 } else {
-                    Toast.makeText(getApplicationContext(), "not success", Toast.LENGTH_LONG).show();
+//                    Toast.makeText(getApplicationContext(), "not success", Toast.LENGTH_LONG).show();
 
                 }
             }
 
             @Override
             public void onFailure(Call<Set<Skill>> call, Throwable t) {
-                Toast.makeText(getApplicationContext(), "failure", Toast.LENGTH_LONG).show();
+//                Toast.makeText(getApplicationContext(), "failure", Toast.LENGTH_LONG).show();
 
             }
         });
@@ -276,11 +276,12 @@ public void executeAddSkillsRequest(){
         public void onResponse(Call<ApiResponse> call, Response<ApiResponse> response) {
             if(response.isSuccessful()) {
 
-                Log.i(LOG, "onResponse: suc" + response.toString());
-                finish();
+//                Log.i(LOG, "onResponse: suc" + response.toString());
                 overridePendingTransition(0, 0);
                 startActivity(new Intent(getApplicationContext(), EditProfileActivity.class));
                 overridePendingTransition(0, 0);
+                finish();
+
 //                Intent i = new Intent(getApplicationContext(), FreelancerEditProfile.class);
 //                startActivity(i);
             }else{

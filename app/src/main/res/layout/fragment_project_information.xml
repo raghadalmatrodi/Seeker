@@ -130,25 +130,50 @@
 
         </LinearLayout>
 
-        <com.google.android.material.textfield.TextInputLayout
-
-            android:layout_width="350dp"
+        <LinearLayout
+            android:layout_width="365dp"
             android:layout_height="wrap_content"
             android:layout_marginLeft="25dp"
+
             android:layout_marginTop="40dp">
 
-            <EditText
+            <com.google.android.material.textfield.TextInputLayout
 
-                android:id="@+id/project_budget"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:inputType="number"
-                android:hint="">
+                android:layout_width="306dp"
+                android:layout_height="wrap_content">
 
 
-            </EditText>
+                <EditText
 
-        </com.google.android.material.textfield.TextInputLayout>
+                    android:id="@+id/project_budget"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:hint=""
+                    android:inputType="number">
+
+
+                </EditText>
+
+
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <TextView
+                android:layout_width="56dp"
+                android:layout_height="40dp"
+                android:layout_gravity="center_vertical"
+                android:layout_marginTop="0dp"
+                android:background="#F7F5F5"
+                android:gravity="center_vertical"
+
+
+                android:text="   SAR"
+                android:textAlignment="gravity"
+
+                android:textSize="17sp"></TextView>
+
+        </LinearLayout>
+
+
 
 
         <TextView

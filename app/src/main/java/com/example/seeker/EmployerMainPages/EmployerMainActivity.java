@@ -49,23 +49,23 @@ public class EmployerMainActivity extends AppCompatActivity {
             switch (item.getItemId()) {
                 case R.id.navigation_msg:
                     loadFragment(new Emp_MessagesFragment());
-                    Toast.makeText(EmployerMainActivity.this, Emp_title_msg, LENGTH_LONG).show();
+//                    Toast.makeText(EmployerMainActivity.this, Emp_title_msg, LENGTH_LONG).show();
                     return true;
                 case R.id.navigation_projects:
                     loadFragment(new Emp_MyProjectsFragment());
-                    Toast.makeText(EmployerMainActivity.this, R.string.Emp_title_project, LENGTH_LONG).show();
+//                    Toast.makeText(EmployerMainActivity.this, R.string.Emp_title_project, LENGTH_LONG).show();
                     return true;
                 case R.id.navigation_post:
                     loadFragment(new Emp_PostFragment());
-                    Toast.makeText(EmployerMainActivity.this, R.string.Emp_title_post, LENGTH_LONG).show();
+//                    Toast.makeText(EmployerMainActivity.this, R.string.Emp_title_post, LENGTH_LONG).show();
                     return true;
                 case R.id.navigation_search:
                     loadFragment(new Emp_SearchFragment());
-                    Toast.makeText(EmployerMainActivity.this, R.string.Emp_title_search, LENGTH_LONG).show();
+//                    Toast.makeText(EmployerMainActivity.this, R.string.Emp_title_search, LENGTH_LONG).show();
                     return true;
                 case R.id.navigation_account:
                     loadFragment(new Emp_AccountFragment());
-                    Toast.makeText(EmployerMainActivity.this, R.string.Emp_title_account, LENGTH_LONG).show();
+//                    Toast.makeText(EmployerMainActivity.this, R.string.Emp_title_account, LENGTH_LONG).show();
                     return true;
             }
             return false;

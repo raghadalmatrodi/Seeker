@@ -235,6 +235,7 @@ public class EditProfileActivity extends AppCompatActivity implements SampleWork
             @Override
             public void onClick(View v) {
                 startActivity(new Intent(EditProfileActivity.this, AddSkillActivity.class));
+                finish();
             }
         });
         totalTrustPoints_TV = findViewById(R.id.emp_total_trust_points);

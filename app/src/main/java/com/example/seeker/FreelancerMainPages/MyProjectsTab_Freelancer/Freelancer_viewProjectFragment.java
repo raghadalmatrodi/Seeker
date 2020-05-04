@@ -826,16 +826,16 @@ public class Freelancer_viewProjectFragment extends Fragment implements  Emp_MyP
         ApiClients.getAPIs().setAllEmployerRatingValues(employer, project.getId()).enqueue(new Callback<Void>() {
             @Override
             public void onResponse(Call<Void> call, Response<Void> response) {
-                if (response.isSuccessful())
-                    Toast.makeText(getContext(),"success",Toast.LENGTH_LONG).show();
-                else
-                    Toast.makeText(getContext(),"not success: "+response.errorBody().toString(),Toast.LENGTH_LONG).show();
+//                if (response.isSuccessful())
+////                    Toast.makeText(getContext(),"success",Toast.LENGTH_LONG).show();
+//                else
+////                    Toast.makeText(getContext(),"not success: "+response.errorBody().toString(),Toast.LENGTH_LONG).show();
 
             }
 
             @Override
             public void onFailure(Call<Void> call, Throwable t) {
-                Toast.makeText(getContext(),"set values failure: "+t.getLocalizedMessage(),Toast.LENGTH_LONG).show();
+//                Toast.makeText(getContext(),"set values failure: "+t.getLocalizedMessage(),Toast.LENGTH_LONG).show();
 
             }
         });
@@ -847,16 +847,16 @@ public class Freelancer_viewProjectFragment extends Fragment implements  Emp_MyP
         ApiClients.getAPIs().getRateEmployerRequest(employerRating).enqueue(new Callback<ApiResponse>() {
             @Override
             public void onResponse(Call<ApiResponse> call, Response<ApiResponse> response) {
-                if (response.isSuccessful())
-                    Toast.makeText(getContext(), "Successful", Toast.LENGTH_LONG).show();
-                else
-                    Toast.makeText(getContext(), "Not Successful: "+ response.errorBody().toString(), Toast.LENGTH_LONG).show();
+//                if (response.isSuccessful())
+////                    Toast.makeText(getContext(), "Successful", Toast.LENGTH_LONG).show();
+//                else
+////                    Toast.makeText(getContext(), "Not Successful: "+ response.errorBody().toString(), Toast.LENGTH_LONG).show();
 
             }
 
             @Override
             public void onFailure(Call<ApiResponse> call, Throwable t) {
-                Toast.makeText(getContext(), t.getLocalizedMessage(), Toast.LENGTH_LONG).show();
+//                Toast.makeText(getContext(), t.getLocalizedMessage(), Toast.LENGTH_LONG).show();
 
             }
         });
